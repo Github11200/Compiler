@@ -1,20 +1,18 @@
 #include "ast/ast.h"
-#include "lexer.h"
 #include "codeGenerator.h"
+#include "lexer.h"
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <memory>
-#include <sstream>
 
 using namespace std;
 
-int main()
-{
+int main() {
   string filePath = "../code.txt";
   ifstream file(filePath);
 
-  if (!file.is_open())
-  {
+  if (!file.is_open()) {
     cout << "Couldn't open file." << endl;
     return -1;
   }
@@ -32,7 +30,7 @@ int main()
   shared_ptr<Root> rootNode = ast.constructAST(tokens);
   CodeGenerator codeGenerator(rootNode);
 
-  codeGenerator.generate("compiled.cpp");
+  // codeGenerator.generate("compiled.cpp");
   file.close();
 
   return 0;

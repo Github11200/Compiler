@@ -112586,25 +112586,6 @@ public:
   std::shared_ptr<Root> constructAST(const std::vector<Token> &tokens);
 };
 # 2 "/home/arch/code/projects/Compiler/main.cpp" 2
-# 1 "/home/arch/code/projects/Compiler/include/lexer.h" 1
-# 9 "/home/arch/code/projects/Compiler/include/lexer.h"
-# 1 "/home/arch/code/projects/Compiler/include/utils.h" 1
-# 10 "/home/arch/code/projects/Compiler/include/lexer.h" 2
-
-class Lexer
-{
-private:
-  std::set<std::string> keywords;
-  std::string sourceCode;
-  std::vector<std::string> splitSourceCode;
-  int index;
-
-public:
-  explicit Lexer(std::string sourceCode);
-
-  std::vector<Token> getTokens();
-};
-# 3 "/home/arch/code/projects/Compiler/main.cpp" 2
 # 1 "/home/arch/code/projects/Compiler/include/codeGenerator.h" 1
 
 
@@ -114581,13 +114562,2096 @@ public:
   CodeGenerator(std::shared_ptr<Root> rootNode);
   void generate(std::string fileName);
 };
+# 3 "/home/arch/code/projects/Compiler/main.cpp" 2
+# 1 "/home/arch/code/projects/Compiler/include/lexer.h" 1
+# 9 "/home/arch/code/projects/Compiler/include/lexer.h"
+# 1 "/home/arch/code/projects/Compiler/include/utils.h" 1
+# 10 "/home/arch/code/projects/Compiler/include/lexer.h" 2
+
+class Lexer
+{
+private:
+  std::set<std::string> keywords;
+  std::string sourceCode;
+  std::vector<std::string> splitSourceCode;
+  int index;
+
+public:
+  explicit Lexer(std::string sourceCode);
+
+  std::vector<Token> getTokens();
+};
 # 4 "/home/arch/code/projects/Compiler/main.cpp" 2
+# 1 "/usr/include/c++/15.2.1/filesystem" 1 3
+# 40 "/usr/include/c++/15.2.1/filesystem" 3
+# 1 "/usr/include/c++/15.2.1/bits/version.h" 1 3
+# 41 "/usr/include/c++/15.2.1/filesystem" 2 3
+# 53 "/usr/include/c++/15.2.1/filesystem" 3
+# 1 "/usr/include/c++/15.2.1/bits/fs_fwd.h" 1 3
+# 37 "/usr/include/c++/15.2.1/bits/fs_fwd.h" 3
+# 1 "/usr/include/c++/15.2.1/bits/chrono.h" 1 3
+# 39 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+# 1 "/usr/include/c++/15.2.1/ratio" 1 3
+# 45 "/usr/include/c++/15.2.1/ratio" 3
+# 1 "/usr/include/c++/15.2.1/bits/version.h" 1 3
+# 46 "/usr/include/c++/15.2.1/ratio" 2 3
+
+
+# 47 "/usr/include/c++/15.2.1/ratio" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+# 61 "/usr/include/c++/15.2.1/ratio" 3
+  template<intmax_t _Pn>
+    struct __static_sign
+    : integral_constant<intmax_t, (_Pn < 0) ? -1 : 1>
+    { };
+
+  template<intmax_t _Pn>
+    struct __static_abs
+    : integral_constant<intmax_t, _Pn * __static_sign<_Pn>::value>
+    { };
+
+  template<intmax_t _Pn, intmax_t _Qn>
+    struct __static_gcd
+    : __static_gcd<_Qn, (_Pn % _Qn)>
+    { };
+
+  template<intmax_t _Pn>
+    struct __static_gcd<_Pn, 0>
+    : integral_constant<intmax_t, __static_abs<_Pn>::value>
+    { };
+
+  template<intmax_t _Qn>
+    struct __static_gcd<0, _Qn>
+    : integral_constant<intmax_t, __static_abs<_Qn>::value>
+    { };
 
 
 
+
+
+
+
+  template<intmax_t _Pn, intmax_t _Qn>
+    struct __safe_multiply
+    {
+    private:
+      static const uintmax_t __c = uintmax_t(1) << (sizeof(intmax_t) * 4);
+
+      static const uintmax_t __a0 = __static_abs<_Pn>::value % __c;
+      static const uintmax_t __a1 = __static_abs<_Pn>::value / __c;
+      static const uintmax_t __b0 = __static_abs<_Qn>::value % __c;
+      static const uintmax_t __b1 = __static_abs<_Qn>::value / __c;
+
+      static_assert(__a1 == 0 || __b1 == 0,
+      "overflow in multiplication");
+      static_assert(__a0 * __b1 + __b0 * __a1 < (__c >> 1),
+      "overflow in multiplication");
+      static_assert(__b0 * __a0 <= 0x7fffffffffffffffL,
+      "overflow in multiplication");
+      static_assert((__a0 * __b1 + __b0 * __a1) * __c
+      <= 0x7fffffffffffffffL - __b0 * __a0,
+      "overflow in multiplication");
+
+    public:
+      static const intmax_t value = _Pn * _Qn;
+    };
+
+
+
+  template<uintmax_t __hi1, uintmax_t __lo1, uintmax_t __hi2, uintmax_t __lo2>
+    struct __big_less
+    : integral_constant<bool, (__hi1 < __hi2
+          || (__hi1 == __hi2 && __lo1 < __lo2))>
+    { };
+
+  template<uintmax_t __hi1, uintmax_t __lo1, uintmax_t __hi2, uintmax_t __lo2>
+    struct __big_add
+    {
+      static constexpr uintmax_t __lo = __lo1 + __lo2;
+      static constexpr uintmax_t __hi = (__hi1 + __hi2 +
+      (__lo1 + __lo2 < __lo1));
+    };
+
+
+  template<uintmax_t __hi1, uintmax_t __lo1, uintmax_t __hi2, uintmax_t __lo2>
+    struct __big_sub
+    {
+      static_assert(!__big_less<__hi1, __lo1, __hi2, __lo2>::value,
+      "Internal library error");
+      static constexpr uintmax_t __lo = __lo1 - __lo2;
+      static constexpr uintmax_t __hi = (__hi1 - __hi2 -
+      (__lo1 < __lo2));
+    };
+
+
+  template<uintmax_t __x, uintmax_t __y>
+    struct __big_mul
+    {
+    private:
+      static constexpr uintmax_t __c = uintmax_t(1) << (sizeof(intmax_t) * 4);
+      static constexpr uintmax_t __x0 = __x % __c;
+      static constexpr uintmax_t __x1 = __x / __c;
+      static constexpr uintmax_t __y0 = __y % __c;
+      static constexpr uintmax_t __y1 = __y / __c;
+      static constexpr uintmax_t __x0y0 = __x0 * __y0;
+      static constexpr uintmax_t __x0y1 = __x0 * __y1;
+      static constexpr uintmax_t __x1y0 = __x1 * __y0;
+      static constexpr uintmax_t __x1y1 = __x1 * __y1;
+      static constexpr uintmax_t __mix = __x0y1 + __x1y0;
+      static constexpr uintmax_t __mix_lo = __mix * __c;
+      static constexpr uintmax_t __mix_hi
+      = __mix / __c + ((__mix < __x0y1) ? __c : 0);
+      typedef __big_add<__mix_hi, __mix_lo, __x1y1, __x0y0> _Res;
+    public:
+      static constexpr uintmax_t __hi = _Res::__hi;
+      static constexpr uintmax_t __lo = _Res::__lo;
+    };
+
+
+
+  template<uintmax_t __n1, uintmax_t __n0, uintmax_t __d>
+    struct __big_div_impl
+    {
+    private:
+      static_assert(__d >= (uintmax_t(1) << (sizeof(intmax_t) * 8 - 1)),
+      "Internal library error");
+      static_assert(__n1 < __d, "Internal library error");
+      static constexpr uintmax_t __c = uintmax_t(1) << (sizeof(intmax_t) * 4);
+      static constexpr uintmax_t __d1 = __d / __c;
+      static constexpr uintmax_t __d0 = __d % __c;
+
+      static constexpr uintmax_t __q1x = __n1 / __d1;
+      static constexpr uintmax_t __r1x = __n1 % __d1;
+      static constexpr uintmax_t __m = __q1x * __d0;
+      static constexpr uintmax_t __r1y = __r1x * __c + __n0 / __c;
+      static constexpr uintmax_t __r1z = __r1y + __d;
+      static constexpr uintmax_t __r1
+      = ((__r1y < __m) ? ((__r1z >= __d) && (__r1z < __m))
+  ? (__r1z + __d) : __r1z : __r1y) - __m;
+      static constexpr uintmax_t __q1
+      = __q1x - ((__r1y < __m)
+   ? ((__r1z >= __d) && (__r1z < __m)) ? 2 : 1 : 0);
+      static constexpr uintmax_t __q0x = __r1 / __d1;
+      static constexpr uintmax_t __r0x = __r1 % __d1;
+      static constexpr uintmax_t __n = __q0x * __d0;
+      static constexpr uintmax_t __r0y = __r0x * __c + __n0 % __c;
+      static constexpr uintmax_t __r0z = __r0y + __d;
+      static constexpr uintmax_t __r0
+      = ((__r0y < __n) ? ((__r0z >= __d) && (__r0z < __n))
+  ? (__r0z + __d) : __r0z : __r0y) - __n;
+      static constexpr uintmax_t __q0
+      = __q0x - ((__r0y < __n) ? ((__r0z >= __d)
+      && (__r0z < __n)) ? 2 : 1 : 0);
+
+    public:
+      static constexpr uintmax_t __quot = __q1 * __c + __q0;
+      static constexpr uintmax_t __rem = __r0;
+
+    private:
+      typedef __big_mul<__quot, __d> _Prod;
+      typedef __big_add<_Prod::__hi, _Prod::__lo, 0, __rem> _Sum;
+      static_assert(_Sum::__hi == __n1 && _Sum::__lo == __n0,
+      "Internal library error");
+  };
+
+  template<uintmax_t __n1, uintmax_t __n0, uintmax_t __d>
+    struct __big_div
+    {
+    private:
+      static_assert(__d != 0, "Internal library error");
+      static_assert(sizeof (uintmax_t) == sizeof (unsigned long long),
+      "This library calls __builtin_clzll on uintmax_t, which "
+      "is unsafe on your platform. Please complain to "
+      "http://gcc.gnu.org/bugzilla/");
+      static constexpr int __shift = __builtin_clzll(__d);
+      static constexpr int __coshift_ = sizeof(uintmax_t) * 8 - __shift;
+      static constexpr int __coshift = (__shift != 0) ? __coshift_ : 0;
+      static constexpr uintmax_t __c1 = uintmax_t(1) << __shift;
+      static constexpr uintmax_t __c2 = uintmax_t(1) << __coshift;
+      static constexpr uintmax_t __new_d = __d * __c1;
+      static constexpr uintmax_t __new_n0 = __n0 * __c1;
+      static constexpr uintmax_t __n1_shifted = (__n1 % __d) * __c1;
+      static constexpr uintmax_t __n0_top = (__shift != 0) ? (__n0 / __c2) : 0;
+      static constexpr uintmax_t __new_n1 = __n1_shifted + __n0_top;
+      typedef __big_div_impl<__new_n1, __new_n0, __new_d> _Res;
+
+    public:
+      static constexpr uintmax_t __quot_hi = __n1 / __d;
+      static constexpr uintmax_t __quot_lo = _Res::__quot;
+      static constexpr uintmax_t __rem = _Res::__rem / __c1;
+
+    private:
+      typedef __big_mul<__quot_lo, __d> _P0;
+      typedef __big_mul<__quot_hi, __d> _P1;
+      typedef __big_add<_P0::__hi, _P0::__lo, _P1::__lo, __rem> _Sum;
+
+      static_assert(_P1::__hi == 0, "Internal library error");
+      static_assert(_Sum::__hi >= _P0::__hi, "Internal library error");
+
+      static_assert(_Sum::__hi == __n1 && _Sum::__lo == __n0,
+      "Internal library error");
+      static_assert(__rem < __d, "Internal library error");
+    };
+# 270 "/usr/include/c++/15.2.1/ratio" 3
+  template<intmax_t _Num, intmax_t _Den = 1>
+    struct ratio
+    {
+      static_assert(_Den != 0, "denominator cannot be zero");
+      static_assert(_Num >= -0x7fffffffffffffffL && _Den >= -0x7fffffffffffffffL,
+      "out of range");
+
+
+      static constexpr intmax_t num =
+        _Num * __static_sign<_Den>::value / __static_gcd<_Num, _Den>::value;
+
+      static constexpr intmax_t den =
+        __static_abs<_Den>::value / __static_gcd<_Num, _Den>::value;
+
+      typedef ratio<num, den> type;
+    };
+# 297 "/usr/include/c++/15.2.1/ratio" 3
+  template<typename _Tp>
+    struct __is_ratio
+    : std::false_type
+    { };
+
+  template<intmax_t _Num, intmax_t _Den>
+    struct __is_ratio<ratio<_Num, _Den>>
+    : std::true_type
+    { };
+
+
+  template<typename _Tp>
+    constexpr bool __is_ratio_v = false;
+  template<intmax_t _Num, intmax_t _Den>
+    constexpr bool __is_ratio_v<ratio<_Num, _Den>> = true;
+
+
+  template<typename _R1, typename _R2>
+    constexpr bool
+    __are_both_ratios() noexcept
+    {
+
+      if constexpr (__is_ratio_v<_R1>)
+ if constexpr (__is_ratio_v<_R2>)
+   return true;
+      return false;
+
+
+
+    }
+
+  template<typename _R1, typename _R2>
+    struct __ratio_multiply
+    {
+      static_assert(std::__are_both_ratios<_R1, _R2>(),
+      "both template arguments must be a std::ratio");
+
+    private:
+      static const intmax_t __gcd1 =
+        __static_gcd<_R1::num, _R2::den>::value;
+      static const intmax_t __gcd2 =
+        __static_gcd<_R2::num, _R1::den>::value;
+
+    public:
+      typedef ratio<
+        __safe_multiply<(_R1::num / __gcd1),
+                        (_R2::num / __gcd2)>::value,
+        __safe_multiply<(_R1::den / __gcd2),
+                        (_R2::den / __gcd1)>::value> type;
+
+      static constexpr intmax_t num = type::num;
+      static constexpr intmax_t den = type::den;
+    };
+# 362 "/usr/include/c++/15.2.1/ratio" 3
+  template<typename _R1, typename _R2>
+    using ratio_multiply = typename __ratio_multiply<_R1, _R2>::type;
+
+
+
+  template<typename _R1, typename _R2>
+    struct __ratio_divide
+    {
+      static_assert(_R2::num != 0, "division by 0");
+
+      typedef typename __ratio_multiply<
+        _R1,
+        ratio<_R2::den, _R2::num>>::type type;
+
+      static constexpr intmax_t num = type::num;
+      static constexpr intmax_t den = type::den;
+    };
+# 391 "/usr/include/c++/15.2.1/ratio" 3
+  template<typename _R1, typename _R2>
+    using ratio_divide = typename __ratio_divide<_R1, _R2>::type;
+
+
+  template<typename _R1, typename _R2>
+    struct ratio_equal
+    : integral_constant<bool, _R1::num == _R2::num && _R1::den == _R2::den>
+    {
+      static_assert(std::__are_both_ratios<_R1, _R2>(),
+      "both template arguments must be a std::ratio");
+    };
+
+
+  template<typename _R1, typename _R2>
+    struct ratio_not_equal
+    : integral_constant<bool, !ratio_equal<_R1, _R2>::value>
+    { };
+
+
+
+
+  template<typename _R1, typename _R2,
+           typename _Left = __big_mul<_R1::num,_R2::den>,
+           typename _Right = __big_mul<_R2::num,_R1::den> >
+    struct __ratio_less_impl_1
+    : integral_constant<bool, __big_less<_Left::__hi, _Left::__lo,
+           _Right::__hi, _Right::__lo>::value>
+    { };
+
+  template<typename _R1, typename _R2,
+    bool = (_R1::num == 0 || _R2::num == 0
+     || (__static_sign<_R1::num>::value
+         != __static_sign<_R2::num>::value)),
+    bool = (__static_sign<_R1::num>::value == -1
+     && __static_sign<_R2::num>::value == -1)>
+    struct __ratio_less_impl
+    : __ratio_less_impl_1<_R1, _R2>::type
+    { };
+
+  template<typename _R1, typename _R2>
+    struct __ratio_less_impl<_R1, _R2, true, false>
+    : integral_constant<bool, _R1::num < _R2::num>
+    { };
+
+  template<typename _R1, typename _R2>
+    struct __ratio_less_impl<_R1, _R2, false, true>
+    : __ratio_less_impl_1<ratio<-_R2::num, _R2::den>,
+           ratio<-_R1::num, _R1::den> >::type
+    { };
+
+
+
+
+  template<typename _R1, typename _R2>
+    struct ratio_less
+    : __ratio_less_impl<_R1, _R2>::type
+    {
+      static_assert(std::__are_both_ratios<_R1, _R2>(),
+      "both template arguments must be a std::ratio");
+    };
+
+
+  template<typename _R1, typename _R2>
+    struct ratio_less_equal
+    : integral_constant<bool, !ratio_less<_R2, _R1>::value>
+    { };
+
+
+  template<typename _R1, typename _R2>
+    struct ratio_greater
+    : integral_constant<bool, ratio_less<_R2, _R1>::value>
+    { };
+
+
+  template<typename _R1, typename _R2>
+    struct ratio_greater_equal
+    : integral_constant<bool, !ratio_less<_R1, _R2>::value>
+    { };
+
+
+  template <typename _R1, typename _R2>
+    inline constexpr bool ratio_equal_v = ratio_equal<_R1, _R2>::value;
+  template <typename _R1, typename _R2>
+    inline constexpr bool ratio_not_equal_v = ratio_not_equal<_R1, _R2>::value;
+  template <typename _R1, typename _R2>
+    inline constexpr bool ratio_less_v = ratio_less<_R1, _R2>::value;
+  template <typename _R1, typename _R2>
+    inline constexpr bool ratio_less_equal_v
+      = ratio_less_equal<_R1, _R2>::value;
+  template <typename _R1, typename _R2>
+    inline constexpr bool ratio_greater_v = ratio_greater<_R1, _R2>::value;
+  template <typename _R1, typename _R2>
+    inline constexpr bool ratio_greater_equal_v
+      = ratio_greater_equal<_R1, _R2>::value;
+
+
+
+
+  template<typename _R1, typename _R2,
+      bool = (_R1::num >= 0),
+      bool = (_R2::num >= 0),
+      bool = ratio_less<ratio<__static_abs<_R1::num>::value, _R1::den>,
+        ratio<__static_abs<_R2::num>::value, _R2::den> >::value>
+    struct __ratio_add_impl
+    {
+    private:
+      typedef typename __ratio_add_impl<
+        ratio<-_R1::num, _R1::den>,
+        ratio<-_R2::num, _R2::den> >::type __t;
+    public:
+      typedef ratio<-__t::num, __t::den> type;
+    };
+
+
+  template<typename _R1, typename _R2, bool __b>
+    struct __ratio_add_impl<_R1, _R2, true, true, __b>
+    {
+    private:
+      static constexpr uintmax_t __g = __static_gcd<_R1::den, _R2::den>::value;
+      static constexpr uintmax_t __d2 = _R2::den / __g;
+      typedef __big_mul<_R1::den, __d2> __d;
+      typedef __big_mul<_R1::num, _R2::den / __g> __x;
+      typedef __big_mul<_R2::num, _R1::den / __g> __y;
+      typedef __big_add<__x::__hi, __x::__lo, __y::__hi, __y::__lo> __n;
+      static_assert(__n::__hi >= __x::__hi, "Internal library error");
+      typedef __big_div<__n::__hi, __n::__lo, __g> __ng;
+      static constexpr uintmax_t __g2 = __static_gcd<__ng::__rem, __g>::value;
+      typedef __big_div<__n::__hi, __n::__lo, __g2> __n_final;
+      static_assert(__n_final::__rem == 0, "Internal library error");
+      static_assert(__n_final::__quot_hi == 0 &&
+        __n_final::__quot_lo <= 0x7fffffffffffffffL, "overflow in addition");
+      typedef __big_mul<_R1::den / __g2, __d2> __d_final;
+      static_assert(__d_final::__hi == 0 &&
+        __d_final::__lo <= 0x7fffffffffffffffL, "overflow in addition");
+    public:
+      typedef ratio<__n_final::__quot_lo, __d_final::__lo> type;
+    };
+
+  template<typename _R1, typename _R2>
+    struct __ratio_add_impl<_R1, _R2, false, true, true>
+    : __ratio_add_impl<_R2, _R1>
+    { };
+
+
+  template<typename _R1, typename _R2>
+    struct __ratio_add_impl<_R1, _R2, true, false, false>
+    {
+    private:
+      static constexpr uintmax_t __g = __static_gcd<_R1::den, _R2::den>::value;
+      static constexpr uintmax_t __d2 = _R2::den / __g;
+      typedef __big_mul<_R1::den, __d2> __d;
+      typedef __big_mul<_R1::num, _R2::den / __g> __x;
+      typedef __big_mul<-_R2::num, _R1::den / __g> __y;
+      typedef __big_sub<__x::__hi, __x::__lo, __y::__hi, __y::__lo> __n;
+      typedef __big_div<__n::__hi, __n::__lo, __g> __ng;
+      static constexpr uintmax_t __g2 = __static_gcd<__ng::__rem, __g>::value;
+      typedef __big_div<__n::__hi, __n::__lo, __g2> __n_final;
+      static_assert(__n_final::__rem == 0, "Internal library error");
+      static_assert(__n_final::__quot_hi == 0 &&
+        __n_final::__quot_lo <= 0x7fffffffffffffffL, "overflow in addition");
+      typedef __big_mul<_R1::den / __g2, __d2> __d_final;
+      static_assert(__d_final::__hi == 0 &&
+        __d_final::__lo <= 0x7fffffffffffffffL, "overflow in addition");
+    public:
+      typedef ratio<__n_final::__quot_lo, __d_final::__lo> type;
+    };
+
+  template<typename _R1, typename _R2>
+    struct __ratio_add
+    {
+      static_assert(std::__are_both_ratios<_R1, _R2>(),
+      "both template arguments must be a std::ratio");
+
+      typedef typename __ratio_add_impl<_R1, _R2>::type type;
+      static constexpr intmax_t num = type::num;
+      static constexpr intmax_t den = type::den;
+    };
+# 580 "/usr/include/c++/15.2.1/ratio" 3
+  template<typename _R1, typename _R2>
+    using ratio_add = typename __ratio_add<_R1, _R2>::type;
+
+
+
+  template<typename _R1, typename _R2>
+    struct __ratio_subtract
+    {
+      typedef typename __ratio_add<
+        _R1,
+        ratio<-_R2::num, _R2::den>>::type type;
+
+      static constexpr intmax_t num = type::num;
+      static constexpr intmax_t den = type::den;
+    };
+# 607 "/usr/include/c++/15.2.1/ratio" 3
+  template<typename _R1, typename _R2>
+    using ratio_subtract = typename __ratio_subtract<_R1, _R2>::type;
+# 620 "/usr/include/c++/15.2.1/ratio" 3
+  using atto = ratio< 1, 1000000000000000000>;
+  using femto = ratio< 1, 1000000000000000>;
+  using pico = ratio< 1, 1000000000000>;
+  using nano = ratio< 1, 1000000000>;
+  using micro = ratio< 1, 1000000>;
+  using milli = ratio< 1, 1000>;
+  using centi = ratio< 1, 100>;
+  using deci = ratio< 1, 10>;
+  using deca = ratio< 10, 1>;
+  using hecto = ratio< 100, 1>;
+  using kilo = ratio< 1000, 1>;
+  using mega = ratio< 1000000, 1>;
+  using giga = ratio< 1000000000, 1>;
+  using tera = ratio< 1000000000000, 1>;
+  using peta = ratio< 1000000000000000, 1>;
+  using exa = ratio< 1000000000000000000, 1>;
+# 648 "/usr/include/c++/15.2.1/ratio" 3
+
+}
+# 40 "/usr/include/c++/15.2.1/bits/chrono.h" 2 3
+# 51 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+# 1 "/usr/include/c++/15.2.1/bits/version.h" 1 3
+# 52 "/usr/include/c++/15.2.1/bits/chrono.h" 2 3
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+
+  namespace filesystem { struct __file_clock; };
+
+
+  namespace chrono
+  {
+
+
+
+
+    template<typename _Rep, typename _Period = ratio<1>>
+      class duration;
+
+
+    template<typename _Clock, typename _Dur = typename _Clock::duration>
+      class time_point;
+
+  }
+# 83 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+  template<typename _CT, typename _Period1, typename _Period2, typename = void>
+    struct __duration_common_type
+    { };
+
+  template<typename _CT, typename _Period1, typename _Period2>
+    struct __duration_common_type<_CT, _Period1, _Period2,
+      __void_t<typename _CT::type>>
+    {
+    private:
+      using __gcd_num = __static_gcd<_Period1::num, _Period2::num>;
+      using __gcd_den = __static_gcd<_Period1::den, _Period2::den>;
+      using __cr = typename _CT::type;
+      using __r = ratio<__gcd_num::value,
+   (_Period1::den / __gcd_den::value) * _Period2::den>;
+
+    public:
+      using type = chrono::duration<__cr, typename __r::type>;
+    };
+
+
+
+
+
+
+
+  template<typename _Rep1, typename _Period1, typename _Rep2, typename _Period2>
+    struct common_type<chrono::duration<_Rep1, _Period1>,
+         chrono::duration<_Rep2, _Period2>>
+    : __duration_common_type<common_type<_Rep1, _Rep2>,
+        typename _Period1::type,
+        typename _Period2::type>
+    { };
+
+
+  template<typename _Rep, typename _Period>
+    struct common_type<chrono::duration<_Rep, _Period>,
+         chrono::duration<_Rep, _Period>>
+    {
+      using type = chrono::duration<typename common_type<_Rep>::type,
+        typename _Period::type>;
+    };
+
+
+  template<typename _Rep, typename _Period>
+    struct common_type<chrono::duration<_Rep, _Period>>
+    {
+      using type = chrono::duration<typename common_type<_Rep>::type,
+        typename _Period::type>;
+    };
+
+
+
+
+
+
+  template<typename _CT, typename _Clock, typename = void>
+    struct __timepoint_common_type
+    { };
+
+  template<typename _CT, typename _Clock>
+    struct __timepoint_common_type<_CT, _Clock, __void_t<typename _CT::type>>
+    {
+      using type = chrono::time_point<_Clock, typename _CT::type>;
+    };
+
+
+
+
+
+
+
+  template<typename _Clock, typename _Duration1, typename _Duration2>
+    struct common_type<chrono::time_point<_Clock, _Duration1>,
+         chrono::time_point<_Clock, _Duration2>>
+    : __timepoint_common_type<common_type<_Duration1, _Duration2>, _Clock>
+    { };
+
+
+  template<typename _Clock, typename _Duration>
+    struct common_type<chrono::time_point<_Clock, _Duration>,
+         chrono::time_point<_Clock, _Duration>>
+    { using type = chrono::time_point<_Clock, _Duration>; };
+
+
+  template<typename _Clock, typename _Duration>
+    struct common_type<chrono::time_point<_Clock, _Duration>>
+    { using type = chrono::time_point<_Clock, _Duration>; };
+
+
+
+
+  namespace chrono
+  {
+
+
+
+
+
+
+    template<typename _ToDur, typename _CF, typename _CR,
+      bool _NumIsOne = false, bool _DenIsOne = false>
+      struct __duration_cast_impl
+      {
+ template<typename _Rep, typename _Period>
+   static constexpr _ToDur
+   __cast(const duration<_Rep, _Period>& __d)
+   {
+     typedef typename _ToDur::rep __to_rep;
+     return _ToDur(static_cast<__to_rep>(static_cast<_CR>(__d.count())
+       * static_cast<_CR>(_CF::num)
+       / static_cast<_CR>(_CF::den)));
+   }
+      };
+
+    template<typename _ToDur, typename _CF, typename _CR>
+      struct __duration_cast_impl<_ToDur, _CF, _CR, true, true>
+      {
+ template<typename _Rep, typename _Period>
+   static constexpr _ToDur
+   __cast(const duration<_Rep, _Period>& __d)
+   {
+     typedef typename _ToDur::rep __to_rep;
+     return _ToDur(static_cast<__to_rep>(__d.count()));
+   }
+      };
+
+    template<typename _ToDur, typename _CF, typename _CR>
+      struct __duration_cast_impl<_ToDur, _CF, _CR, true, false>
+      {
+ template<typename _Rep, typename _Period>
+   static constexpr _ToDur
+   __cast(const duration<_Rep, _Period>& __d)
+   {
+     typedef typename _ToDur::rep __to_rep;
+     return _ToDur(static_cast<__to_rep>(
+       static_cast<_CR>(__d.count()) / static_cast<_CR>(_CF::den)));
+   }
+      };
+
+    template<typename _ToDur, typename _CF, typename _CR>
+      struct __duration_cast_impl<_ToDur, _CF, _CR, false, true>
+      {
+ template<typename _Rep, typename _Period>
+   static constexpr _ToDur
+   __cast(const duration<_Rep, _Period>& __d)
+   {
+     typedef typename _ToDur::rep __to_rep;
+     return _ToDur(static_cast<__to_rep>(
+       static_cast<_CR>(__d.count()) * static_cast<_CR>(_CF::num)));
+   }
+      };
+
+    template<typename _Tp>
+      struct __is_duration
+      : std::false_type
+      { };
+
+    template<typename _Rep, typename _Period>
+      struct __is_duration<duration<_Rep, _Period>>
+      : std::true_type
+      { };
+
+    template<typename _Tp>
+      using __enable_if_is_duration
+ = typename enable_if<__is_duration<_Tp>::value, _Tp>::type;
+
+    template<typename _Tp>
+      using __disable_if_is_duration
+ = typename enable_if<!__is_duration<_Tp>::value, _Tp>::type;
+
+
+    template<typename _Tp>
+      inline constexpr bool __is_duration_v = false;
+    template<typename _Rep, typename _Period>
+      inline constexpr bool __is_duration_v<duration<_Rep, _Period>> = true;
+    template<typename _Tp>
+      inline constexpr bool __is_time_point_v = false;
+    template<typename _Clock, typename _Dur>
+      inline constexpr bool __is_time_point_v<time_point<_Clock, _Dur>> = true;
+# 276 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    template<typename _ToDur, typename _Rep, typename _Period>
+      [[__nodiscard__]]
+      constexpr __enable_if_is_duration<_ToDur>
+      duration_cast(const duration<_Rep, _Period>& __d)
+      {
+
+ if constexpr (is_same_v<_ToDur, duration<_Rep, _Period>>)
+   return __d;
+ else
+   {
+
+   using __to_period = typename _ToDur::period;
+   using __to_rep = typename _ToDur::rep;
+   using __cf = ratio_divide<_Period, __to_period>;
+   using __cr = typename common_type<__to_rep, _Rep, intmax_t>::type;
+   using __dc = __duration_cast_impl<_ToDur, __cf, __cr,
+         __cf::num == 1, __cf::den == 1>;
+   return __dc::__cast(__d);
+
+   }
+
+      }
+# 310 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    template<typename _Rep>
+      struct treat_as_floating_point
+      : is_floating_point<_Rep>
+      { };
+
+
+    template <typename _Rep>
+      inline constexpr bool treat_as_floating_point_v =
+ treat_as_floating_point<_Rep>::value;
+
+    template<>
+      inline constexpr bool treat_as_floating_point_v<int> = false;
+    template<>
+      inline constexpr bool treat_as_floating_point_v<long> = false;
+    template<>
+      inline constexpr bool treat_as_floating_point_v<long long> = false;
+    template<>
+      inline constexpr bool treat_as_floating_point_v<float> = true;
+    template<>
+      inline constexpr bool treat_as_floating_point_v<double> = true;
+    template<>
+      inline constexpr bool treat_as_floating_point_v<long double> = true;
+
+
+
+
+    template<typename _Tp>
+      inline constexpr bool is_clock_v = false;
+
+    template<typename _Tp>
+      requires requires {
+ typename _Tp::rep;
+ typename _Tp::period;
+ typename _Tp::duration;
+ typename _Tp::time_point::clock;
+ typename _Tp::time_point::duration;
+ { &_Tp::is_steady } -> same_as<const bool*>;
+ { _Tp::now() } -> same_as<typename _Tp::time_point>;
+ requires same_as<typename _Tp::duration,
+    duration<typename _Tp::rep, typename _Tp::period>>;
+ requires same_as<typename _Tp::time_point::duration,
+    typename _Tp::duration>;
+      }
+    inline constexpr bool is_clock_v<_Tp> = true;
+# 373 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    template<typename _Tp>
+      struct is_clock
+      : bool_constant<is_clock_v<_Tp>>
+      { };
+# 390 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    template<typename _ToDur, typename _Rep, typename _Period>
+      [[nodiscard]] constexpr __enable_if_is_duration<_ToDur>
+      floor(const duration<_Rep, _Period>& __d)
+      {
+ auto __to = chrono::duration_cast<_ToDur>(__d);
+ if (__to > __d)
+   return __to - _ToDur{1};
+ return __to;
+      }
+# 410 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    template<typename _ToDur, typename _Rep, typename _Period>
+      [[nodiscard]] constexpr __enable_if_is_duration<_ToDur>
+      ceil(const duration<_Rep, _Period>& __d)
+      {
+ auto __to = chrono::duration_cast<_ToDur>(__d);
+ if (__to < __d)
+   return __to + _ToDur{1};
+ return __to;
+      }
+# 431 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    template <typename _ToDur, typename _Rep, typename _Period>
+      [[nodiscard]] constexpr
+      enable_if_t<
+ __and_<__is_duration<_ToDur>,
+        __not_<treat_as_floating_point<typename _ToDur::rep>>>::value,
+ _ToDur>
+      round(const duration<_Rep, _Period>& __d)
+      {
+ _ToDur __t0 = chrono::floor<_ToDur>(__d);
+ _ToDur __t1 = __t0 + _ToDur{1};
+ auto __diff0 = __d - __t0;
+ auto __diff1 = __t1 - __d;
+ if (__diff0 == __diff1)
+   {
+     if (__t0.count() & 1)
+       return __t1;
+     return __t0;
+   }
+ else if (__diff0 < __diff1)
+   return __t0;
+ return __t1;
+      }
+
+
+
+
+
+
+
+    template<typename _Rep, typename _Period>
+      [[nodiscard]] constexpr
+      enable_if_t<numeric_limits<_Rep>::is_signed, duration<_Rep, _Period>>
+      abs(duration<_Rep, _Period> __d)
+      {
+ if (__d >= __d.zero())
+   return __d;
+ return -__d;
+      }
+
+
+    namespace __detail { using chrono::ceil; }
+# 498 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    template<typename _Rep>
+      struct duration_values
+      {
+ static constexpr _Rep
+ zero() noexcept
+ { return _Rep(0); }
+
+ static constexpr _Rep
+ max() noexcept
+ { return numeric_limits<_Rep>::max(); }
+
+ static constexpr _Rep
+ min() noexcept
+ { return numeric_limits<_Rep>::lowest(); }
+      };
+
+    template<typename _Rep, typename _Period>
+      class duration
+      {
+ static_assert(!__is_duration<_Rep>::value,
+        "rep cannot be a std::chrono::duration");
+ static_assert(__is_ratio<_Period>::value,
+        "period must be a specialization of std::ratio");
+ static_assert(_Period::num > 0, "period must be positive");
+
+ template<typename _Rep2>
+   using __is_float = treat_as_floating_point<_Rep2>;
+
+ static constexpr intmax_t
+ _S_gcd(intmax_t __m, intmax_t __n) noexcept
+ {
+
+
+
+   do
+     {
+       intmax_t __rem = __m % __n;
+       __m = __n;
+       __n = __rem;
+     }
+   while (__n != 0);
+   return __m;
+
+
+
+
+
+ }
+
+
+
+
+
+ template<typename _R1, typename _R2,
+   intmax_t __gcd1 = _S_gcd(_R1::num, _R2::num),
+   intmax_t __gcd2 = _S_gcd(_R1::den, _R2::den)>
+   using __divide = ratio<(_R1::num / __gcd1) * (_R2::den / __gcd2),
+     (_R1::den / __gcd2) * (_R2::num / __gcd1)>;
+
+
+ template<typename _Period2>
+   using __is_harmonic
+     = __bool_constant<__divide<_Period2, _Period>::den == 1>;
+
+      public:
+
+ using rep = _Rep;
+ using period = typename _Period::type;
+
+
+ constexpr duration() = default;
+
+ duration(const duration&) = default;
+
+
+
+ template<typename _Rep2, typename = _Require<
+   is_convertible<const _Rep2&, rep>,
+   __or_<__is_float<rep>, __not_<__is_float<_Rep2>>>>>
+   constexpr explicit duration(const _Rep2& __rep)
+   : __r(static_cast<rep>(__rep)) { }
+
+ template<typename _Rep2, typename _Period2, typename = _Require<
+   is_convertible<const _Rep2&, rep>,
+   __or_<__is_float<rep>,
+         __and_<__is_harmonic<_Period2>,
+         __not_<__is_float<_Rep2>>>>>>
+   constexpr duration(const duration<_Rep2, _Period2>& __d)
+   : __r(duration_cast<duration>(__d).count()) { }
+
+ ~duration() = default;
+ duration& operator=(const duration&) = default;
+
+
+ constexpr rep
+ count() const
+ { return __r; }
+
+
+
+ constexpr duration<typename common_type<rep>::type, period>
+ operator+() const
+ { return duration<typename common_type<rep>::type, period>(__r); }
+
+ constexpr duration<typename common_type<rep>::type, period>
+ operator-() const
+ { return duration<typename common_type<rep>::type, period>(-__r); }
+
+ constexpr duration&
+ operator++()
+ {
+   ++__r;
+   return *this;
+ }
+
+ constexpr duration
+ operator++(int)
+ { return duration(__r++); }
+
+ constexpr duration&
+ operator--()
+ {
+   --__r;
+   return *this;
+ }
+
+ constexpr duration
+ operator--(int)
+ { return duration(__r--); }
+
+ constexpr duration&
+ operator+=(const duration& __d)
+ {
+   __r += __d.count();
+   return *this;
+ }
+
+ constexpr duration&
+ operator-=(const duration& __d)
+ {
+   __r -= __d.count();
+   return *this;
+ }
+
+ constexpr duration&
+ operator*=(const rep& __rhs)
+ {
+   __r *= __rhs;
+   return *this;
+ }
+
+ constexpr duration&
+ operator/=(const rep& __rhs)
+ {
+   __r /= __rhs;
+   return *this;
+ }
+
+
+ template<typename _Rep2 = rep>
+   constexpr
+   __enable_if_t<!treat_as_floating_point<_Rep2>::value, duration&>
+   operator%=(const rep& __rhs)
+   {
+     __r %= __rhs;
+     return *this;
+   }
+
+ template<typename _Rep2 = rep>
+   constexpr
+   __enable_if_t<!treat_as_floating_point<_Rep2>::value, duration&>
+   operator%=(const duration& __d)
+   {
+     __r %= __d.count();
+     return *this;
+   }
+
+
+ static constexpr duration
+ zero() noexcept
+ { return duration(duration_values<rep>::zero()); }
+
+ static constexpr duration
+ min() noexcept
+ { return duration(duration_values<rep>::min()); }
+
+ static constexpr duration
+ max() noexcept
+ { return duration(duration_values<rep>::max()); }
+
+      private:
+ rep __r;
+      };
+
+
+
+
+
+    template<typename _Rep1, typename _Period1,
+      typename _Rep2, typename _Period2>
+      constexpr typename common_type<duration<_Rep1, _Period1>,
+         duration<_Rep2, _Period2>>::type
+      operator+(const duration<_Rep1, _Period1>& __lhs,
+  const duration<_Rep2, _Period2>& __rhs)
+      {
+ typedef duration<_Rep1, _Period1> __dur1;
+ typedef duration<_Rep2, _Period2> __dur2;
+ typedef typename common_type<__dur1,__dur2>::type __cd;
+ return __cd(__cd(__lhs).count() + __cd(__rhs).count());
+      }
+
+
+    template<typename _Rep1, typename _Period1,
+      typename _Rep2, typename _Period2>
+      constexpr typename common_type<duration<_Rep1, _Period1>,
+         duration<_Rep2, _Period2>>::type
+      operator-(const duration<_Rep1, _Period1>& __lhs,
+  const duration<_Rep2, _Period2>& __rhs)
+      {
+ typedef duration<_Rep1, _Period1> __dur1;
+ typedef duration<_Rep2, _Period2> __dur2;
+ typedef typename common_type<__dur1,__dur2>::type __cd;
+ return __cd(__cd(__lhs).count() - __cd(__rhs).count());
+      }
+# 731 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    template<typename _Rep1, typename _Rep2,
+      typename _CRep = typename common_type<_Rep1, _Rep2>::type>
+      using __common_rep_t = typename
+ enable_if<is_convertible<const _Rep2&, _CRep>::value, _CRep>::type;
+# 743 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    template<typename _Rep1, typename _Period, typename _Rep2>
+      constexpr duration<__common_rep_t<_Rep1, _Rep2>, _Period>
+      operator*(const duration<_Rep1, _Period>& __d, const _Rep2& __s)
+      {
+ typedef duration<typename common_type<_Rep1, _Rep2>::type, _Period>
+   __cd;
+ return __cd(__cd(__d).count() * __s);
+      }
+
+    template<typename _Rep1, typename _Rep2, typename _Period>
+      constexpr duration<__common_rep_t<_Rep2, _Rep1>, _Period>
+      operator*(const _Rep1& __s, const duration<_Rep2, _Period>& __d)
+      { return __d * __s; }
+
+    template<typename _Rep1, typename _Period, typename _Rep2>
+      constexpr
+      duration<__common_rep_t<_Rep1, __disable_if_is_duration<_Rep2>>, _Period>
+      operator/(const duration<_Rep1, _Period>& __d, const _Rep2& __s)
+      {
+ typedef duration<typename common_type<_Rep1, _Rep2>::type, _Period>
+   __cd;
+ return __cd(__cd(__d).count() / __s);
+      }
+
+    template<typename _Rep1, typename _Period1,
+      typename _Rep2, typename _Period2>
+      constexpr typename common_type<_Rep1, _Rep2>::type
+      operator/(const duration<_Rep1, _Period1>& __lhs,
+  const duration<_Rep2, _Period2>& __rhs)
+      {
+ typedef duration<_Rep1, _Period1> __dur1;
+ typedef duration<_Rep2, _Period2> __dur2;
+ typedef typename common_type<__dur1,__dur2>::type __cd;
+ return __cd(__lhs).count() / __cd(__rhs).count();
+      }
+
+
+    template<typename _Rep1, typename _Period, typename _Rep2>
+      constexpr
+      duration<__common_rep_t<_Rep1, __disable_if_is_duration<_Rep2>>, _Period>
+      operator%(const duration<_Rep1, _Period>& __d, const _Rep2& __s)
+      {
+ typedef duration<typename common_type<_Rep1, _Rep2>::type, _Period>
+   __cd;
+ return __cd(__cd(__d).count() % __s);
+      }
+
+    template<typename _Rep1, typename _Period1,
+      typename _Rep2, typename _Period2>
+      constexpr typename common_type<duration<_Rep1, _Period1>,
+         duration<_Rep2, _Period2>>::type
+      operator%(const duration<_Rep1, _Period1>& __lhs,
+  const duration<_Rep2, _Period2>& __rhs)
+      {
+ typedef duration<_Rep1, _Period1> __dur1;
+ typedef duration<_Rep2, _Period2> __dur2;
+ typedef typename common_type<__dur1,__dur2>::type __cd;
+ return __cd(__cd(__lhs).count() % __cd(__rhs).count());
+      }
+# 811 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    template<typename _Rep1, typename _Period1,
+      typename _Rep2, typename _Period2>
+      constexpr bool
+      operator==(const duration<_Rep1, _Period1>& __lhs,
+   const duration<_Rep2, _Period2>& __rhs)
+      {
+ typedef duration<_Rep1, _Period1> __dur1;
+ typedef duration<_Rep2, _Period2> __dur2;
+ typedef typename common_type<__dur1,__dur2>::type __ct;
+ return __ct(__lhs).count() == __ct(__rhs).count();
+      }
+
+    template<typename _Rep1, typename _Period1,
+      typename _Rep2, typename _Period2>
+      constexpr bool
+      operator<(const duration<_Rep1, _Period1>& __lhs,
+  const duration<_Rep2, _Period2>& __rhs)
+      {
+ typedef duration<_Rep1, _Period1> __dur1;
+ typedef duration<_Rep2, _Period2> __dur2;
+ typedef typename common_type<__dur1,__dur2>::type __ct;
+ return __ct(__lhs).count() < __ct(__rhs).count();
+      }
+
+
+    template<typename _Rep1, typename _Period1,
+      typename _Rep2, typename _Period2>
+      requires three_way_comparable<common_type_t<_Rep1, _Rep2>>
+      constexpr auto
+      operator<=>(const duration<_Rep1, _Period1>& __lhs,
+    const duration<_Rep2, _Period2>& __rhs)
+      {
+ using __ct = common_type_t<duration<_Rep1, _Period1>,
+       duration<_Rep2, _Period2>>;
+ return __ct(__lhs).count() <=> __ct(__rhs).count();
+      }
+# 856 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    template<typename _Rep1, typename _Period1,
+      typename _Rep2, typename _Period2>
+      constexpr bool
+      operator<=(const duration<_Rep1, _Period1>& __lhs,
+   const duration<_Rep2, _Period2>& __rhs)
+      { return !(__rhs < __lhs); }
+
+    template<typename _Rep1, typename _Period1,
+      typename _Rep2, typename _Period2>
+      constexpr bool
+      operator>(const duration<_Rep1, _Period1>& __lhs,
+  const duration<_Rep2, _Period2>& __rhs)
+      { return __rhs < __lhs; }
+
+    template<typename _Rep1, typename _Period1,
+      typename _Rep2, typename _Period2>
+      constexpr bool
+      operator>=(const duration<_Rep1, _Period1>& __lhs,
+   const duration<_Rep2, _Period2>& __rhs)
+      { return !(__lhs < __rhs); }
+# 892 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    using nanoseconds = duration<int64_t, nano>;
+
+
+    using microseconds = duration<int64_t, micro>;
+
+
+    using milliseconds = duration<int64_t, milli>;
+
+
+    using seconds = duration<int64_t>;
+
+
+    using minutes = duration<int64_t, ratio< 60>>;
+
+
+    using hours = duration<int64_t, ratio<3600>>;
+
+
+
+    using days = duration<int64_t, ratio<86400>>;
+
+
+    using weeks = duration<int64_t, ratio<604800>>;
+
+
+    using years = duration<int64_t, ratio<31556952>>;
+
+
+    using months = duration<int64_t, ratio<2629746>>;
+
+
+
+
+    template<typename _Clock, typename _Dur>
+      class time_point
+      {
+ static_assert(__is_duration<_Dur>::value,
+     "duration must be a specialization of std::chrono::duration");
+
+      public:
+ typedef _Clock clock;
+ typedef _Dur duration;
+ typedef typename duration::rep rep;
+ typedef typename duration::period period;
+
+ constexpr time_point() : __d(duration::zero())
+ { }
+
+ constexpr explicit time_point(const duration& __dur)
+ : __d(__dur)
+ { }
+
+
+ template<typename _Dur2,
+   typename = _Require<is_convertible<_Dur2, _Dur>>>
+   constexpr time_point(const time_point<clock, _Dur2>& __t)
+   : __d(__t.time_since_epoch())
+   { }
+
+
+ constexpr duration
+ time_since_epoch() const
+ { return __d; }
+
+
+ constexpr time_point&
+ operator++()
+ {
+   ++__d;
+   return *this;
+ }
+
+ constexpr time_point
+ operator++(int)
+ { return time_point{__d++}; }
+
+ constexpr time_point&
+ operator--()
+ {
+   --__d;
+   return *this;
+ }
+
+ constexpr time_point
+ operator--(int)
+ { return time_point{__d--}; }
+
+
+
+ constexpr time_point&
+ operator+=(const duration& __dur)
+ {
+   __d += __dur;
+   return *this;
+ }
+
+ constexpr time_point&
+ operator-=(const duration& __dur)
+ {
+   __d -= __dur;
+   return *this;
+ }
+
+
+ static constexpr time_point
+ min() noexcept
+ { return time_point(duration::min()); }
+
+ static constexpr time_point
+ max() noexcept
+ { return time_point(duration::max()); }
+
+      private:
+ duration __d;
+      };
+# 1020 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    template<typename _ToDur, typename _Clock, typename _Dur>
+      [[__nodiscard__]] constexpr
+      __enable_if_t<__is_duration<_ToDur>::value, time_point<_Clock, _ToDur>>
+      time_point_cast(const time_point<_Clock, _Dur>& __t)
+      {
+ typedef time_point<_Clock, _ToDur> __time_point;
+ return __time_point(duration_cast<_ToDur>(__t.time_since_epoch()));
+      }
+# 1042 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    template<typename _ToDur, typename _Clock, typename _Dur>
+      [[nodiscard]] constexpr
+      enable_if_t<__is_duration_v<_ToDur>, time_point<_Clock, _ToDur>>
+      floor(const time_point<_Clock, _Dur>& __tp)
+      {
+ return time_point<_Clock, _ToDur>{
+     chrono::floor<_ToDur>(__tp.time_since_epoch())};
+      }
+# 1063 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    template<typename _ToDur, typename _Clock, typename _Dur>
+      [[nodiscard]] constexpr
+      enable_if_t<__is_duration_v<_ToDur>, time_point<_Clock, _ToDur>>
+      ceil(const time_point<_Clock, _Dur>& __tp)
+      {
+ return time_point<_Clock, _ToDur>{
+     chrono::ceil<_ToDur>(__tp.time_since_epoch())};
+      }
+# 1085 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    template<typename _ToDur, typename _Clock, typename _Dur>
+      [[nodiscard]] constexpr
+      enable_if_t<__is_duration_v<_ToDur>
+      && !treat_as_floating_point_v<typename _ToDur::rep>,
+    time_point<_Clock, _ToDur>>
+      round(const time_point<_Clock, _Dur>& __tp)
+      {
+ return time_point<_Clock, _ToDur>{
+     chrono::round<_ToDur>(__tp.time_since_epoch())};
+      }
+
+
+
+
+
+
+    template<typename _Clock, typename _Dur1,
+      typename _Rep2, typename _Period2>
+      constexpr time_point<_Clock,
+ typename common_type<_Dur1, duration<_Rep2, _Period2>>::type>
+      operator+(const time_point<_Clock, _Dur1>& __lhs,
+  const duration<_Rep2, _Period2>& __rhs)
+      {
+ typedef duration<_Rep2, _Period2> __dur2;
+ typedef typename common_type<_Dur1,__dur2>::type __ct;
+ typedef time_point<_Clock, __ct> __time_point;
+ return __time_point(__lhs.time_since_epoch() + __rhs);
+      }
+
+
+    template<typename _Rep1, typename _Period1,
+      typename _Clock, typename _Dur2>
+      constexpr time_point<_Clock,
+ typename common_type<duration<_Rep1, _Period1>, _Dur2>::type>
+      operator+(const duration<_Rep1, _Period1>& __lhs,
+  const time_point<_Clock, _Dur2>& __rhs)
+      {
+ typedef duration<_Rep1, _Period1> __dur1;
+ typedef typename common_type<__dur1,_Dur2>::type __ct;
+ typedef time_point<_Clock, __ct> __time_point;
+ return __time_point(__rhs.time_since_epoch() + __lhs);
+      }
+
+
+    template<typename _Clock, typename _Dur1,
+      typename _Rep2, typename _Period2>
+      constexpr time_point<_Clock,
+ typename common_type<_Dur1, duration<_Rep2, _Period2>>::type>
+      operator-(const time_point<_Clock, _Dur1>& __lhs,
+  const duration<_Rep2, _Period2>& __rhs)
+      {
+ typedef duration<_Rep2, _Period2> __dur2;
+ typedef typename common_type<_Dur1,__dur2>::type __ct;
+ typedef time_point<_Clock, __ct> __time_point;
+ return __time_point(__lhs.time_since_epoch() -__rhs);
+      }
+
+
+    template<typename _Clock, typename _Dur1, typename _Dur2>
+      constexpr typename common_type<_Dur1, _Dur2>::type
+      operator-(const time_point<_Clock, _Dur1>& __lhs,
+  const time_point<_Clock, _Dur2>& __rhs)
+      { return __lhs.time_since_epoch() - __rhs.time_since_epoch(); }
+
+
+
+
+
+
+
+    template<typename _Clock, typename _Dur1, typename _Dur2>
+      constexpr bool
+      operator==(const time_point<_Clock, _Dur1>& __lhs,
+   const time_point<_Clock, _Dur2>& __rhs)
+      { return __lhs.time_since_epoch() == __rhs.time_since_epoch(); }
+
+
+    template<typename _Clock, typename _Dur1,
+      three_way_comparable_with<_Dur1> _Dur2>
+      constexpr auto
+      operator<=>(const time_point<_Clock, _Dur1>& __lhs,
+    const time_point<_Clock, _Dur2>& __rhs)
+      { return __lhs.time_since_epoch() <=> __rhs.time_since_epoch(); }
+# 1176 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    template<typename _Clock, typename _Dur1, typename _Dur2>
+      constexpr bool
+      operator<(const time_point<_Clock, _Dur1>& __lhs,
+  const time_point<_Clock, _Dur2>& __rhs)
+      { return __lhs.time_since_epoch() < __rhs.time_since_epoch(); }
+
+    template<typename _Clock, typename _Dur1, typename _Dur2>
+      constexpr bool
+      operator<=(const time_point<_Clock, _Dur1>& __lhs,
+   const time_point<_Clock, _Dur2>& __rhs)
+      { return !(__rhs < __lhs); }
+
+    template<typename _Clock, typename _Dur1, typename _Dur2>
+      constexpr bool
+      operator>(const time_point<_Clock, _Dur1>& __lhs,
+  const time_point<_Clock, _Dur2>& __rhs)
+      { return __rhs < __lhs; }
+
+    template<typename _Clock, typename _Dur1, typename _Dur2>
+      constexpr bool
+      operator>=(const time_point<_Clock, _Dur1>& __lhs,
+   const time_point<_Clock, _Dur2>& __rhs)
+      { return !(__lhs < __rhs); }
+# 1222 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+inline namespace _V2 {
+
+
+
+
+
+
+
+    struct system_clock
+    {
+      typedef chrono::nanoseconds duration;
+      typedef duration::rep rep;
+      typedef duration::period period;
+      typedef chrono::time_point<system_clock, duration> time_point;
+
+      static_assert(system_clock::duration::min()
+      < system_clock::duration::zero(),
+      "a clock's minimum duration cannot be less than its epoch");
+
+      static constexpr bool is_steady = false;
+
+      static time_point
+      now() noexcept;
+
+
+      [[__gnu__::__always_inline__]]
+      static std::time_t
+      to_time_t(const time_point& __t) noexcept
+      {
+ return std::time_t(duration_cast<chrono::seconds>
+      (__t.time_since_epoch()).count());
+      }
+
+      [[__gnu__::__always_inline__]]
+      static time_point
+      from_time_t(std::time_t __t) noexcept
+      {
+ typedef chrono::time_point<system_clock, seconds> __from;
+ return time_point_cast<system_clock::duration>
+        (__from(chrono::seconds(__t)));
+      }
+    };
+# 1272 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    struct steady_clock
+    {
+      typedef chrono::nanoseconds duration;
+      typedef duration::rep rep;
+      typedef duration::period period;
+      typedef chrono::time_point<steady_clock, duration> time_point;
+
+      static constexpr bool is_steady = true;
+
+      static time_point
+      now() noexcept;
+    };
+# 1294 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+    using high_resolution_clock = system_clock;
+
+}
+
+
+
+
+    template<typename _Duration>
+      using sys_time = time_point<system_clock, _Duration>;
+    using sys_seconds = sys_time<seconds>;
+    using sys_days = sys_time<days>;
+
+    using file_clock = ::std::filesystem::__file_clock;
+
+    template<typename _Duration>
+      using file_time = time_point<file_clock, _Duration>;
+
+    template<> struct is_clock<system_clock> : true_type { };
+    template<> struct is_clock<steady_clock> : true_type { };
+    template<> struct is_clock<file_clock> : true_type { };
+
+    template<> inline constexpr bool is_clock_v<system_clock> = true;
+    template<> inline constexpr bool is_clock_v<steady_clock> = true;
+    template<> inline constexpr bool is_clock_v<file_clock> = true;
+# 1329 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+  }
+
+
+  inline namespace literals
+  {
+# 1358 "/usr/include/c++/15.2.1/bits/chrono.h" 3
+  inline namespace chrono_literals
+  {
+
+
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wliteral-suffix"
+
+    template<typename _Dur, char... _Digits>
+      constexpr _Dur __check_overflow()
+      {
+ using _Val = __parse_int::_Parse_int<_Digits...>;
+ constexpr typename _Dur::rep __repval = _Val::value;
+ static_assert(__repval >= 0 && __repval == _Val::value,
+        "literal value cannot be represented by duration type");
+ return _Dur(__repval);
+      }
+
+
+
+    constexpr chrono::duration<long double, ratio<3600,1>>
+    operator""h(long double __hours)
+    { return chrono::duration<long double, ratio<3600,1>>{__hours}; }
+
+
+    template <char... _Digits>
+      constexpr chrono::hours
+      operator""h()
+      { return __check_overflow<chrono::hours, _Digits...>(); }
+
+
+    constexpr chrono::duration<long double, ratio<60,1>>
+    operator""min(long double __mins)
+    { return chrono::duration<long double, ratio<60,1>>{__mins}; }
+
+
+    template <char... _Digits>
+      constexpr chrono::minutes
+      operator""min()
+      { return __check_overflow<chrono::minutes, _Digits...>(); }
+
+
+    constexpr chrono::duration<long double>
+    operator""s(long double __secs)
+    { return chrono::duration<long double>{__secs}; }
+
+
+    template <char... _Digits>
+      constexpr chrono::seconds
+      operator""s()
+      { return __check_overflow<chrono::seconds, _Digits...>(); }
+
+
+    constexpr chrono::duration<long double, milli>
+    operator""ms(long double __msecs)
+    { return chrono::duration<long double, milli>{__msecs}; }
+
+
+    template <char... _Digits>
+      constexpr chrono::milliseconds
+      operator""ms()
+      { return __check_overflow<chrono::milliseconds, _Digits...>(); }
+
+
+    constexpr chrono::duration<long double, micro>
+    operator""us(long double __usecs)
+    { return chrono::duration<long double, micro>{__usecs}; }
+
+
+    template <char... _Digits>
+      constexpr chrono::microseconds
+      operator""us()
+      { return __check_overflow<chrono::microseconds, _Digits...>(); }
+
+
+    constexpr chrono::duration<long double, nano>
+    operator""ns(long double __nsecs)
+    { return chrono::duration<long double, nano>{__nsecs}; }
+
+
+    template <char... _Digits>
+      constexpr chrono::nanoseconds
+      operator""ns()
+      { return __check_overflow<chrono::nanoseconds, _Digits...>(); }
+
+#pragma GCC diagnostic pop
+
+  }
+  }
+
+  namespace chrono
+  {
+    using namespace literals::chrono_literals;
+  }
+
+
+
+  namespace filesystem
+  {
+    struct __file_clock
+    {
+      using duration = chrono::nanoseconds;
+      using rep = duration::rep;
+      using period = duration::period;
+      using time_point = chrono::time_point<__file_clock>;
+      static constexpr bool is_steady = false;
+
+      static time_point
+      now() noexcept
+      { return _S_from_sys(chrono::system_clock::now()); }
+
+
+      template<typename _Dur>
+ static
+ chrono::file_time<common_type_t<_Dur, chrono::seconds>>
+ from_sys(const chrono::sys_time<_Dur>& __t) noexcept
+ { return _S_from_sys(__t); }
+
+
+      template<typename _Dur>
+ static
+ chrono::sys_time<common_type_t<_Dur, chrono::seconds>>
+ to_sys(const chrono::file_time<_Dur>& __t) noexcept
+ { return _S_to_sys(__t); }
+
+
+    private:
+      using __sys_clock = chrono::system_clock;
+
+
+
+
+      static constexpr chrono::seconds _S_epoch_diff{6437664000};
+
+    protected:
+
+      template<typename _Dur>
+ static
+ chrono::time_point<__file_clock, common_type_t<_Dur, chrono::seconds>>
+ _S_from_sys(const chrono::time_point<__sys_clock, _Dur>& __t) noexcept
+ {
+   using _CDur = common_type_t<_Dur, chrono::seconds>;
+   using __file_time = chrono::time_point<__file_clock, _CDur>;
+   return __file_time{__t.time_since_epoch()} - _S_epoch_diff;
+ }
+
+
+      template<typename _Dur>
+ static
+ chrono::time_point<__sys_clock, common_type_t<_Dur, chrono::seconds>>
+ _S_to_sys(const chrono::time_point<__file_clock, _Dur>& __t) noexcept
+ {
+   using _CDur = common_type_t<_Dur, chrono::seconds>;
+   using __sys_time = chrono::time_point<__sys_clock, _CDur>;
+   return __sys_time{__t.time_since_epoch()} + _S_epoch_diff;
+ }
+    };
+  }
+
+
+
+}
+# 38 "/usr/include/c++/15.2.1/bits/fs_fwd.h" 2 3
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+
+namespace filesystem
+{
+
+
+inline namespace __cxx11 __attribute__((__abi_tag__ ("cxx11"))) { }
+
+
+
+
+
+
+
+  class file_status;
+namespace __cxx11 {
+  class path;
+  class filesystem_error;
+  class directory_entry;
+  class directory_iterator;
+  class recursive_directory_iterator;
+}
+
+
+  struct space_info
+  {
+    uintmax_t capacity;
+    uintmax_t free;
+    uintmax_t available;
+
+
+    friend bool operator==(const space_info&, const space_info&) = default;
+
+  };
+
+
+  enum class file_type : signed char {
+      none = 0, not_found = -1, regular = 1, directory = 2, symlink = 3,
+      block = 4, character = 5, fifo = 6, socket = 7, unknown = 8
+  };
+
+
+  enum class copy_options : unsigned short {
+      none = 0,
+      skip_existing = 1, overwrite_existing = 2, update_existing = 4,
+      recursive = 8,
+      copy_symlinks = 16, skip_symlinks = 32,
+      directories_only = 64, create_symlinks = 128, create_hard_links = 256
+  };
+
+
+
+  [[nodiscard]]
+  constexpr copy_options
+  operator&(copy_options __x, copy_options __y) noexcept
+  {
+    using __utype = typename std::underlying_type<copy_options>::type;
+    return static_cast<copy_options>(
+ static_cast<__utype>(__x) & static_cast<__utype>(__y));
+  }
+
+  [[nodiscard]]
+  constexpr copy_options
+  operator|(copy_options __x, copy_options __y) noexcept
+  {
+    using __utype = typename std::underlying_type<copy_options>::type;
+    return static_cast<copy_options>(
+ static_cast<__utype>(__x) | static_cast<__utype>(__y));
+  }
+
+  [[nodiscard]]
+  constexpr copy_options
+  operator^(copy_options __x, copy_options __y) noexcept
+  {
+    using __utype = typename std::underlying_type<copy_options>::type;
+    return static_cast<copy_options>(
+ static_cast<__utype>(__x) ^ static_cast<__utype>(__y));
+  }
+
+  [[nodiscard]]
+  constexpr copy_options
+  operator~(copy_options __x) noexcept
+  {
+    using __utype = typename std::underlying_type<copy_options>::type;
+    return static_cast<copy_options>(~static_cast<__utype>(__x));
+  }
+
+  inline copy_options&
+  operator&=(copy_options& __x, copy_options __y) noexcept
+  { return __x = __x & __y; }
+
+  inline copy_options&
+  operator|=(copy_options& __x, copy_options __y) noexcept
+  { return __x = __x | __y; }
+
+  inline copy_options&
+  operator^=(copy_options& __x, copy_options __y) noexcept
+  { return __x = __x ^ __y; }
+
+
+
+
+  enum class perms : unsigned {
+      none = 0,
+      owner_read = 0400,
+      owner_write = 0200,
+      owner_exec = 0100,
+      owner_all = 0700,
+      group_read = 040,
+      group_write = 020,
+      group_exec = 010,
+      group_all = 070,
+      others_read = 04,
+      others_write = 02,
+      others_exec = 01,
+      others_all = 07,
+      all = 0777,
+      set_uid = 04000,
+      set_gid = 02000,
+      sticky_bit = 01000,
+      mask = 07777,
+      unknown = 0xFFFF,
+  };
+
+
+
+  [[nodiscard]]
+  constexpr perms
+  operator&(perms __x, perms __y) noexcept
+  {
+    using __utype = typename std::underlying_type<perms>::type;
+    return static_cast<perms>(
+ static_cast<__utype>(__x) & static_cast<__utype>(__y));
+  }
+
+  [[nodiscard]]
+  constexpr perms
+  operator|(perms __x, perms __y) noexcept
+  {
+    using __utype = typename std::underlying_type<perms>::type;
+    return static_cast<perms>(
+ static_cast<__utype>(__x) | static_cast<__utype>(__y));
+  }
+
+  [[nodiscard]]
+  constexpr perms
+  operator^(perms __x, perms __y) noexcept
+  {
+    using __utype = typename std::underlying_type<perms>::type;
+    return static_cast<perms>(
+ static_cast<__utype>(__x) ^ static_cast<__utype>(__y));
+  }
+
+  [[nodiscard]]
+  constexpr perms
+  operator~(perms __x) noexcept
+  {
+    using __utype = typename std::underlying_type<perms>::type;
+    return static_cast<perms>(~static_cast<__utype>(__x));
+  }
+
+  inline perms&
+  operator&=(perms& __x, perms __y) noexcept
+  { return __x = __x & __y; }
+
+  inline perms&
+  operator|=(perms& __x, perms __y) noexcept
+  { return __x = __x | __y; }
+
+  inline perms&
+  operator^=(perms& __x, perms __y) noexcept
+  { return __x = __x ^ __y; }
+
+
+
+  enum class perm_options : unsigned {
+      replace = 0x1,
+      add = 0x2,
+      remove = 0x4,
+      nofollow = 0x8
+  };
+
+
+
+  [[nodiscard]]
+  constexpr perm_options
+  operator&(perm_options __x, perm_options __y) noexcept
+  {
+    using __utype = typename std::underlying_type<perm_options>::type;
+    return static_cast<perm_options>(
+ static_cast<__utype>(__x) & static_cast<__utype>(__y));
+  }
+
+  [[nodiscard]]
+  constexpr perm_options
+  operator|(perm_options __x, perm_options __y) noexcept
+  {
+    using __utype = typename std::underlying_type<perm_options>::type;
+    return static_cast<perm_options>(
+ static_cast<__utype>(__x) | static_cast<__utype>(__y));
+  }
+
+  [[nodiscard]]
+  constexpr perm_options
+  operator^(perm_options __x, perm_options __y) noexcept
+  {
+    using __utype = typename std::underlying_type<perm_options>::type;
+    return static_cast<perm_options>(
+ static_cast<__utype>(__x) ^ static_cast<__utype>(__y));
+  }
+
+  [[nodiscard]]
+  constexpr perm_options
+  operator~(perm_options __x) noexcept
+  {
+    using __utype = typename std::underlying_type<perm_options>::type;
+    return static_cast<perm_options>(~static_cast<__utype>(__x));
+  }
+
+  inline perm_options&
+  operator&=(perm_options& __x, perm_options __y) noexcept
+  { return __x = __x & __y; }
+
+  inline perm_options&
+  operator|=(perm_options& __x, perm_options __y) noexcept
+  { return __x = __x | __y; }
+
+  inline perm_options&
+  operator^=(perm_options& __x, perm_options __y) noexcept
+  { return __x = __x ^ __y; }
+
+
+
+  enum class directory_options : unsigned char {
+      none = 0, follow_directory_symlink = 1, skip_permission_denied = 2
+  };
+
+
+
+  [[nodiscard]]
+  constexpr directory_options
+  operator&(directory_options __x, directory_options __y) noexcept
+  {
+    using __utype = typename std::underlying_type<directory_options>::type;
+    return static_cast<directory_options>(
+ static_cast<__utype>(__x) & static_cast<__utype>(__y));
+  }
+
+  [[nodiscard]]
+  constexpr directory_options
+  operator|(directory_options __x, directory_options __y) noexcept
+  {
+    using __utype = typename std::underlying_type<directory_options>::type;
+    return static_cast<directory_options>(
+ static_cast<__utype>(__x) | static_cast<__utype>(__y));
+  }
+
+  [[nodiscard]]
+  constexpr directory_options
+  operator^(directory_options __x, directory_options __y) noexcept
+  {
+    using __utype = typename std::underlying_type<directory_options>::type;
+    return static_cast<directory_options>(
+ static_cast<__utype>(__x) ^ static_cast<__utype>(__y));
+  }
+
+  [[nodiscard]]
+  constexpr directory_options
+  operator~(directory_options __x) noexcept
+  {
+    using __utype = typename std::underlying_type<directory_options>::type;
+    return static_cast<directory_options>(~static_cast<__utype>(__x));
+  }
+
+  inline directory_options&
+  operator&=(directory_options& __x, directory_options __y) noexcept
+  { return __x = __x & __y; }
+
+  inline directory_options&
+  operator|=(directory_options& __x, directory_options __y) noexcept
+  { return __x = __x | __y; }
+
+  inline directory_options&
+  operator^=(directory_options& __x, directory_options __y) noexcept
+  { return __x = __x ^ __y; }
+
+
+
+  using file_time_type = __file_clock::time_point;
+
+
+
+  void copy(const path& __from, const path& __to, copy_options __options);
+  void copy(const path& __from, const path& __to, copy_options __options,
+     error_code&);
+
+  bool copy_file(const path& __from, const path& __to, copy_options __option);
+  bool copy_file(const path& __from, const path& __to, copy_options __option,
+   error_code&);
+
+  path current_path();
+
+  bool exists(file_status) noexcept;
+
+  bool is_other(file_status) noexcept;
+
+  uintmax_t file_size(const path&);
+  uintmax_t file_size(const path&, error_code&) noexcept;
+  uintmax_t hard_link_count(const path&);
+  uintmax_t hard_link_count(const path&, error_code&) noexcept;
+  file_time_type last_write_time(const path&);
+  file_time_type last_write_time(const path&, error_code&) noexcept;
+
+  void permissions(const path&, perms, perm_options, error_code&) noexcept;
+
+  path proximate(const path& __p, const path& __base, error_code& __ec);
+  path proximate(const path& __p, const path& __base, error_code& __ec);
+
+  path relative(const path& __p, const path& __base, error_code& __ec);
+
+  file_status status(const path&);
+  file_status status(const path&, error_code&) noexcept;
+
+  bool status_known(file_status) noexcept;
+
+  file_status symlink_status(const path&);
+  file_status symlink_status(const path&, error_code&) noexcept;
+
+  bool is_regular_file(file_status) noexcept;
+  bool is_symlink(file_status) noexcept;
+
+  bool remove(const path&, error_code&) noexcept;
+  uintmax_t remove_all(const path&);
+  uintmax_t remove_all(const path&, error_code&);
+
+
+}
+
+}
+# 54 "/usr/include/c++/15.2.1/filesystem" 2 3
+# 1 "/usr/include/c++/15.2.1/bits/fs_path.h" 1 3
+# 38 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+# 1 "/usr/include/c++/15.2.1/iomanip" 1 3
+# 40 "/usr/include/c++/15.2.1/iomanip" 3
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wc++11-extensions"
+# 50 "/usr/include/c++/15.2.1/iomanip" 3
+# 1 "/usr/include/c++/15.2.1/bits/version.h" 1 3
+# 51 "/usr/include/c++/15.2.1/iomanip" 2 3
+
+
+
+
+# 1 "/usr/include/c++/15.2.1/bits/quoted_string.h" 1 3
+# 40 "/usr/include/c++/15.2.1/bits/quoted_string.h" 3
 # 1 "/usr/include/c++/15.2.1/sstream" 1 3
-# 57 "/usr/include/c++/15.2.1/sstream" 3
-
 # 57 "/usr/include/c++/15.2.1/sstream" 3
 namespace std __attribute__ ((__visibility__ ("default")))
 {
@@ -115781,19 +117845,2765 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 #pragma GCC diagnostic pop
 # 1256 "/usr/include/c++/15.2.1/sstream" 2 3
-# 8 "/home/arch/code/projects/Compiler/main.cpp" 2
+# 41 "/usr/include/c++/15.2.1/bits/quoted_string.h" 2 3
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+  namespace __detail {
+
+
+
+    template<typename _String, typename _CharT>
+      struct _Quoted_string
+      {
+ static_assert(is_reference<_String>::value
+     || is_pointer<_String>::value,
+        "String type must be pointer or reference");
+
+ _Quoted_string(_String __str, _CharT __del, _CharT __esc)
+ : _M_string(__str), _M_delim{__del}, _M_escape{__esc}
+ { }
+
+ _Quoted_string&
+ operator=(_Quoted_string&) = delete;
+
+ _String _M_string;
+ _CharT _M_delim;
+ _CharT _M_escape;
+      };
+
+
+    template<typename _CharT, typename _Traits>
+      struct _Quoted_string<basic_string_view<_CharT, _Traits>, _CharT>
+      {
+ _Quoted_string(basic_string_view<_CharT, _Traits> __str,
+         _CharT __del, _CharT __esc)
+ : _M_string(__str), _M_delim{__del}, _M_escape{__esc}
+ { }
+
+ _Quoted_string&
+ operator=(_Quoted_string&) = delete;
+
+ basic_string_view<_CharT, _Traits> _M_string;
+ _CharT _M_delim;
+ _CharT _M_escape;
+      };
+
+
+
+
+
+
+
+    template<typename _CharT, typename _Traits>
+      std::basic_ostream<_CharT, _Traits>&
+      operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+   const _Quoted_string<const _CharT*, _CharT>& __str)
+      {
+
+
+ std::basic_ostringstream<_CharT, _Traits> __ostr;
+ __ostr << __str._M_delim;
+ for (const _CharT* __c = __str._M_string; *__c; ++__c)
+   {
+     if (*__c == __str._M_delim || *__c == __str._M_escape)
+       __ostr << __str._M_escape;
+     __ostr << *__c;
+   }
+ __ostr << __str._M_delim;
+
+ return __os << __ostr.str();
+      }
+
+
+
+
+
+
+    template<typename _CharT, typename _Traits, typename _String>
+      std::basic_ostream<_CharT, _Traits>&
+      operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+   const _Quoted_string<_String, _CharT>& __str)
+      {
+
+
+ std::basic_ostringstream<_CharT, _Traits> __ostr;
+ __ostr << __str._M_delim;
+ for (auto __c : __str._M_string)
+   {
+     if (__c == __str._M_delim || __c == __str._M_escape)
+       __ostr << __str._M_escape;
+     __ostr << __c;
+   }
+ __ostr << __str._M_delim;
+
+ return __os << __ostr.str();
+      }
+
+
+
+
+
+
+
+    template<typename _CharT, typename _Traits, typename _Alloc>
+      std::basic_istream<_CharT, _Traits>&
+      operator>>(std::basic_istream<_CharT, _Traits>& __is,
+   const _Quoted_string<basic_string<_CharT, _Traits, _Alloc>&,
+          _CharT>& __str)
+      {
+ _CharT __c;
+ __is >> __c;
+ if (!__is.good())
+   return __is;
+ if (__c != __str._M_delim)
+   {
+     __is.unget();
+     __is >> __str._M_string;
+     return __is;
+   }
+ __str._M_string.clear();
+ std::ios_base::fmtflags __flags
+   = __is.flags(__is.flags() & ~std::ios_base::skipws);
+ do
+   {
+     __is >> __c;
+     if (!__is.good())
+       break;
+     if (__c == __str._M_escape)
+       {
+  __is >> __c;
+  if (!__is.good())
+    break;
+       }
+     else if (__c == __str._M_delim)
+       break;
+     __str._M_string += __c;
+   }
+ while (true);
+ __is.setf(__flags);
+
+ return __is;
+      }
+  }
+
+
+}
+# 56 "/usr/include/c++/15.2.1/iomanip" 2 3
+
+
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+
+
+
+  struct _Resetiosflags { ios_base::fmtflags _M_mask; };
+# 75 "/usr/include/c++/15.2.1/iomanip" 3
+  inline _Resetiosflags
+  resetiosflags(ios_base::fmtflags __mask)
+  { return { __mask }; }
+
+  template<typename _CharT, typename _Traits>
+    inline basic_istream<_CharT, _Traits>&
+    operator>>(basic_istream<_CharT, _Traits>& __is, _Resetiosflags __f)
+    {
+      __is.setf(ios_base::fmtflags(0), __f._M_mask);
+      return __is;
+    }
+
+  template<typename _CharT, typename _Traits>
+    inline basic_ostream<_CharT, _Traits>&
+    operator<<(basic_ostream<_CharT, _Traits>& __os, _Resetiosflags __f)
+    {
+      __os.setf(ios_base::fmtflags(0), __f._M_mask);
+      return __os;
+    }
+
+
+  struct _Setiosflags { ios_base::fmtflags _M_mask; };
+# 105 "/usr/include/c++/15.2.1/iomanip" 3
+  inline _Setiosflags
+  setiosflags(ios_base::fmtflags __mask)
+  { return { __mask }; }
+
+  template<typename _CharT, typename _Traits>
+    inline basic_istream<_CharT, _Traits>&
+    operator>>(basic_istream<_CharT, _Traits>& __is, _Setiosflags __f)
+    {
+      __is.setf(__f._M_mask);
+      return __is;
+    }
+
+  template<typename _CharT, typename _Traits>
+    inline basic_ostream<_CharT, _Traits>&
+    operator<<(basic_ostream<_CharT, _Traits>& __os, _Setiosflags __f)
+    {
+      __os.setf(__f._M_mask);
+      return __os;
+    }
+
+
+  struct _Setbase { int _M_base; };
+# 136 "/usr/include/c++/15.2.1/iomanip" 3
+  inline _Setbase
+  setbase(int __base)
+  { return { __base }; }
+
+  template<typename _CharT, typename _Traits>
+    inline basic_istream<_CharT, _Traits>&
+    operator>>(basic_istream<_CharT, _Traits>& __is, _Setbase __f)
+    {
+      __is.setf(__f._M_base == 8 ? ios_base::oct :
+  __f._M_base == 10 ? ios_base::dec :
+  __f._M_base == 16 ? ios_base::hex :
+  ios_base::fmtflags(0), ios_base::basefield);
+      return __is;
+    }
+
+  template<typename _CharT, typename _Traits>
+    inline basic_ostream<_CharT, _Traits>&
+    operator<<(basic_ostream<_CharT, _Traits>& __os, _Setbase __f)
+    {
+      __os.setf(__f._M_base == 8 ? ios_base::oct :
+  __f._M_base == 10 ? ios_base::dec :
+  __f._M_base == 16 ? ios_base::hex :
+  ios_base::fmtflags(0), ios_base::basefield);
+      return __os;
+    }
+
+
+  template<typename _CharT>
+    struct _Setfill { _CharT _M_c; };
+# 173 "/usr/include/c++/15.2.1/iomanip" 3
+  template<typename _CharT>
+    inline _Setfill<_CharT>
+    setfill(_CharT __c)
+    { return { __c }; }
+
+  template<typename _CharT, typename _Traits>
+    __attribute__((__deprecated__("'std::setfill' should only be used with "
+      "output streams")))
+    inline basic_istream<_CharT, _Traits>&
+    operator>>(basic_istream<_CharT, _Traits>& __is, _Setfill<_CharT> __f)
+    {
+      __is.fill(__f._M_c);
+      return __is;
+    }
+
+  template<typename _CharT, typename _Traits>
+    inline basic_ostream<_CharT, _Traits>&
+    operator<<(basic_ostream<_CharT, _Traits>& __os, _Setfill<_CharT> __f)
+    {
+      __os.fill(__f._M_c);
+      return __os;
+    }
+
+
+  struct _Setprecision { int _M_n; };
+# 206 "/usr/include/c++/15.2.1/iomanip" 3
+  inline _Setprecision
+  setprecision(int __n)
+  { return { __n }; }
+
+  template<typename _CharT, typename _Traits>
+    inline basic_istream<_CharT, _Traits>&
+    operator>>(basic_istream<_CharT, _Traits>& __is, _Setprecision __f)
+    {
+      __is.precision(__f._M_n);
+      return __is;
+    }
+
+  template<typename _CharT, typename _Traits>
+    inline basic_ostream<_CharT, _Traits>&
+    operator<<(basic_ostream<_CharT, _Traits>& __os, _Setprecision __f)
+    {
+      __os.precision(__f._M_n);
+      return __os;
+    }
+
+
+  struct _Setw { int _M_n; };
+# 236 "/usr/include/c++/15.2.1/iomanip" 3
+  inline _Setw
+  setw(int __n)
+  { return { __n }; }
+
+  template<typename _CharT, typename _Traits>
+    inline basic_istream<_CharT, _Traits>&
+    operator>>(basic_istream<_CharT, _Traits>& __is, _Setw __f)
+    {
+      __is.width(__f._M_n);
+      return __is;
+    }
+
+  template<typename _CharT, typename _Traits>
+    inline basic_ostream<_CharT, _Traits>&
+    operator<<(basic_ostream<_CharT, _Traits>& __os, _Setw __f)
+    {
+      __os.width(__f._M_n);
+      return __os;
+    }
+
+
+
+  template<typename _MoneyT>
+    struct _Get_money { _MoneyT& _M_mon; bool _M_intl; };
+# 269 "/usr/include/c++/15.2.1/iomanip" 3
+  template<typename _MoneyT>
+    inline _Get_money<_MoneyT>
+    get_money(_MoneyT& __mon, bool __intl = false)
+    { return { __mon, __intl }; }
+
+  template<typename _CharT, typename _Traits, typename _MoneyT>
+    basic_istream<_CharT, _Traits>&
+    operator>>(basic_istream<_CharT, _Traits>& __is, _Get_money<_MoneyT> __f)
+    {
+      typename basic_istream<_CharT, _Traits>::sentry __cerb(__is, false);
+      if (__cerb)
+ {
+   ios_base::iostate __err = ios_base::goodbit;
+   try
+     {
+       typedef istreambuf_iterator<_CharT, _Traits> _Iter;
+       typedef money_get<_CharT, _Iter> _MoneyGet;
+
+       const _MoneyGet& __mg = use_facet<_MoneyGet>(__is.getloc());
+       __mg.get(_Iter(__is.rdbuf()), _Iter(), __f._M_intl,
+         __is, __err, __f._M_mon);
+     }
+   catch(__cxxabiv1::__forced_unwind&)
+     {
+       __is._M_setstate(ios_base::badbit);
+       throw;
+     }
+   catch(...)
+     { __is._M_setstate(ios_base::badbit); }
+   if (__err)
+     __is.setstate(__err);
+ }
+      return __is;
+    }
+
+
+  template<typename _MoneyT>
+    struct _Put_money { const _MoneyT& _M_mon; bool _M_intl; };
+# 316 "/usr/include/c++/15.2.1/iomanip" 3
+  template<typename _MoneyT>
+    inline _Put_money<_MoneyT>
+    put_money(const _MoneyT& __mon, bool __intl = false)
+    { return { __mon, __intl }; }
+
+  template<typename _CharT, typename _Traits, typename _MoneyT>
+    basic_ostream<_CharT, _Traits>&
+    operator<<(basic_ostream<_CharT, _Traits>& __os, _Put_money<_MoneyT> __f)
+    {
+      typename basic_ostream<_CharT, _Traits>::sentry __cerb(__os);
+      if (__cerb)
+ {
+   ios_base::iostate __err = ios_base::goodbit;
+   try
+     {
+       typedef ostreambuf_iterator<_CharT, _Traits> _Iter;
+       typedef money_put<_CharT, _Iter> _MoneyPut;
+
+       const _MoneyPut& __mp = use_facet<_MoneyPut>(__os.getloc());
+       if (__mp.put(_Iter(__os.rdbuf()), __f._M_intl, __os,
+      __os.fill(), __f._M_mon).failed())
+  __err |= ios_base::badbit;
+     }
+   catch(__cxxabiv1::__forced_unwind&)
+     {
+       __os._M_setstate(ios_base::badbit);
+       throw;
+     }
+   catch(...)
+     { __os._M_setstate(ios_base::badbit); }
+   if (__err)
+     __os.setstate(__err);
+ }
+      return __os;
+    }
+
+  template<typename _CharT>
+    struct _Put_time
+    {
+      const std::tm* _M_tmb;
+      const _CharT* _M_fmt;
+    };
+# 368 "/usr/include/c++/15.2.1/iomanip" 3
+  template<typename _CharT>
+    inline _Put_time<_CharT>
+    put_time(const std::tm* __tmb, const _CharT* __fmt)
+    { return { __tmb, __fmt }; }
+
+  template<typename _CharT, typename _Traits>
+    basic_ostream<_CharT, _Traits>&
+    operator<<(basic_ostream<_CharT, _Traits>& __os, _Put_time<_CharT> __f)
+    {
+      typename basic_ostream<_CharT, _Traits>::sentry __cerb(__os);
+      if (__cerb)
+        {
+          ios_base::iostate __err = ios_base::goodbit;
+          try
+            {
+              typedef ostreambuf_iterator<_CharT, _Traits> _Iter;
+              typedef time_put<_CharT, _Iter> _TimePut;
+
+              const _CharT* const __fmt_end = __f._M_fmt +
+                _Traits::length(__f._M_fmt);
+
+              const _TimePut& __mp = use_facet<_TimePut>(__os.getloc());
+              if (__mp.put(_Iter(__os.rdbuf()), __os, __os.fill(),
+                           __f._M_tmb, __f._M_fmt, __fmt_end).failed())
+                __err |= ios_base::badbit;
+            }
+          catch(__cxxabiv1::__forced_unwind&)
+            {
+              __os._M_setstate(ios_base::badbit);
+              throw;
+            }
+          catch(...)
+            { __os._M_setstate(ios_base::badbit); }
+          if (__err)
+            __os.setstate(__err);
+        }
+      return __os;
+    }
+
+  template<typename _CharT>
+    struct _Get_time
+    {
+      std::tm* _M_tmb;
+      const _CharT* _M_fmt;
+    };
+# 423 "/usr/include/c++/15.2.1/iomanip" 3
+  template<typename _CharT>
+    inline _Get_time<_CharT>
+    get_time(std::tm* __tmb, const _CharT* __fmt)
+    { return { __tmb, __fmt }; }
+
+  template<typename _CharT, typename _Traits>
+    basic_istream<_CharT, _Traits>&
+    operator>>(basic_istream<_CharT, _Traits>& __is, _Get_time<_CharT> __f)
+    {
+      typename basic_istream<_CharT, _Traits>::sentry __cerb(__is, false);
+      if (__cerb)
+        {
+          ios_base::iostate __err = ios_base::goodbit;
+          try
+            {
+              typedef istreambuf_iterator<_CharT, _Traits> _Iter;
+              typedef time_get<_CharT, _Iter> _TimeGet;
+
+              const _CharT* const __fmt_end = __f._M_fmt +
+                _Traits::length(__f._M_fmt);
+
+              const _TimeGet& __mg = use_facet<_TimeGet>(__is.getloc());
+              __mg.get(_Iter(__is.rdbuf()), _Iter(), __is,
+                       __err, __f._M_tmb, __f._M_fmt, __fmt_end);
+            }
+          catch(__cxxabiv1::__forced_unwind&)
+            {
+              __is._M_setstate(ios_base::badbit);
+              throw;
+            }
+          catch(...)
+            { __is._M_setstate(ios_base::badbit); }
+          if (__err)
+            __is.setstate(__err);
+        }
+      return __is;
+    }
+# 470 "/usr/include/c++/15.2.1/iomanip" 3
+  template<typename _CharT>
+    inline auto
+    quoted(const _CharT* __string,
+    _CharT __delim = _CharT('"'), _CharT __escape = _CharT('\\'))
+    {
+      return __detail::_Quoted_string<const _CharT*, _CharT>(__string, __delim,
+            __escape);
+    }
+
+  template<typename _CharT, typename _Traits, typename _Alloc>
+    inline auto
+    quoted(const basic_string<_CharT, _Traits, _Alloc>& __string,
+    _CharT __delim = _CharT('"'), _CharT __escape = _CharT('\\'))
+    {
+      return __detail::_Quoted_string<
+ const basic_string<_CharT, _Traits, _Alloc>&, _CharT>(
+     __string, __delim, __escape);
+    }
+
+  template<typename _CharT, typename _Traits, typename _Alloc>
+    inline auto
+    quoted(basic_string<_CharT, _Traits, _Alloc>& __string,
+    _CharT __delim = _CharT('"'), _CharT __escape = _CharT('\\'))
+    {
+      return __detail::_Quoted_string<
+ basic_string<_CharT, _Traits, _Alloc>&, _CharT>(
+     __string, __delim, __escape);
+    }
+
+
+
+
+  template<typename _CharT, typename _Traits>
+    inline auto
+    quoted(basic_string_view<_CharT, _Traits> __sv,
+    _CharT __delim = _CharT('"'), _CharT __escape = _CharT('\\'))
+    {
+      return __detail::_Quoted_string<
+ basic_string_view<_CharT, _Traits>, _CharT>(__sv, __delim, __escape);
+    }
+# 519 "/usr/include/c++/15.2.1/iomanip" 3
+  extern template ostream& operator<<(ostream&, _Setfill<char>);
+  extern template ostream& operator<<(ostream&, _Setiosflags);
+  extern template ostream& operator<<(ostream&, _Resetiosflags);
+  extern template ostream& operator<<(ostream&, _Setbase);
+  extern template ostream& operator<<(ostream&, _Setprecision);
+  extern template ostream& operator<<(ostream&, _Setw);
+  extern template istream& operator>>(istream&, _Setfill<char>);
+  extern template istream& operator>>(istream&, _Setiosflags);
+  extern template istream& operator>>(istream&, _Resetiosflags);
+  extern template istream& operator>>(istream&, _Setbase);
+  extern template istream& operator>>(istream&, _Setprecision);
+  extern template istream& operator>>(istream&, _Setw);
+
+
+  extern template wostream& operator<<(wostream&, _Setfill<wchar_t>);
+  extern template wostream& operator<<(wostream&, _Setiosflags);
+  extern template wostream& operator<<(wostream&, _Resetiosflags);
+  extern template wostream& operator<<(wostream&, _Setbase);
+  extern template wostream& operator<<(wostream&, _Setprecision);
+  extern template wostream& operator<<(wostream&, _Setw);
+  extern template wistream& operator>>(wistream&, _Setfill<wchar_t>);
+  extern template wistream& operator>>(wistream&, _Setiosflags);
+  extern template wistream& operator>>(wistream&, _Resetiosflags);
+  extern template wistream& operator>>(wistream&, _Setbase);
+  extern template wistream& operator>>(wistream&, _Setprecision);
+  extern template wistream& operator>>(wistream&, _Setw);
+
+
+
+
+}
+
+#pragma GCC diagnostic pop
+# 39 "/usr/include/c++/15.2.1/bits/fs_path.h" 2 3
+# 1 "/usr/include/c++/15.2.1/codecvt" 1 3
+# 45 "/usr/include/c++/15.2.1/codecvt" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+  enum codecvt_mode
+  {
+    consume_header = 4,
+    generate_header = 2,
+    little_endian = 1
+  };
+
+  template<typename _Elem, unsigned long _Maxcode = 0x10ffff,
+    codecvt_mode _Mode = (codecvt_mode)0>
+    class codecvt_utf8 : public codecvt<_Elem, char, mbstate_t>
+    {
+    public:
+      explicit
+      codecvt_utf8(size_t __refs = 0);
+
+      ~codecvt_utf8();
+    };
+
+  template<typename _Elem, unsigned long _Maxcode = 0x10ffff,
+    codecvt_mode _Mode = (codecvt_mode)0>
+    class codecvt_utf16 : public codecvt<_Elem, char, mbstate_t>
+    {
+    public:
+      explicit
+      codecvt_utf16(size_t __refs = 0);
+
+      ~codecvt_utf16();
+    };
+
+  template<typename _Elem, unsigned long _Maxcode = 0x10ffff,
+    codecvt_mode _Mode = (codecvt_mode)0>
+    class codecvt_utf8_utf16 : public codecvt<_Elem, char, mbstate_t>
+    {
+    public:
+      explicit
+      codecvt_utf8_utf16(size_t __refs = 0);
+
+      ~codecvt_utf8_utf16();
+    };
+# 156 "/usr/include/c++/15.2.1/codecvt" 3
+  template<typename _Elem> class __codecvt_utf8_base;
+  template<typename _Elem> class __codecvt_utf16_base;
+  template<typename _Elem> class __codecvt_utf8_utf16_base;
+
+  template<> class __codecvt_utf8_base<char16_t> : public codecvt<char16_t, char, mbstate_t> { public: typedef char16_t intern_type; typedef char extern_type; typedef mbstate_t state_type; protected: __codecvt_utf8_base(unsigned long __maxcode, codecvt_mode __mode, size_t __refs) : codecvt(__refs), _M_maxcode(__maxcode), _M_mode(__mode) { } virtual ~__codecvt_utf8_base(); virtual result do_out(state_type& __state, const intern_type* __from, const intern_type* __from_end, const intern_type*& __from_next, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_unshift(state_type& __state, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_in(state_type& __state, const extern_type* __from, const extern_type* __from_end, const extern_type*& __from_next, intern_type* __to, intern_type* __to_end, intern_type*& __to_next) const; virtual int do_encoding() const throw(); virtual bool do_always_noconv() const throw(); virtual int do_length(state_type&, const extern_type* __from, const extern_type* __end, size_t __max) const; virtual int do_max_length() const throw(); private: unsigned long _M_maxcode; codecvt_mode _M_mode; }; template<unsigned long _Maxcode, codecvt_mode _Mode> class codecvt_utf8<char16_t, _Maxcode, _Mode> : public __codecvt_utf8_base<char16_t> { public: explicit codecvt_utf8(size_t __refs = 0) : __codecvt_utf8_base<char16_t>(std::min(_Maxcode, 0x10fffful), _Mode, __refs) { } };
+  template<> class __codecvt_utf16_base<char16_t> : public codecvt<char16_t, char, mbstate_t> { public: typedef char16_t intern_type; typedef char extern_type; typedef mbstate_t state_type; protected: __codecvt_utf16_base(unsigned long __maxcode, codecvt_mode __mode, size_t __refs) : codecvt(__refs), _M_maxcode(__maxcode), _M_mode(__mode) { } virtual ~__codecvt_utf16_base(); virtual result do_out(state_type& __state, const intern_type* __from, const intern_type* __from_end, const intern_type*& __from_next, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_unshift(state_type& __state, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_in(state_type& __state, const extern_type* __from, const extern_type* __from_end, const extern_type*& __from_next, intern_type* __to, intern_type* __to_end, intern_type*& __to_next) const; virtual int do_encoding() const throw(); virtual bool do_always_noconv() const throw(); virtual int do_length(state_type&, const extern_type* __from, const extern_type* __end, size_t __max) const; virtual int do_max_length() const throw(); private: unsigned long _M_maxcode; codecvt_mode _M_mode; }; template<unsigned long _Maxcode, codecvt_mode _Mode> class codecvt_utf16<char16_t, _Maxcode, _Mode> : public __codecvt_utf16_base<char16_t> { public: explicit codecvt_utf16(size_t __refs = 0) : __codecvt_utf16_base<char16_t>(std::min(_Maxcode, 0x10fffful), _Mode, __refs) { } };
+  template<> class __codecvt_utf8_utf16_base<char16_t> : public codecvt<char16_t, char, mbstate_t> { public: typedef char16_t intern_type; typedef char extern_type; typedef mbstate_t state_type; protected: __codecvt_utf8_utf16_base(unsigned long __maxcode, codecvt_mode __mode, size_t __refs) : codecvt(__refs), _M_maxcode(__maxcode), _M_mode(__mode) { } virtual ~__codecvt_utf8_utf16_base(); virtual result do_out(state_type& __state, const intern_type* __from, const intern_type* __from_end, const intern_type*& __from_next, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_unshift(state_type& __state, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_in(state_type& __state, const extern_type* __from, const extern_type* __from_end, const extern_type*& __from_next, intern_type* __to, intern_type* __to_end, intern_type*& __to_next) const; virtual int do_encoding() const throw(); virtual bool do_always_noconv() const throw(); virtual int do_length(state_type&, const extern_type* __from, const extern_type* __end, size_t __max) const; virtual int do_max_length() const throw(); private: unsigned long _M_maxcode; codecvt_mode _M_mode; }; template<unsigned long _Maxcode, codecvt_mode _Mode> class codecvt_utf8_utf16<char16_t, _Maxcode, _Mode> : public __codecvt_utf8_utf16_base<char16_t> { public: explicit codecvt_utf8_utf16(size_t __refs = 0) : __codecvt_utf8_utf16_base<char16_t>(std::min(_Maxcode, 0x10fffful), _Mode, __refs) { } };
+
+  template<> class __codecvt_utf8_base<char32_t> : public codecvt<char32_t, char, mbstate_t> { public: typedef char32_t intern_type; typedef char extern_type; typedef mbstate_t state_type; protected: __codecvt_utf8_base(unsigned long __maxcode, codecvt_mode __mode, size_t __refs) : codecvt(__refs), _M_maxcode(__maxcode), _M_mode(__mode) { } virtual ~__codecvt_utf8_base(); virtual result do_out(state_type& __state, const intern_type* __from, const intern_type* __from_end, const intern_type*& __from_next, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_unshift(state_type& __state, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_in(state_type& __state, const extern_type* __from, const extern_type* __from_end, const extern_type*& __from_next, intern_type* __to, intern_type* __to_end, intern_type*& __to_next) const; virtual int do_encoding() const throw(); virtual bool do_always_noconv() const throw(); virtual int do_length(state_type&, const extern_type* __from, const extern_type* __end, size_t __max) const; virtual int do_max_length() const throw(); private: unsigned long _M_maxcode; codecvt_mode _M_mode; }; template<unsigned long _Maxcode, codecvt_mode _Mode> class codecvt_utf8<char32_t, _Maxcode, _Mode> : public __codecvt_utf8_base<char32_t> { public: explicit codecvt_utf8(size_t __refs = 0) : __codecvt_utf8_base<char32_t>(std::min(_Maxcode, 0x10fffful), _Mode, __refs) { } };
+  template<> class __codecvt_utf16_base<char32_t> : public codecvt<char32_t, char, mbstate_t> { public: typedef char32_t intern_type; typedef char extern_type; typedef mbstate_t state_type; protected: __codecvt_utf16_base(unsigned long __maxcode, codecvt_mode __mode, size_t __refs) : codecvt(__refs), _M_maxcode(__maxcode), _M_mode(__mode) { } virtual ~__codecvt_utf16_base(); virtual result do_out(state_type& __state, const intern_type* __from, const intern_type* __from_end, const intern_type*& __from_next, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_unshift(state_type& __state, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_in(state_type& __state, const extern_type* __from, const extern_type* __from_end, const extern_type*& __from_next, intern_type* __to, intern_type* __to_end, intern_type*& __to_next) const; virtual int do_encoding() const throw(); virtual bool do_always_noconv() const throw(); virtual int do_length(state_type&, const extern_type* __from, const extern_type* __end, size_t __max) const; virtual int do_max_length() const throw(); private: unsigned long _M_maxcode; codecvt_mode _M_mode; }; template<unsigned long _Maxcode, codecvt_mode _Mode> class codecvt_utf16<char32_t, _Maxcode, _Mode> : public __codecvt_utf16_base<char32_t> { public: explicit codecvt_utf16(size_t __refs = 0) : __codecvt_utf16_base<char32_t>(std::min(_Maxcode, 0x10fffful), _Mode, __refs) { } };
+  template<> class __codecvt_utf8_utf16_base<char32_t> : public codecvt<char32_t, char, mbstate_t> { public: typedef char32_t intern_type; typedef char extern_type; typedef mbstate_t state_type; protected: __codecvt_utf8_utf16_base(unsigned long __maxcode, codecvt_mode __mode, size_t __refs) : codecvt(__refs), _M_maxcode(__maxcode), _M_mode(__mode) { } virtual ~__codecvt_utf8_utf16_base(); virtual result do_out(state_type& __state, const intern_type* __from, const intern_type* __from_end, const intern_type*& __from_next, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_unshift(state_type& __state, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_in(state_type& __state, const extern_type* __from, const extern_type* __from_end, const extern_type*& __from_next, intern_type* __to, intern_type* __to_end, intern_type*& __to_next) const; virtual int do_encoding() const throw(); virtual bool do_always_noconv() const throw(); virtual int do_length(state_type&, const extern_type* __from, const extern_type* __end, size_t __max) const; virtual int do_max_length() const throw(); private: unsigned long _M_maxcode; codecvt_mode _M_mode; }; template<unsigned long _Maxcode, codecvt_mode _Mode> class codecvt_utf8_utf16<char32_t, _Maxcode, _Mode> : public __codecvt_utf8_utf16_base<char32_t> { public: explicit codecvt_utf8_utf16(size_t __refs = 0) : __codecvt_utf8_utf16_base<char32_t>(std::min(_Maxcode, 0x10fffful), _Mode, __refs) { } };
+
+
+  template<> class __codecvt_utf8_base<wchar_t> : public codecvt<wchar_t, char, mbstate_t> { public: typedef wchar_t intern_type; typedef char extern_type; typedef mbstate_t state_type; protected: __codecvt_utf8_base(unsigned long __maxcode, codecvt_mode __mode, size_t __refs) : codecvt(__refs), _M_maxcode(__maxcode), _M_mode(__mode) { } virtual ~__codecvt_utf8_base(); virtual result do_out(state_type& __state, const intern_type* __from, const intern_type* __from_end, const intern_type*& __from_next, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_unshift(state_type& __state, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_in(state_type& __state, const extern_type* __from, const extern_type* __from_end, const extern_type*& __from_next, intern_type* __to, intern_type* __to_end, intern_type*& __to_next) const; virtual int do_encoding() const throw(); virtual bool do_always_noconv() const throw(); virtual int do_length(state_type&, const extern_type* __from, const extern_type* __end, size_t __max) const; virtual int do_max_length() const throw(); private: unsigned long _M_maxcode; codecvt_mode _M_mode; }; template<unsigned long _Maxcode, codecvt_mode _Mode> class codecvt_utf8<wchar_t, _Maxcode, _Mode> : public __codecvt_utf8_base<wchar_t> { public: explicit codecvt_utf8(size_t __refs = 0) : __codecvt_utf8_base<wchar_t>(std::min(_Maxcode, 0x10fffful), _Mode, __refs) { } };
+  template<> class __codecvt_utf16_base<wchar_t> : public codecvt<wchar_t, char, mbstate_t> { public: typedef wchar_t intern_type; typedef char extern_type; typedef mbstate_t state_type; protected: __codecvt_utf16_base(unsigned long __maxcode, codecvt_mode __mode, size_t __refs) : codecvt(__refs), _M_maxcode(__maxcode), _M_mode(__mode) { } virtual ~__codecvt_utf16_base(); virtual result do_out(state_type& __state, const intern_type* __from, const intern_type* __from_end, const intern_type*& __from_next, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_unshift(state_type& __state, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_in(state_type& __state, const extern_type* __from, const extern_type* __from_end, const extern_type*& __from_next, intern_type* __to, intern_type* __to_end, intern_type*& __to_next) const; virtual int do_encoding() const throw(); virtual bool do_always_noconv() const throw(); virtual int do_length(state_type&, const extern_type* __from, const extern_type* __end, size_t __max) const; virtual int do_max_length() const throw(); private: unsigned long _M_maxcode; codecvt_mode _M_mode; }; template<unsigned long _Maxcode, codecvt_mode _Mode> class codecvt_utf16<wchar_t, _Maxcode, _Mode> : public __codecvt_utf16_base<wchar_t> { public: explicit codecvt_utf16(size_t __refs = 0) : __codecvt_utf16_base<wchar_t>(std::min(_Maxcode, 0x10fffful), _Mode, __refs) { } };
+  template<> class __codecvt_utf8_utf16_base<wchar_t> : public codecvt<wchar_t, char, mbstate_t> { public: typedef wchar_t intern_type; typedef char extern_type; typedef mbstate_t state_type; protected: __codecvt_utf8_utf16_base(unsigned long __maxcode, codecvt_mode __mode, size_t __refs) : codecvt(__refs), _M_maxcode(__maxcode), _M_mode(__mode) { } virtual ~__codecvt_utf8_utf16_base(); virtual result do_out(state_type& __state, const intern_type* __from, const intern_type* __from_end, const intern_type*& __from_next, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_unshift(state_type& __state, extern_type* __to, extern_type* __to_end, extern_type*& __to_next) const; virtual result do_in(state_type& __state, const extern_type* __from, const extern_type* __from_end, const extern_type*& __from_next, intern_type* __to, intern_type* __to_end, intern_type*& __to_next) const; virtual int do_encoding() const throw(); virtual bool do_always_noconv() const throw(); virtual int do_length(state_type&, const extern_type* __from, const extern_type* __end, size_t __max) const; virtual int do_max_length() const throw(); private: unsigned long _M_maxcode; codecvt_mode _M_mode; }; template<unsigned long _Maxcode, codecvt_mode _Mode> class codecvt_utf8_utf16<wchar_t, _Maxcode, _Mode> : public __codecvt_utf8_utf16_base<wchar_t> { public: explicit codecvt_utf8_utf16(size_t __refs = 0) : __codecvt_utf8_utf16_base<wchar_t>(std::min(_Maxcode, 0x10fffful), _Mode, __refs) { } };
+
+
+
+}
+# 40 "/usr/include/c++/15.2.1/bits/fs_path.h" 2 3
+# 57 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+namespace filesystem
+{
+namespace __cxx11 {
+
+  class path;
+
+
+namespace __detail
+{
+
+
+  template<typename _CharT>
+    inline constexpr bool __is_encoded_char = false;
+  template<>
+    inline constexpr bool __is_encoded_char<char> = true;
+
+  template<>
+    inline constexpr bool __is_encoded_char<char8_t> = true;
+
+
+  template<>
+    inline constexpr bool __is_encoded_char<wchar_t> = true;
+
+  template<>
+    inline constexpr bool __is_encoded_char<char16_t> = true;
+  template<>
+    inline constexpr bool __is_encoded_char<char32_t> = true;
+
+
+  template<typename _Iter>
+    using __safe_iterator_traits = std::iterator_traits<_Iter>;
+# 104 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+  template<typename _Iter_traits, typename = void>
+    inline constexpr bool __is_path_iter_src = false;
+
+  template<typename _Iter_traits>
+    inline constexpr bool
+    __is_path_iter_src<_Iter_traits, void_t<typename _Iter_traits::value_type>>
+      = __is_encoded_char<typename _Iter_traits::value_type>;
+
+  template<typename _Source>
+    inline constexpr bool __is_path_src
+      = __is_path_iter_src<iterator_traits<decay_t<_Source>>>;
+
+  template<>
+    inline constexpr bool __is_path_src<path> = false;
+
+  template<>
+    inline constexpr bool __is_path_src<volatile path> = false;
+
+  template<>
+    inline constexpr bool __is_path_src<void*> = false;
+
+  template<>
+    inline constexpr bool __is_path_src<const void*> = false;
+
+  template<>
+    inline constexpr bool __is_path_src<volatile void*> = false;
+
+  template<>
+    inline constexpr bool __is_path_src<const volatile void*> = false;
+
+  template<typename _CharT, typename _Traits, typename _Alloc>
+    inline constexpr bool
+      __is_path_src<basic_string<_CharT, _Traits, _Alloc>>
+ = __is_encoded_char<_CharT>;
+
+  template<typename _CharT, typename _Traits>
+    inline constexpr bool
+      __is_path_src<basic_string_view<_CharT, _Traits>>
+ = __is_encoded_char<_CharT>;
+
+
+  template<typename _Tp>
+    using _Path = enable_if_t<__is_path_src<_Tp>, path>;
+
+
+  template<typename _Iter, typename _Tr = __safe_iterator_traits<_Iter>>
+    using _Path2 = enable_if_t<__is_path_iter_src<_Tr>, path>;
+
+
+  template<typename _Iter>
+    constexpr bool __is_contiguous = std::contiguous_iterator<_Iter>;
+
+
+
+
+
+  template<typename _Tp>
+    constexpr bool __is_contiguous<_Tp*> = true;
+
+  template<typename _Tp, typename _Seq>
+    constexpr bool
+    __is_contiguous<__gnu_cxx::__normal_iterator<_Tp*, _Seq>> = true;
+
+
+
+  template<typename _EcharT>
+    using __unified_u8_t
+      = __conditional_t<is_same_v<_EcharT, char8_t>, char, _EcharT>;
+# 181 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+  template<typename _CharT, typename _Traits, typename _Alloc>
+    inline basic_string_view<_CharT>
+    __effective_range(const basic_string<_CharT, _Traits, _Alloc>& __source)
+    noexcept
+    { return __source; }
+
+  template<typename _CharT, typename _Traits>
+    inline basic_string_view<_CharT>
+    __effective_range(const basic_string_view<_CharT, _Traits>& __source)
+    noexcept
+    { return __source; }
+
+
+  template<typename _Source>
+    auto
+    __effective_range(const _Source& __source)
+    {
+
+      using _Iter = decltype(std::__niter_base(__source));
+      using value_type = typename iterator_traits<_Iter>::value_type;
+
+      if constexpr (__is_contiguous<_Iter>)
+ return basic_string_view<value_type>{&*__source};
+      else
+ {
+
+
+   basic_string<__unified_u8_t<value_type>> __str;
+   _Source __it = __source;
+   for (value_type __ch = *__it; __ch != value_type(); __ch = *++__it)
+     __str.push_back(__ch);
+   return __str;
+ }
+    }
+
+
+  template<typename _Source>
+    struct __source_value_type_impl
+    {
+      using type
+ = typename __safe_iterator_traits<decay_t<_Source>>::value_type;
+    };
+
+  template<typename _CharT, typename _Traits, typename _Alloc>
+    struct __source_value_type_impl<basic_string<_CharT, _Traits, _Alloc>>
+    {
+      using type = _CharT;
+    };
+
+  template<typename _CharT, typename _Traits>
+    struct __source_value_type_impl<basic_string_view<_CharT, _Traits>>
+    {
+      using type = _CharT;
+    };
+
+
+  template<typename _Source>
+    using __source_value_t = typename __source_value_type_impl<_Source>::type;
+
+
+
+
+  template<typename _Tp, typename _Val = __source_value_t<_Tp>>
+    using __value_type_is_char
+      = std::enable_if_t<std::is_same_v<_Val, char>, _Val>;
+
+
+
+  template<typename _Tp, typename _Val = __source_value_t<_Tp>>
+    using __value_type_is_char_or_char8_t
+      = std::enable_if_t<std::is_same_v<_Val, char>
+
+    || std::is_same_v<_Val, char8_t>
+
+    , _Val>;
+
+
+  template<typename _InputIterator>
+    inline auto
+    __string_from_range(_InputIterator __first, _InputIterator __last)
+    {
+      using _EcharT
+ = typename std::iterator_traits<_InputIterator>::value_type;
+      static_assert(__is_encoded_char<_EcharT>);
+
+      if constexpr (__is_contiguous<_InputIterator>)
+ {
+
+   if (auto __len = __last - __first) [[__likely__]]
+     return basic_string_view<_EcharT>(&*__first, __len);
+   return basic_string_view<_EcharT>();
+ }
+      else
+ {
+
+   return basic_string<__unified_u8_t<_EcharT>>(__first, __last);
+ }
+    }
+
+
+}
+# 293 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+  class path
+  {
+  public:
+# 304 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+    using value_type = char;
+
+    static constexpr value_type preferred_separator = '/';
+
+    using string_type = std::basic_string<value_type>;
+
+
+    enum format : unsigned char { native_format, generic_format, auto_format };
+
+
+
+    path() noexcept { }
+
+    path(const path& __p) = default;
+
+    path(path&& __p) noexcept
+    : _M_pathname(std::move(__p._M_pathname)),
+      _M_cmpts(std::move(__p._M_cmpts))
+    { __p.clear(); }
+
+    path(string_type&& __source, format = auto_format)
+    : _M_pathname(std::move(__source))
+    { _M_split_cmpts(); }
+
+    template<typename _Source,
+      typename _Require = __detail::_Path<_Source>>
+      path(_Source const& __source, format = auto_format)
+      : _M_pathname(_S_convert(__detail::__effective_range(__source)))
+      { _M_split_cmpts(); }
+
+    template<typename _InputIterator,
+      typename _Require = __detail::_Path2<_InputIterator>>
+      path(_InputIterator __first, _InputIterator __last, format = auto_format)
+      : _M_pathname(_S_convert(__detail::__string_from_range(__first, __last)))
+      { _M_split_cmpts(); }
+
+    template<typename _Source,
+      typename _Require = __detail::_Path<_Source>,
+      typename _Require2 = __detail::__value_type_is_char<_Source>>
+      path(_Source const& __src, const locale& __loc, format = auto_format)
+      : _M_pathname(_S_convert_loc(__detail::__effective_range(__src), __loc))
+      { _M_split_cmpts(); }
+
+    template<typename _InputIterator,
+      typename _Require = __detail::_Path2<_InputIterator>,
+      typename _Req2 = __detail::__value_type_is_char<_InputIterator>>
+      path(_InputIterator __first, _InputIterator __last, const locale& __loc,
+    format = auto_format)
+      : _M_pathname(_S_convert_loc(__first, __last, __loc))
+      { _M_split_cmpts(); }
+
+    ~path() = default;
+
+
+
+    path& operator=(const path&);
+    path& operator=(path&&) noexcept;
+    path& operator=(string_type&& __source);
+    path& assign(string_type&& __source);
+
+    template<typename _Source>
+      __detail::_Path<_Source>&
+      operator=(_Source const& __source)
+      { return *this = path(__source); }
+
+    template<typename _Source>
+      __detail::_Path<_Source>&
+      assign(_Source const& __source)
+      { return *this = path(__source); }
+
+    template<typename _InputIterator>
+      __detail::_Path2<_InputIterator>&
+      assign(_InputIterator __first, _InputIterator __last)
+      { return *this = path(__first, __last); }
+
+
+
+    path& operator/=(const path& __p);
+
+    template<typename _Source>
+      __detail::_Path<_Source>&
+      operator/=(_Source const& __source)
+      {
+ _M_append(_S_convert(__detail::__effective_range(__source)));
+ return *this;
+      }
+
+    template<typename _Source>
+      __detail::_Path<_Source>&
+      append(_Source const& __source)
+      {
+ _M_append(_S_convert(__detail::__effective_range(__source)));
+ return *this;
+      }
+
+    template<typename _InputIterator>
+      __detail::_Path2<_InputIterator>&
+      append(_InputIterator __first, _InputIterator __last)
+      {
+ _M_append(_S_convert(__detail::__string_from_range(__first, __last)));
+ return *this;
+      }
+
+
+
+    path& operator+=(const path& __x);
+    path& operator+=(const string_type& __x);
+    path& operator+=(const value_type* __x);
+    path& operator+=(value_type __x);
+    path& operator+=(basic_string_view<value_type> __x);
+
+    template<typename _Source>
+      __detail::_Path<_Source>&
+      operator+=(_Source const& __x) { return concat(__x); }
+
+    template<typename _CharT>
+      __detail::_Path2<_CharT*>&
+      operator+=(_CharT __x);
+
+    template<typename _Source>
+      __detail::_Path<_Source>&
+      concat(_Source const& __x)
+      {
+ _M_concat(_S_convert(__detail::__effective_range(__x)));
+ return *this;
+      }
+
+    template<typename _InputIterator>
+      __detail::_Path2<_InputIterator>&
+      concat(_InputIterator __first, _InputIterator __last)
+      {
+ _M_concat(_S_convert(__detail::__string_from_range(__first, __last)));
+ return *this;
+      }
+
+
+
+    void clear() noexcept { _M_pathname.clear(); _M_split_cmpts(); }
+
+    path& make_preferred();
+    path& remove_filename();
+    path& replace_filename(const path& __replacement);
+    path& replace_extension(const path& __replacement = path());
+
+    void swap(path& __rhs) noexcept;
+
+
+
+    const string_type& native() const noexcept { return _M_pathname; }
+    const value_type* c_str() const noexcept { return _M_pathname.c_str(); }
+    operator string_type() const { return _M_pathname; }
+
+    template<typename _CharT, typename _Traits = std::char_traits<_CharT>,
+      typename _Allocator = std::allocator<_CharT>>
+      std::basic_string<_CharT, _Traits, _Allocator>
+      string(const _Allocator& __a = _Allocator()) const;
+
+    std::string string() const;
+
+    std::wstring wstring() const;
+
+
+    __attribute__((__abi_tag__("__u8")))
+    std::u8string u8string() const;
+
+
+
+    std::u16string u16string() const;
+    std::u32string u32string() const;
+
+
+    template<typename _CharT, typename _Traits = std::char_traits<_CharT>,
+      typename _Allocator = std::allocator<_CharT>>
+      std::basic_string<_CharT, _Traits, _Allocator>
+      generic_string(const _Allocator& __a = _Allocator()) const;
+
+    std::string generic_string() const;
+
+    std::wstring generic_wstring() const;
+
+
+    __attribute__((__abi_tag__("__u8")))
+    std::u8string generic_u8string() const;
+
+
+
+    std::u16string generic_u16string() const;
+    std::u32string generic_u32string() const;
+
+
+
+    int compare(const path& __p) const noexcept;
+    int compare(const string_type& __s) const noexcept;
+    int compare(const value_type* __s) const noexcept;
+    int compare(basic_string_view<value_type> __s) const noexcept;
+
+
+
+    path root_name() const;
+    path root_directory() const;
+    path root_path() const;
+    path relative_path() const;
+    path parent_path() const;
+    path filename() const;
+    path stem() const;
+    path extension() const;
+
+
+
+    [[nodiscard]] bool empty() const noexcept { return _M_pathname.empty(); }
+    bool has_root_name() const noexcept;
+    bool has_root_directory() const noexcept;
+    bool has_root_path() const noexcept;
+    bool has_relative_path() const noexcept;
+    bool has_parent_path() const noexcept;
+    bool has_filename() const noexcept;
+    bool has_stem() const noexcept;
+    bool has_extension() const noexcept;
+    bool is_absolute() const noexcept;
+    bool is_relative() const noexcept { return !is_absolute(); }
+
+
+    path lexically_normal() const;
+    path lexically_relative(const path& base) const;
+    path lexically_proximate(const path& base) const;
+
+
+    class iterator;
+    using const_iterator = iterator;
+
+    iterator begin() const noexcept;
+    iterator end() const noexcept;
+
+
+    template<typename _CharT, typename _Traits>
+      friend std::basic_ostream<_CharT, _Traits>&
+      operator<<(std::basic_ostream<_CharT, _Traits>& __os, const path& __p)
+      {
+ __os << std::quoted(__p.string<_CharT, _Traits>());
+ return __os;
+      }
+
+
+    template<typename _CharT, typename _Traits>
+      friend std::basic_istream<_CharT, _Traits>&
+      operator>>(std::basic_istream<_CharT, _Traits>& __is, path& __p)
+      {
+ std::basic_string<_CharT, _Traits> __tmp;
+ if (__is >> std::quoted(__tmp))
+   __p = std::move(__tmp);
+ return __is;
+      }
+
+
+
+
+    friend bool operator==(const path& __lhs, const path& __rhs) noexcept
+    { return path::_S_compare(__lhs, __rhs) == 0; }
+
+
+
+    friend strong_ordering
+    operator<=>(const path& __lhs, const path& __rhs) noexcept
+    { return path::_S_compare(__lhs, __rhs) <=> 0; }
+# 591 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+    friend path operator/(const path& __lhs, const path& __rhs)
+    {
+      path __result(__lhs);
+      __result /= __rhs;
+      return __result;
+    }
+
+  private:
+    enum class _Type : unsigned char {
+      _Multi = 0, _Root_name, _Root_dir, _Filename
+    };
+
+    path(basic_string_view<value_type> __str, _Type __type);
+
+    enum class _Split { _Stem, _Extension };
+
+    void _M_append(basic_string_view<value_type>);
+    void _M_concat(basic_string_view<value_type>);
+
+    pair<const string_type*, size_t> _M_find_extension() const noexcept;
+
+
+
+
+
+    template<typename _Tp>
+      static auto
+      _S_convert(_Tp __str)
+      noexcept(is_same_v<typename _Tp::value_type, value_type>)
+      {
+ if constexpr (is_same_v<typename _Tp::value_type, value_type>)
+   return __str;
+
+ else if constexpr (is_same_v<_Tp, std::u8string>)
+
+
+
+   return string_type(_S_convert(__str.data(),
+     __str.data() + __str.size()));
+
+ else
+   return _S_convert(__str.data(), __str.data() + __str.size());
+      }
+
+    template<typename _EcharT>
+      static auto
+      _S_convert(const _EcharT* __first, const _EcharT* __last);
+
+
+
+
+    static string_type
+    _S_convert_loc(const char* __first, const char* __last,
+     const std::locale& __loc);
+
+    template<typename _Iter>
+      static string_type
+      _S_convert_loc(_Iter __first, _Iter __last, const std::locale& __loc)
+      {
+ const auto __s = __detail::__string_from_range(__first, __last);
+ return _S_convert_loc(__s.data(), __s.data() + __s.size(), __loc);
+      }
+
+    template<typename _Tp>
+      static string_type
+      _S_convert_loc(const _Tp& __s, const std::locale& __loc)
+      {
+ return _S_convert_loc(__s.data(), __s.data() + __s.size(), __loc);
+      }
+
+    template<typename _CharT, typename _Traits, typename _Allocator>
+      static basic_string<_CharT, _Traits, _Allocator>
+      _S_str_convert(basic_string_view<value_type>, const _Allocator&);
+
+
+    __attribute__((__always_inline__))
+    static int
+    _S_compare(const path& __lhs, const path& __rhs) noexcept;
+
+    void _M_split_cmpts();
+
+    _Type _M_type() const noexcept { return _M_cmpts.type(); }
+
+    string_type _M_pathname;
+
+    struct _Cmpt;
+
+    struct _List
+    {
+      using value_type = _Cmpt;
+      using iterator = value_type*;
+      using const_iterator = const value_type*;
+
+      _List();
+      _List(const _List&);
+      _List(_List&&) = default;
+      _List& operator=(const _List&);
+      _List& operator=(_List&&) = default;
+      ~_List() = default;
+
+      _Type type() const noexcept
+      { return _Type(reinterpret_cast<long unsigned int>(_M_impl.get()) & 0x3); }
+
+      void type(_Type) noexcept;
+
+      int size() const noexcept;
+      bool empty() const noexcept;
+      void clear();
+      void swap(_List& __l) noexcept { _M_impl.swap(__l._M_impl); }
+      int capacity() const noexcept;
+      void reserve(int, bool);
+
+
+
+
+      iterator begin() noexcept;
+      iterator end() noexcept;
+      const_iterator begin() const noexcept;
+      const_iterator end() const noexcept;
+
+      value_type& front() noexcept;
+      value_type& back() noexcept;
+      const value_type& front() const noexcept;
+      const value_type& back() const noexcept;
+
+      void pop_back();
+      void _M_erase_from(const_iterator __pos);
+
+      struct _Impl;
+      struct _Impl_deleter
+      {
+ void operator()(_Impl*) const noexcept;
+      };
+      unique_ptr<_Impl, _Impl_deleter> _M_impl;
+    };
+    _List _M_cmpts;
+
+    struct _Parser;
+
+    template<typename _EcharT> struct _Codecvt;
+  };
+
+
+
+
+  inline void swap(path& __lhs, path& __rhs) noexcept { __lhs.swap(__rhs); }
+
+  size_t hash_value(const path& __p) noexcept;
+# 747 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+  class filesystem_error : public std::system_error
+  {
+  public:
+    filesystem_error(const string& __what_arg, error_code __ec);
+
+    filesystem_error(const string& __what_arg, const path& __p1,
+       error_code __ec);
+
+    filesystem_error(const string& __what_arg, const path& __p1,
+       const path& __p2, error_code __ec);
+
+    filesystem_error(const filesystem_error&) = default;
+    filesystem_error& operator=(const filesystem_error&) = default;
+
+
+
+
+    ~filesystem_error();
+
+    const path& path1() const noexcept;
+    const path& path2() const noexcept;
+    const char* what() const noexcept;
+
+  private:
+    struct _Impl;
+    std::__shared_ptr<const _Impl> _M_impl;
+  };
+
+
+namespace __detail
+{
+  [[noreturn]] inline void
+  __throw_conversion_error()
+  {
+    (throw (filesystem_error( "Cannot convert character sequence", std::make_error_code(errc::illegal_byte_sequence))))
+
+                                                     ;
+  }
+# 802 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+}
+# 812 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+  template<typename _InputIterator,
+    typename _Require = __detail::_Path2<_InputIterator>,
+    typename _CharT
+      = __detail::__value_type_is_char_or_char8_t<_InputIterator>>
+    __attribute__ ((__deprecated__ ("use '" "path(u8string(first, last))" "' instead")))
+    inline path
+    u8path(_InputIterator __first, _InputIterator __last)
+    {
+# 828 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+      return path{ __first, __last };
+
+    }
+
+
+
+
+
+
+
+  template<typename _Source,
+    typename _Require = __detail::_Path<_Source>,
+    typename _CharT = __detail::__value_type_is_char_or_char8_t<_Source>>
+    __attribute__ ((__deprecated__ ("use '" "path((const char8_t*)&*source)" "' instead")))
+    inline path
+    u8path(const _Source& __source)
+    {
+# 853 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+      return path{ __source };
+
+    }
+
+
+
+  struct path::_Cmpt : path
+  {
+    _Cmpt(basic_string_view<value_type> __s, _Type __t, size_t __pos);
+
+    _Cmpt() : _M_pos(-1) { }
+
+    size_t _M_pos;
+  };
+
+
+
+
+
+
+
+  template<typename _EcharT>
+    struct path::_Codecvt
+
+    : std::codecvt<_EcharT, char, mbstate_t>
+    { };
+# 887 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+  template<>
+    struct path::_Codecvt<wchar_t>
+    : __conditional_t<sizeof(wchar_t) == sizeof(char32_t),
+        std::codecvt_utf8<wchar_t>,
+        std::codecvt_utf8_utf16<wchar_t>>
+    { };
+
+  template<typename _EcharT>
+    auto
+    path::_S_convert(const _EcharT* __f, const _EcharT* __l)
+    {
+      static_assert(__detail::__is_encoded_char<_EcharT>);
+
+
+
+
+
+
+
+      if constexpr (is_same_v<_EcharT, value_type>)
+ return basic_string_view<value_type>(__f, __l - __f);
+
+      else if constexpr (is_same_v<_EcharT, char8_t>)
+ {
+   string_view __str(reinterpret_cast<const char*>(__f), __l - __f);
+   return __str;
+ }
+# 924 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+      else
+ {
+   path::_Codecvt<_EcharT> __cvt;
+   std::string __str;
+   if (__str_codecvt_out_all(__f, __l, __str, __cvt))
+     return __str;
+ }
+      __detail::__throw_conversion_error();
+    }
+# 942 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+  class path::iterator
+  {
+  public:
+    using difference_type = std::ptrdiff_t;
+    using value_type = path;
+    using reference = const path&;
+    using pointer = const path*;
+    using iterator_category = std::bidirectional_iterator_tag;
+
+    iterator() noexcept : _M_path(nullptr), _M_cur(), _M_at_end() { }
+
+    iterator(const iterator&) = default;
+    iterator& operator=(const iterator&) = default;
+
+    reference operator*() const noexcept;
+    pointer operator->() const noexcept { return std::__addressof(**this); }
+
+    iterator& operator++() noexcept;
+
+    iterator operator++(int) noexcept
+    { auto __tmp = *this; ++*this; return __tmp; }
+
+    iterator& operator--() noexcept;
+
+    iterator operator--(int) noexcept
+    { auto __tmp = *this; --*this; return __tmp; }
+
+    friend bool
+    operator==(const iterator& __lhs, const iterator& __rhs) noexcept
+    { return __lhs._M_equals(__rhs); }
+
+    friend bool
+    operator!=(const iterator& __lhs, const iterator& __rhs) noexcept
+    { return !__lhs._M_equals(__rhs); }
+
+  private:
+    friend class path;
+
+    bool
+    _M_is_multi() const noexcept
+    { return _M_path->_M_type() == _Type::_Multi; }
+
+    friend difference_type
+    __path_iter_distance(const iterator& __first, const iterator& __last)
+    noexcept
+    {
+      do { if (__builtin_expect(!bool(__first._M_path != nullptr), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/fs_path.h", 988, __PRETTY_FUNCTION__, "__first._M_path != nullptr"); } while (false);
+      do { if (__builtin_expect(!bool(__first._M_path == __last._M_path), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/fs_path.h", 989, __PRETTY_FUNCTION__, "__first._M_path == __last._M_path"); } while (false);
+      if (__first._M_is_multi())
+ return std::distance(__first._M_cur, __last._M_cur);
+      else if (__first._M_at_end == __last._M_at_end)
+ return 0;
+      else
+ return __first._M_at_end ? -1 : 1;
+    }
+
+    friend void
+    __path_iter_advance(iterator& __i, difference_type __n) noexcept
+    {
+      if (__n == 1)
+ ++__i;
+      else if (__n == -1)
+ --__i;
+      else if (__n != 0)
+ {
+   do { if (__builtin_expect(!bool(__i._M_path != nullptr), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/fs_path.h", 1007, __PRETTY_FUNCTION__, "__i._M_path != nullptr"); } while (false);
+   do { if (__builtin_expect(!bool(__i._M_is_multi()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/fs_path.h", 1008, __PRETTY_FUNCTION__, "__i._M_is_multi()"); } while (false);
+
+   __i._M_cur += __n;
+ }
+    }
+
+    iterator(const path* __path, path::_List::const_iterator __iter) noexcept
+    : _M_path(__path), _M_cur(__iter), _M_at_end()
+    { }
+
+    iterator(const path* __path, bool __at_end) noexcept
+    : _M_path(__path), _M_cur(), _M_at_end(__at_end)
+    { }
+
+    bool _M_equals(iterator) const noexcept;
+
+    const path* _M_path;
+    path::_List::const_iterator _M_cur;
+    bool _M_at_end;
+  };
+
+
+  inline path&
+  path::operator=(path&& __p) noexcept
+  {
+    if (&__p == this) [[__unlikely__]]
+      return *this;
+
+    _M_pathname = std::move(__p._M_pathname);
+    _M_cmpts = std::move(__p._M_cmpts);
+    __p.clear();
+    return *this;
+  }
+
+  inline path&
+  path::operator=(string_type&& __source)
+  { return *this = path(std::move(__source)); }
+
+  inline path&
+  path::assign(string_type&& __source)
+  { return *this = path(std::move(__source)); }
+
+  inline path&
+  path::operator+=(const string_type& __x)
+  {
+    _M_concat(__x);
+    return *this;
+  }
+
+  inline path&
+  path::operator+=(const value_type* __x)
+  {
+    _M_concat(__x);
+    return *this;
+  }
+
+  inline path&
+  path::operator+=(value_type __x)
+  {
+    _M_concat(basic_string_view<value_type>(&__x, 1));
+    return *this;
+  }
+
+  inline path&
+  path::operator+=(basic_string_view<value_type> __x)
+  {
+    _M_concat(__x);
+    return *this;
+  }
+
+  template<typename _CharT>
+    inline __detail::_Path2<_CharT*>&
+    path::operator+=(const _CharT __x)
+    {
+      _M_concat(_S_convert(&__x, &__x + 1));
+      return *this;
+    }
+
+  inline path&
+  path::make_preferred()
+  {
+# 1097 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+    return *this;
+  }
+
+  inline void path::swap(path& __rhs) noexcept
+  {
+    _M_pathname.swap(__rhs._M_pathname);
+    _M_cmpts.swap(__rhs._M_cmpts);
+  }
+
+
+  template<typename _CharT, typename _Traits, typename _Allocator>
+    std::basic_string<_CharT, _Traits, _Allocator>
+    path::_S_str_convert(basic_string_view<value_type> __str,
+    const _Allocator& __a)
+    {
+      static_assert(!is_same_v<_CharT, value_type>);
+
+      using _WString = basic_string<_CharT, _Traits, _Allocator>;
+
+      if (__str.size() == 0)
+ return _WString(__a);
+
+
+      string_view __u8str = __str;
+# 1137 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+ {
+   const char* __first = __u8str.data();
+   const char* __last = __first + __u8str.size();
+
+
+
+   if constexpr (is_same_v<_CharT, char8_t>)
+     return _WString(__first, __last, __a);
+   else
+
+     {
+
+       _WString __wstr(__a);
+       path::_Codecvt<_CharT> __cvt;
+       if (__str_codecvt_in_all(__first, __last, __wstr, __cvt))
+  return __wstr;
+     }
+ }
+      __detail::__throw_conversion_error();
+    }
+
+
+  template<typename _CharT, typename _Traits, typename _Allocator>
+    inline basic_string<_CharT, _Traits, _Allocator>
+    path::string(const _Allocator& __a) const
+    {
+      if constexpr (is_same_v<_CharT, value_type>)
+ return { _M_pathname.c_str(), _M_pathname.length(), __a };
+      else
+ return _S_str_convert<_CharT, _Traits>(_M_pathname, __a);
+    }
+
+  inline std::string
+  path::string() const { return string<char>(); }
+
+
+  inline std::wstring
+  path::wstring() const { return string<wchar_t>(); }
+
+
+
+  inline std::u8string
+  path::u8string() const { return string<char8_t>(); }
+# 1199 "/usr/include/c++/15.2.1/bits/fs_path.h" 3
+  inline std::u16string
+  path::u16string() const { return string<char16_t>(); }
+
+  inline std::u32string
+  path::u32string() const { return string<char32_t>(); }
+
+  template<typename _CharT, typename _Traits, typename _Allocator>
+    inline std::basic_string<_CharT, _Traits, _Allocator>
+    path::generic_string(const _Allocator& __a) const
+    {
+
+
+
+      const value_type __slash = '/';
+
+      using _Alloc2 = typename allocator_traits<_Allocator>::template
+ rebind_alloc<value_type>;
+      basic_string<value_type, char_traits<value_type>, _Alloc2> __str(__a);
+
+      if (_M_type() == _Type::_Root_dir)
+ __str.assign(1, __slash);
+      else
+ {
+   __str.reserve(_M_pathname.size());
+   bool __add_slash = false;
+   for (auto& __elem : *this)
+     {
+
+
+
+
+
+
+
+       if (__add_slash)
+  __str += __slash;
+       __str += basic_string_view<value_type>(__elem._M_pathname);
+       __add_slash = __elem._M_type() == _Type::_Filename;
+     }
+ }
+
+      if constexpr (is_same_v<_CharT, value_type>)
+ return __str;
+      else
+ return _S_str_convert<_CharT, _Traits>(__str, __a);
+    }
+
+  inline std::string
+  path::generic_string() const
+  { return generic_string<char>(); }
+
+
+  inline std::wstring
+  path::generic_wstring() const
+  { return generic_string<wchar_t>(); }
+
+
+
+  inline std::u8string
+  path::generic_u8string() const
+  { return generic_string<char8_t>(); }
+
+
+
+
+
+
+  inline std::u16string
+  path::generic_u16string() const
+  { return generic_string<char16_t>(); }
+
+  inline std::u32string
+  path::generic_u32string() const
+  { return generic_string<char32_t>(); }
+
+  inline int
+  path::compare(const string_type& __s) const noexcept
+  { return compare(basic_string_view<value_type>(__s)); }
+
+  inline int
+  path::compare(const value_type* __s) const noexcept
+  { return compare(basic_string_view<value_type>(__s)); }
+
+  inline path
+  path::filename() const
+  {
+    if (empty())
+      return {};
+    else if (_M_type() == _Type::_Filename)
+      return *this;
+    else if (_M_type() == _Type::_Multi)
+      {
+ if (_M_pathname.back() == preferred_separator)
+   return {};
+ auto __last = --end();
+ if (__last->_M_type() == _Type::_Filename)
+   return *__last;
+      }
+    return {};
+  }
+
+  inline path
+  path::stem() const
+  {
+    auto ext = _M_find_extension();
+    if (ext.first && ext.second != 0)
+      return path{ext.first->substr(0, ext.second)};
+    return {};
+  }
+
+  inline path
+  path::extension() const
+  {
+    auto ext = _M_find_extension();
+    if (ext.first && ext.second != string_type::npos)
+      return path{ext.first->substr(ext.second)};
+    return {};
+  }
+
+  inline bool
+  path::has_stem() const noexcept
+  {
+    auto ext = _M_find_extension();
+    return ext.first && ext.second != 0;
+  }
+
+  inline bool
+  path::has_extension() const noexcept
+  {
+    auto ext = _M_find_extension();
+    return ext.first && ext.second != string_type::npos;
+  }
+
+  inline bool
+  path::is_absolute() const noexcept
+  {
+
+
+
+    return has_root_directory();
+
+  }
+
+  inline path::iterator
+  path::begin() const noexcept
+  {
+    if (_M_type() == _Type::_Multi)
+      return iterator(this, _M_cmpts.begin());
+    return iterator(this, empty());
+  }
+
+  inline path::iterator
+  path::end() const noexcept
+  {
+    if (_M_type() == _Type::_Multi)
+      return iterator(this, _M_cmpts.end());
+    return iterator(this, true);
+  }
+
+  inline path::iterator&
+  path::iterator::operator++() noexcept
+  {
+    do { if (__builtin_expect(!bool(_M_path != nullptr), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/fs_path.h", 1361, __PRETTY_FUNCTION__, "_M_path != nullptr"); } while (false);
+    if (_M_is_multi())
+      {
+ do { if (__builtin_expect(!bool(_M_cur != _M_path->_M_cmpts.end()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/fs_path.h", 1364, __PRETTY_FUNCTION__, "_M_cur != _M_path->_M_cmpts.end()"); } while (false);
+ ++_M_cur;
+      }
+    else
+      {
+ do { if (__builtin_expect(!bool(!_M_at_end), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/fs_path.h", 1369, __PRETTY_FUNCTION__, "!_M_at_end"); } while (false);
+ _M_at_end = true;
+      }
+    return *this;
+  }
+
+  inline path::iterator&
+  path::iterator::operator--() noexcept
+  {
+    do { if (__builtin_expect(!bool(_M_path != nullptr), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/fs_path.h", 1378, __PRETTY_FUNCTION__, "_M_path != nullptr"); } while (false);
+    if (_M_is_multi())
+      {
+ do { if (__builtin_expect(!bool(_M_cur != _M_path->_M_cmpts.begin()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/fs_path.h", 1381, __PRETTY_FUNCTION__, "_M_cur != _M_path->_M_cmpts.begin()"); } while (false);
+ --_M_cur;
+      }
+    else
+      {
+ do { if (__builtin_expect(!bool(_M_at_end), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/fs_path.h", 1386, __PRETTY_FUNCTION__, "_M_at_end"); } while (false);
+ _M_at_end = false;
+      }
+    return *this;
+  }
+
+  inline path::iterator::reference
+  path::iterator::operator*() const noexcept
+  {
+    do { if (__builtin_expect(!bool(_M_path != nullptr), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/fs_path.h", 1395, __PRETTY_FUNCTION__, "_M_path != nullptr"); } while (false);
+    if (_M_is_multi())
+      {
+ do { if (__builtin_expect(!bool(_M_cur != _M_path->_M_cmpts.end()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/fs_path.h", 1398, __PRETTY_FUNCTION__, "_M_cur != _M_path->_M_cmpts.end()"); } while (false);
+ return *_M_cur;
+      }
+    return *_M_path;
+  }
+
+  inline bool
+  path::iterator::_M_equals(iterator __rhs) const noexcept
+  {
+    if (_M_path != __rhs._M_path)
+      return false;
+    if (_M_path == nullptr)
+      return true;
+    if (_M_is_multi())
+      return _M_cur == __rhs._M_cur;
+    return _M_at_end == __rhs._M_at_end;
+  }
+
+
+
+
+
+  inline int
+  path::_S_compare(const path& __lhs, const path& __rhs) noexcept
+  { return __lhs.compare(__rhs); }
+
+
+}
+}
+
+
+
+inline ptrdiff_t
+distance(filesystem::path::iterator __first, filesystem::path::iterator __last)
+noexcept
+{ return __path_iter_distance(__first, __last); }
+
+template<typename _Distance>
+  inline void
+  advance(filesystem::path::iterator& __i, _Distance __n) noexcept
+  { __path_iter_advance(__i, static_cast<ptrdiff_t>(__n)); }
+
+extern template class __shared_ptr<const filesystem::filesystem_error::_Impl>;
+
+
+
+
+
+template<>
+  struct hash<filesystem::path>
+  {
+    size_t
+    operator()(const filesystem::path& __p) const noexcept
+    { return filesystem::hash_value(__p); }
+  };
+
+
+}
+# 55 "/usr/include/c++/15.2.1/filesystem" 2 3
+# 1 "/usr/include/c++/15.2.1/bits/fs_dir.h" 1 3
+# 45 "/usr/include/c++/15.2.1/bits/fs_dir.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+namespace filesystem
+{
+# 60 "/usr/include/c++/15.2.1/bits/fs_dir.h" 3
+  class file_status
+  {
+  public:
+
+    file_status() noexcept : file_status(file_type::none) {}
+
+    explicit
+    file_status(file_type __ft, perms __prms = perms::unknown) noexcept
+    : _M_type(__ft), _M_perms(__prms) { }
+
+    file_status(const file_status&) noexcept = default;
+    file_status(file_status&&) noexcept = default;
+    ~file_status() = default;
+
+    file_status& operator=(const file_status&) noexcept = default;
+    file_status& operator=(file_status&&) noexcept = default;
+
+
+    file_type type() const noexcept { return _M_type; }
+    perms permissions() const noexcept { return _M_perms; }
+
+
+    void type(file_type __ft) noexcept { _M_type = __ft; }
+    void permissions(perms __prms) noexcept { _M_perms = __prms; }
+
+
+    friend bool
+    operator==(const file_status&, const file_status&) noexcept = default;
+
+
+  private:
+    file_type _M_type;
+    perms _M_perms;
+  };
+
+namespace __cxx11 {
+
+  struct _Dir;
+  class directory_iterator;
+  class recursive_directory_iterator;
+
+
+
+
+
+
+  class directory_entry
+  {
+  public:
+
+    directory_entry() noexcept = default;
+    directory_entry(const directory_entry&) = default;
+    directory_entry(directory_entry&&) noexcept = default;
+
+    explicit
+    directory_entry(const filesystem::path& __p)
+    : _M_path(__p)
+    { refresh(); }
+
+    directory_entry(const filesystem::path& __p, error_code& __ec)
+    : _M_path(__p)
+    {
+      refresh(__ec);
+      if (__ec)
+ _M_path.clear();
+    }
+
+    ~directory_entry() = default;
+
+
+    directory_entry& operator=(const directory_entry&) = default;
+    directory_entry& operator=(directory_entry&&) noexcept = default;
+
+    void
+    assign(const filesystem::path& __p)
+    {
+      _M_path = __p;
+      refresh();
+    }
+
+    void
+    assign(const filesystem::path& __p, error_code& __ec)
+    {
+      _M_path = __p;
+      refresh(__ec);
+    }
+
+    void
+    replace_filename(const filesystem::path& __p)
+    {
+      _M_path.replace_filename(__p);
+      refresh();
+    }
+
+    void
+    replace_filename(const filesystem::path& __p, error_code& __ec)
+    {
+      _M_path.replace_filename(__p);
+      refresh(__ec);
+    }
+
+    void
+    refresh()
+    { _M_type = symlink_status().type(); }
+
+    void
+    refresh(error_code& __ec) noexcept
+    { _M_type = symlink_status(__ec).type(); }
+
+
+    const filesystem::path& path() const noexcept { return _M_path; }
+    operator const filesystem::path& () const noexcept { return _M_path; }
+
+    bool
+    exists() const
+    { return filesystem::exists(file_status{_M_file_type()}); }
+
+    bool
+    exists(error_code& __ec) const noexcept
+    { return filesystem::exists(file_status{_M_file_type(__ec)}); }
+
+    bool
+    is_block_file() const
+    { return _M_file_type() == file_type::block; }
+
+    bool
+    is_block_file(error_code& __ec) const noexcept
+    { return _M_file_type(__ec) == file_type::block; }
+
+    bool
+    is_character_file() const
+    { return _M_file_type() == file_type::character; }
+
+    bool
+    is_character_file(error_code& __ec) const noexcept
+    { return _M_file_type(__ec) == file_type::character; }
+
+    bool
+    is_directory() const
+    { return _M_file_type() == file_type::directory; }
+
+    bool
+    is_directory(error_code& __ec) const noexcept
+    { return _M_file_type(__ec) == file_type::directory; }
+
+    bool
+    is_fifo() const
+    { return _M_file_type() == file_type::fifo; }
+
+    bool
+    is_fifo(error_code& __ec) const noexcept
+    { return _M_file_type(__ec) == file_type::fifo; }
+
+    bool
+    is_other() const
+    { return filesystem::is_other(file_status{_M_file_type()}); }
+
+    bool
+    is_other(error_code& __ec) const noexcept
+    { return filesystem::is_other(file_status{_M_file_type(__ec)}); }
+
+    bool
+    is_regular_file() const
+    { return _M_file_type() == file_type::regular; }
+
+    bool
+    is_regular_file(error_code& __ec) const noexcept
+    { return _M_file_type(__ec) == file_type::regular; }
+
+    bool
+    is_socket() const
+    { return _M_file_type() == file_type::socket; }
+
+    bool
+    is_socket(error_code& __ec) const noexcept
+    { return _M_file_type(__ec) == file_type::socket; }
+
+    bool
+    is_symlink() const
+    {
+      if (_M_type != file_type::none)
+ return _M_type == file_type::symlink;
+      return symlink_status().type() == file_type::symlink;
+    }
+
+    bool
+    is_symlink(error_code& __ec) const noexcept
+    {
+      if (_M_type != file_type::none)
+ return _M_type == file_type::symlink;
+      return symlink_status(__ec).type() == file_type::symlink;
+    }
+
+    uintmax_t
+    file_size() const
+    { return filesystem::file_size(_M_path); }
+
+    uintmax_t
+    file_size(error_code& __ec) const noexcept
+    { return filesystem::file_size(_M_path, __ec); }
+
+    uintmax_t
+    hard_link_count() const
+    { return filesystem::hard_link_count(_M_path); }
+
+    uintmax_t
+    hard_link_count(error_code& __ec) const noexcept
+    { return filesystem::hard_link_count(_M_path, __ec); }
+
+    file_time_type
+    last_write_time() const
+    { return filesystem::last_write_time(_M_path); }
+
+
+    file_time_type
+    last_write_time(error_code& __ec) const noexcept
+    { return filesystem::last_write_time(_M_path, __ec); }
+
+    file_status
+    status() const
+    { return filesystem::status(_M_path); }
+
+    file_status
+    status(error_code& __ec) const noexcept
+    { return filesystem::status(_M_path, __ec); }
+
+    file_status
+    symlink_status() const
+    { return filesystem::symlink_status(_M_path); }
+
+    file_status
+    symlink_status(error_code& __ec) const noexcept
+    { return filesystem::symlink_status(_M_path, __ec); }
+
+    bool
+    operator==(const directory_entry& __rhs) const noexcept
+    { return _M_path == __rhs._M_path; }
+
+
+    strong_ordering
+    operator<=>(const directory_entry& __rhs) const noexcept
+    { return _M_path <=> __rhs._M_path; }
+# 324 "/usr/include/c++/15.2.1/bits/fs_dir.h" 3
+  private:
+    friend struct _Dir;
+    friend class directory_iterator;
+    friend class recursive_directory_iterator;
+
+
+
+    template<typename _CharT, typename _Traits>
+      friend basic_ostream<_CharT, _Traits>&
+      operator<<(basic_ostream<_CharT, _Traits>& __os,
+   const directory_entry& __d)
+      { return __os << __d.path(); }
+
+    directory_entry(const filesystem::path& __p, file_type __t)
+    : _M_path(__p), _M_type(__t)
+    { }
+
+
+    file_type
+    _M_file_type() const
+    {
+      if (_M_type != file_type::none && _M_type != file_type::symlink)
+ return _M_type;
+      return status().type();
+    }
+
+
+    file_type
+    _M_file_type(error_code& __ec) const noexcept
+    {
+      if (_M_type != file_type::none && _M_type != file_type::symlink)
+ {
+   __ec.clear();
+   return _M_type;
+ }
+      return status(__ec).type();
+    }
+
+    filesystem::path _M_path;
+    file_type _M_type = file_type::none;
+  };
+# 373 "/usr/include/c++/15.2.1/bits/fs_dir.h" 3
+  struct __directory_iterator_proxy
+  {
+    const directory_entry& operator*() const& noexcept { return _M_entry; }
+
+    directory_entry operator*() && noexcept { return std::move(_M_entry); }
+
+  private:
+    friend class directory_iterator;
+    friend class recursive_directory_iterator;
+
+    explicit
+    __directory_iterator_proxy(const directory_entry& __e) : _M_entry(__e) { }
+
+    directory_entry _M_entry;
+  };
+
+
+
+
+
+
+
+  class directory_iterator
+  {
+  public:
+    typedef directory_entry value_type;
+    typedef ptrdiff_t difference_type;
+    typedef const directory_entry* pointer;
+    typedef const directory_entry& reference;
+    typedef input_iterator_tag iterator_category;
+
+    directory_iterator() = default;
+
+    explicit
+    directory_iterator(const path& __p)
+    : directory_iterator(__p, directory_options::none, nullptr) { }
+
+    directory_iterator(const path& __p, directory_options __options)
+    : directory_iterator(__p, __options, nullptr) { }
+
+    directory_iterator(const path& __p, error_code& __ec)
+    : directory_iterator(__p, directory_options::none, __ec) { }
+
+    directory_iterator(const path& __p, directory_options __options,
+         error_code& __ec)
+    : directory_iterator(__p, __options, &__ec) { }
+
+    directory_iterator(const directory_iterator& __rhs) = default;
+
+    directory_iterator(directory_iterator&& __rhs) noexcept = default;
+
+    ~directory_iterator() = default;
+
+    directory_iterator&
+    operator=(const directory_iterator& __rhs) = default;
+
+    directory_iterator&
+    operator=(directory_iterator&& __rhs) noexcept = default;
+
+    const directory_entry& operator*() const noexcept;
+    const directory_entry* operator->() const noexcept { return &**this; }
+    directory_iterator& operator++();
+    directory_iterator& increment(error_code& __ec);
+
+    __directory_iterator_proxy operator++(int)
+    {
+      __directory_iterator_proxy __pr{**this};
+      ++*this;
+      return __pr;
+    }
+
+    friend bool
+    operator==(const directory_iterator& __lhs,
+               const directory_iterator& __rhs) noexcept
+    {
+      return !__rhs._M_dir.owner_before(__lhs._M_dir)
+ && !__lhs._M_dir.owner_before(__rhs._M_dir);
+    }
+
+
+
+
+    bool operator==(default_sentinel_t) const noexcept
+    { return !_M_dir; }
+# 466 "/usr/include/c++/15.2.1/bits/fs_dir.h" 3
+  private:
+    directory_iterator(const path&, directory_options, error_code*);
+
+    friend class recursive_directory_iterator;
+
+    std::__shared_ptr<_Dir> _M_dir;
+  };
+# 484 "/usr/include/c++/15.2.1/bits/fs_dir.h" 3
+  inline directory_iterator
+  begin(directory_iterator __iter) noexcept
+  { return __iter; }
+
+
+  inline directory_iterator
+  end(directory_iterator) noexcept
+  { return directory_iterator(); }
+
+
+
+
+
+
+
+  class recursive_directory_iterator
+  {
+  public:
+    typedef directory_entry value_type;
+    typedef ptrdiff_t difference_type;
+    typedef const directory_entry* pointer;
+    typedef const directory_entry& reference;
+    typedef input_iterator_tag iterator_category;
+
+    recursive_directory_iterator() = default;
+
+    explicit
+    recursive_directory_iterator(const path& __p)
+    : recursive_directory_iterator(__p, directory_options::none, nullptr) { }
+
+    recursive_directory_iterator(const path& __p, directory_options __options)
+    : recursive_directory_iterator(__p, __options, nullptr) { }
+
+    recursive_directory_iterator(const path& __p, directory_options __options,
+                                 error_code& __ec)
+    : recursive_directory_iterator(__p, __options, &__ec) { }
+
+    recursive_directory_iterator(const path& __p, error_code& __ec)
+    : recursive_directory_iterator(__p, directory_options::none, &__ec) { }
+
+    recursive_directory_iterator(
+        const recursive_directory_iterator&) = default;
+
+    recursive_directory_iterator(recursive_directory_iterator&&) = default;
+
+    ~recursive_directory_iterator();
+
+
+    directory_options options() const noexcept;
+    int depth() const noexcept;
+    bool recursion_pending() const noexcept;
+
+    const directory_entry& operator*() const noexcept;
+    const directory_entry* operator->() const noexcept { return &**this; }
+
+
+    recursive_directory_iterator&
+    operator=(const recursive_directory_iterator& __rhs) noexcept;
+    recursive_directory_iterator&
+    operator=(recursive_directory_iterator&& __rhs) noexcept;
+
+    recursive_directory_iterator& operator++();
+    recursive_directory_iterator& increment(error_code& __ec);
+
+    __directory_iterator_proxy operator++(int)
+    {
+      __directory_iterator_proxy __pr{**this};
+      ++*this;
+      return __pr;
+    }
+
+    void pop();
+    void pop(error_code&);
+
+    void disable_recursion_pending() noexcept;
+
+    friend bool
+    operator==(const recursive_directory_iterator& __lhs,
+               const recursive_directory_iterator& __rhs) noexcept
+    {
+      return !__rhs._M_dirs.owner_before(__lhs._M_dirs)
+ && !__lhs._M_dirs.owner_before(__rhs._M_dirs);
+    }
+
+
+
+
+    bool operator==(default_sentinel_t) const noexcept
+    { return !_M_dirs; }
+# 582 "/usr/include/c++/15.2.1/bits/fs_dir.h" 3
+  private:
+    recursive_directory_iterator(const path&, directory_options, error_code*);
+
+    struct _Dir_stack;
+    std::__shared_ptr<_Dir_stack> _M_dirs;
+
+    recursive_directory_iterator&
+    __erase(error_code* = nullptr);
+
+    friend uintmax_t
+    filesystem::remove_all(const path&, error_code&);
+    friend uintmax_t
+    filesystem::remove_all(const path&);
+  };
+# 607 "/usr/include/c++/15.2.1/bits/fs_dir.h" 3
+  inline recursive_directory_iterator
+  begin(recursive_directory_iterator __iter) noexcept
+  { return __iter; }
+
+
+  inline recursive_directory_iterator
+  end(recursive_directory_iterator) noexcept
+  { return recursive_directory_iterator(); }
+
+
+}
+
+
+}
+
+
+
+
+  extern template class
+    __shared_ptr<filesystem::_Dir>;
+  extern template class
+    __shared_ptr<filesystem::recursive_directory_iterator::_Dir_stack>;
+
+
+
+
+namespace ranges
+{
+  template<>
+    inline constexpr bool
+    enable_borrowed_range<filesystem::directory_iterator> = true;
+  template<>
+    inline constexpr bool
+    enable_borrowed_range<filesystem::recursive_directory_iterator> = true;
+
+  template<>
+    inline constexpr bool
+    enable_view<filesystem::directory_iterator> = true;
+  template<>
+    inline constexpr bool
+    enable_view<filesystem::recursive_directory_iterator> = true;
+}
+
+
+
+}
+# 56 "/usr/include/c++/15.2.1/filesystem" 2 3
+# 1 "/usr/include/c++/15.2.1/bits/fs_ops.h" 1 3
+# 37 "/usr/include/c++/15.2.1/bits/fs_ops.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+namespace filesystem
+{
+
+
+
+
+  [[nodiscard]]
+  path absolute(const path& __p);
+
+  [[nodiscard]]
+  path absolute(const path& __p, error_code& __ec);
+
+  [[nodiscard]]
+  path canonical(const path& __p);
+
+  [[nodiscard]]
+  path canonical(const path& __p, error_code& __ec);
+
+  inline void
+  copy(const path& __from, const path& __to)
+  { copy(__from, __to, copy_options::none); }
+
+  inline void
+  copy(const path& __from, const path& __to, error_code& __ec)
+  { copy(__from, __to, copy_options::none, __ec); }
+
+  void copy(const path& __from, const path& __to, copy_options __options);
+  void copy(const path& __from, const path& __to, copy_options __options,
+     error_code& __ec);
+
+  inline bool
+  copy_file(const path& __from, const path& __to)
+  { return copy_file(__from, __to, copy_options::none); }
+
+  inline bool
+  copy_file(const path& __from, const path& __to, error_code& __ec)
+  { return copy_file(__from, __to, copy_options::none, __ec); }
+
+  bool copy_file(const path& __from, const path& __to, copy_options __option);
+  bool copy_file(const path& __from, const path& __to, copy_options __option,
+   error_code& __ec);
+
+  void copy_symlink(const path& __existing_symlink, const path& __new_symlink);
+  void copy_symlink(const path& __existing_symlink, const path& __new_symlink,
+      error_code& __ec) noexcept;
+
+  bool create_directories(const path& __p);
+  bool create_directories(const path& __p, error_code& __ec);
+
+  bool create_directory(const path& __p);
+  bool create_directory(const path& __p, error_code& __ec) noexcept;
+
+  bool create_directory(const path& __p, const path& __attributes);
+  bool create_directory(const path& __p, const path& __attributes,
+   error_code& __ec) noexcept;
+
+  void create_directory_symlink(const path& __to, const path& __new_symlink);
+  void create_directory_symlink(const path& __to, const path& __new_symlink,
+    error_code& __ec) noexcept;
+
+  void create_hard_link(const path& __to, const path& __new_hard_link);
+  void create_hard_link(const path& __to, const path& __new_hard_link,
+   error_code& __ec) noexcept;
+
+  void create_symlink(const path& __to, const path& __new_symlink);
+  void create_symlink(const path& __to, const path& __new_symlink,
+        error_code& __ec) noexcept;
+
+  [[nodiscard]]
+  path current_path();
+
+  [[nodiscard]]
+  path current_path(error_code& __ec);
+
+  void current_path(const path& __p);
+  void current_path(const path& __p, error_code& __ec) noexcept;
+
+  [[nodiscard]]
+  bool
+  equivalent(const path& __p1, const path& __p2);
+
+  [[nodiscard]]
+  bool
+  equivalent(const path& __p1, const path& __p2, error_code& __ec) noexcept;
+
+  [[nodiscard]]
+  inline bool
+  exists(file_status __s) noexcept
+  { return status_known(__s) && __s.type() != file_type::not_found; }
+
+  [[nodiscard]]
+  inline bool
+  exists(const path& __p)
+  { return exists(status(__p)); }
+
+  [[nodiscard]]
+  inline bool
+  exists(const path& __p, error_code& __ec) noexcept
+  {
+    auto __s = status(__p, __ec);
+    if (status_known(__s))
+      {
+ __ec.clear();
+ return __s.type() != file_type::not_found;
+      }
+    return false;
+  }
+
+  [[nodiscard]]
+  uintmax_t file_size(const path& __p);
+
+  [[nodiscard]]
+  uintmax_t file_size(const path& __p, error_code& __ec) noexcept;
+
+  [[nodiscard]]
+  uintmax_t hard_link_count(const path& __p);
+
+  [[nodiscard]]
+  uintmax_t hard_link_count(const path& __p, error_code& __ec) noexcept;
+
+  [[nodiscard]]
+  inline bool
+  is_block_file(file_status __s) noexcept
+  { return __s.type() == file_type::block; }
+
+  [[nodiscard]]
+  inline bool
+  is_block_file(const path& __p)
+  { return is_block_file(status(__p)); }
+
+  [[nodiscard]]
+  inline bool
+  is_block_file(const path& __p, error_code& __ec) noexcept
+  { return is_block_file(status(__p, __ec)); }
+
+  [[nodiscard]]
+  inline bool
+  is_character_file(file_status __s) noexcept
+  { return __s.type() == file_type::character; }
+
+  [[nodiscard]]
+  inline bool
+  is_character_file(const path& __p)
+  { return is_character_file(status(__p)); }
+
+  [[nodiscard]]
+  inline bool
+  is_character_file(const path& __p, error_code& __ec) noexcept
+  { return is_character_file(status(__p, __ec)); }
+
+  [[nodiscard]]
+  inline bool
+  is_directory(file_status __s) noexcept
+  { return __s.type() == file_type::directory; }
+
+  [[nodiscard]]
+  inline bool
+  is_directory(const path& __p)
+  { return is_directory(status(__p)); }
+
+  [[nodiscard]]
+  inline bool
+  is_directory(const path& __p, error_code& __ec) noexcept
+  { return is_directory(status(__p, __ec)); }
+
+  [[nodiscard]]
+  bool is_empty(const path& __p);
+
+  [[nodiscard]]
+  bool is_empty(const path& __p, error_code& __ec);
+
+  [[nodiscard]]
+  inline bool
+  is_fifo(file_status __s) noexcept
+  { return __s.type() == file_type::fifo; }
+
+  [[nodiscard]]
+  inline bool
+  is_fifo(const path& __p)
+  { return is_fifo(status(__p)); }
+
+  [[nodiscard]]
+  inline bool
+  is_fifo(const path& __p, error_code& __ec) noexcept
+  { return is_fifo(status(__p, __ec)); }
+
+  [[nodiscard]]
+  inline bool
+  is_other(file_status __s) noexcept
+  {
+    return exists(__s) && !is_regular_file(__s) && !is_directory(__s)
+      && !is_symlink(__s);
+  }
+
+  [[nodiscard]]
+  inline bool
+  is_other(const path& __p)
+  { return is_other(status(__p)); }
+
+  [[nodiscard]]
+  inline bool
+  is_other(const path& __p, error_code& __ec) noexcept
+  { return is_other(status(__p, __ec)); }
+
+  [[nodiscard]]
+  inline bool
+  is_regular_file(file_status __s) noexcept
+  { return __s.type() == file_type::regular; }
+
+  [[nodiscard]]
+  inline bool
+  is_regular_file(const path& __p)
+  { return is_regular_file(status(__p)); }
+
+  [[nodiscard]]
+  inline bool
+  is_regular_file(const path& __p, error_code& __ec) noexcept
+  { return is_regular_file(status(__p, __ec)); }
+
+  [[nodiscard]]
+  inline bool
+  is_socket(file_status __s) noexcept
+  { return __s.type() == file_type::socket; }
+
+  [[nodiscard]]
+  inline bool
+  is_socket(const path& __p)
+  { return is_socket(status(__p)); }
+
+  [[nodiscard]]
+  inline bool
+  is_socket(const path& __p, error_code& __ec) noexcept
+  { return is_socket(status(__p, __ec)); }
+
+  [[nodiscard]]
+  inline bool
+  is_symlink(file_status __s) noexcept
+  { return __s.type() == file_type::symlink; }
+
+  [[nodiscard]]
+  inline bool
+  is_symlink(const path& __p)
+  { return is_symlink(symlink_status(__p)); }
+
+  [[nodiscard]]
+  inline bool
+  is_symlink(const path& __p, error_code& __ec) noexcept
+  { return is_symlink(symlink_status(__p, __ec)); }
+
+  [[nodiscard]]
+  file_time_type last_write_time(const path& __p);
+
+  [[nodiscard]]
+  file_time_type last_write_time(const path& __p, error_code& __ec) noexcept;
+
+  void last_write_time(const path& __p, file_time_type __new_time);
+  void last_write_time(const path& __p, file_time_type __new_time,
+         error_code& __ec) noexcept;
+
+  void
+  permissions(const path& __p, perms __prms,
+       perm_options __opts = perm_options::replace);
+
+  inline void
+  permissions(const path& __p, perms __prms, error_code& __ec) noexcept
+  { permissions(__p, __prms, perm_options::replace, __ec); }
+
+  void
+  permissions(const path& __p, perms __prms, perm_options __opts,
+       error_code& __ec) noexcept;
+
+  [[nodiscard]]
+  inline path proximate(const path& __p, error_code& __ec)
+  { return proximate(__p, current_path(), __ec); }
+
+  [[nodiscard]]
+  path proximate(const path& __p, const path& __base = current_path());
+
+  [[nodiscard]]
+  path proximate(const path& __p, const path& __base, error_code& __ec);
+
+  [[nodiscard]]
+  path read_symlink(const path& __p);
+
+  [[nodiscard]]
+  path read_symlink(const path& __p, error_code& __ec);
+
+  [[nodiscard]]
+  inline path relative(const path& __p, error_code& __ec)
+  { return relative(__p, current_path(), __ec); }
+
+  [[nodiscard]]
+  path relative(const path& __p, const path& __base = current_path());
+
+  [[nodiscard]]
+  path relative(const path& __p, const path& __base, error_code& __ec);
+
+  bool remove(const path& __p);
+  bool remove(const path& __p, error_code& __ec) noexcept;
+
+  uintmax_t remove_all(const path& __p);
+  uintmax_t remove_all(const path& __p, error_code& __ec);
+
+  void rename(const path& __from, const path& __to);
+  void rename(const path& __from, const path& __to, error_code& __ec) noexcept;
+
+  void resize_file(const path& __p, uintmax_t __size);
+  void resize_file(const path& __p, uintmax_t __size, error_code& __ec) noexcept;
+
+  [[nodiscard]]
+  space_info space(const path& __p);
+
+  [[nodiscard]]
+  space_info space(const path& __p, error_code& __ec) noexcept;
+
+  [[nodiscard]]
+  file_status status(const path& __p);
+
+  [[nodiscard]]
+  file_status status(const path& __p, error_code& __ec) noexcept;
+
+  [[nodiscard]]
+  inline bool status_known(file_status __s) noexcept
+  { return __s.type() != file_type::none; }
+
+  [[nodiscard]]
+  file_status symlink_status(const path& __p);
+
+  [[nodiscard]]
+  file_status symlink_status(const path& __p, error_code& __ec) noexcept;
+
+  [[nodiscard]]
+  path temp_directory_path();
+
+  [[nodiscard]]
+  path temp_directory_path(error_code& __ec);
+
+  [[nodiscard]]
+  path weakly_canonical(const path& __p);
+
+  [[nodiscard]]
+  path weakly_canonical(const path& __p, error_code& __ec);
+
+
+}
+
+
+}
+# 57 "/usr/include/c++/15.2.1/filesystem" 2 3
+# 5 "/home/arch/code/projects/Compiler/main.cpp" 2
+
+
+
 
 
 # 9 "/home/arch/code/projects/Compiler/main.cpp"
 using namespace std;
 
-int main()
-{
+int main() {
   string filePath = "../code.txt";
   ifstream file(filePath);
 
-  if (!file.is_open())
-  {
+  if (!file.is_open()) {
     cout << "Couldn't open file." << endl;
     return -1;
   }
@@ -115811,7 +120621,7 @@ int main()
   shared_ptr<Root> rootNode = ast.constructAST(tokens);
   CodeGenerator codeGenerator(rootNode);
 
-  codeGenerator.generate("compiled.cpp");
+
   file.close();
 
   return 0;

@@ -1,0 +1,16 @@
+[
+  {
+    "label": "Build & Debug Transpiler",
+    "build": {
+      "command": "cmake",
+      "args": ["--build", "build", "--config", "Debug"],
+      "cwd": "$ZED_WORKTREE_ROOT",
+    },
+    "program": "$ZED_WORKTREE_ROOT/build/Transpiler",
+    "request": "launch",
+    "adapter": "GDB",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "args": [],
+    "env": {},
+  },
+]

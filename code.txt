@@ -1,6 +1,5 @@
-define doSomething as
-  let a be 20 stop
-end
+let a be 10 stop
 
-let a be 5 plus 6 stop
-let b be 10 stop
+if 2 then
+    let b be 20 stop
+end

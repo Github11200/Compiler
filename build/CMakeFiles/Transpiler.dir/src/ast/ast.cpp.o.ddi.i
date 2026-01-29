@@ -112587,21 +112587,23 @@ public:
 };
 # 2 "/home/arch/code/projects/Compiler/src/ast/ast.cpp" 2
 
+
+
+
 using namespace std;
 
-bool AST::keywordIsStartOfNewCodeBlock(TokenType keyword)
-{
-  if (keyword == TokenType::AS || keyword == TokenType::THEN || keyword == TokenType::REPEAT)
+bool AST::keywordIsStartOfNewCodeBlock(TokenType keyword) {
+  if (keyword == TokenType::AS || keyword == TokenType::THEN ||
+      keyword == TokenType::REPEAT)
     return true;
   return false;
 }
 
-vector<Token> AST::extractBody(int &i, const vector<Token> &tokens, TokenType keyword)
-{
+vector<Token> AST::extractBody(int &i, const vector<Token> &tokens,
+                               TokenType keyword) {
   int depth = 0;
   vector<Token> currentNodes;
-  for (; i < tokens.size(); ++i)
-  {
+  for (; i < tokens.size(); ++i) {
     if (tokens[i].tokenType == keyword && depth == 0)
       break;
     if (keywordIsStartOfNewCodeBlock(tokens[i].tokenType))
@@ -112614,29 +112616,27 @@ vector<Token> AST::extractBody(int &i, const vector<Token> &tokens, TokenType ke
   return currentNodes;
 }
 
-void AST::incrementToKeyword(int &i, const std::vector<Token> &tokens, std::vector<Token> &currentNodes, TokenType keyword)
-{
-  for (; i < tokens.size(); ++i)
-  {
+void AST::incrementToKeyword(int &i, const std::vector<Token> &tokens,
+                             std::vector<Token> &currentNodes,
+                             TokenType keyword) {
+  for (; i < tokens.size(); ++i) {
     currentNodes.push_back(tokens[i]);
-    if (tokens[i].tokenType == keyword)
-    {
+    if (tokens[i].tokenType == keyword) {
       ++i;
       break;
     }
   }
 }
 
-variant<BinaryExpression, IntegerLiteral> AST::evaluateExpression(const vector<Token> &statement)
-{
+variant<BinaryExpression, IntegerLiteral>
+AST::evaluateExpression(const vector<Token> &statement) {
 
   if (statement.size() == 1)
     return IntegerLiteral(stoi(statement[0].tokenString));
 
 
   unique_ptr<BinaryExpression> binaryExpression = nullptr;
-  for (int i = 0; i < statement.size(); ++i)
-  {
+  for (int i = 0; i < statement.size(); ++i) {
     if (!isOperator(statement[i].tokenType))
       continue;
 
@@ -112645,11 +112645,13 @@ variant<BinaryExpression, IntegerLiteral> AST::evaluateExpression(const vector<T
 
     IntegerLiteral leftInteger(stoi(statement[i - 1].tokenString));
     IntegerLiteral rightInteger(stoi(statement[i + 1].tokenString));
-    BinaryExpression newExpression(statement[i].tokenType, leftInteger, rightInteger);
+    BinaryExpression newExpression(statement[i].tokenType, leftInteger,
+                                   rightInteger);
 
 
     if (binaryExpression != nullptr)
-      binaryExpression->right = std::make_shared<BinaryExpression>(newExpression);
+      binaryExpression->right =
+          std::make_shared<BinaryExpression>(newExpression);
     else
       binaryExpression = make_unique<BinaryExpression>(newExpression);
   }
@@ -112657,8 +112659,8 @@ variant<BinaryExpression, IntegerLiteral> AST::evaluateExpression(const vector<T
   return *binaryExpression;
 }
 
-shared_ptr<VariableStatement> AST::evaluateVariableStatement(const vector<Token> &statement)
-{
+shared_ptr<VariableStatement>
+AST::evaluateVariableStatement(const vector<Token> &statement) {
   string identifier = statement[1].tokenString;
 
   if (statement[3].tokenType == TokenType::POINTER)
@@ -112668,12 +112670,13 @@ shared_ptr<VariableStatement> AST::evaluateVariableStatement(const vector<Token>
   for (int i = 3; i < statement.size() - 1; ++i)
     expressionTokens.push_back(statement[i]);
 
-  variant<BinaryExpression, IntegerLiteral> expression = evaluateExpression(expressionTokens);
+  variant<BinaryExpression, IntegerLiteral> expression =
+      evaluateExpression(expressionTokens);
   return make_shared<VariableStatement>(identifier, expression);
 }
 
-shared_ptr<FunctionStatement> AST::evaluateFunctionStatement(const CodeBlock &functionBlock)
-{
+shared_ptr<FunctionStatement>
+AST::evaluateFunctionStatement(const CodeBlock &functionBlock) {
   string identifier = functionBlock.statement[1].tokenString;
   vector<string> parameters;
 
@@ -112682,21 +112685,21 @@ shared_ptr<FunctionStatement> AST::evaluateFunctionStatement(const CodeBlock &fu
     for (int i = 3; functionBlock.statement[i].tokenType != TokenType::AS; ++i)
       parameters.push_back(functionBlock.statement[i].tokenString);
 
-  vector<shared_ptr<ASTNode>> functionBody = constructAST(functionBlock.bodyTokens).get()->nodes;
+  vector<shared_ptr<ASTNode>> functionBody =
+      constructAST(functionBlock.bodyTokens).get()->nodes;
   return make_shared<FunctionStatement>(identifier, functionBody, parameters);
 }
 
 
 
 
-shared_ptr<IfStatement> AST::evaluateIfStatement(const vector<Token> &body)
-{
+shared_ptr<IfStatement> AST::evaluateIfStatement(const vector<Token> &body) {
+
 
   int numberOfBlocks = 1;
   int depth = 0;
   int i = 0;
-  for (; i < body.size(); ++i)
-  {
+  for (; i < body.size(); ++i) {
     if (body[i].tokenType == TokenType::OTHERWISE && depth == 0)
       ++numberOfBlocks;
     else if (keywordIsStartOfNewCodeBlock(body[i].tokenType))
@@ -112707,35 +112710,49 @@ shared_ptr<IfStatement> AST::evaluateIfStatement(const vector<Token> &body)
 
   vector<IfStatementBlock> ifStatementBlocks;
 
-
   int k = 0;
-  for (int j = 0; j < numberOfBlocks; ++j)
-  {
+  for (int j = 0; j < numberOfBlocks; ++j) {
     vector<Token> currentBlockTokens;
     vector<Token> currentBlockStatement;
     bool isLastElseBlock = j + 1 < numberOfBlocks && numberOfBlocks > 1;
 
     int expressionStartIndex = 0;
     if (j == 0)
+
       expressionStartIndex = 1;
     else if (isLastElseBlock)
+
       expressionStartIndex = -1;
     else
       expressionStartIndex = 2;
 
     k += expressionStartIndex;
-    if (expressionStartIndex != -1)
-      for (; k < body.size(); ++k)
+    if (expressionStartIndex != -1) {
+      for (; k < body.size(); ++k) {
+        if (body[k].tokenType == TokenType::THEN)
+          break;
         currentBlockStatement.push_back(body[k]);
+      }
+    }
 
     if (isLastElseBlock || numberOfBlocks == 1)
-      extractBody(k, body, TokenType::END);
+      currentBlockTokens = extractBody(k, body, TokenType::END);
     else
-      extractBody(k, body, TokenType::OTHERWISE);
+      currentBlockTokens = extractBody(k, body, TokenType::OTHERWISE);
 
 
-    vector<shared_ptr<ASTNode>> bodyTokensAST = constructAST(currentBlockTokens).get()->nodes;
-    IfStatementBlock newBlock(nullopt, constructAST(currentBlockTokens).get()->nodes);
+
+    vector<shared_ptr<ASTNode>> bodyTokensAST =
+        constructAST(currentBlockTokens).get()->nodes;
+    cout << currentBlockStatement.size() << endl;
+    for (auto thing : body)
+      cout << thing.tokenString << endl;
+    IfStatementBlock newBlock(nullopt, bodyTokensAST);
+
+
+
+
+
 
     ifStatementBlocks.push_back(newBlock);
   }
@@ -112743,51 +112760,45 @@ shared_ptr<IfStatement> AST::evaluateIfStatement(const vector<Token> &body)
   return make_shared<IfStatement>(ifStatementBlocks);
 }
 
-shared_ptr<LoopStatement> AST::evaluateLoopStatement(const CodeBlock &loopBlock)
-{
+shared_ptr<LoopStatement>
+AST::evaluateLoopStatement(const CodeBlock &loopBlock) {
 
   vector<Token> expressionTokens;
   for (int i = 1; i < loopBlock.statement.size() - 1; ++i)
     expressionTokens.push_back(loopBlock.statement[i]);
 
-  BinaryExpression evaluatedExpression = get<BinaryExpression>(evaluateExpression(expressionTokens));
-  vector<shared_ptr<ASTNode>> loopStatementBody = constructAST(loopBlock.bodyTokens).get()->nodes;
+  BinaryExpression evaluatedExpression =
+      get<BinaryExpression>(evaluateExpression(expressionTokens));
+  vector<shared_ptr<ASTNode>> loopStatementBody =
+      constructAST(loopBlock.bodyTokens).get()->nodes;
 
   return make_shared<LoopStatement>(evaluatedExpression, loopStatementBody);
 }
 
-shared_ptr<Root> AST::constructAST(const vector<Token> &tokens)
-{
+shared_ptr<Root> AST::constructAST(const vector<Token> &tokens) {
   Root rootNode;
 
   vector<Token> currentNodes;
-  for (int i = 0; i < tokens.size(); ++i)
-  {
+  for (int i = 0; i < tokens.size(); ++i) {
     currentNodes.push_back(tokens[i]);
     std::shared_ptr<ASTNode> newNode = nullptr;
 
-    if (tokens[i].tokenType == TokenType::STOP)
-    {
+    if (tokens[i].tokenType == TokenType::STOP) {
       newNode = evaluateVariableStatement(currentNodes);
-    }
-    else if (tokens[i].tokenType == TokenType::IF)
-    {
-      incrementToKeyword(++i, tokens, currentNodes, TokenType::THEN);
-      newNode = evaluateIfStatement(extractBody(i, tokens));
-    }
-    else if (tokens[i].tokenType == TokenType::DEFINE)
-    {
+    } else if (tokens[i].tokenType == TokenType::IF) {
+      incrementToKeyword(++i, tokens, currentNodes, TokenType::END);
+      newNode = evaluateIfStatement(currentNodes);
+    } else if (tokens[i].tokenType == TokenType::DEFINE) {
       incrementToKeyword(++i, tokens, currentNodes, TokenType::AS);
-      newNode = evaluateFunctionStatement({.statement = currentNodes, .bodyTokens = extractBody(i, tokens)});
-    }
-    else if (tokens[i].tokenType == TokenType::FOR)
-    {
+      newNode = evaluateFunctionStatement(
+          {.statement = currentNodes, .bodyTokens = extractBody(i, tokens)});
+    } else if (tokens[i].tokenType == TokenType::FOR) {
       incrementToKeyword(++i, tokens, currentNodes, TokenType::REPEAT);
-      newNode = evaluateLoopStatement({.statement = currentNodes, .bodyTokens = extractBody(i, tokens)});
+      newNode = evaluateLoopStatement(
+          {.statement = currentNodes, .bodyTokens = extractBody(i, tokens)});
     }
 
-    if (newNode != nullptr)
-    {
+    if (newNode != nullptr) {
       rootNode.nodes.push_back(newNode);
       currentNodes.clear();
     }
