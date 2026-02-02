@@ -1,11 +1,5 @@
 let a be 10 stop
 
-if 2 then
+for 10 plus 5 repeat
   let b be 20 stop
-otherwise if 3 then
-  let b be 25 stop
-otherwise if 3 then
-  let b be 25 stop
-otherwise just
-  let b be 30 stop
 end
