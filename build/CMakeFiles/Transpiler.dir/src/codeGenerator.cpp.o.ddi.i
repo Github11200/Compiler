@@ -91224,18 +91224,15 @@ public:
 
 using namespace std;
 
-CodeGenerator::CodeGenerator(shared_ptr<Root> rootNode)
-{
+CodeGenerator::CodeGenerator(shared_ptr<Root> rootNode) {
   this->rootNode = rootNode;
 }
 
-void CodeGenerator::generate(string fileName)
-{
+void CodeGenerator::generate(string fileName) {
   fstream outputFile;
 
   outputFile.open(fileName, fstream::out);
-  outputFile
-      << "#include <iostream>" << endl;
+  outputFile << "#include <iostream>" << endl;
   outputFile << "using namespace std;" << endl;
   outputFile << "int main() {" << endl;
   for (Root *pointer = rootNode.get(); const auto &node : pointer->nodes)

@@ -9,11 +9,13 @@
 using namespace std;
 
 int main() {
-  string filePath = "../code.txt";
+  string filePath = "code.txt";
   ifstream file(filePath);
 
   if (!file.is_open()) {
     cout << "Couldn't open file." << endl;
+    filesystem::path currentPath = filesystem::current_path();
+    cout << currentPath << endl;
     return -1;
   }
 
@@ -30,7 +32,7 @@ int main() {
   shared_ptr<Root> rootNode = ast.constructAST(tokens);
   CodeGenerator codeGenerator(rootNode);
 
-  // codeGenerator.generate("compiled.cpp");
+  codeGenerator.generate("compiled.cpp");
   file.close();
 
   return 0;

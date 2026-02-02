@@ -39,7 +39,7 @@
 			[
 				{
 					"name" : "HELPSTRING",
-					"value" : "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel ..."
+					"value" : "No help, variable specified on the command line."
 				}
 			],
 			"type" : "STRING",
@@ -91,7 +91,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "2"
+			"value" : "3"
 		},
 		{
 			"name" : "CMAKE_COMMAND",
@@ -139,10 +139,10 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "CXX compiler"
+					"value" : "No help, variable specified on the command line."
 				}
 			],
-			"type" : "STRING",
+			"type" : "FILEPATH",
 			"value" : "/usr/bin/g++"
 		},
 		{

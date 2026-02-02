@@ -1,0 +1,12 @@
+[
+  {
+    "label": "CMake Configure",
+    "command": "cmake",
+    "args": ["-B", "build", "-S", "."],
+  },
+  {
+    "label": "Build & Run",
+    "command": "cmake --build build && ./${workspace_root}/build/Transpiler",
+    "args": [],
+  },
+]
