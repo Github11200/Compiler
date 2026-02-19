@@ -1,26 +1,26 @@
 #ifndef AST_H
 #define AST_H
 
-#include <concepts>
-#include <stack>
-#include <set>
-#include <memory>
 #include "ast/node.h"
 #include "token.h"
 #include "utils.h"
+#include <concepts>
+#include <memory>
+#include <set>
+#include <stack>
 
-struct CodeBlock
-{
+struct CodeBlock {
   std::vector<Token> statement;
   std::vector<Token> bodyTokens;
 };
 
-class AST
-{
+class AST {
 private:
   std::vector<std::set<std::string>> scopes; // Stores the identifiers
 
   static bool keywordIsStartOfNewCodeBlock(TokenType keyword);
+
+  static std::optional<int> isInequality(const std::vector<Token> &statement);
 
   static std::variant<BinaryExpression, IntegerLiteral> evaluateExpression(const std::vector<Token> &statement);
 

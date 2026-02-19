@@ -1,20 +1,18 @@
 #include "ast/ast.h"
 #include "ast/node.h"
 #include "token.h"
+#include <cmath>
 #include <optional>
-#include <random>
 
 using namespace std;
 
 bool AST::keywordIsStartOfNewCodeBlock(TokenType keyword) {
-  if (keyword == TokenType::AS || keyword == TokenType::THEN ||
-      keyword == TokenType::REPEAT || keyword == TokenType::JUST)
+  if (keyword == TokenType::AS || keyword == TokenType::THEN || keyword == TokenType::REPEAT || keyword == TokenType::JUST)
     return true;
   return false;
 }
 
-vector<Token> AST::extractBody(int &i, const vector<Token> &tokens,
-                               TokenType keyword) {
+vector<Token> AST::extractBody(int &i, const vector<Token> &tokens, TokenType keyword) {
   int depth = 0;
   vector<Token> currentNodes;
   for (; i < tokens.size(); ++i) {
@@ -30,9 +28,7 @@ vector<Token> AST::extractBody(int &i, const vector<Token> &tokens,
   return currentNodes;
 }
 
-void AST::incrementToKeyword(int &i, const std::vector<Token> &tokens,
-                             std::vector<Token> &currentNodes,
-                             TokenType keyword) {
+void AST::incrementToKeyword(int &i, const std::vector<Token> &tokens, std::vector<Token> &currentNodes, TokenType keyword) {
   for (; i < tokens.size(); ++i) {
     currentNodes.push_back(tokens[i]);
     if (tokens[i].tokenType == keyword) {
@@ -42,11 +38,28 @@ void AST::incrementToKeyword(int &i, const std::vector<Token> &tokens,
   }
 }
 
-variant<BinaryExpression, IntegerLiteral>
-AST::evaluateExpression(const vector<Token> &statement) {
+optional<int> AST::isInequality(const vector<Token> &statement) {
+  for (int i = 0; i < statement.size(); ++i) {
+    TokenType currentTokenType = statement[i].tokenType;
+    if (currentTokenType == TokenType::GREATER || currentTokenType == TokenType::LESS || currentTokenType == TokenType::EQUAL)
+      return i;
+  }
+  return nullopt;
+}
+
+variant<BinaryExpression, IntegerLiteral> AST::evaluateExpression(const vector<Token> &statement) {
   // The statement is something like let x be 5;
   if (statement.size() == 1)
     return IntegerLiteral(stoi(statement[0].tokenString));
+
+  optional<int> inequalityIndex = isInequality(statement);
+  if (inequalityIndex.has_value()) {
+    vector<Token> leftArray = vector<Token>(statement.begin(), statement.begin() + inequalityIndex.value() - 1);
+    vector<Token> rightArray = vector<Token>(statement.begin() + inequalityIndex.value() + 1, statement.end());
+
+    variant<BinaryExpression, IntegerLiteral> left = evaluateExpression(leftArray);
+    variant<BinaryExpression, IntegerLiteral> right = evaluateExpression(rightArray);
+  }
 
   // We will assume it contains an operator otherwise
   unique_ptr<BinaryExpression> binaryExpression = nullptr;
@@ -59,13 +72,11 @@ AST::evaluateExpression(const vector<Token> &statement) {
 
     IntegerLiteral leftInteger(stoi(statement[i - 1].tokenString));
     IntegerLiteral rightInteger(stoi(statement[i + 1].tokenString));
-    BinaryExpression newExpression(statement[i].tokenType, leftInteger,
-                                   rightInteger);
+    BinaryExpression newExpression(statement[i].tokenType, leftInteger, rightInteger);
 
     // If there's already an expression then this should go to it's right
     if (binaryExpression != nullptr)
-      binaryExpression->right =
-          std::make_shared<BinaryExpression>(newExpression);
+      binaryExpression->right = std::make_shared<BinaryExpression>(newExpression);
     else
       binaryExpression = make_unique<BinaryExpression>(newExpression);
   }
@@ -73,8 +84,7 @@ AST::evaluateExpression(const vector<Token> &statement) {
   return *binaryExpression;
 }
 
-shared_ptr<VariableStatement>
-AST::evaluateVariableStatement(const vector<Token> &statement) {
+shared_ptr<VariableStatement> AST::evaluateVariableStatement(const vector<Token> &statement) {
   string identifier = statement[1].tokenString;
 
   if (statement[3].tokenType == TokenType::POINTER)
@@ -84,13 +94,11 @@ AST::evaluateVariableStatement(const vector<Token> &statement) {
   for (int i = 3; i < statement.size() - 1; ++i)
     expressionTokens.push_back(statement[i]);
 
-  variant<BinaryExpression, IntegerLiteral> expression =
-      evaluateExpression(expressionTokens);
+  variant<BinaryExpression, IntegerLiteral> expression = evaluateExpression(expressionTokens);
   return make_shared<VariableStatement>(identifier, expression);
 }
 
-shared_ptr<FunctionStatement>
-AST::evaluateFunctionStatement(const CodeBlock &functionBlock) {
+shared_ptr<FunctionStatement> AST::evaluateFunctionStatement(const CodeBlock &functionBlock) {
   string identifier = functionBlock.statement[1].tokenString;
   vector<string> parameters;
 
@@ -99,8 +107,7 @@ AST::evaluateFunctionStatement(const CodeBlock &functionBlock) {
     for (int i = 3; functionBlock.statement[i].tokenType != TokenType::AS; ++i)
       parameters.push_back(functionBlock.statement[i].tokenString);
 
-  vector<shared_ptr<ASTNode>> functionBody =
-      constructAST(functionBlock.bodyTokens).get()->nodes;
+  vector<shared_ptr<ASTNode>> functionBody = constructAST(functionBlock.bodyTokens).get()->nodes;
   return make_shared<FunctionStatement>(identifier, functionBody, parameters);
 }
 
@@ -114,8 +121,7 @@ shared_ptr<IfStatement> AST::evaluateIfStatement(const vector<Token> &body) {
   int depth = 0;
   int i = 0;
   for (; i < body.size(); ++i) {
-    if (body[i].tokenType == TokenType::END ||
-        body[i].tokenType == TokenType::OTHERWISE)
+    if (body[i].tokenType == TokenType::END || body[i].tokenType == TokenType::OTHERWISE)
       --depth;
     if (keywordIsStartOfNewCodeBlock(body[i].tokenType))
       ++depth;
@@ -162,13 +168,11 @@ shared_ptr<IfStatement> AST::evaluateIfStatement(const vector<Token> &body) {
 
     // Check to make sure this isn't the last otherwise statement since it has
     // no condition
-    vector<shared_ptr<ASTNode>> bodyTokensAST =
-        constructAST(currentBlockTokens).get()->nodes;
+    vector<shared_ptr<ASTNode>> bodyTokensAST = constructAST(currentBlockTokens).get()->nodes;
     IfStatementBlock newBlock(nullopt, bodyTokensAST);
 
     if (!isLastElseBlock) // This means there is a statement to evaluate
-      newBlock = IfStatementBlock(evaluateExpression(currentBlockStatement),
-                                  bodyTokensAST);
+      newBlock = IfStatementBlock(evaluateExpression(currentBlockStatement), bodyTokensAST);
 
     ifStatementBlocks.push_back(newBlock);
   }
@@ -182,11 +186,9 @@ shared_ptr<LoopStatement> AST::evaluateLoopStatement(const CodeBlock &loopBlock)
   for (int i = 1; i < loopBlock.statement.size() - 1; ++i)
     expressionTokens.push_back(loopBlock.statement[i]);
 
-  BinaryExpression evaluatedExpression =
-      get<BinaryExpression>(evaluateExpression(expressionTokens));
+  BinaryExpression evaluatedExpression = get<BinaryExpression>(evaluateExpression(expressionTokens));
 
-  vector<shared_ptr<ASTNode>> loopStatementBody =
-      constructAST(loopBlock.bodyTokens).get()->nodes;
+  vector<shared_ptr<ASTNode>> loopStatementBody = constructAST(loopBlock.bodyTokens).get()->nodes;
 
   return make_shared<LoopStatement>(evaluatedExpression, loopStatementBody);
 }
@@ -206,12 +208,10 @@ shared_ptr<Root> AST::constructAST(const vector<Token> &tokens) {
       newNode = evaluateIfStatement(currentNodes);
     } else if (tokens[i].tokenType == TokenType::DEFINE) {
       incrementToKeyword(++i, tokens, currentNodes, TokenType::AS);
-      newNode = evaluateFunctionStatement(
-          {.statement = currentNodes, .bodyTokens = extractBody(i, tokens)});
+      newNode = evaluateFunctionStatement({.statement = currentNodes, .bodyTokens = extractBody(i, tokens)});
     } else if (tokens[i].tokenType == TokenType::FOR) {
       incrementToKeyword(++i, tokens, currentNodes, TokenType::REPEAT);
-      newNode = evaluateLoopStatement(
-          {.statement = currentNodes, .bodyTokens = extractBody(i, tokens)});
+      newNode = evaluateLoopStatement({.statement = currentNodes, .bodyTokens = extractBody(i, tokens)});
     }
 
     if (newNode != nullptr) {

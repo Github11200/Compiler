@@ -2,12 +2,9 @@
 #define TOKEN_H
 
 #include <string>
-#include <concepts>
 #include <utility>
-#include <vector>
 
-enum class TokenType
-{
+enum class TokenType {
   PLUS,
   MINUS,
   TIMES,
@@ -23,12 +20,13 @@ enum class TokenType
   END,
   WITH,
   IF,
-  GREATER,
-  THAN,
+  GREATER_THAN,
+  GREATER_THAN_OR_EQUALS_TO,
+  LESS_THAN,
+  LESS_THAN_OR_EQUALS_TO,
   THEN,
-  LESS,
   OR,
-  EQUAL,
+  EQUALS,
   OTHERWISE,
   FOR,
   REPEAT,
@@ -38,8 +36,7 @@ enum class TokenType
   INTEGER_LITERAL
 };
 
-class Token
-{
+class Token {
 public:
   TokenType tokenType;
   std::string tokenString;
