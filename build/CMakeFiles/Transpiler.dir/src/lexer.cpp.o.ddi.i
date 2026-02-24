@@ -91,7 +91,7 @@ namespace std
 # 1 "/usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/os_defines.h" 1 3
 # 39 "/usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/os_defines.h" 3
 # 1 "/usr/include/features.h" 1 3 4
-# 415 "/usr/include/features.h" 3 4
+# 431 "/usr/include/features.h" 3 4
 # 1 "/usr/include/features-time64.h" 1 3 4
 # 20 "/usr/include/features-time64.h" 3 4
 # 1 "/usr/include/bits/wordsize.h" 1 3 4
@@ -101,21 +101,21 @@ namespace std
 # 1 "/usr/include/bits/wordsize.h" 1 3 4
 # 20 "/usr/include/bits/timesize.h" 2 3 4
 # 22 "/usr/include/features-time64.h" 2 3 4
-# 416 "/usr/include/features.h" 2 3 4
-# 524 "/usr/include/features.h" 3 4
+# 432 "/usr/include/features.h" 2 3 4
+# 540 "/usr/include/features.h" 3 4
 # 1 "/usr/include/sys/cdefs.h" 1 3 4
 # 730 "/usr/include/sys/cdefs.h" 3 4
 # 1 "/usr/include/bits/wordsize.h" 1 3 4
 # 731 "/usr/include/sys/cdefs.h" 2 3 4
 # 1 "/usr/include/bits/long-double.h" 1 3 4
 # 732 "/usr/include/sys/cdefs.h" 2 3 4
-# 525 "/usr/include/features.h" 2 3 4
-# 548 "/usr/include/features.h" 3 4
+# 541 "/usr/include/features.h" 2 3 4
+# 564 "/usr/include/features.h" 3 4
 # 1 "/usr/include/gnu/stubs.h" 1 3 4
 # 10 "/usr/include/gnu/stubs.h" 3 4
 # 1 "/usr/include/gnu/stubs-64.h" 1 3 4
 # 11 "/usr/include/gnu/stubs.h" 2 3 4
-# 549 "/usr/include/features.h" 2 3 4
+# 565 "/usr/include/features.h" 2 3 4
 # 40 "/usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/os_defines.h" 2 3
 # 728 "/usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h" 2 3
 
@@ -5037,6 +5037,22 @@ namespace std __attribute__ ((__visibility__ ("default")))
   template<typename _Rel, typename _Tp, typename _Up>
     concept strict_weak_order = relation<_Rel, _Tp, _Up>;
 
+  namespace __detail
+  {
+
+
+    template<typename _Tp, typename _Up>
+      concept __not_overloaded_spaceship
+        = ! requires(_Tp&& __t, _Up&& __u)
+     { operator<=>(static_cast<_Tp&&>(__t), static_cast<_Up&&>(__u)); }
+ && ! requires(_Tp&& __t, _Up&& __u)
+     { static_cast<_Tp&&>(__t).operator<=>(static_cast<_Up&&>(__u)); }
+ && (is_same_v<_Tp, _Up>
+     || (! requires(_Tp&& __t, _Up&& __u)
+          { operator<=>(static_cast<_Up&&>(__u), static_cast<_Tp&&>(__t)); }
+        && ! requires(_Tp&& __t, _Up&& __u)
+          { static_cast<_Up&&>(__u).operator<=>(static_cast<_Tp&&>(__t)); }));
+  }
 
 }
 # 43 "/usr/include/c++/15.2.1/compare" 2 3
@@ -5537,10 +5553,7 @@ namespace std __attribute__ ((__visibility__ ("default")))
    { static_cast<_Tp&&>(__t) <=> static_cast<_Up&&>(__u); }
    && convertible_to<_Tp, const volatile void*>
    && convertible_to<_Up, const volatile void*>
-   && ! requires(_Tp&& __t, _Up&& __u)
-   { operator<=>(static_cast<_Tp&&>(__t), static_cast<_Up&&>(__u)); }
-   && ! requires(_Tp&& __t, _Up&& __u)
-   { static_cast<_Tp&&>(__t).operator<=>(static_cast<_Up&&>(__u)); };
+   && __not_overloaded_spaceship<_Tp, _Up>;
   }
 
 
@@ -5688,14 +5701,14 @@ namespace std __attribute__ ((__visibility__ ("default")))
  _Dbldbl,
  _Bfloat16,
       };
-# 705 "/usr/include/c++/15.2.1/compare" 3
+# 702 "/usr/include/c++/15.2.1/compare" 3
       template<typename _Tp>
  static consteval _Fp_fmt
  _S_fp_fmt() noexcept
  {
 
    using enum _Fp_fmt;
-# 725 "/usr/include/c++/15.2.1/compare" 3
+# 722 "/usr/include/c++/15.2.1/compare" 3
    if constexpr (__is_same(_Tp, long double))
      return (-16381) == -16381 ? _X86_80bit : _M68k_80bit;
 
@@ -5748,7 +5761,7 @@ namespace std __attribute__ ((__visibility__ ("default")))
    { _M_lo = __lo; }
 
    constexpr bool operator==(const _Int&) const = default;
-# 787 "/usr/include/c++/15.2.1/compare" 3
+# 784 "/usr/include/c++/15.2.1/compare" 3
    constexpr _Int&
    operator^=(const _Int& __rhs) noexcept
    {
@@ -5845,7 +5858,7 @@ namespace std __attribute__ ((__visibility__ ("default")))
  static constexpr strong_ordering
  _S_fp_cmp(_Tp __x, _Tp __y) noexcept
  {
-# 896 "/usr/include/c++/15.2.1/compare" 3
+# 893 "/usr/include/c++/15.2.1/compare" 3
    auto __ix = _S_fp_bits(__x);
    auto __iy = _S_fp_bits(__y);
 
@@ -5897,7 +5910,7 @@ namespace std __attribute__ ((__visibility__ ("default")))
   }
        else
   {
-# 963 "/usr/include/c++/15.2.1/compare" 3
+# 960 "/usr/include/c++/15.2.1/compare" 3
   }
        return _S_compl(__ix) <=> _S_compl(__iy);
      }
@@ -7260,10 +7273,11 @@ namespace ranges
  = requires (_Tp&& __t, _Up&& __u) { { __t < __u } -> same_as<bool>; }
    && convertible_to<_Tp, const volatile void*>
    && convertible_to<_Up, const volatile void*>
-   && (! requires(_Tp&& __t, _Up&& __u)
+   && ! requires(_Tp&& __t, _Up&& __u)
        { operator<(std::forward<_Tp>(__t), std::forward<_Up>(__u)); }
-       && ! requires(_Tp&& __t, _Up&& __u)
-       { std::forward<_Tp>(__t).operator<(std::forward<_Up>(__u)); });
+   && ! requires(_Tp&& __t, _Up&& __u)
+       { std::forward<_Tp>(__t).operator<(std::forward<_Up>(__u)); }
+   && std::__detail::__not_overloaded_spaceship<_Tp, _Up>;
   }
 
 
@@ -20310,7 +20324,7 @@ namespace std __attribute__ ((__visibility__ ("default")))
       resize(size_type __new_size, const value_type& __x)
       {
  if (__new_size > size())
-   _M_fill_insert(end(), __new_size - size(), __x);
+   _M_fill_append(__new_size - size(), __x);
  else if (__new_size < size())
    _M_erase_at_end(this->_M_impl._M_start + __new_size);
       }
@@ -20891,6 +20905,11 @@ namespace std __attribute__ ((__visibility__ ("default")))
       _M_fill_insert(iterator __pos, size_type __n, const value_type& __x);
 
 
+      constexpr
+      void
+      _M_fill_append(size_type __n, const value_type& __x);
+
+
 
       constexpr
       void
@@ -20899,7 +20918,7 @@ namespace std __attribute__ ((__visibility__ ("default")))
       constexpr
       bool
       _M_shrink_to_fit();
-# 2125 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+# 2130 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
       struct _Temporary_value
       {
  template<typename... _Args>
@@ -21097,14 +21116,14 @@ namespace std __attribute__ ((__visibility__ ("default")))
     typename _Alloc = allocator<ranges::range_value_t<_Rg>>>
     vector(from_range_t, _Rg&&, _Alloc = _Alloc())
       -> vector<ranges::range_value_t<_Rg>, _Alloc>;
-# 2335 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+# 2340 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
   template<typename _Tp, typename _Alloc>
     [[__nodiscard__]] constexpr
     inline bool
     operator==(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
     { return (__x.size() == __y.size()
        && std::equal(__x.begin(), __x.end(), __y.begin())); }
-# 2354 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+# 2359 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
   template<typename _Tp, typename _Alloc>
     [[nodiscard]]
     constexpr __detail::__synth3way_t<_Tp>
@@ -21114,7 +21133,7 @@ namespace std __attribute__ ((__visibility__ ("default")))
           __y.begin(), __y.end(),
           __detail::__synth3way);
     }
-# 2407 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+# 2412 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
   template<typename _Tp, typename _Alloc>
     constexpr
     inline void
@@ -22991,11 +23010,11 @@ namespace std __attribute__ ((__visibility__ ("default")))
 # 1 "/usr/include/c++/15.2.1/bits/refwrap.h" 1 3
 # 41 "/usr/include/c++/15.2.1/bits/refwrap.h" 3
 # 1 "/usr/include/c++/15.2.1/bits/stl_function.h" 1 3
-# 63 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
+# 66 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
 namespace std __attribute__ ((__visibility__ ("default")))
 {
 
-# 116 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
+# 119 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
   template<typename _Arg, typename _Result>
     struct unary_function
     {
@@ -23022,7 +23041,7 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
       typedef _Result result_type;
     } __attribute__ ((__deprecated__));
-# 157 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
+# 160 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
   struct __is_transparent;
 
   template<typename _Tp = void>
@@ -23199,7 +23218,7 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
       typedef __is_transparent is_transparent;
     };
-# 346 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
+# 349 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
   template<typename _Tp = void>
     struct equal_to;
 
@@ -23382,8 +23401,15 @@ namespace std __attribute__ ((__visibility__ ("default")))
  noexcept(noexcept(std::forward<_Tp>(__t) > std::forward<_Up>(__u)))
  -> decltype(std::forward<_Tp>(__t) > std::forward<_Up>(__u))
  {
-   return _S_cmp(std::forward<_Tp>(__t), std::forward<_Up>(__u),
-   __ptr_cmp<_Tp, _Up>{});
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wc++17-extensions"
+   if constexpr (__ptr_cmp<_Tp, _Up>)
+     return greater<const volatile void*>{}(
+       static_cast<const volatile void*>(std::forward<_Tp>(__t)),
+       static_cast<const volatile void*>(std::forward<_Up>(__u)));
+   else
+     return std::forward<_Tp>(__t) > std::forward<_Up>(__u);
+#pragma GCC diagnostic pop
  }
 
       template<typename _Tp, typename _Up>
@@ -23394,44 +23420,20 @@ namespace std __attribute__ ((__visibility__ ("default")))
       typedef __is_transparent is_transparent;
 
     private:
-      template <typename _Tp, typename _Up>
- static constexpr decltype(auto)
- _S_cmp(_Tp&& __t, _Up&& __u, false_type)
- { return std::forward<_Tp>(__t) > std::forward<_Up>(__u); }
 
-      template <typename _Tp, typename _Up>
- static constexpr bool
- _S_cmp(_Tp&& __t, _Up&& __u, true_type) noexcept
+      template<typename _Tp, typename _Up>
+ static constexpr bool __ptr_cmp = requires
  {
-   return greater<const volatile void*>{}(
-       static_cast<const volatile void*>(std::forward<_Tp>(__t)),
-       static_cast<const volatile void*>(std::forward<_Up>(__u)));
- }
-
-
-      template<typename _Tp, typename _Up, typename = void>
- struct __not_overloaded2 : true_type { };
-
-
-      template<typename _Tp, typename _Up>
- struct __not_overloaded2<_Tp, _Up, __void_t<
-   decltype(std::declval<_Tp>().operator>(std::declval<_Up>()))>>
- : false_type { };
-
-
-      template<typename _Tp, typename _Up, typename = void>
- struct __not_overloaded : __not_overloaded2<_Tp, _Up> { };
-
-
-      template<typename _Tp, typename _Up>
- struct __not_overloaded<_Tp, _Up, __void_t<
-   decltype(operator>(std::declval<_Tp>(), std::declval<_Up>()))>>
- : false_type { };
-
-      template<typename _Tp, typename _Up>
- using __ptr_cmp = __and_<__not_overloaded<_Tp, _Up>,
-       is_convertible<_Tp, const volatile void*>,
-       is_convertible<_Up, const volatile void*>>;
+   requires
+        ! requires
+  { operator>(std::declval<_Tp>(), std::declval<_Up>()); }
+     && ! requires
+  { std::declval<_Tp>().operator>(std::declval<_Up>()); }
+     && __detail::__not_overloaded_spaceship<_Tp, _Up>
+     && is_convertible_v<_Tp, const volatile void*>
+     && is_convertible_v<_Up, const volatile void*>;
+ };
+# 590 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
     };
 
 
@@ -23444,8 +23446,15 @@ namespace std __attribute__ ((__visibility__ ("default")))
  noexcept(noexcept(std::forward<_Tp>(__t) < std::forward<_Up>(__u)))
  -> decltype(std::forward<_Tp>(__t) < std::forward<_Up>(__u))
  {
-   return _S_cmp(std::forward<_Tp>(__t), std::forward<_Up>(__u),
-   __ptr_cmp<_Tp, _Up>{});
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wc++17-extensions"
+   if constexpr (__ptr_cmp<_Tp, _Up>)
+     return less<const volatile void*>{}(
+       static_cast<const volatile void*>(std::forward<_Tp>(__t)),
+       static_cast<const volatile void*>(std::forward<_Up>(__u)));
+   else
+     return std::forward<_Tp>(__t) < std::forward<_Up>(__u);
+#pragma GCC diagnostic pop
  }
 
       template<typename _Tp, typename _Up>
@@ -23456,44 +23465,20 @@ namespace std __attribute__ ((__visibility__ ("default")))
       typedef __is_transparent is_transparent;
 
     private:
-      template <typename _Tp, typename _Up>
- static constexpr decltype(auto)
- _S_cmp(_Tp&& __t, _Up&& __u, false_type)
- { return std::forward<_Tp>(__t) < std::forward<_Up>(__u); }
 
-      template <typename _Tp, typename _Up>
- static constexpr bool
- _S_cmp(_Tp&& __t, _Up&& __u, true_type) noexcept
+      template<typename _Tp, typename _Up>
+ static constexpr bool __ptr_cmp = requires
  {
-   return less<const volatile void*>{}(
-       static_cast<const volatile void*>(std::forward<_Tp>(__t)),
-       static_cast<const volatile void*>(std::forward<_Up>(__u)));
- }
-
-
-      template<typename _Tp, typename _Up, typename = void>
- struct __not_overloaded2 : true_type { };
-
-
-      template<typename _Tp, typename _Up>
- struct __not_overloaded2<_Tp, _Up, __void_t<
-   decltype(std::declval<_Tp>().operator<(std::declval<_Up>()))>>
- : false_type { };
-
-
-      template<typename _Tp, typename _Up, typename = void>
- struct __not_overloaded : __not_overloaded2<_Tp, _Up> { };
-
-
-      template<typename _Tp, typename _Up>
- struct __not_overloaded<_Tp, _Up, __void_t<
-   decltype(operator<(std::declval<_Tp>(), std::declval<_Up>()))>>
- : false_type { };
-
-      template<typename _Tp, typename _Up>
- using __ptr_cmp = __and_<__not_overloaded<_Tp, _Up>,
-       is_convertible<_Tp, const volatile void*>,
-       is_convertible<_Up, const volatile void*>>;
+   requires
+        ! requires
+  { operator<(std::declval<_Tp>(), std::declval<_Up>()); }
+     && ! requires
+  { std::declval<_Tp>().operator<(std::declval<_Up>()); }
+     && __detail::__not_overloaded_spaceship<_Tp, _Up>
+     && is_convertible_v<_Tp, const volatile void*>
+     && is_convertible_v<_Up, const volatile void*>;
+ };
+# 661 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
     };
 
 
@@ -23506,8 +23491,15 @@ namespace std __attribute__ ((__visibility__ ("default")))
  noexcept(noexcept(std::forward<_Tp>(__t) >= std::forward<_Up>(__u)))
  -> decltype(std::forward<_Tp>(__t) >= std::forward<_Up>(__u))
  {
-   return _S_cmp(std::forward<_Tp>(__t), std::forward<_Up>(__u),
-   __ptr_cmp<_Tp, _Up>{});
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wc++17-extensions"
+   if constexpr (__ptr_cmp<_Tp, _Up>)
+     return greater_equal<const volatile void*>{}(
+       static_cast<const volatile void*>(std::forward<_Tp>(__t)),
+       static_cast<const volatile void*>(std::forward<_Up>(__u)));
+   else
+     return std::forward<_Tp>(__t) >= std::forward<_Up>(__u);
+#pragma GCC diagnostic pop
  }
 
       template<typename _Tp, typename _Up>
@@ -23518,44 +23510,20 @@ namespace std __attribute__ ((__visibility__ ("default")))
       typedef __is_transparent is_transparent;
 
     private:
-      template <typename _Tp, typename _Up>
- static constexpr decltype(auto)
- _S_cmp(_Tp&& __t, _Up&& __u, false_type)
- { return std::forward<_Tp>(__t) >= std::forward<_Up>(__u); }
 
-      template <typename _Tp, typename _Up>
- static constexpr bool
- _S_cmp(_Tp&& __t, _Up&& __u, true_type) noexcept
+      template<typename _Tp, typename _Up>
+ static constexpr bool __ptr_cmp = requires
  {
-   return greater_equal<const volatile void*>{}(
-       static_cast<const volatile void*>(std::forward<_Tp>(__t)),
-       static_cast<const volatile void*>(std::forward<_Up>(__u)));
- }
-
-
-      template<typename _Tp, typename _Up, typename = void>
- struct __not_overloaded2 : true_type { };
-
-
-      template<typename _Tp, typename _Up>
- struct __not_overloaded2<_Tp, _Up, __void_t<
-   decltype(std::declval<_Tp>().operator>=(std::declval<_Up>()))>>
- : false_type { };
-
-
-      template<typename _Tp, typename _Up, typename = void>
- struct __not_overloaded : __not_overloaded2<_Tp, _Up> { };
-
-
-      template<typename _Tp, typename _Up>
- struct __not_overloaded<_Tp, _Up, __void_t<
-   decltype(operator>=(std::declval<_Tp>(), std::declval<_Up>()))>>
- : false_type { };
-
-      template<typename _Tp, typename _Up>
- using __ptr_cmp = __and_<__not_overloaded<_Tp, _Up>,
-       is_convertible<_Tp, const volatile void*>,
-       is_convertible<_Up, const volatile void*>>;
+   requires
+        ! requires
+  { operator>=(std::declval<_Tp>(), std::declval<_Up>()); }
+     && ! requires
+  { std::declval<_Tp>().operator>=(std::declval<_Up>()); }
+     && __detail::__not_overloaded_spaceship<_Tp, _Up>
+     && is_convertible_v<_Tp, const volatile void*>
+     && is_convertible_v<_Up, const volatile void*>;
+ };
+# 732 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
     };
 
 
@@ -23568,8 +23536,15 @@ namespace std __attribute__ ((__visibility__ ("default")))
  noexcept(noexcept(std::forward<_Tp>(__t) <= std::forward<_Up>(__u)))
  -> decltype(std::forward<_Tp>(__t) <= std::forward<_Up>(__u))
  {
-   return _S_cmp(std::forward<_Tp>(__t), std::forward<_Up>(__u),
-   __ptr_cmp<_Tp, _Up>{});
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wc++17-extensions"
+   if constexpr (__ptr_cmp<_Tp, _Up>)
+     return less_equal<const volatile void*>{}(
+       static_cast<const volatile void*>(std::forward<_Tp>(__t)),
+       static_cast<const volatile void*>(std::forward<_Up>(__u)));
+   else
+     return std::forward<_Tp>(__t) <= std::forward<_Up>(__u);
+#pragma GCC diagnostic pop
  }
 
       template<typename _Tp, typename _Up>
@@ -23580,46 +23555,22 @@ namespace std __attribute__ ((__visibility__ ("default")))
       typedef __is_transparent is_transparent;
 
     private:
-      template <typename _Tp, typename _Up>
- static constexpr decltype(auto)
- _S_cmp(_Tp&& __t, _Up&& __u, false_type)
- { return std::forward<_Tp>(__t) <= std::forward<_Up>(__u); }
 
-      template <typename _Tp, typename _Up>
- static constexpr bool
- _S_cmp(_Tp&& __t, _Up&& __u, true_type) noexcept
+      template<typename _Tp, typename _Up>
+ static constexpr bool __ptr_cmp = requires
  {
-   return less_equal<const volatile void*>{}(
-       static_cast<const volatile void*>(std::forward<_Tp>(__t)),
-       static_cast<const volatile void*>(std::forward<_Up>(__u)));
- }
-
-
-      template<typename _Tp, typename _Up, typename = void>
- struct __not_overloaded2 : true_type { };
-
-
-      template<typename _Tp, typename _Up>
- struct __not_overloaded2<_Tp, _Up, __void_t<
-   decltype(std::declval<_Tp>().operator<=(std::declval<_Up>()))>>
- : false_type { };
-
-
-      template<typename _Tp, typename _Up, typename = void>
- struct __not_overloaded : __not_overloaded2<_Tp, _Up> { };
-
-
-      template<typename _Tp, typename _Up>
- struct __not_overloaded<_Tp, _Up, __void_t<
-   decltype(operator<=(std::declval<_Tp>(), std::declval<_Up>()))>>
- : false_type { };
-
-      template<typename _Tp, typename _Up>
- using __ptr_cmp = __and_<__not_overloaded<_Tp, _Up>,
-       is_convertible<_Tp, const volatile void*>,
-       is_convertible<_Up, const volatile void*>>;
+   requires
+        ! requires
+  { operator<=(std::declval<_Tp>(), std::declval<_Up>()); }
+     && ! requires
+  { std::declval<_Tp>().operator<=(std::declval<_Up>()); }
+     && __detail::__not_overloaded_spaceship<_Tp, _Up>
+     && is_convertible_v<_Tp, const volatile void*>
+     && is_convertible_v<_Up, const volatile void*>;
+ };
+# 803 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
     };
-# 778 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
+# 817 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
   template<typename _Tp = void>
     struct logical_and;
 
@@ -23828,7 +23779,7 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-# 1020 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
+# 1059 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
   template<typename _Predicate>
     class [[__deprecated__]] unary_negate
     : public unary_function<typename _Predicate::argument_type, bool>
@@ -23883,7 +23834,7 @@ namespace std __attribute__ ((__visibility__ ("default")))
     inline binary_negate<_Predicate>
     not2(const _Predicate& __pred)
     { return binary_negate<_Predicate>(__pred); }
-# 1101 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
+# 1140 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
   template<typename _Arg, typename _Result>
     class pointer_to_unary_function : public unary_function<_Arg, _Result>
     {
@@ -23990,7 +23941,7 @@ namespace std __attribute__ ((__visibility__ ("default")))
       operator()(const _Pair& __x) const
       { return __x.second; }
     };
-# 1228 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
+# 1267 "/usr/include/c++/15.2.1/bits/stl_function.h" 3
   template<typename _Ret, typename _Tp>
     class mem_fun_t : public unary_function<_Tp*, _Ret>
     {
@@ -24289,7 +24240,7 @@ namespace std __attribute__ ((__visibility__ ("default")))
 }
 
 #pragma GCC diagnostic pop
-# 1442 "/usr/include/c++/15.2.1/bits/stl_function.h" 2 3
+# 1481 "/usr/include/c++/15.2.1/bits/stl_function.h" 2 3
 # 42 "/usr/include/c++/15.2.1/bits/refwrap.h" 2 3
 
 
@@ -25486,8 +25437,10 @@ namespace std __attribute__ ((__visibility__ ("default")))
     {
       if (__n != 0)
  {
-   if (size_type(this->_M_impl._M_end_of_storage
-   - this->_M_impl._M_finish) >= __n)
+   if (__position.base() == this->_M_impl._M_finish)
+     _M_fill_append(__n, __x);
+   else if (size_type(this->_M_impl._M_end_of_storage
+          - this->_M_impl._M_finish) >= __n)
      {
 
 
@@ -25580,6 +25533,60 @@ namespace std __attribute__ ((__visibility__ ("default")))
        this->_M_impl._M_end_of_storage = __new_start + __len;
      }
  }
+    }
+
+  template<typename _Tp, typename _Alloc>
+    constexpr
+    void
+    vector<_Tp, _Alloc>::
+    _M_fill_append(size_type __n, const value_type& __x)
+    {
+       if (size_type(this->_M_impl._M_end_of_storage
+       - this->_M_impl._M_finish) >= __n)
+  {
+    ;
+    this->_M_impl._M_finish =
+      std::__uninitialized_fill_n_a(this->_M_impl._M_finish, __n, __x,
+        _M_get_Tp_allocator());
+    ;
+  }
+       else
+  {
+
+
+    pointer __old_start = this->_M_impl._M_start;
+    pointer __old_finish = this->_M_impl._M_finish;
+    const size_type __old_size = __old_finish - __old_start;
+
+    const size_type __len =
+      _M_check_len(__n, "vector::_M_fill_append");
+    pointer __new_start(this->_M_allocate(__len));
+    pointer __new_finish(__new_start + __old_size);
+    try
+      {
+
+        __new_finish = std::__uninitialized_fill_n_a(
+    __new_finish, __n, __x,
+    _M_get_Tp_allocator());
+        std::__uninitialized_move_if_noexcept_a(
+   __old_start, __old_finish, __new_start,
+   _M_get_Tp_allocator());
+      }
+    catch(...)
+      {
+  std::_Destroy(__new_start + __old_size, __new_finish,
+         _M_get_Tp_allocator());
+  _M_deallocate(__new_start, __len);
+  throw;
+       }
+    std::_Destroy(__old_start, __old_finish, _M_get_Tp_allocator());
+    ;
+    _M_deallocate(__old_start,
+    this->_M_impl._M_end_of_storage - __old_start);
+    this->_M_impl._M_start = __new_start;
+    this->_M_impl._M_finish = __new_finish;
+    this->_M_impl._M_end_of_storage = __new_start + __len;
+  }
     }
 
 
@@ -35741,16 +35748,12 @@ namespace std __attribute__ ((__visibility__ ("default")))
 # 33 "/usr/include/stdlib.h" 2 3 4
 
 extern "C" {
-
-
-
-
-
+# 44 "/usr/include/stdlib.h" 3 4
 # 1 "/usr/include/bits/waitflags.h" 1 3 4
-# 41 "/usr/include/stdlib.h" 2 3 4
+# 45 "/usr/include/stdlib.h" 2 3 4
 # 1 "/usr/include/bits/waitstatus.h" 1 3 4
-# 42 "/usr/include/stdlib.h" 2 3 4
-# 56 "/usr/include/stdlib.h" 3 4
+# 46 "/usr/include/stdlib.h" 2 3 4
+# 60 "/usr/include/stdlib.h" 3 4
 # 1 "/usr/include/bits/floatn.h" 1 3 4
 # 131 "/usr/include/bits/floatn.h" 3 4
 # 1 "/usr/include/bits/floatn-common.h" 1 3 4
@@ -35758,7 +35761,7 @@ extern "C" {
 # 1 "/usr/include/bits/long-double.h" 1 3 4
 # 25 "/usr/include/bits/floatn-common.h" 2 3 4
 # 132 "/usr/include/bits/floatn.h" 2 3 4
-# 57 "/usr/include/stdlib.h" 2 3 4
+# 61 "/usr/include/stdlib.h" 2 3 4
 
 
 typedef struct
@@ -35784,7 +35787,7 @@ __extension__ typedef struct
     long long int quot;
     long long int rem;
   } lldiv_t;
-# 98 "/usr/include/stdlib.h" 3 4
+# 102 "/usr/include/stdlib.h" 3 4
 extern size_t __ctype_get_mb_cur_max (void) noexcept (true) ;
 
 
@@ -35817,7 +35820,7 @@ extern float strtof (const char *__restrict __nptr,
 extern long double strtold (const char *__restrict __nptr,
        char **__restrict __endptr)
      noexcept (true) __attribute__ ((__nonnull__ (1)));
-# 141 "/usr/include/stdlib.h" 3 4
+# 145 "/usr/include/stdlib.h" 3 4
 extern _Float32 strtof32 (const char *__restrict __nptr,
      char **__restrict __endptr)
      noexcept (true) __attribute__ ((__nonnull__ (1)));
@@ -35845,7 +35848,7 @@ extern _Float32x strtof32x (const char *__restrict __nptr,
 extern _Float64x strtof64x (const char *__restrict __nptr,
        char **__restrict __endptr)
      noexcept (true) __attribute__ ((__nonnull__ (1)));
-# 177 "/usr/include/stdlib.h" 3 4
+# 181 "/usr/include/stdlib.h" 3 4
 extern long int strtol (const char *__restrict __nptr,
    char **__restrict __endptr, int __base)
      noexcept (true) __attribute__ ((__nonnull__ (1)));
@@ -35917,7 +35920,7 @@ extern unsigned long long int strtoull (const char *__restrict __nptr, char **__
 
 
      __attribute__ ((__nonnull__ (1)));
-# 278 "/usr/include/stdlib.h" 3 4
+# 282 "/usr/include/stdlib.h" 3 4
 extern int strfromd (char *__dest, size_t __size, const char *__format,
        double __f)
      noexcept (true) __attribute__ ((__nonnull__ (3)));
@@ -35929,7 +35932,7 @@ extern int strfromf (char *__dest, size_t __size, const char *__format,
 extern int strfroml (char *__dest, size_t __size, const char *__format,
        long double __f)
      noexcept (true) __attribute__ ((__nonnull__ (3)));
-# 298 "/usr/include/stdlib.h" 3 4
+# 302 "/usr/include/stdlib.h" 3 4
 extern int strfromf32 (char *__dest, size_t __size, const char * __format,
          _Float32 __f)
      noexcept (true) __attribute__ ((__nonnull__ (3)));
@@ -35957,7 +35960,7 @@ extern int strfromf32x (char *__dest, size_t __size, const char * __format,
 extern int strfromf64x (char *__dest, size_t __size, const char * __format,
    _Float64x __f)
      noexcept (true) __attribute__ ((__nonnull__ (3)));
-# 338 "/usr/include/stdlib.h" 3 4
+# 342 "/usr/include/stdlib.h" 3 4
 # 1 "/usr/include/bits/types/locale_t.h" 1 3 4
 # 22 "/usr/include/bits/types/locale_t.h" 3 4
 # 1 "/usr/include/bits/types/__locale_t.h" 1 3 4
@@ -35980,7 +35983,7 @@ typedef struct __locale_struct *__locale_t;
 # 23 "/usr/include/bits/types/locale_t.h" 2 3 4
 
 typedef __locale_t locale_t;
-# 339 "/usr/include/stdlib.h" 2 3 4
+# 343 "/usr/include/stdlib.h" 2 3 4
 
 extern long int strtol_l (const char *__restrict __nptr,
      char **__restrict __endptr, int __base,
@@ -36032,7 +36035,7 @@ extern unsigned long long int strtoull_l (const char *__restrict __nptr, char **
 
 
      __attribute__ ((__nonnull__ (1, 4)));
-# 415 "/usr/include/stdlib.h" 3 4
+# 419 "/usr/include/stdlib.h" 3 4
 extern double strtod_l (const char *__restrict __nptr,
    char **__restrict __endptr, locale_t __loc)
      noexcept (true) __attribute__ ((__nonnull__ (1, 3)));
@@ -36045,7 +36048,7 @@ extern long double strtold_l (const char *__restrict __nptr,
          char **__restrict __endptr,
          locale_t __loc)
      noexcept (true) __attribute__ ((__nonnull__ (1, 3)));
-# 436 "/usr/include/stdlib.h" 3 4
+# 440 "/usr/include/stdlib.h" 3 4
 extern _Float32 strtof32_l (const char *__restrict __nptr,
        char **__restrict __endptr,
        locale_t __loc)
@@ -36078,7 +36081,7 @@ extern _Float64x strtof64x_l (const char *__restrict __nptr,
          char **__restrict __endptr,
          locale_t __loc)
      noexcept (true) __attribute__ ((__nonnull__ (1, 3)));
-# 505 "/usr/include/stdlib.h" 3 4
+# 509 "/usr/include/stdlib.h" 3 4
 extern char *l64a (long int __n) noexcept (true) ;
 
 
@@ -36646,9 +36649,9 @@ struct __pthread_mutex_s
   int __kind;
 
   short __spins;
-  short __elision;
+  short __unused;
   __pthread_list_t __list;
-# 53 "/usr/include/bits/struct_mutex.h" 3 4
+# 52 "/usr/include/bits/struct_mutex.h" 3 4
 };
 # 77 "/usr/include/bits/thread-shared-types.h" 2 3 4
 # 89 "/usr/include/bits/thread-shared-types.h" 3 4
@@ -36665,19 +36668,12 @@ struct __pthread_rwlock_arch_t
 
   int __cur_writer;
   int __shared;
-  signed char __rwelision;
-
-
-
-
-  unsigned char __pad1[7];
-
-
+  unsigned long int __pad1;
   unsigned long int __pad2;
 
 
   unsigned int __flags;
-# 55 "/usr/include/bits/struct_rwlock.h" 3 4
+# 48 "/usr/include/bits/struct_rwlock.h" 3 4
 };
 # 90 "/usr/include/bits/thread-shared-types.h" 2 3 4
 
@@ -36803,7 +36799,7 @@ typedef union
 
 
 }
-# 515 "/usr/include/stdlib.h" 2 3 4
+# 519 "/usr/include/stdlib.h" 2 3 4
 
 
 
@@ -36977,13 +36973,15 @@ extern void *realloc (void *__ptr, size_t __size)
 
 
 extern void free (void *__ptr) noexcept (true);
+# 702 "/usr/include/stdlib.h" 3 4
+extern void free_sized (void *__ptr, size_t __size) noexcept (true);
 
 
 
 
-
-
-
+extern void free_aligned_sized (void *__ptr, size_t __alignment, size_t __size)
+     noexcept (true);
+# 717 "/usr/include/stdlib.h" 3 4
 extern void *reallocarray (void *__ptr, size_t __nmemb, size_t __size)
      noexcept (true) __attribute__ ((__warn_unused_result__))
      __attribute__ ((__alloc_size__ (2, 3)))
@@ -37013,7 +37011,7 @@ extern void *alloca (size_t __size) noexcept (true);
 
 
 }
-# 707 "/usr/include/stdlib.h" 2 3 4
+# 729 "/usr/include/stdlib.h" 2 3 4
 
 
 
@@ -37048,7 +37046,7 @@ extern int atexit (void (*__func) (void)) noexcept (true) __attribute__ ((__nonn
 
 extern "C++" int at_quick_exit (void (*__func) (void))
      noexcept (true) __asm ("at_quick_exit") __attribute__ ((__nonnull__ (1)));
-# 749 "/usr/include/stdlib.h" 3 4
+# 771 "/usr/include/stdlib.h" 3 4
 extern int on_exit (void (*__func) (int __status, void *__arg), void *__arg)
      noexcept (true) __attribute__ ((__nonnull__ (1)));
 
@@ -37104,30 +37102,30 @@ extern int unsetenv (const char *__name) noexcept (true) __attribute__ ((__nonnu
 
 
 extern int clearenv (void) noexcept (true);
-# 814 "/usr/include/stdlib.h" 3 4
+# 836 "/usr/include/stdlib.h" 3 4
 extern char *mktemp (char *__template) noexcept (true) __attribute__ ((__nonnull__ (1)));
-# 827 "/usr/include/stdlib.h" 3 4
-extern int mkstemp (char *__template) __attribute__ ((__nonnull__ (1))) ;
-# 837 "/usr/include/stdlib.h" 3 4
-extern int mkstemp64 (char *__template) __attribute__ ((__nonnull__ (1))) ;
 # 849 "/usr/include/stdlib.h" 3 4
-extern int mkstemps (char *__template, int __suffixlen) __attribute__ ((__nonnull__ (1))) ;
+extern int mkstemp (char *__template) __attribute__ ((__nonnull__ (1))) ;
 # 859 "/usr/include/stdlib.h" 3 4
+extern int mkstemp64 (char *__template) __attribute__ ((__nonnull__ (1))) ;
+# 871 "/usr/include/stdlib.h" 3 4
+extern int mkstemps (char *__template, int __suffixlen) __attribute__ ((__nonnull__ (1))) ;
+# 881 "/usr/include/stdlib.h" 3 4
 extern int mkstemps64 (char *__template, int __suffixlen)
      __attribute__ ((__nonnull__ (1))) ;
-# 870 "/usr/include/stdlib.h" 3 4
+# 892 "/usr/include/stdlib.h" 3 4
 extern char *mkdtemp (char *__template) noexcept (true) __attribute__ ((__nonnull__ (1))) ;
-# 881 "/usr/include/stdlib.h" 3 4
+# 903 "/usr/include/stdlib.h" 3 4
 extern int mkostemp (char *__template, int __flags) __attribute__ ((__nonnull__ (1))) ;
-# 891 "/usr/include/stdlib.h" 3 4
+# 913 "/usr/include/stdlib.h" 3 4
 extern int mkostemp64 (char *__template, int __flags) __attribute__ ((__nonnull__ (1))) ;
-# 901 "/usr/include/stdlib.h" 3 4
+# 923 "/usr/include/stdlib.h" 3 4
 extern int mkostemps (char *__template, int __suffixlen, int __flags)
      __attribute__ ((__nonnull__ (1))) ;
-# 913 "/usr/include/stdlib.h" 3 4
+# 935 "/usr/include/stdlib.h" 3 4
 extern int mkostemps64 (char *__template, int __suffixlen, int __flags)
      __attribute__ ((__nonnull__ (1))) ;
-# 923 "/usr/include/stdlib.h" 3 4
+# 945 "/usr/include/stdlib.h" 3 4
 extern int system (const char *__command) ;
 
 
@@ -37137,7 +37135,7 @@ extern int system (const char *__command) ;
 extern char *canonicalize_file_name (const char *__name)
      noexcept (true) __attribute__ ((__nonnull__ (1))) __attribute__ ((__malloc__))
      __attribute__ ((__malloc__ (__builtin_free, 1))) ;
-# 940 "/usr/include/stdlib.h" 3 4
+# 962 "/usr/include/stdlib.h" 3 4
 extern char *realpath (const char *__restrict __name,
          char *__restrict __resolved) noexcept (true) ;
 
@@ -37161,13 +37159,7 @@ typedef int (*__compar_d_fn_t) (const void *, const void *, void *);
 extern void *bsearch (const void *__key, const void *__base,
         size_t __nmemb, size_t __size, __compar_fn_t __compar)
      __attribute__ ((__nonnull__ (1, 2, 5))) ;
-
-
-
-
-
-
-
+# 998 "/usr/include/stdlib.h" 3 4
 extern void qsort (void *__base, size_t __nmemb, size_t __size,
      __compar_fn_t __compar) __attribute__ ((__nonnull__ (1, 4)));
 
@@ -37205,7 +37197,7 @@ extern ldiv_t ldiv (long int __numer, long int __denom)
 __extension__ extern lldiv_t lldiv (long long int __numer,
         long long int __denom)
      noexcept (true) __attribute__ ((__const__)) ;
-# 1018 "/usr/include/stdlib.h" 3 4
+# 1046 "/usr/include/stdlib.h" 3 4
 extern char *ecvt (double __value, int __ndigit, int *__restrict __decpt,
      int *__restrict __sign) noexcept (true) __attribute__ ((__nonnull__ (3, 4))) ;
 
@@ -37283,7 +37275,7 @@ extern size_t wcstombs (char *__restrict __s,
 
 
 extern int rpmatch (const char *__response) noexcept (true) __attribute__ ((__nonnull__ (1))) ;
-# 1105 "/usr/include/stdlib.h" 3 4
+# 1133 "/usr/include/stdlib.h" 3 4
 extern int getsubopt (char **__restrict __optionp,
         char *const *__restrict __tokens,
         char **__restrict __valuep)
@@ -37332,10 +37324,13 @@ extern int getpt (void);
 
 extern int getloadavg (double __loadavg[], int __nelem)
      noexcept (true) __attribute__ ((__nonnull__ (1)));
-# 1161 "/usr/include/stdlib.h" 3 4
+# 1199 "/usr/include/stdlib.h" 3 4
+extern size_t memalignment (const void *__p);
+
+
 # 1 "/usr/include/bits/stdlib-float.h" 1 3 4
-# 1162 "/usr/include/stdlib.h" 2 3 4
-# 1173 "/usr/include/stdlib.h" 3 4
+# 1203 "/usr/include/stdlib.h" 2 3 4
+# 1214 "/usr/include/stdlib.h" 3 4
 }
 # 84 "/usr/include/c++/15.2.1/cstdlib" 2 3
 
@@ -48701,7 +48696,7 @@ struct _IO_FILE;
 
 typedef struct _IO_FILE FILE;
 # 58 "/usr/include/wchar.h" 2 3 4
-# 90 "/usr/include/wchar.h" 3 4
+# 94 "/usr/include/wchar.h" 3 4
 extern "C" {
 
 
@@ -48800,17 +48795,12 @@ extern "C++" wchar_t *wcschr (wchar_t *__wcs, wchar_t __wc)
      noexcept (true) __asm ("wcschr") __attribute__ ((__pure__));
 extern "C++" const wchar_t *wcschr (const wchar_t *__wcs, wchar_t __wc)
      noexcept (true) __asm ("wcschr") __attribute__ ((__pure__));
-
-
-
-
-
-
+# 202 "/usr/include/wchar.h" 3 4
 extern "C++" wchar_t *wcsrchr (wchar_t *__wcs, wchar_t __wc)
      noexcept (true) __asm ("wcsrchr") __attribute__ ((__pure__));
 extern "C++" const wchar_t *wcsrchr (const wchar_t *__wcs, wchar_t __wc)
      noexcept (true) __asm ("wcsrchr") __attribute__ ((__pure__));
-# 206 "/usr/include/wchar.h" 3 4
+# 218 "/usr/include/wchar.h" 3 4
 extern wchar_t *wcschrnul (const wchar_t *__s, wchar_t __wc)
      noexcept (true) __attribute__ ((__pure__));
 
@@ -48830,23 +48820,13 @@ extern "C++" wchar_t *wcspbrk (wchar_t *__wcs, const wchar_t *__accept)
 extern "C++" const wchar_t *wcspbrk (const wchar_t *__wcs,
          const wchar_t *__accept)
      noexcept (true) __asm ("wcspbrk") __attribute__ ((__pure__));
-
-
-
-
-
-
+# 247 "/usr/include/wchar.h" 3 4
 extern "C++" wchar_t *wcsstr (wchar_t *__haystack, const wchar_t *__needle)
      noexcept (true) __asm ("wcsstr") __attribute__ ((__pure__));
 extern "C++" const wchar_t *wcsstr (const wchar_t *__haystack,
         const wchar_t *__needle)
      noexcept (true) __asm ("wcsstr") __attribute__ ((__pure__));
-
-
-
-
-
-
+# 263 "/usr/include/wchar.h" 3 4
 extern wchar_t *wcstok (wchar_t *__restrict __s,
    const wchar_t *__restrict __delim,
    wchar_t **__restrict __ptr) noexcept (true);
@@ -48862,7 +48842,7 @@ extern "C++" wchar_t *wcswcs (wchar_t *__haystack, const wchar_t *__needle)
 extern "C++" const wchar_t *wcswcs (const wchar_t *__haystack,
         const wchar_t *__needle)
      noexcept (true) __asm ("wcswcs") __attribute__ ((__pure__));
-# 265 "/usr/include/wchar.h" 3 4
+# 286 "/usr/include/wchar.h" 3 4
 extern size_t wcsnlen (const wchar_t *__s, size_t __maxlen)
      noexcept (true) __attribute__ ((__pure__));
 
@@ -48875,12 +48855,7 @@ extern "C++" wchar_t *wmemchr (wchar_t *__s, wchar_t __c, size_t __n)
 extern "C++" const wchar_t *wmemchr (const wchar_t *__s, wchar_t __c,
          size_t __n)
      noexcept (true) __asm ("wmemchr") __attribute__ ((__pure__));
-
-
-
-
-
-
+# 308 "/usr/include/wchar.h" 3 4
 extern int wmemcmp (const wchar_t *__s1, const wchar_t *__s2, size_t __n)
      noexcept (true) __attribute__ ((__pure__));
 
@@ -48932,7 +48907,7 @@ extern size_t __mbrlen (const char *__restrict __s, size_t __n,
    mbstate_t *__restrict __ps) noexcept (true);
 extern size_t mbrlen (const char *__restrict __s, size_t __n,
         mbstate_t *__restrict __ps) noexcept (true);
-# 362 "/usr/include/wchar.h" 3 4
+# 387 "/usr/include/wchar.h" 3 4
 extern size_t mbsrtowcs (wchar_t *__restrict __dst,
     const char **__restrict __src, size_t __len,
     mbstate_t *__restrict __ps) noexcept (true);
@@ -48982,7 +48957,7 @@ extern float wcstof (const wchar_t *__restrict __nptr,
        wchar_t **__restrict __endptr) noexcept (true);
 extern long double wcstold (const wchar_t *__restrict __nptr,
        wchar_t **__restrict __endptr) noexcept (true);
-# 422 "/usr/include/wchar.h" 3 4
+# 447 "/usr/include/wchar.h" 3 4
 extern _Float32 wcstof32 (const wchar_t *__restrict __nptr,
      wchar_t **__restrict __endptr) noexcept (true);
 
@@ -49005,7 +48980,7 @@ extern _Float32x wcstof32x (const wchar_t *__restrict __nptr,
 
 extern _Float64x wcstof64x (const wchar_t *__restrict __nptr,
        wchar_t **__restrict __endptr) noexcept (true);
-# 455 "/usr/include/wchar.h" 3 4
+# 480 "/usr/include/wchar.h" 3 4
 extern long int wcstol (const wchar_t *__restrict __nptr,
    wchar_t **__restrict __endptr, int __base) noexcept (true);
 
@@ -49078,7 +49053,7 @@ extern unsigned long long int wcstouq (const wchar_t *__restrict __nptr, wchar_t
 
 
                                            ;
-# 561 "/usr/include/wchar.h" 3 4
+# 586 "/usr/include/wchar.h" 3 4
 extern long int wcstol_l (const wchar_t *__restrict __nptr,
      wchar_t **__restrict __endptr, int __base,
      locale_t __loc) noexcept (true);
@@ -49123,7 +49098,7 @@ extern unsigned long long int wcstoull_l (const wchar_t *__restrict __nptr, wcha
 
 
                                ;
-# 630 "/usr/include/wchar.h" 3 4
+# 655 "/usr/include/wchar.h" 3 4
 extern double wcstod_l (const wchar_t *__restrict __nptr,
    wchar_t **__restrict __endptr, locale_t __loc)
      noexcept (true);
@@ -49135,7 +49110,7 @@ extern float wcstof_l (const wchar_t *__restrict __nptr,
 extern long double wcstold_l (const wchar_t *__restrict __nptr,
          wchar_t **__restrict __endptr,
          locale_t __loc) noexcept (true);
-# 649 "/usr/include/wchar.h" 3 4
+# 674 "/usr/include/wchar.h" 3 4
 extern _Float32 wcstof32_l (const wchar_t *__restrict __nptr,
        wchar_t **__restrict __endptr,
        locale_t __loc) noexcept (true);
@@ -49163,7 +49138,7 @@ extern _Float32x wcstof32x_l (const wchar_t *__restrict __nptr,
 extern _Float64x wcstof64x_l (const wchar_t *__restrict __nptr,
          wchar_t **__restrict __endptr,
          locale_t __loc) noexcept (true);
-# 689 "/usr/include/wchar.h" 3 4
+# 714 "/usr/include/wchar.h" 3 4
 extern wchar_t *wcpcpy (wchar_t *__restrict __dest,
    const wchar_t *__restrict __src) noexcept (true);
 
@@ -49172,7 +49147,7 @@ extern wchar_t *wcpcpy (wchar_t *__restrict __dest,
 extern wchar_t *wcpncpy (wchar_t *__restrict __dest,
     const wchar_t *__restrict __src, size_t __n)
      noexcept (true);
-# 718 "/usr/include/wchar.h" 3 4
+# 743 "/usr/include/wchar.h" 3 4
 extern __FILE *open_wmemstream (wchar_t **__bufloc, size_t *__sizeloc) noexcept (true)
   __attribute__ ((__malloc__)) ;
 
@@ -49241,7 +49216,7 @@ extern int wscanf (const wchar_t *__restrict __format, ...)
 extern int swscanf (const wchar_t *__restrict __s,
       const wchar_t *__restrict __format, ...)
      noexcept (true) ;
-# 795 "/usr/include/wchar.h" 3 4
+# 820 "/usr/include/wchar.h" 3 4
 extern int fwscanf (__FILE *__restrict __stream, const wchar_t *__restrict __format, ...) __asm__ ("" "__isoc23_fwscanf")
 
 
@@ -49253,7 +49228,7 @@ extern int swscanf (const wchar_t *__restrict __s, const wchar_t *__restrict __f
 
 
                                                           ;
-# 851 "/usr/include/wchar.h" 3 4
+# 876 "/usr/include/wchar.h" 3 4
 extern int vfwscanf (__FILE *__restrict __s,
        const wchar_t *__restrict __format,
        __gnuc_va_list __arg)
@@ -49270,7 +49245,7 @@ extern int vswscanf (const wchar_t *__restrict __s,
        const wchar_t *__restrict __format,
        __gnuc_va_list __arg)
      noexcept (true) ;
-# 875 "/usr/include/wchar.h" 3 4
+# 900 "/usr/include/wchar.h" 3 4
 extern int vfwscanf (__FILE *__restrict __s, const wchar_t *__restrict __format, __gnuc_va_list __arg) __asm__ ("" "__isoc23_vfwscanf")
 
 
@@ -49282,7 +49257,7 @@ extern int vswscanf (const wchar_t *__restrict __s, const wchar_t *__restrict __
 
 
                                                           ;
-# 935 "/usr/include/wchar.h" 3 4
+# 960 "/usr/include/wchar.h" 3 4
 extern wint_t fgetwc (__FILE *__stream);
 extern wint_t getwc (__FILE *__stream);
 
@@ -49328,7 +49303,7 @@ extern int fputws (const wchar_t *__restrict __ws,
 
 
 extern wint_t ungetwc (wint_t __wc, __FILE *__stream);
-# 990 "/usr/include/wchar.h" 3 4
+# 1015 "/usr/include/wchar.h" 3 4
 extern wint_t getwc_unlocked (__FILE *__stream);
 extern wint_t getwchar_unlocked (void);
 
@@ -49347,10 +49322,10 @@ extern wint_t fgetwc_unlocked (__FILE *__stream);
 
 
 extern wint_t fputwc_unlocked (wchar_t __wc, __FILE *__stream);
-# 1016 "/usr/include/wchar.h" 3 4
+# 1041 "/usr/include/wchar.h" 3 4
 extern wint_t putwc_unlocked (wchar_t __wc, __FILE *__stream);
 extern wint_t putwchar_unlocked (wchar_t __wc);
-# 1026 "/usr/include/wchar.h" 3 4
+# 1051 "/usr/include/wchar.h" 3 4
 extern wchar_t *fgetws_unlocked (wchar_t *__restrict __ws, int __n,
      __FILE *__restrict __stream);
 
@@ -49379,7 +49354,7 @@ extern size_t wcsftime_l (wchar_t *__restrict __s, size_t __maxsize,
      const wchar_t *__restrict __format,
      const struct tm *__restrict __tp,
      locale_t __loc) noexcept (true);
-# 1073 "/usr/include/wchar.h" 3 4
+# 1098 "/usr/include/wchar.h" 3 4
 }
 # 50 "/usr/include/c++/15.2.1/cwchar" 2 3
 # 64 "/usr/include/c++/15.2.1/cwchar" 3
@@ -56040,12 +56015,16 @@ extern "C" {
 
 
 
+
+
+
+
 # 1 "/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stddef.h" 1 3 4
-# 35 "/usr/include/stdio.h" 2 3 4
+# 39 "/usr/include/stdio.h" 2 3 4
 
 
 # 1 "/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdarg.h" 1 3 4
-# 38 "/usr/include/stdio.h" 2 3 4
+# 42 "/usr/include/stdio.h" 2 3 4
 
 
 # 1 "/usr/include/bits/types/__fpos_t.h" 1 3 4
@@ -56055,7 +56034,7 @@ typedef struct _G_fpos_t
   __off_t __pos;
   __mbstate_t __state;
 } __fpos_t;
-# 41 "/usr/include/stdio.h" 2 3 4
+# 45 "/usr/include/stdio.h" 2 3 4
 # 1 "/usr/include/bits/types/__fpos64_t.h" 1 3 4
 # 10 "/usr/include/bits/types/__fpos64_t.h" 3 4
 typedef struct _G_fpos64_t
@@ -56063,7 +56042,7 @@ typedef struct _G_fpos64_t
   __off64_t __pos;
   __mbstate_t __state;
 } __fpos64_t;
-# 42 "/usr/include/stdio.h" 2 3 4
+# 46 "/usr/include/stdio.h" 2 3 4
 
 
 # 1 "/usr/include/bits/types/struct_FILE.h" 1 3 4
@@ -56145,7 +56124,7 @@ struct _IO_FILE
 
   char _unused2[12 * sizeof (int) - 5 * sizeof (void *)];
 };
-# 45 "/usr/include/stdio.h" 2 3 4
+# 49 "/usr/include/stdio.h" 2 3 4
 
 
 # 1 "/usr/include/bits/types/cookie_io_functions_t.h" 1 3 4
@@ -56185,18 +56164,18 @@ typedef struct _IO_cookie_io_functions_t
   cookie_seek_function_t *seek;
   cookie_close_function_t *close;
 } cookie_io_functions_t;
-# 48 "/usr/include/stdio.h" 2 3 4
-# 85 "/usr/include/stdio.h" 3 4
+# 52 "/usr/include/stdio.h" 2 3 4
+# 89 "/usr/include/stdio.h" 3 4
 typedef __fpos_t fpos_t;
 
 
 
 
 typedef __fpos64_t fpos64_t;
-# 129 "/usr/include/stdio.h" 3 4
+# 133 "/usr/include/stdio.h" 3 4
 # 1 "/usr/include/bits/stdio_lim.h" 1 3 4
-# 130 "/usr/include/stdio.h" 2 3 4
-# 149 "/usr/include/stdio.h" 3 4
+# 134 "/usr/include/stdio.h" 2 3 4
+# 153 "/usr/include/stdio.h" 3 4
 extern FILE *stdin;
 extern FILE *stdout;
 extern FILE *stderr;
@@ -56214,7 +56193,7 @@ extern int rename (const char *__old, const char *__new) noexcept (true);
 
 extern int renameat (int __oldfd, const char *__old, int __newfd,
        const char *__new) noexcept (true);
-# 179 "/usr/include/stdio.h" 3 4
+# 183 "/usr/include/stdio.h" 3 4
 extern int renameat2 (int __oldfd, const char *__old, int __newfd,
         const char *__new, unsigned int __flags) noexcept (true);
 
@@ -56224,10 +56203,10 @@ extern int renameat2 (int __oldfd, const char *__old, int __newfd,
 
 
 extern int fclose (FILE *__stream) __attribute__ ((__nonnull__ (1)));
-# 197 "/usr/include/stdio.h" 3 4
+# 201 "/usr/include/stdio.h" 3 4
 extern FILE *tmpfile (void)
   __attribute__ ((__malloc__)) __attribute__ ((__malloc__ (fclose, 1))) ;
-# 209 "/usr/include/stdio.h" 3 4
+# 213 "/usr/include/stdio.h" 3 4
 extern FILE *tmpfile64 (void)
    __attribute__ ((__malloc__)) __attribute__ ((__malloc__ (fclose, 1))) ;
 
@@ -56239,7 +56218,7 @@ extern char *tmpnam (char[20]) noexcept (true) ;
 
 
 extern char *tmpnam_r (char __s[20]) noexcept (true) ;
-# 231 "/usr/include/stdio.h" 3 4
+# 235 "/usr/include/stdio.h" 3 4
 extern char *tempnam (const char *__dir, const char *__pfx)
    noexcept (true) __attribute__ ((__malloc__)) __attribute__ ((__malloc__ (__builtin_free, 1)));
 
@@ -56249,11 +56228,11 @@ extern char *tempnam (const char *__dir, const char *__pfx)
 
 
 extern int fflush (FILE *__stream);
-# 248 "/usr/include/stdio.h" 3 4
+# 252 "/usr/include/stdio.h" 3 4
 extern int fflush_unlocked (FILE *__stream);
-# 258 "/usr/include/stdio.h" 3 4
+# 262 "/usr/include/stdio.h" 3 4
 extern int fcloseall (void);
-# 267 "/usr/include/stdio.h" 3 4
+# 271 "/usr/include/stdio.h" 3 4
 extern FILE *fopen (const char *__restrict __filename,
       const char *__restrict __modes)
   __attribute__ ((__malloc__)) __attribute__ ((__malloc__ (fclose, 1))) ;
@@ -56264,7 +56243,7 @@ extern FILE *fopen (const char *__restrict __filename,
 extern FILE *freopen (const char *__restrict __filename,
         const char *__restrict __modes,
         FILE *__restrict __stream) __attribute__ ((__nonnull__ (3)));
-# 292 "/usr/include/stdio.h" 3 4
+# 296 "/usr/include/stdio.h" 3 4
 extern FILE *fopen64 (const char *__restrict __filename,
         const char *__restrict __modes)
   __attribute__ ((__malloc__)) __attribute__ ((__malloc__ (fclose, 1))) ;
@@ -56408,7 +56387,7 @@ extern int scanf (const char *__restrict __format, ...) ;
 
 extern int sscanf (const char *__restrict __s,
      const char *__restrict __format, ...) noexcept (true);
-# 445 "/usr/include/stdio.h" 3 4
+# 449 "/usr/include/stdio.h" 3 4
 extern int fscanf (FILE *__restrict __stream, const char *__restrict __format, ...) __asm__ ("" "__isoc23_fscanf")
 
                                 __attribute__ ((__nonnull__ (1)));
@@ -56417,7 +56396,7 @@ extern int scanf (const char *__restrict __format, ...) __asm__ ("" "__isoc23_sc
 extern int sscanf (const char *__restrict __s, const char *__restrict __format, ...) noexcept (true) __asm__ ("" "__isoc23_sscanf")
 
                       ;
-# 493 "/usr/include/stdio.h" 3 4
+# 497 "/usr/include/stdio.h" 3 4
 extern int vfscanf (FILE *__restrict __s, const char *__restrict __format,
       __gnuc_va_list __arg)
      __attribute__ ((__format__ (__scanf__, 2, 0))) __attribute__ ((__nonnull__ (1)));
@@ -56452,7 +56431,7 @@ extern int vsscanf (const char *__restrict __s, const char *__restrict __format,
 
 
      __attribute__ ((__format__ (__scanf__, 2, 0)));
-# 578 "/usr/include/stdio.h" 3 4
+# 582 "/usr/include/stdio.h" 3 4
 extern int fgetc (FILE *__stream) __attribute__ ((__nonnull__ (1)));
 extern int getc (FILE *__stream) __attribute__ ((__nonnull__ (1)));
 
@@ -56469,7 +56448,7 @@ extern int getchar (void);
 
 extern int getc_unlocked (FILE *__stream) __attribute__ ((__nonnull__ (1)));
 extern int getchar_unlocked (void);
-# 603 "/usr/include/stdio.h" 3 4
+# 607 "/usr/include/stdio.h" 3 4
 extern int fgetc_unlocked (FILE *__stream) __attribute__ ((__nonnull__ (1)));
 
 
@@ -56486,7 +56465,7 @@ extern int putc (int __c, FILE *__stream) __attribute__ ((__nonnull__ (2)));
 
 
 extern int putchar (int __c);
-# 627 "/usr/include/stdio.h" 3 4
+# 631 "/usr/include/stdio.h" 3 4
 extern int fputc_unlocked (int __c, FILE *__stream) __attribute__ ((__nonnull__ (2)));
 
 
@@ -56516,11 +56495,11 @@ extern int putw (int __w, FILE *__stream) __attribute__ ((__nonnull__ (2)));
 
 extern char *fgets (char *__restrict __s, int __n, FILE *__restrict __stream)
      __attribute__ ((__access__ (__write_only__, 1, 2))) __attribute__ ((__nonnull__ (3)));
-# 677 "/usr/include/stdio.h" 3 4
+# 681 "/usr/include/stdio.h" 3 4
 extern char *fgets_unlocked (char *__restrict __s, int __n,
         FILE *__restrict __stream)
     __attribute__ ((__access__ (__write_only__, 1, 2))) __attribute__ ((__nonnull__ (3)));
-# 689 "/usr/include/stdio.h" 3 4
+# 693 "/usr/include/stdio.h" 3 4
 extern __ssize_t __getdelim (char **__restrict __lineptr,
                              size_t *__restrict __n, int __delimiter,
                              FILE *__restrict __stream) __attribute__ ((__nonnull__ (4)));
@@ -56569,10 +56548,10 @@ extern size_t fread (void *__restrict __ptr, size_t __size,
 
 extern size_t fwrite (const void *__restrict __ptr, size_t __size,
         size_t __n, FILE *__restrict __s) __attribute__ ((__nonnull__ (4)));
-# 745 "/usr/include/stdio.h" 3 4
+# 749 "/usr/include/stdio.h" 3 4
 extern int fputs_unlocked (const char *__restrict __s,
       FILE *__restrict __stream) __attribute__ ((__nonnull__ (2)));
-# 756 "/usr/include/stdio.h" 3 4
+# 760 "/usr/include/stdio.h" 3 4
 extern size_t fread_unlocked (void *__restrict __ptr, size_t __size,
          size_t __n, FILE *__restrict __stream)
   __attribute__ ((__nonnull__ (4)));
@@ -56598,7 +56577,7 @@ extern long int ftell (FILE *__stream) __attribute__ ((__nonnull__ (1)));
 
 
 extern void rewind (FILE *__stream) __attribute__ ((__nonnull__ (1)));
-# 793 "/usr/include/stdio.h" 3 4
+# 797 "/usr/include/stdio.h" 3 4
 extern int fseeko (FILE *__stream, __off_t __off, int __whence)
   __attribute__ ((__nonnull__ (1)));
 
@@ -56606,7 +56585,7 @@ extern int fseeko (FILE *__stream, __off_t __off, int __whence)
 
 
 extern __off_t ftello (FILE *__stream) __attribute__ ((__nonnull__ (1)));
-# 819 "/usr/include/stdio.h" 3 4
+# 823 "/usr/include/stdio.h" 3 4
 extern int fgetpos (FILE *__restrict __stream, fpos_t *__restrict __pos)
   __attribute__ ((__nonnull__ (1)));
 
@@ -56614,7 +56593,7 @@ extern int fgetpos (FILE *__restrict __stream, fpos_t *__restrict __pos)
 
 
 extern int fsetpos (FILE *__stream, const fpos_t *__pos) __attribute__ ((__nonnull__ (1)));
-# 841 "/usr/include/stdio.h" 3 4
+# 845 "/usr/include/stdio.h" 3 4
 extern int fseeko64 (FILE *__stream, __off64_t __off, int __whence)
   __attribute__ ((__nonnull__ (1)));
 extern __off64_t ftello64 (FILE *__stream) __attribute__ ((__nonnull__ (1)));
@@ -56653,7 +56632,7 @@ extern int fileno (FILE *__stream) noexcept (true) __attribute__ ((__nonnull__ (
 
 
 extern int fileno_unlocked (FILE *__stream) noexcept (true) __attribute__ ((__nonnull__ (1)));
-# 887 "/usr/include/stdio.h" 3 4
+# 891 "/usr/include/stdio.h" 3 4
 extern int pclose (FILE *__stream) __attribute__ ((__nonnull__ (1)));
 
 
@@ -56706,10 +56685,10 @@ extern int ftrylockfile (FILE *__stream) noexcept (true) __attribute__ ((__nonnu
 
 
 extern void funlockfile (FILE *__stream) noexcept (true) __attribute__ ((__nonnull__ (1)));
-# 949 "/usr/include/stdio.h" 3 4
+# 953 "/usr/include/stdio.h" 3 4
 extern int __uflow (FILE *);
 extern int __overflow (FILE *, int);
-# 973 "/usr/include/stdio.h" 3 4
+# 977 "/usr/include/stdio.h" 3 4
 }
 # 48 "/usr/include/c++/15.2.1/cstdio" 2 3
 # 98 "/usr/include/c++/15.2.1/cstdio" 3
@@ -58418,7 +58397,6 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 }
 # 5 "/home/arch/code/projects/Compiler/include/token.h" 2
-
 # 1 "/usr/include/c++/15.2.1/utility" 1 3
 # 70 "/usr/include/c++/15.2.1/utility" 3
 # 1 "/usr/include/c++/15.2.1/bits/stl_relops.h" 1 3
@@ -58613,13 +58591,12 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 
 }
-# 7 "/home/arch/code/projects/Compiler/include/token.h" 2
+# 6 "/home/arch/code/projects/Compiler/include/token.h" 2
 
 
 
-# 9 "/home/arch/code/projects/Compiler/include/token.h"
-enum class TokenType
-{
+# 8 "/home/arch/code/projects/Compiler/include/token.h"
+enum class TokenType {
   PLUS,
   MINUS,
   TIMES,
@@ -58635,12 +58612,13 @@ enum class TokenType
   END,
   WITH,
   IF,
-  GREATER,
-  THAN,
+  GREATER_THAN,
+  GREATER_THAN_OR_EQUALS_TO,
+  LESS_THAN,
+  LESS_THAN_OR_EQUALS_TO,
   THEN,
-  LESS,
   OR,
-  EQUAL,
+  EQUALS,
   OTHERWISE,
   FOR,
   REPEAT,
@@ -58650,8 +58628,9 @@ enum class TokenType
   INTEGER_LITERAL
 };
 
-class Token
-{
+extern std::vector<TokenType> inequalitySymbols;
+
+class Token {
 public:
   TokenType tokenType;
   std::string tokenString;
@@ -58831,6 +58810,7 @@ typedef struct {
 
 typedef __kernel_long_t __kernel_off_t;
 typedef long long __kernel_loff_t;
+typedef unsigned long long __kernel_uoff_t;
 typedef __kernel_long_t __kernel_old_time_t;
 typedef __kernel_long_t __kernel_time_t;
 typedef long long __kernel_time64_t;
@@ -59002,6 +58982,10 @@ extern int sched_getaffinity (__pid_t __pid, size_t __cpusetsize,
 
 
 
+
+
+
+
 # 1 "/usr/include/bits/time.h" 1 3 4
 # 73 "/usr/include/bits/time.h" 3 4
 # 1 "/usr/include/bits/timex.h" 1 3 4
@@ -59045,7 +59029,7 @@ extern "C" {
 extern int clock_adjtime (__clockid_t __clock_id, struct timex *__utx) noexcept (true) __attribute__ ((__nonnull__ (2)));
 # 90 "/usr/include/bits/time.h" 3 4
 }
-# 34 "/usr/include/time.h" 2 3 4
+# 38 "/usr/include/time.h" 2 3 4
 
 
 
@@ -59078,8 +59062,8 @@ struct tm
 
 
 };
-# 40 "/usr/include/time.h" 2 3 4
-# 48 "/usr/include/time.h" 3 4
+# 44 "/usr/include/time.h" 2 3 4
+# 52 "/usr/include/time.h" 3 4
 # 1 "/usr/include/bits/types/struct_itimerspec.h" 1 3 4
 
 
@@ -59093,9 +59077,9 @@ struct itimerspec
     struct timespec it_interval;
     struct timespec it_value;
   };
-# 49 "/usr/include/time.h" 2 3 4
+# 53 "/usr/include/time.h" 2 3 4
 struct sigevent;
-# 68 "/usr/include/time.h" 3 4
+# 77 "/usr/include/time.h" 3 4
 extern "C" {
 
 
@@ -59111,7 +59095,7 @@ extern double difftime (time_t __time1, time_t __time0);
 
 
 extern time_t mktime (struct tm *__tp) noexcept (true);
-# 99 "/usr/include/time.h" 3 4
+# 108 "/usr/include/time.h" 3 4
 extern size_t strftime (char *__restrict __s, size_t __maxsize,
    const char *__restrict __format,
    const struct tm *__restrict __tp)
@@ -59150,7 +59134,7 @@ extern struct tm *gmtime (const time_t *__timer) noexcept (true);
 
 
 extern struct tm *localtime (const time_t *__timer) noexcept (true);
-# 154 "/usr/include/time.h" 3 4
+# 163 "/usr/include/time.h" 3 4
 extern struct tm *gmtime_r (const time_t *__restrict __timer,
        struct tm *__restrict __tp) noexcept (true);
 
@@ -59158,13 +59142,13 @@ extern struct tm *gmtime_r (const time_t *__restrict __timer,
 
 extern struct tm *localtime_r (const time_t *__restrict __timer,
           struct tm *__restrict __tp) noexcept (true);
-# 179 "/usr/include/time.h" 3 4
+# 188 "/usr/include/time.h" 3 4
 extern char *asctime (const struct tm *__tp) noexcept (true);
 
 
 
 extern char *ctime (const time_t *__timer) noexcept (true);
-# 197 "/usr/include/time.h" 3 4
+# 206 "/usr/include/time.h" 3 4
 extern char *asctime_r (const struct tm *__restrict __tp,
    char *__restrict __buf) noexcept (true);
 
@@ -59172,7 +59156,7 @@ extern char *asctime_r (const struct tm *__restrict __tp,
 
 extern char *ctime_r (const time_t *__restrict __timer,
         char *__restrict __buf) noexcept (true);
-# 217 "/usr/include/time.h" 3 4
+# 226 "/usr/include/time.h" 3 4
 extern char *__tzname[2];
 extern int __daylight;
 extern long int __timezone;
@@ -59190,9 +59174,9 @@ extern void tzset (void) noexcept (true);
 
 extern int daylight;
 extern long int timezone;
-# 246 "/usr/include/time.h" 3 4
+# 255 "/usr/include/time.h" 3 4
 extern time_t timegm (struct tm *__tp) noexcept (true);
-# 263 "/usr/include/time.h" 3 4
+# 272 "/usr/include/time.h" 3 4
 extern time_t timelocal (struct tm *__tp) noexcept (true);
 
 
@@ -59202,7 +59186,7 @@ extern time_t timelocal (struct tm *__tp) noexcept (true);
 
 
 extern int dysize (int __year) noexcept (true) __attribute__ ((__const__));
-# 281 "/usr/include/time.h" 3 4
+# 290 "/usr/include/time.h" 3 4
 extern int nanosleep (const struct timespec *__requested_time,
         struct timespec *__remaining);
 
@@ -59216,11 +59200,11 @@ extern int clock_gettime (clockid_t __clock_id, struct timespec *__tp)
 
 extern int clock_settime (clockid_t __clock_id, const struct timespec *__tp)
      noexcept (true) __attribute__ ((__nonnull__ (2)));
-# 323 "/usr/include/time.h" 3 4
+# 332 "/usr/include/time.h" 3 4
 extern int clock_nanosleep (clockid_t __clock_id, int __flags,
        const struct timespec *__req,
        struct timespec *__rem);
-# 338 "/usr/include/time.h" 3 4
+# 347 "/usr/include/time.h" 3 4
 extern int clock_getcpuclockid (pid_t __pid, clockid_t *__clock_id) noexcept (true);
 
 
@@ -59242,7 +59226,7 @@ extern int timer_settime (timer_t __timerid, int __flags,
 
 extern int timer_gettime (timer_t __timerid, struct itimerspec *__value)
      noexcept (true);
-# 376 "/usr/include/time.h" 3 4
+# 385 "/usr/include/time.h" 3 4
 extern int timer_getoverrun (timer_t __timerid) noexcept (true);
 
 
@@ -59252,14 +59236,14 @@ extern int timer_getoverrun (timer_t __timerid) noexcept (true);
 
 extern int timespec_get (struct timespec *__ts, int __base)
      noexcept (true) __attribute__ ((__nonnull__ (1)));
-# 399 "/usr/include/time.h" 3 4
+# 408 "/usr/include/time.h" 3 4
 extern int timespec_getres (struct timespec *__ts, int __base)
      noexcept (true);
-# 425 "/usr/include/time.h" 3 4
-extern int getdate_err;
 # 434 "/usr/include/time.h" 3 4
+extern int getdate_err;
+# 443 "/usr/include/time.h" 3 4
 extern struct tm *getdate (const char *__string);
-# 448 "/usr/include/time.h" 3 4
+# 457 "/usr/include/time.h" 3 4
 extern int getdate_r (const char *__restrict __string,
         struct tm *__restrict __resbufp);
 
@@ -60917,20 +60901,14 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 # 1 "/usr/include/bits/wordsize.h" 1 3 4
 # 30 "/usr/include/stdint.h" 2 3 4
-
-
-
-
-
-
-
+# 41 "/usr/include/stdint.h" 3 4
 # 1 "/usr/include/bits/stdint-uintn.h" 1 3 4
 # 24 "/usr/include/bits/stdint-uintn.h" 3 4
 typedef __uint8_t uint8_t;
 typedef __uint16_t uint16_t;
 typedef __uint32_t uint32_t;
 typedef __uint64_t uint64_t;
-# 38 "/usr/include/stdint.h" 2 3 4
+# 42 "/usr/include/stdint.h" 2 3 4
 
 
 
@@ -60946,7 +60924,7 @@ typedef __uint_least8_t uint_least8_t;
 typedef __uint_least16_t uint_least16_t;
 typedef __uint_least32_t uint_least32_t;
 typedef __uint_least64_t uint_least64_t;
-# 42 "/usr/include/stdint.h" 2 3 4
+# 46 "/usr/include/stdint.h" 2 3 4
 
 
 
@@ -60957,18 +60935,18 @@ typedef signed char int_fast8_t;
 typedef long int int_fast16_t;
 typedef long int int_fast32_t;
 typedef long int int_fast64_t;
-# 60 "/usr/include/stdint.h" 3 4
+# 64 "/usr/include/stdint.h" 3 4
 typedef unsigned char uint_fast8_t;
 
 typedef unsigned long int uint_fast16_t;
 typedef unsigned long int uint_fast32_t;
 typedef unsigned long int uint_fast64_t;
-# 76 "/usr/include/stdint.h" 3 4
+# 80 "/usr/include/stdint.h" 3 4
 typedef long int intptr_t;
 
 
 typedef unsigned long int uintptr_t;
-# 90 "/usr/include/stdint.h" 3 4
+# 94 "/usr/include/stdint.h" 3 4
 typedef __intmax_t intmax_t;
 typedef __uintmax_t uintmax_t;
 # 12 "/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdint.h" 2 3 4
@@ -85899,12 +85877,12 @@ public:
   std::vector<Token> getTokens();
 };
 # 2 "/home/arch/code/projects/Compiler/src/lexer.cpp" 2
-
+# 1 "/home/arch/code/projects/Compiler/include/token.h" 1
+# 3 "/home/arch/code/projects/Compiler/src/lexer.cpp" 2
 
 using namespace std;
 
-Lexer::Lexer(string sourceCode)
-{
+Lexer::Lexer(string sourceCode) {
   keywords.insert("let");
   keywords.insert("be");
   keywords.insert("pointer");
@@ -85935,19 +85913,16 @@ Lexer::Lexer(string sourceCode)
   this->index = 0;
 }
 
-vector<Token> Lexer::getTokens()
-{
+vector<Token> Lexer::getTokens() {
   vector<Token> tokens;
-  for (; index < splitSourceCode.size(); ++index)
-  {
+  for (; index < splitSourceCode.size(); ++index) {
     string currentToken = splitSourceCode[index];
     if (currentToken == " ")
       continue;
 
     Token token(TokenType::IDENTIFIER, " ");
 
-    if (keywords.contains(currentToken))
-    {
+    if (keywords.contains(currentToken)) {
       if (currentToken == "let")
         token.tokenType = TokenType::LET;
       else if (currentToken == "be")
@@ -85966,20 +85941,14 @@ vector<Token> Lexer::getTokens()
         token.tokenType = TokenType::END;
       else if (currentToken == "if")
         token.tokenType = TokenType::IF;
-      else if (currentToken == "greater")
-        token.tokenType = TokenType::GREATER;
-      else if (currentToken == "than")
-        token.tokenType = TokenType::THAN;
       else if (currentToken == "then")
         token.tokenType = TokenType::THEN;
-      else if (currentToken == "less")
-        token.tokenType = TokenType::LESS;
       else if (currentToken == "or")
         token.tokenType = TokenType::OR;
       else if (currentToken == "with")
         token.tokenType = TokenType::WITH;
       else if (currentToken == "equal")
-        token.tokenType = TokenType::EQUAL;
+        token.tokenType = TokenType::EQUALS;
       else if (currentToken == "otherwise")
         token.tokenType = TokenType::OTHERWISE;
       else if (currentToken == "for")
@@ -85996,10 +85965,19 @@ vector<Token> Lexer::getTokens()
         token.tokenType = TokenType::DIVIDE;
       else if (currentToken == "just")
         token.tokenType = TokenType::JUST;
+      else if (currentToken == "greater" || currentToken == "less") {
+
+        if (splitSourceCode[index + 2] == "or") {
+          token.tokenType = currentToken == "greater" ? TokenType::GREATER_THAN_OR_EQUALS_TO : TokenType::LESS_THAN_OR_EQUALS_TO;
+          index += 4;
+        } else {
+          token.tokenType = currentToken == "greater" ? TokenType::GREATER_THAN : TokenType::LESS_THAN;
+          index += 1;
+        }
+      }
     }
 
-    if (token.tokenType != TokenType::IDENTIFIER)
-    {
+    if (token.tokenType != TokenType::IDENTIFIER) {
       token.tokenString = currentToken;
       tokens.push_back(token);
       continue;

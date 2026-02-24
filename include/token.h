@@ -3,6 +3,7 @@
 
 #include <string>
 #include <utility>
+#include <vector>
 
 enum class TokenType {
   PLUS,
@@ -35,6 +36,8 @@ enum class TokenType {
   IDENTIFIER,
   INTEGER_LITERAL
 };
+
+extern std::vector<TokenType> inequalitySymbols;
 
 class Token {
 public:

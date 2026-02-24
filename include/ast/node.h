@@ -1,53 +1,43 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include "token.h"
+#include <memory>
+#include <optional>
 #include <string>
 #include <variant>
-#include <memory>
 #include <vector>
-#include <iostream>
-#include "token.h"
 
-struct ASTNode
-{
+struct ASTNode {
   virtual ~ASTNode() = default;
   virtual std::string generateCode() = 0;
 };
 
-struct Root final : ASTNode
-{
+struct Root final : ASTNode {
   std::vector<std::shared_ptr<ASTNode>> nodes;
 
   std::string generateCode() override;
 };
 
-struct IntegerLiteral final : ASTNode
-{
+struct IntegerLiteral final : ASTNode {
   int value;
 
-  IntegerLiteral(const int value) : value(value)
-  {
-  }
+  IntegerLiteral(const int value) : value(value) {}
 
   std::string generateCode() override;
 };
 
-struct BinaryExpression final : ASTNode
-{
+struct BinaryExpression final : ASTNode {
   TokenType operatorType;
   std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>> left;
   std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>> right;
 
-  BinaryExpression(TokenType operatorType, std::variant<BinaryExpression, IntegerLiteral> left,
-                   std::variant<BinaryExpression,
-                                IntegerLiteral>
-                       right);
+  BinaryExpression(TokenType operatorType, std::variant<BinaryExpression, IntegerLiteral> left, std::variant<BinaryExpression, IntegerLiteral> right);
 
   std::string generateCode() override;
 };
 
-struct VariableStatement final : ASTNode
-{
+struct VariableStatement final : ASTNode {
   bool isPointer;
   std::optional<std::string> pointerIdentifier;
 
@@ -60,28 +50,24 @@ struct VariableStatement final : ASTNode
   std::string generateCode() override;
 };
 
-struct FunctionStatement final : ASTNode
-{
+struct FunctionStatement final : ASTNode {
   std::string identifier;
   std::vector<std::string> parameters;
   std::vector<std::shared_ptr<ASTNode>> body;
 
-  FunctionStatement(const std::string &identifier, const std::vector<std::shared_ptr<ASTNode>> &body,
-                    const std::vector<std::string> &parameters);
+  FunctionStatement(const std::string &identifier, const std::vector<std::shared_ptr<ASTNode>> &body, const std::vector<std::string> &parameters);
 
   std::string generateCode() override;
 };
 
-struct IfStatementBlock
-{
+struct IfStatementBlock {
   std::optional<std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>>> condition;
   std::vector<std::shared_ptr<ASTNode>> body;
 
   IfStatementBlock(const std::optional<std::variant<BinaryExpression, IntegerLiteral>> condition, const std::vector<std::shared_ptr<ASTNode>> &body);
 };
 
-struct IfStatement final : ASTNode
-{
+struct IfStatement final : ASTNode {
   std::vector<IfStatementBlock> ifStatementBlocks;
 
   IfStatement(const std::vector<IfStatementBlock> &ifStatementBlocks);
@@ -89,8 +75,7 @@ struct IfStatement final : ASTNode
   std::string generateCode() override;
 };
 
-struct LoopStatement final : ASTNode
-{
+struct LoopStatement final : ASTNode {
   std::shared_ptr<BinaryExpression> condition;
   std::vector<std::shared_ptr<ASTNode>> body;
 

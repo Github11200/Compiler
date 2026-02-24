@@ -196,4 +196,5 @@ CMakeFiles/Transpiler.dir/src/lexer.cpp.o.ddi: \
  /usr/include/c++/15.2.1/bits/locale_facets_nonio.tcc \
  /usr/include/c++/15.2.1/bits/locale_conv.h /usr/include/c++/15.2.1/span \
  /usr/include/c++/15.2.1/bits/ostream.tcc /usr/include/c++/15.2.1/istream \
- /usr/include/c++/15.2.1/bits/istream.tcc
+ /usr/include/c++/15.2.1/bits/istream.tcc \
+ /home/arch/code/projects/Compiler/include/token.h

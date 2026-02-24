@@ -1,10 +1,17 @@
 #include "ast/ast.h"
 #include "ast/node.h"
 #include "token.h"
-#include <cmath>
 #include <optional>
 
 using namespace std;
+
+pair<double, double> AST::getBindingPower(TokenType op) {
+  if (op == TokenType::PLUS || op == TokenType::MINUS)
+    return pair<int, int>(1, 1.5);
+  if (op == TokenType::TIMES || op == TokenType::DIVIDE)
+    return pair<int, int>(2, 2.5);
+  throw "What is this token";
+}
 
 bool AST::keywordIsStartOfNewCodeBlock(TokenType keyword) {
   if (keyword == TokenType::AS || keyword == TokenType::THEN || keyword == TokenType::REPEAT || keyword == TokenType::JUST)
@@ -41,7 +48,8 @@ void AST::incrementToKeyword(int &i, const std::vector<Token> &tokens, std::vect
 optional<int> AST::isInequality(const vector<Token> &statement) {
   for (int i = 0; i < statement.size(); ++i) {
     TokenType currentTokenType = statement[i].tokenType;
-    if (currentTokenType == TokenType::GREATER || currentTokenType == TokenType::LESS || currentTokenType == TokenType::EQUAL)
+    // If there is an inequality symbol then return the current index
+    if (ranges::find(inequalitySymbols, currentTokenType) != ranges::end(inequalitySymbols))
       return i;
   }
   return nullopt;
@@ -63,22 +71,10 @@ variant<BinaryExpression, IntegerLiteral> AST::evaluateExpression(const vector<T
 
   // We will assume it contains an operator otherwise
   unique_ptr<BinaryExpression> binaryExpression = nullptr;
-  for (int i = 0; i < statement.size(); ++i) {
-    if (!isOperator(statement[i].tokenType))
-      continue;
-
-    if (i + 1 == statement.size())
-      throw "An operand must be added after the operator.";
-
-    IntegerLiteral leftInteger(stoi(statement[i - 1].tokenString));
-    IntegerLiteral rightInteger(stoi(statement[i + 1].tokenString));
-    BinaryExpression newExpression(statement[i].tokenType, leftInteger, rightInteger);
-
-    // If there's already an expression then this should go to it's right
-    if (binaryExpression != nullptr)
-      binaryExpression->right = std::make_shared<BinaryExpression>(newExpression);
-    else
-      binaryExpression = make_unique<BinaryExpression>(newExpression);
+  IntegerLiteral leftHandSide(stoi(statement[0].tokenString));
+  for (int i = 1; i < statement.size(); ++i) {
+    TokenType op = statement[i].tokenType;
+    pair<double, double> bindingPower = getBindingPower(op);
   }
 
   return *binaryExpression;

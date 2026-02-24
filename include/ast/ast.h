@@ -6,8 +6,10 @@
 #include "utils.h"
 #include <concepts>
 #include <memory>
+#include <optional>
 #include <set>
 #include <stack>
+#include <utility>
 
 struct CodeBlock {
   std::vector<Token> statement;
@@ -17,6 +19,8 @@ struct CodeBlock {
 class AST {
 private:
   std::vector<std::set<std::string>> scopes; // Stores the identifiers
+
+  static std::pair<double, double> getBindingPower(TokenType op);
 
   static bool keywordIsStartOfNewCodeBlock(TokenType keyword);
 
