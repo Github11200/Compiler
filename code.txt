@@ -1,2 +1,2 @@
 let a be 10 stop
-let b be 5 times 10 minus 5 stop
+let b be 5 times 10 minus 5 times 3 stop

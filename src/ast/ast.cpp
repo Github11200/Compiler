@@ -74,27 +74,27 @@ variant<BinaryExpression, IntegerLiteral> AST::evaluateExpression(const vector<T
   // We will assume it contains an operator otherwise
   unique_ptr<BinaryExpression> binaryExpression = nullptr;
   IntegerLiteral leftHandSide(stoi(statement[i].tokenString));
-  for (; i < statement.size() - 1;) {
-    TokenType op = statement[i + 1].tokenType;
-    BindingPower bindingPower = getBindingPower(op);
+  for (; i < statement.size();) {
+    TokenType op;
+    BindingPower bindingPower(0, 0);
+    if (i < statement.size() - 1) {
+      op = statement[i + 1].tokenType;
+      bindingPower = getBindingPower(op);
 
-    if (bindingPower.left < minimumBindingPower)
-      break;
+      if (bindingPower.left < minimumBindingPower)
+        break;
 
-    i += 2;
+      i += 2;
+    }
+
     variant<BinaryExpression, IntegerLiteral> rightHandSide = evaluateExpression(statement, i, bindingPower.right);
     if (binaryExpression == nullptr)
       binaryExpression = make_unique<BinaryExpression>(op, leftHandSide, rightHandSide);
-    else {
-      visit(
-          [&]<typename T>(const T &var) {
-            if constexpr (is_same_v<decay_t<T>, BinaryExpression>)
-              binaryExpression = make_unique<BinaryExpression>(op, get<BinaryExpression>(var), rightHandSide);
-            if constexpr (is_same_v<decay_t<T>, IntegerLiteral>)
-              binaryExpression = make_unique<BinaryExpression>(op, get<IntegerLiteral>(var), rightHandSide);
-          },
-          binaryExpression->left);
-    }
+    else
+      binaryExpression = make_unique<BinaryExpression>(op, *binaryExpression, rightHandSide);
+
+    if (i == statement.size() - 1)
+      break;
   }
 
   if (binaryExpression == nullptr)
