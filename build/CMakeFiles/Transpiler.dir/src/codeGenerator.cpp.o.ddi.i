@@ -13,6 +13,10 @@
 
 
 
+# 1 "/home/arch/code/projects/Compiler/include/token.h" 1
+
+
+
 # 1 "/usr/include/c++/15.2.1/string" 1 3
 # 40 "/usr/include/c++/15.2.1/string" 3
 # 1 "/usr/include/c++/15.2.1/bits/requires_hosted.h" 1 3
@@ -35278,292 +35282,43 @@ namespace std __attribute__ ((__visibility__ ("default")))
     }
 
 }
-# 5 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
-# 1 "/usr/include/c++/15.2.1/variant" 1 3
-# 39 "/usr/include/c++/15.2.1/variant" 3
-# 1 "/usr/include/c++/15.2.1/bits/version.h" 1 3
-# 40 "/usr/include/c++/15.2.1/variant" 2 3
-
-
-
-
-# 1 "/usr/include/c++/15.2.1/bits/enable_special_members.h" 1 3
-# 39 "/usr/include/c++/15.2.1/bits/enable_special_members.h" 3
+# 5 "/home/arch/code/projects/Compiler/include/token.h" 2
+# 1 "/usr/include/c++/15.2.1/utility" 1 3
+# 70 "/usr/include/c++/15.2.1/utility" 3
+# 1 "/usr/include/c++/15.2.1/bits/stl_relops.h" 1 3
+# 62 "/usr/include/c++/15.2.1/bits/stl_relops.h" 3
 namespace std __attribute__ ((__visibility__ ("default")))
 {
 
 
-
-  struct _Enable_default_constructor_tag
+  namespace rel_ops __attribute__ ((__deprecated__ ("use '" "<=>" "' instead")))
   {
-    explicit constexpr _Enable_default_constructor_tag() = default;
-  };
-
-
-
-
-
-
-template<bool _Switch, typename _Tag = void>
-  struct _Enable_default_constructor
-  {
-    constexpr _Enable_default_constructor() noexcept = default;
-    constexpr _Enable_default_constructor(_Enable_default_constructor const&)
-      noexcept = default;
-    constexpr _Enable_default_constructor(_Enable_default_constructor&&)
-      noexcept = default;
-    _Enable_default_constructor&
-    operator=(_Enable_default_constructor const&) noexcept = default;
-    _Enable_default_constructor&
-    operator=(_Enable_default_constructor&&) noexcept = default;
-
-
-    constexpr explicit
-    _Enable_default_constructor(_Enable_default_constructor_tag) { }
-  };
-
-
-
-
-
-
-
-template<bool _Switch, typename _Tag = void>
-  struct _Enable_destructor { };
-
-
-
-
-
-
-template<bool _Copy, bool _CopyAssignment,
-         bool _Move, bool _MoveAssignment,
-         typename _Tag = void>
-  struct _Enable_copy_move { };
-# 98 "/usr/include/c++/15.2.1/bits/enable_special_members.h" 3
-template<bool _Default, bool _Destructor,
-         bool _Copy, bool _CopyAssignment,
-         bool _Move, bool _MoveAssignment,
-         typename _Tag = void>
-  struct _Enable_special_members
-  : private _Enable_default_constructor<_Default, _Tag>,
-    private _Enable_destructor<_Destructor, _Tag>,
-    private _Enable_copy_move<_Copy, _CopyAssignment,
-                              _Move, _MoveAssignment,
-                              _Tag>
-  { };
-
-
-
-template<typename _Tag>
-  struct _Enable_default_constructor<false, _Tag>
-  {
-    constexpr _Enable_default_constructor() noexcept = delete;
-    constexpr _Enable_default_constructor(_Enable_default_constructor const&)
-      noexcept = default;
-    constexpr _Enable_default_constructor(_Enable_default_constructor&&)
-      noexcept = default;
-    _Enable_default_constructor&
-    operator=(_Enable_default_constructor const&) noexcept = default;
-    _Enable_default_constructor&
-    operator=(_Enable_default_constructor&&) noexcept = default;
-
-
-    constexpr explicit
-    _Enable_default_constructor(_Enable_default_constructor_tag) { }
-  };
-
-template<typename _Tag>
-  struct _Enable_destructor<false, _Tag>
-  { ~_Enable_destructor() noexcept = delete; };
-
-template<typename _Tag>
-  struct _Enable_copy_move<false, true, true, true, _Tag>
-  {
-    constexpr _Enable_copy_move() noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = delete;
-    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = default;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move const&) noexcept = default;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move&&) noexcept = default;
-  };
-
-template<typename _Tag>
-  struct _Enable_copy_move<true, false, true, true, _Tag>
-  {
-    constexpr _Enable_copy_move() noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = default;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move const&) noexcept = delete;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move&&) noexcept = default;
-  };
-
-template<typename _Tag>
-  struct _Enable_copy_move<false, false, true, true, _Tag>
-  {
-    constexpr _Enable_copy_move() noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = delete;
-    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = default;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move const&) noexcept = delete;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move&&) noexcept = default;
-  };
-
-template<typename _Tag>
-  struct _Enable_copy_move<true, true, false, true, _Tag>
-  {
-    constexpr _Enable_copy_move() noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = delete;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move const&) noexcept = default;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move&&) noexcept = default;
-  };
-
-template<typename _Tag>
-  struct _Enable_copy_move<false, true, false, true, _Tag>
-  {
-    constexpr _Enable_copy_move() noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = delete;
-    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = delete;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move const&) noexcept = default;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move&&) noexcept = default;
-  };
-
-template<typename _Tag>
-  struct _Enable_copy_move<true, false, false, true, _Tag>
-  {
-    constexpr _Enable_copy_move() noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = delete;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move const&) noexcept = delete;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move&&) noexcept = default;
-  };
-
-template<typename _Tag>
-  struct _Enable_copy_move<false, false, false, true, _Tag>
-  {
-    constexpr _Enable_copy_move() noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = delete;
-    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = delete;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move const&) noexcept = delete;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move&&) noexcept = default;
-  };
-
-template<typename _Tag>
-  struct _Enable_copy_move<true, true, true, false, _Tag>
-  {
-    constexpr _Enable_copy_move() noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = default;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move const&) noexcept = default;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move&&) noexcept = delete;
-  };
-
-template<typename _Tag>
-  struct _Enable_copy_move<false, true, true, false, _Tag>
-  {
-    constexpr _Enable_copy_move() noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = delete;
-    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = default;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move const&) noexcept = default;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move&&) noexcept = delete;
-  };
-
-template<typename _Tag>
-  struct _Enable_copy_move<true, false, true, false, _Tag>
-  {
-    constexpr _Enable_copy_move() noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = default;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move const&) noexcept = delete;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move&&) noexcept = delete;
-  };
-
-template<typename _Tag>
-  struct _Enable_copy_move<false, false, true, false, _Tag>
-  {
-    constexpr _Enable_copy_move() noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = delete;
-    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = default;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move const&) noexcept = delete;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move&&) noexcept = delete;
-  };
-
-template<typename _Tag>
-  struct _Enable_copy_move<true, true, false, false, _Tag>
-  {
-    constexpr _Enable_copy_move() noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = delete;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move const&) noexcept = default;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move&&) noexcept = delete;
-  };
-
-template<typename _Tag>
-  struct _Enable_copy_move<false, true, false, false, _Tag>
-  {
-    constexpr _Enable_copy_move() noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = delete;
-    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = delete;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move const&) noexcept = default;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move&&) noexcept = delete;
-  };
-
-template<typename _Tag>
-  struct _Enable_copy_move<true, false, false, false, _Tag>
-  {
-    constexpr _Enable_copy_move() noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = delete;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move const&) noexcept = delete;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move&&) noexcept = delete;
-  };
-
-template<typename _Tag>
-  struct _Enable_copy_move<false, false, false, false, _Tag>
-  {
-    constexpr _Enable_copy_move() noexcept = default;
-    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = delete;
-    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = delete;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move const&) noexcept = delete;
-    _Enable_copy_move&
-    operator=(_Enable_copy_move&&) noexcept = delete;
-  };
-
+# 86 "/usr/include/c++/15.2.1/bits/stl_relops.h" 3
+    template <class _Tp>
+      inline bool
+      operator!=(const _Tp& __x, const _Tp& __y)
+      { return !(__x == __y); }
+# 99 "/usr/include/c++/15.2.1/bits/stl_relops.h" 3
+    template <class _Tp>
+      inline bool
+      operator>(const _Tp& __x, const _Tp& __y)
+      { return __y < __x; }
+# 112 "/usr/include/c++/15.2.1/bits/stl_relops.h" 3
+    template <class _Tp>
+      inline bool
+      operator<=(const _Tp& __x, const _Tp& __y)
+      { return !(__y < __x); }
+# 125 "/usr/include/c++/15.2.1/bits/stl_relops.h" 3
+    template <class _Tp>
+      inline bool
+      operator>=(const _Tp& __x, const _Tp& __y)
+      { return !(__x < __y); }
+  }
 
 
 }
-# 45 "/usr/include/c++/15.2.1/variant" 2 3
-
-
-
+# 71 "/usr/include/c++/15.2.1/utility" 2 3
+# 85 "/usr/include/c++/15.2.1/utility" 3
 # 1 "/usr/include/c++/15.2.1/bits/monostate.h" 1 3
 # 33 "/usr/include/c++/15.2.1/bits/monostate.h" 3
 # 1 "/usr/include/c++/15.2.1/bits/version.h" 1 3
@@ -35597,2303 +35352,134 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 
 }
-# 49 "/usr/include/c++/15.2.1/variant" 2 3
-# 1 "/usr/include/c++/15.2.1/bits/parse_numbers.h" 1 3
-# 44 "/usr/include/c++/15.2.1/bits/parse_numbers.h" 3
+# 86 "/usr/include/c++/15.2.1/utility" 2 3
+# 103 "/usr/include/c++/15.2.1/utility" 3
+# 1 "/usr/include/c++/15.2.1/bits/version.h" 1 3
+# 104 "/usr/include/c++/15.2.1/utility" 2 3
+
 namespace std __attribute__ ((__visibility__ ("default")))
 {
 
 
-namespace __parse_int
-{
-  template<unsigned _Base, char _Dig>
-    struct _Digit;
 
-  template<unsigned _Base>
-    struct _Digit<_Base, '0'> : integral_constant<unsigned, 0>
-    {
-      using __valid = true_type;
-    };
 
-  template<unsigned _Base>
-    struct _Digit<_Base, '1'> : integral_constant<unsigned, 1>
-    {
-      using __valid = true_type;
-    };
-
-  template<unsigned _Base, unsigned _Val>
-    struct _Digit_impl : integral_constant<unsigned, _Val>
-    {
-      static_assert(_Base > _Val, "invalid digit");
-      using __valid = true_type;
-    };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, '2'> : _Digit_impl<_Base, 2>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, '3'> : _Digit_impl<_Base, 3>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, '4'> : _Digit_impl<_Base, 4>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, '5'> : _Digit_impl<_Base, 5>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, '6'> : _Digit_impl<_Base, 6>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, '7'> : _Digit_impl<_Base, 7>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, '8'> : _Digit_impl<_Base, 8>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, '9'> : _Digit_impl<_Base, 9>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, 'a'> : _Digit_impl<_Base, 0xa>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, 'A'> : _Digit_impl<_Base, 0xa>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, 'b'> : _Digit_impl<_Base, 0xb>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, 'B'> : _Digit_impl<_Base, 0xb>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, 'c'> : _Digit_impl<_Base, 0xc>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, 'C'> : _Digit_impl<_Base, 0xc>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, 'd'> : _Digit_impl<_Base, 0xd>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, 'D'> : _Digit_impl<_Base, 0xd>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, 'e'> : _Digit_impl<_Base, 0xe>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, 'E'> : _Digit_impl<_Base, 0xe>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, 'f'> : _Digit_impl<_Base, 0xf>
-    { };
-
-  template<unsigned _Base>
-    struct _Digit<_Base, 'F'> : _Digit_impl<_Base, 0xf>
-    { };
-
-
-  template<unsigned _Base>
-    struct _Digit<_Base, '\''> : integral_constant<unsigned, 0>
-    {
-      using __valid = false_type;
-    };
-
-
-
-  template<unsigned long long _Val>
-    using __ull_constant = integral_constant<unsigned long long, _Val>;
-
-  template<unsigned _Base, char _Dig, char... _Digs>
-    struct _Power_help
-    {
-      using __next = typename _Power_help<_Base, _Digs...>::type;
-      using __valid_digit = typename _Digit<_Base, _Dig>::__valid;
-      using type
- = __ull_constant<__next::value * (__valid_digit{} ? _Base : 1ULL)>;
-    };
-
-  template<unsigned _Base, char _Dig>
-    struct _Power_help<_Base, _Dig>
-    {
-      using __valid_digit = typename _Digit<_Base, _Dig>::__valid;
-      using type = __ull_constant<__valid_digit::value>;
-    };
-
-  template<unsigned _Base, char... _Digs>
-    struct _Power : _Power_help<_Base, _Digs...>::type
-    { };
-
-  template<unsigned _Base>
-    struct _Power<_Base> : __ull_constant<0>
-    { };
-
-
-
-  template<unsigned _Base, unsigned long long _Pow, char _Dig, char... _Digs>
-    struct _Number_help
-    {
-      using __digit = _Digit<_Base, _Dig>;
-      using __valid_digit = typename __digit::__valid;
-      using __next = _Number_help<_Base,
-      __valid_digit::value ? _Pow / _Base : _Pow,
-      _Digs...>;
-      using type = __ull_constant<_Pow * __digit::value + __next::type::value>;
-      static_assert((type::value / _Pow) == __digit::value,
-      "integer literal does not fit in unsigned long long");
-    };
-
-
-  template<unsigned _Base, unsigned long long _Pow, char _Dig, char..._Digs>
-    struct _Number_help<_Base, _Pow, '\'', _Dig, _Digs...>
-    : _Number_help<_Base, _Pow, _Dig, _Digs...>
-    { };
-
-
-  template<unsigned _Base, char _Dig>
-    struct _Number_help<_Base, 1ULL, _Dig>
-    {
-      using type = __ull_constant<_Digit<_Base, _Dig>::value>;
-    };
-
-  template<unsigned _Base, char... _Digs>
-    struct _Number
-    : _Number_help<_Base, _Power<_Base, _Digs...>::value, _Digs...>::type
-    { };
-
-  template<unsigned _Base>
-    struct _Number<_Base>
-    : __ull_constant<0>
-    { };
-
-
-
-  template<char... _Digs>
-    struct _Parse_int;
-
-  template<char... _Digs>
-    struct _Parse_int<'0', 'b', _Digs...>
-    : _Number<2U, _Digs...>::type
-    { };
-
-  template<char... _Digs>
-    struct _Parse_int<'0', 'B', _Digs...>
-    : _Number<2U, _Digs...>::type
-    { };
-
-  template<char... _Digs>
-    struct _Parse_int<'0', 'x', _Digs...>
-    : _Number<16U, _Digs...>::type
-    { };
-
-  template<char... _Digs>
-    struct _Parse_int<'0', 'X', _Digs...>
-    : _Number<16U, _Digs...>::type
-    { };
-
-  template<char... _Digs>
-    struct _Parse_int<'0', _Digs...>
-    : _Number<8U, _Digs...>::type
-    { };
-
-  template<char... _Digs>
-    struct _Parse_int
-    : _Number<10U, _Digs...>::type
-    { };
-
-}
-
-
-namespace __select_int
-{
-  template<unsigned long long _Val, typename... _Ints>
-    struct _Select_int_base;
-
-  template<unsigned long long _Val, typename _IntType, typename... _Ints>
-    struct _Select_int_base<_Val, _IntType, _Ints...>
-    : __conditional_t<(_Val <= __gnu_cxx::__int_traits<_IntType>::__max),
-        integral_constant<_IntType, (_IntType)_Val>,
-        _Select_int_base<_Val, _Ints...>>
-    { };
-
-  template<unsigned long long _Val>
-    struct _Select_int_base<_Val>
-    { };
-
-  template<char... _Digs>
-    using _Select_int = typename _Select_int_base<
- __parse_int::_Parse_int<_Digs...>::value,
- unsigned char,
- unsigned short,
- unsigned int,
- unsigned long,
- unsigned long long
-      >::type;
-
-}
-
-
-}
-# 50 "/usr/include/c++/15.2.1/variant" 2 3
-# 63 "/usr/include/c++/15.2.1/variant" 3
-namespace std __attribute__ ((__visibility__ ("default")))
-{
-
-
-  template<typename... _Types> class tuple;
-  template<typename... _Types> class variant;
-
-  template<typename _Variant>
-    struct variant_size;
-
-  template<typename _Variant>
-    struct variant_size<const _Variant> : variant_size<_Variant> {};
-
-  template<typename _Variant>
-    struct variant_size<volatile _Variant> : variant_size<_Variant> {};
-
-  template<typename _Variant>
-    struct variant_size<const volatile _Variant> : variant_size<_Variant> {};
-
-  template<typename... _Types>
-    struct variant_size<variant<_Types...>>
-    : std::integral_constant<size_t, sizeof...(_Types)> {};
-
-  template<typename _Variant>
-    inline constexpr size_t variant_size_v = variant_size<_Variant>::value;
-
-  template<typename... _Types>
-    inline constexpr size_t
-    variant_size_v<variant<_Types...>> = sizeof...(_Types);
-
-  template<typename... _Types>
-    inline constexpr size_t
-    variant_size_v<const variant<_Types...>> = sizeof...(_Types);
-
-  template<size_t _Np, typename _Variant>
-    struct variant_alternative;
-
-  template<size_t _Np, typename... _Types>
-    struct variant_alternative<_Np, variant<_Types...>>
-    {
-      static_assert(_Np < sizeof...(_Types));
-
-      using type = typename _Nth_type<_Np, _Types...>::type;
-    };
-
-  template<size_t _Np, typename _Variant>
-    using variant_alternative_t =
-      typename variant_alternative<_Np, _Variant>::type;
-
-  template<size_t _Np, typename _Variant>
-    struct variant_alternative<_Np, const _Variant>
-    { using type = const variant_alternative_t<_Np, _Variant>; };
-
-  template<size_t _Np, typename _Variant>
-    struct variant_alternative<_Np, volatile _Variant>
-    { using type = volatile variant_alternative_t<_Np, _Variant>; };
-
-  template<size_t _Np, typename _Variant>
-    struct variant_alternative<_Np, const volatile _Variant>
-    { using type = const volatile variant_alternative_t<_Np, _Variant>; };
-
-  inline constexpr size_t variant_npos = -1;
-
-  template<size_t _Np, typename... _Types>
-    constexpr variant_alternative_t<_Np, variant<_Types...>>&
-    get(variant<_Types...>&);
-
-  template<size_t _Np, typename... _Types>
-    constexpr variant_alternative_t<_Np, variant<_Types...>>&&
-    get(variant<_Types...>&&);
-
-  template<size_t _Np, typename... _Types>
-    constexpr variant_alternative_t<_Np, variant<_Types...>> const&
-    get(const variant<_Types...>&);
-
-  template<size_t _Np, typename... _Types>
-    constexpr variant_alternative_t<_Np, variant<_Types...>> const&&
-    get(const variant<_Types...>&&);
-
-  template<typename _Result_type, typename _Visitor, typename... _Variants>
-    constexpr decltype(auto)
-    __do_visit(_Visitor&& __visitor, _Variants&&... __variants);
-
-  template <typename... _Types, typename _Tp>
+  template <typename _Tp, typename _Up = _Tp>
     constexpr
-    decltype(auto)
-    __variant_cast(_Tp&& __rhs)
+    inline _Tp
+    exchange(_Tp& __obj, _Up&& __new_val)
+    noexcept(__and_<is_nothrow_move_constructible<_Tp>,
+      is_nothrow_assignable<_Tp&, _Up>>::value)
+    { return std::__exchange(__obj, std::forward<_Up>(__new_val)); }
+
+
+
+  template<typename _Tp>
+    [[nodiscard]]
+    constexpr add_const_t<_Tp>&
+    as_const(_Tp& __t) noexcept
+    { return __t; }
+
+  template<typename _Tp>
+    void as_const(const _Tp&&) = delete;
+
+
+
+  template<typename _Tp, typename _Up>
+    constexpr bool
+    cmp_equal(_Tp __t, _Up __u) noexcept
     {
-      if constexpr (is_lvalue_reference_v<_Tp>)
- {
-   if constexpr (is_const_v<remove_reference_t<_Tp>>)
-     return static_cast<const variant<_Types...>&>(__rhs);
-   else
-     return static_cast<variant<_Types...>&>(__rhs);
- }
+      static_assert(__is_standard_integer<_Tp>::value);
+      static_assert(__is_standard_integer<_Up>::value);
+
+      if constexpr (is_signed_v<_Tp> == is_signed_v<_Up>)
+ return __t == __u;
+      else if constexpr (is_signed_v<_Tp>)
+ return __t >= 0 && make_unsigned_t<_Tp>(__t) == __u;
       else
-        return static_cast<variant<_Types...>&&>(__rhs);
+ return __u >= 0 && __t == make_unsigned_t<_Up>(__u);
     }
 
-namespace __detail
-{
-namespace __variant
-{
+  template<typename _Tp, typename _Up>
+    constexpr bool
+    cmp_not_equal(_Tp __t, _Up __u) noexcept
+    { return !std::cmp_equal(__t, __u); }
 
-  struct __variant_cookie {};
-
-  struct __variant_idx_cookie { using type = __variant_idx_cookie; };
-
-  template<typename _Tp> struct __deduce_visit_result { using type = _Tp; };
-
-
-  template<typename _Visitor, typename... _Variants>
-    constexpr void
-    __raw_visit(_Visitor&& __visitor, _Variants&&... __variants)
+  template<typename _Tp, typename _Up>
+    constexpr bool
+    cmp_less(_Tp __t, _Up __u) noexcept
     {
-      std::__do_visit<__variant_cookie>(std::forward<_Visitor>(__visitor),
-            std::forward<_Variants>(__variants)...);
-    }
+      static_assert(__is_standard_integer<_Tp>::value);
+      static_assert(__is_standard_integer<_Up>::value);
 
-
-  template<typename _Visitor, typename... _Variants>
-    constexpr void
-    __raw_idx_visit(_Visitor&& __visitor, _Variants&&... __variants)
-    {
-      std::__do_visit<__variant_idx_cookie>(std::forward<_Visitor>(__visitor),
-   std::forward<_Variants>(__variants)...);
-    }
-
-
-
-  template<typename... _Types>
-    constexpr std::variant<_Types...>&
-    __as(std::variant<_Types...>& __v) noexcept
-    { return __v; }
-
-  template<typename... _Types>
-    constexpr const std::variant<_Types...>&
-    __as(const std::variant<_Types...>& __v) noexcept
-    { return __v; }
-
-  template<typename... _Types>
-    constexpr std::variant<_Types...>&&
-    __as(std::variant<_Types...>&& __v) noexcept
-    { return std::move(__v); }
-
-  template<typename... _Types>
-    constexpr const std::variant<_Types...>&&
-    __as(const std::variant<_Types...>&& __v) noexcept
-    { return std::move(__v); }
-
-
-
-
-
-  template<typename _Type, bool = true>
-    struct _Uninitialized;
-
-
-
-
-  template<typename _Type, bool>
-    struct _Uninitialized
-    {
-      template<typename... _Args>
- constexpr
- _Uninitialized(in_place_index_t<0>, _Args&&... __args)
- : _M_storage(std::forward<_Args>(__args)...)
- { }
-# 246 "/usr/include/c++/15.2.1/variant" 3
-      _Type _M_storage;
-    };
-# 294 "/usr/include/c++/15.2.1/variant" 3
-  template<size_t _Np, typename _Union>
-    constexpr auto&&
-    __get_n(_Union&& __u) noexcept
-    {
-      if constexpr (_Np == 0)
- return std::forward<_Union>(__u)._M_first._M_storage;
-      else if constexpr (_Np == 1)
- return std::forward<_Union>(__u)._M_rest._M_first._M_storage;
-      else if constexpr (_Np == 2)
- return std::forward<_Union>(__u)._M_rest._M_rest._M_first._M_storage;
+      if constexpr (is_signed_v<_Tp> == is_signed_v<_Up>)
+ return __t < __u;
+      else if constexpr (is_signed_v<_Tp>)
+ return __t < 0 || make_unsigned_t<_Tp>(__t) < __u;
       else
- return __variant::__get_n<_Np - 3>(
-   std::forward<_Union>(__u)._M_rest._M_rest._M_rest);
+ return __u >= 0 && __t < make_unsigned_t<_Up>(__u);
     }
 
+  template<typename _Tp, typename _Up>
+    constexpr bool
+    cmp_greater(_Tp __t, _Up __u) noexcept
+    { return std::cmp_less(__u, __t); }
 
+  template<typename _Tp, typename _Up>
+    constexpr bool
+    cmp_less_equal(_Tp __t, _Up __u) noexcept
+    { return !std::cmp_less(__u, __t); }
 
-  template<size_t _Np, typename _Variant>
-    constexpr decltype(auto)
-    __get(_Variant&& __v) noexcept
-    { return __variant::__get_n<_Np>(std::forward<_Variant>(__v)._M_u); }
+  template<typename _Tp, typename _Up>
+    constexpr bool
+    cmp_greater_equal(_Tp __t, _Up __u) noexcept
+    { return !std::cmp_less(__t, __u); }
 
-
-  template<size_t _Np, typename _Union>
-    constexpr decltype(auto)
-    __construct_n(_Union& __u) noexcept
+  template<typename _Res, typename _Tp>
+    constexpr bool
+    in_range(_Tp __t) noexcept
     {
-      if constexpr (_Np == 0)
- return &__u._M_first;
-      else if constexpr (_Np == 1)
- {
-   std::_Construct(&__u._M_rest);
-   return &__u._M_rest._M_first;
- }
-      else if constexpr (_Np == 2)
- {
-   std::_Construct(&__u._M_rest);
-   std::_Construct(&__u._M_rest._M_rest);
-   return &__u._M_rest._M_rest._M_first;
- }
+      static_assert(__is_standard_integer<_Res>::value);
+      static_assert(__is_standard_integer<_Tp>::value);
+      using __gnu_cxx::__int_traits;
+
+      if constexpr (is_signed_v<_Tp> == is_signed_v<_Res>)
+ return __int_traits<_Res>::__min <= __t
+   && __t <= __int_traits<_Res>::__max;
+      else if constexpr (is_signed_v<_Tp>)
+ return __t >= 0
+   && make_unsigned_t<_Tp>(__t) <= __int_traits<_Res>::__max;
       else
- {
-   std::_Construct(&__u._M_rest);
-   std::_Construct(&__u._M_rest._M_rest);
-   std::_Construct(&__u._M_rest._M_rest._M_rest);
-   return __variant::__construct_n<_Np - 3>(__u._M_rest._M_rest._M_rest);
- }
+ return __t <= make_unsigned_t<_Res>(__int_traits<_Res>::__max);
     }
-
-  template<typename... _Types>
-    struct _Traits
-    {
-      static constexpr bool _S_default_ctor =
-   is_default_constructible_v<typename _Nth_type<0, _Types...>::type>;
-      static constexpr bool _S_copy_ctor =
-   (is_copy_constructible_v<_Types> && ...);
-      static constexpr bool _S_move_ctor =
-   (is_move_constructible_v<_Types> && ...);
-      static constexpr bool _S_copy_assign =
-   _S_copy_ctor
-   && (is_copy_assignable_v<_Types> && ...);
-      static constexpr bool _S_move_assign =
-   _S_move_ctor
-   && (is_move_assignable_v<_Types> && ...);
-
-      static constexpr bool _S_trivial_dtor =
-   (is_trivially_destructible_v<_Types> && ...);
-      static constexpr bool _S_trivial_copy_ctor =
-   (is_trivially_copy_constructible_v<_Types> && ...);
-      static constexpr bool _S_trivial_move_ctor =
-   (is_trivially_move_constructible_v<_Types> && ...);
-      static constexpr bool _S_trivial_copy_assign =
-   _S_trivial_dtor && _S_trivial_copy_ctor
-   && (is_trivially_copy_assignable_v<_Types> && ...);
-      static constexpr bool _S_trivial_move_assign =
-   _S_trivial_dtor && _S_trivial_move_ctor
-   && (is_trivially_move_assignable_v<_Types> && ...);
-
-
-
-      static constexpr bool _S_nothrow_default_ctor =
-   is_nothrow_default_constructible_v<
-       typename _Nth_type<0, _Types...>::type>;
-      static constexpr bool _S_nothrow_copy_ctor = false;
-      static constexpr bool _S_nothrow_move_ctor =
-   (is_nothrow_move_constructible_v<_Types> && ...);
-      static constexpr bool _S_nothrow_copy_assign = false;
-      static constexpr bool _S_nothrow_move_assign =
-   _S_nothrow_move_ctor
-   && (is_nothrow_move_assignable_v<_Types> && ...);
-    };
-
-
-  template<bool __trivially_destructible, typename... _Types>
-    union _Variadic_union
-    {
-      _Variadic_union() = default;
-
-      template<size_t _Np, typename... _Args>
- _Variadic_union(in_place_index_t<_Np>, _Args&&...) = delete;
-    };
-
-  template<bool __trivially_destructible, typename _First, typename... _Rest>
-    union _Variadic_union<__trivially_destructible, _First, _Rest...>
-    {
-      constexpr _Variadic_union() : _M_rest() { }
-
-      template<typename... _Args>
- constexpr
- _Variadic_union(in_place_index_t<0>, _Args&&... __args)
- : _M_first(in_place_index<0>, std::forward<_Args>(__args)...)
- { }
-
-      template<size_t _Np, typename... _Args>
- constexpr
- _Variadic_union(in_place_index_t<_Np>, _Args&&... __args)
- : _M_rest(in_place_index<_Np-1>, std::forward<_Args>(__args)...)
- { }
-
-
-      _Variadic_union(const _Variadic_union&) = default;
-      _Variadic_union(_Variadic_union&&) = default;
-      _Variadic_union& operator=(const _Variadic_union&) = default;
-      _Variadic_union& operator=(_Variadic_union&&) = default;
-
-      ~_Variadic_union() = default;
-
-
-
-
-      constexpr ~_Variadic_union()
- requires (!__trivially_destructible)
-      { }
-
-
-      _Uninitialized<_First> _M_first;
-      _Variadic_union<__trivially_destructible, _Rest...> _M_rest;
-    };
-
-
 
 
 
 
   template<typename _Tp>
-    struct _Never_valueless_alt
-    : __and_<bool_constant<sizeof(_Tp) <= 256>, is_trivially_copyable<_Tp>>
-    { };
-# 453 "/usr/include/c++/15.2.1/variant" 3
-  template <typename... _Types>
-    constexpr bool __never_valueless()
-    {
-      return _Traits<_Types...>::_S_move_assign
- && (_Never_valueless_alt<_Types>::value && ...);
-    }
-
-
-  template<bool __trivially_destructible, typename... _Types>
-    struct _Variant_storage;
-
-  template <typename... _Types>
-    using __select_index =
-      typename __select_int::_Select_int_base<sizeof...(_Types),
-           unsigned char,
-           unsigned short>::type::value_type;
-
-  template<typename... _Types>
-    struct _Variant_storage<false, _Types...>
-    {
-      constexpr
-      _Variant_storage()
-      : _M_index(static_cast<__index_type>(variant_npos))
-      { }
-
-      template<size_t _Np, typename... _Args>
- constexpr
- _Variant_storage(in_place_index_t<_Np>, _Args&&... __args)
- : _M_u(in_place_index<_Np>, std::forward<_Args>(__args)...),
-   _M_index{_Np}
- { }
-
-      constexpr void
-      _M_reset()
-      {
- if (!_M_valid()) [[__unlikely__]]
-   return;
-
- std::__do_visit<void>([](auto&& __this_mem) mutable
-   {
-     std::_Destroy(std::__addressof(__this_mem));
-   }, __variant_cast<_Types...>(*this));
-
- _M_index = static_cast<__index_type>(variant_npos);
-      }
-
-      constexpr
-      ~_Variant_storage()
-      { _M_reset(); }
-
-      constexpr bool
-      _M_valid() const noexcept
-      {
- if constexpr (__variant::__never_valueless<_Types...>())
-   return true;
- return this->_M_index != __index_type(variant_npos);
-      }
-
-      _Variadic_union<false, _Types...> _M_u;
-      using __index_type = __select_index<_Types...>;
-      __index_type _M_index;
-    };
-
-  template<typename... _Types>
-    struct _Variant_storage<true, _Types...>
-    {
-      constexpr
-      _Variant_storage()
-      : _M_index(static_cast<__index_type>(variant_npos))
-      { }
-
-      template<size_t _Np, typename... _Args>
- constexpr
- _Variant_storage(in_place_index_t<_Np>, _Args&&... __args)
- : _M_u(in_place_index<_Np>, std::forward<_Args>(__args)...),
-   _M_index{_Np}
- { }
-
-      constexpr void
-      _M_reset() noexcept
-      { _M_index = static_cast<__index_type>(variant_npos); }
-
-      constexpr bool
-      _M_valid() const noexcept
-      {
- if constexpr (__variant::__never_valueless<_Types...>())
-   return true;
-
-
-
-
-
-
- return this->_M_index != static_cast<__index_type>(variant_npos);
-      }
-
-      _Variadic_union<true, _Types...> _M_u;
-      using __index_type = __select_index<_Types...>;
-      __index_type _M_index;
-    };
-
-
-  template<size_t _Np, bool _Triv, typename... _Types, typename... _Args>
-    constexpr
-    inline void
-    __emplace(_Variant_storage<_Triv, _Types...>& __v, _Args&&... __args)
-    {
-      __v._M_reset();
-      auto* __addr = __variant::__construct_n<_Np>(__v._M_u);
-      std::_Construct(__addr, in_place_index<0>,
-        std::forward<_Args>(__args)...);
-
-      __v._M_index = _Np;
-    }
-
-  template<typename... _Types>
-    using _Variant_storage_alias =
- _Variant_storage<_Traits<_Types...>::_S_trivial_dtor, _Types...>;
-
-
-
-
-  template<bool, typename... _Types>
-    struct _Copy_ctor_base : _Variant_storage_alias<_Types...>
-    {
-      using _Base = _Variant_storage_alias<_Types...>;
-      using _Base::_Base;
-
-      constexpr
-      _Copy_ctor_base(const _Copy_ctor_base& __rhs)
-   noexcept(_Traits<_Types...>::_S_nothrow_copy_ctor)
-      {
- __variant::__raw_idx_visit(
-   [this](auto&& __rhs_mem, auto __rhs_index) mutable
-   {
-     constexpr size_t __j = __rhs_index;
-     if constexpr (__j != variant_npos)
-       std::_Construct(std::__addressof(this->_M_u),
-         in_place_index<__j>, __rhs_mem);
-   }, __variant_cast<_Types...>(__rhs));
- this->_M_index = __rhs._M_index;
-      }
-
-      _Copy_ctor_base(_Copy_ctor_base&&) = default;
-      _Copy_ctor_base& operator=(const _Copy_ctor_base&) = default;
-      _Copy_ctor_base& operator=(_Copy_ctor_base&&) = default;
-    };
-
-  template<typename... _Types>
-    struct _Copy_ctor_base<true, _Types...> : _Variant_storage_alias<_Types...>
-    {
-      using _Base = _Variant_storage_alias<_Types...>;
-      using _Base::_Base;
-    };
-
-  template<typename... _Types>
-    using _Copy_ctor_alias =
- _Copy_ctor_base<_Traits<_Types...>::_S_trivial_copy_ctor, _Types...>;
-
-  template<bool, typename... _Types>
-    struct _Move_ctor_base : _Copy_ctor_alias<_Types...>
-    {
-      using _Base = _Copy_ctor_alias<_Types...>;
-      using _Base::_Base;
-
-      constexpr
-      _Move_ctor_base(_Move_ctor_base&& __rhs)
-   noexcept(_Traits<_Types...>::_S_nothrow_move_ctor)
-      {
- __variant::__raw_idx_visit(
-   [this](auto&& __rhs_mem, auto __rhs_index) mutable
-   {
-     constexpr size_t __j = __rhs_index;
-     if constexpr (__j != variant_npos)
-       std::_Construct(std::__addressof(this->_M_u),
-         in_place_index<__j>,
-         std::forward<decltype(__rhs_mem)>(__rhs_mem));
-   }, __variant_cast<_Types...>(std::move(__rhs)));
- this->_M_index = __rhs._M_index;
-      }
-
-      _Move_ctor_base(const _Move_ctor_base&) = default;
-      _Move_ctor_base& operator=(const _Move_ctor_base&) = default;
-      _Move_ctor_base& operator=(_Move_ctor_base&&) = default;
-    };
-
-  template<typename... _Types>
-    struct _Move_ctor_base<true, _Types...> : _Copy_ctor_alias<_Types...>
-    {
-      using _Base = _Copy_ctor_alias<_Types...>;
-      using _Base::_Base;
-    };
-
-  template<typename... _Types>
-    using _Move_ctor_alias =
- _Move_ctor_base<_Traits<_Types...>::_S_trivial_move_ctor, _Types...>;
-
-  template<bool, typename... _Types>
-    struct _Copy_assign_base : _Move_ctor_alias<_Types...>
-    {
-      using _Base = _Move_ctor_alias<_Types...>;
-      using _Base::_Base;
-
-      constexpr
-      _Copy_assign_base&
-      operator=(const _Copy_assign_base& __rhs)
-   noexcept(_Traits<_Types...>::_S_nothrow_copy_assign)
-      {
- __variant::__raw_idx_visit(
-   [this](auto&& __rhs_mem, auto __rhs_index) mutable
-   {
-     constexpr size_t __j = __rhs_index;
-     if constexpr (__j == variant_npos)
-       this->_M_reset();
-     else if (this->_M_index == __j)
-       __variant::__get<__j>(*this) = __rhs_mem;
-     else
-       {
-  using _Tj = typename _Nth_type<__j, _Types...>::type;
-  if constexpr (is_nothrow_copy_constructible_v<_Tj>
-         || !is_nothrow_move_constructible_v<_Tj>)
-    __variant::__emplace<__j>(*this, __rhs_mem);
-  else
-    {
-      using _Variant = variant<_Types...>;
-      _Variant& __self = __variant_cast<_Types...>(*this);
-      __self = _Variant(in_place_index<__j>, __rhs_mem);
-    }
-       }
-   }, __variant_cast<_Types...>(__rhs));
- return *this;
-      }
-
-      _Copy_assign_base(const _Copy_assign_base&) = default;
-      _Copy_assign_base(_Copy_assign_base&&) = default;
-      _Copy_assign_base& operator=(_Copy_assign_base&&) = default;
-    };
-
-  template<typename... _Types>
-    struct _Copy_assign_base<true, _Types...> : _Move_ctor_alias<_Types...>
-    {
-      using _Base = _Move_ctor_alias<_Types...>;
-      using _Base::_Base;
-    };
-
-  template<typename... _Types>
-    using _Copy_assign_alias =
-      _Copy_assign_base<_Traits<_Types...>::_S_trivial_copy_assign, _Types...>;
-
-  template<bool, typename... _Types>
-    struct _Move_assign_base : _Copy_assign_alias<_Types...>
-    {
-      using _Base = _Copy_assign_alias<_Types...>;
-      using _Base::_Base;
-
-      constexpr
-      _Move_assign_base&
-      operator=(_Move_assign_base&& __rhs)
-   noexcept(_Traits<_Types...>::_S_nothrow_move_assign)
-      {
- __variant::__raw_idx_visit(
-   [this](auto&& __rhs_mem, auto __rhs_index) mutable
-   {
-     constexpr size_t __j = __rhs_index;
-     if constexpr (__j != variant_npos)
-       {
-  if (this->_M_index == __j)
-    __variant::__get<__j>(*this) = std::move(__rhs_mem);
-  else
-    {
-      using _Tj = typename _Nth_type<__j, _Types...>::type;
-      if constexpr (is_nothrow_move_constructible_v<_Tj>)
-        __variant::__emplace<__j>(*this, std::move(__rhs_mem));
-      else
-        {
-   using _Variant = variant<_Types...>;
-   _Variant& __self = __variant_cast<_Types...>(*this);
-   __self.template emplace<__j>(std::move(__rhs_mem));
-        }
-    }
-       }
-     else
-       this->_M_reset();
-   }, __variant_cast<_Types...>(__rhs));
- return *this;
-      }
-
-      _Move_assign_base(const _Move_assign_base&) = default;
-      _Move_assign_base(_Move_assign_base&&) = default;
-      _Move_assign_base& operator=(const _Move_assign_base&) = default;
-    };
-
-  template<typename... _Types>
-    struct _Move_assign_base<true, _Types...> : _Copy_assign_alias<_Types...>
-    {
-      using _Base = _Copy_assign_alias<_Types...>;
-      using _Base::_Base;
-    };
-
-  template<typename... _Types>
-    using _Move_assign_alias =
-      _Move_assign_base<_Traits<_Types...>::_S_trivial_move_assign, _Types...>;
-
-  template<typename... _Types>
-    struct _Variant_base : _Move_assign_alias<_Types...>
-    {
-      using _Base = _Move_assign_alias<_Types...>;
-
-      constexpr
-      _Variant_base() noexcept(_Traits<_Types...>::_S_nothrow_default_ctor)
-      : _Variant_base(in_place_index<0>) { }
-
-      template<size_t _Np, typename... _Args>
- constexpr explicit
- _Variant_base(in_place_index_t<_Np> __i, _Args&&... __args)
- : _Base(__i, std::forward<_Args>(__args)...)
- { }
-
-      _Variant_base(const _Variant_base&) = default;
-      _Variant_base(_Variant_base&&) = default;
-      _Variant_base& operator=(const _Variant_base&) = default;
-      _Variant_base& operator=(_Variant_base&&) = default;
-    };
-
-  template<typename _Tp, typename... _Types>
-    inline constexpr bool __exactly_once
-      = std::__find_uniq_type_in_pack<_Tp, _Types...>() < sizeof...(_Types);
-
-
-  template<typename _Ti> struct _Arr { _Ti _M_x[1]; };
-
-
-  template<size_t _Ind, typename _Tp, typename _Ti, typename = void>
-    struct _Build_FUN
-    {
-
-
-      void _S_fun() = delete;
-    };
-
-
-  template<size_t _Ind, typename _Tp, typename _Ti>
-    struct _Build_FUN<_Ind, _Tp, _Ti,
-        void_t<decltype(_Arr<_Ti>{{std::declval<_Tp>()}})>>
-    {
-
-      static integral_constant<size_t, _Ind> _S_fun(_Ti);
-    };
-
-  template<typename _Tp, typename _Variant,
-    typename = make_index_sequence<variant_size_v<_Variant>>>
-    struct _Build_FUNs;
-
-  template<typename _Tp, typename... _Ti, size_t... _Ind>
-    struct _Build_FUNs<_Tp, variant<_Ti...>, index_sequence<_Ind...>>
-    : _Build_FUN<_Ind, _Tp, _Ti>...
-    {
-      using _Build_FUN<_Ind, _Tp, _Ti>::_S_fun...;
-    };
-
-
-
-  template<typename _Tp, typename _Variant>
-    using _FUN_type
-      = decltype(_Build_FUNs<_Tp, _Variant>::_S_fun(std::declval<_Tp>()));
-
-
-  template<typename _Tp, typename _Variant, typename = void>
-    inline constexpr size_t
-    __accepted_index = variant_npos;
-
-  template<typename _Tp, typename _Variant>
-    inline constexpr size_t
-    __accepted_index<_Tp, _Variant, void_t<_FUN_type<_Tp, _Variant>>>
-      = _FUN_type<_Tp, _Variant>::value;
-
-  template<typename _Maybe_variant_cookie, typename _Variant,
-    typename = __remove_cvref_t<_Variant>>
-    inline constexpr bool
-    __extra_visit_slot_needed = false;
-
-  template<typename _Var, typename... _Types>
-    inline constexpr bool
-    __extra_visit_slot_needed<__variant_cookie, _Var, variant<_Types...>>
-      = !__variant::__never_valueless<_Types...>();
-
-  template<typename _Var, typename... _Types>
-    inline constexpr bool
-    __extra_visit_slot_needed<__variant_idx_cookie, _Var, variant<_Types...>>
-      = !__variant::__never_valueless<_Types...>();
-
-
-  template<typename _Tp, size_t... _Dimensions>
-    struct _Multi_array;
-
-
-  template<typename _Tp>
-    struct _Multi_array<_Tp>
-    {
-      template<typename>
- struct __untag_result
- : false_type
- { using element_type = _Tp; };
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wignored-qualifiers"
-      template <typename... _Args>
- struct __untag_result<const void(*)(_Args...)>
- : false_type
- { using element_type = void(*)(_Args...); };
-#pragma GCC diagnostic pop
-
-      template <typename... _Args>
- struct __untag_result<__variant_cookie(*)(_Args...)>
- : false_type
- { using element_type = void(*)(_Args...); };
-
-      template <typename... _Args>
- struct __untag_result<__variant_idx_cookie(*)(_Args...)>
- : false_type
- { using element_type = void(*)(_Args...); };
-
-      template <typename _Res, typename... _Args>
- struct __untag_result<__deduce_visit_result<_Res>(*)(_Args...)>
- : true_type
- { using element_type = _Res(*)(_Args...); };
-
-      using __result_is_deduced = __untag_result<_Tp>;
-
-      constexpr const typename __untag_result<_Tp>::element_type&
-      _M_access() const
-      { return _M_data; }
-
-      typename __untag_result<_Tp>::element_type _M_data;
-    };
-
-
-  template<typename _Ret,
-    typename _Visitor,
-    typename... _Variants,
-    size_t __first, size_t... __rest>
-    struct _Multi_array<_Ret(*)(_Visitor, _Variants...), __first, __rest...>
-    {
-      static constexpr size_t __index =
- sizeof...(_Variants) - sizeof...(__rest) - 1;
-
-      using _Variant = typename _Nth_type<__index, _Variants...>::type;
-
-      static constexpr int __do_cookie =
- __extra_visit_slot_needed<_Ret, _Variant> ? 1 : 0;
-
-      using _Tp = _Ret(*)(_Visitor, _Variants...);
-
-      template<typename... _Args>
- constexpr decltype(auto)
- _M_access(size_t __first_index, _Args... __rest_indices) const
-        {
-   return _M_arr[__first_index + __do_cookie]
-     ._M_access(__rest_indices...);
- }
-
-      _Multi_array<_Tp, __rest...> _M_arr[__first + __do_cookie];
-    };
-# 944 "/usr/include/c++/15.2.1/variant" 3
-  template<typename _Array_type, typename _Index_seq>
-    struct __gen_vtable_impl;
-# 954 "/usr/include/c++/15.2.1/variant" 3
-  template<typename _Result_type, typename _Visitor, size_t... __dimensions,
-    typename... _Variants, size_t... __indices>
-    struct __gen_vtable_impl<
- _Multi_array<_Result_type (*)(_Visitor, _Variants...), __dimensions...>,
- std::index_sequence<__indices...>>
-    {
-      using _Next =
-   remove_reference_t<typename _Nth_type<sizeof...(__indices),
-        _Variants...>::type>;
-      using _Array_type =
-   _Multi_array<_Result_type (*)(_Visitor, _Variants...),
-         __dimensions...>;
-
-      static constexpr _Array_type
-      _S_apply()
-      {
- _Array_type __vtable{};
- _S_apply_all_alts(
-   __vtable, make_index_sequence<variant_size_v<_Next>>());
- return __vtable;
-      }
-
-      template<size_t... __var_indices>
- static constexpr void
- _S_apply_all_alts(_Array_type& __vtable,
-     std::index_sequence<__var_indices...>)
- {
-   if constexpr (__extra_visit_slot_needed<_Result_type, _Next>)
-     (_S_apply_single_alt<true, __var_indices>(
-       __vtable._M_arr[__var_indices + 1],
-       &(__vtable._M_arr[0])), ...);
-   else
-     (_S_apply_single_alt<false, __var_indices>(
-       __vtable._M_arr[__var_indices]), ...);
- }
-
-      template<bool __do_cookie, size_t __index, typename _Tp>
- static constexpr void
- _S_apply_single_alt(_Tp& __element, _Tp* __cookie_element = nullptr)
- {
-   if constexpr (__do_cookie)
-     {
-       __element = __gen_vtable_impl<
-  _Tp,
-  std::index_sequence<__indices..., __index>>::_S_apply();
-       *__cookie_element = __gen_vtable_impl<
-  _Tp,
-  std::index_sequence<__indices..., variant_npos>>::_S_apply();
-     }
-   else
-     {
-       auto __tmp_element = __gen_vtable_impl<
-  remove_reference_t<decltype(__element)>,
-  std::index_sequence<__indices..., __index>>::_S_apply();
-       static_assert(is_same_v<_Tp, decltype(__tmp_element)>,
-       "std::visit requires the visitor to have the same "
-       "return type for all alternatives of a variant");
-       __element = __tmp_element;
-     }
- }
-    };
-
-
-
-
-  template<typename _Result_type, typename _Visitor, typename... _Variants,
-    size_t... __indices>
-    struct __gen_vtable_impl<
-      _Multi_array<_Result_type (*)(_Visitor, _Variants...)>,
-     std::index_sequence<__indices...>>
-    {
-      using _Array_type =
-   _Multi_array<_Result_type (*)(_Visitor, _Variants...)>;
-
-      template<size_t __index, typename _Variant>
- static constexpr decltype(auto)
- __element_by_index_or_cookie(_Variant&& __var) noexcept
-        {
-   if constexpr (__index != variant_npos)
-     return __variant::__get<__index>(std::forward<_Variant>(__var));
-   else
-     return __variant_cookie{};
- }
-
-      static constexpr decltype(auto)
-      __visit_invoke(_Visitor&& __visitor, _Variants... __vars)
-      {
- if constexpr (is_same_v<_Result_type, __variant_idx_cookie>)
-
-
-   std::__invoke(std::forward<_Visitor>(__visitor),
-       __element_by_index_or_cookie<__indices>(
-  std::forward<_Variants>(__vars))...,
-       integral_constant<size_t, __indices>()...);
- else if constexpr (is_same_v<_Result_type, __variant_cookie>)
-
-   std::__invoke(std::forward<_Visitor>(__visitor),
-       __element_by_index_or_cookie<__indices>(
-  std::forward<_Variants>(__vars))...);
- else if constexpr (_Array_type::__result_is_deduced::value)
-
-   return std::__invoke(std::forward<_Visitor>(__visitor),
-       __element_by_index_or_cookie<__indices>(
-  std::forward<_Variants>(__vars))...);
- else
-   return std::__invoke_r<_Result_type>(
-       std::forward<_Visitor>(__visitor),
-       __variant::__get<__indices>(std::forward<_Variants>(__vars))...);
-      }
-
-      static constexpr auto
-      _S_apply()
-      {
- if constexpr (_Array_type::__result_is_deduced::value)
-   {
-     constexpr bool __visit_ret_type_mismatch =
-       !is_same_v<typename _Result_type::type,
-    decltype(__visit_invoke(std::declval<_Visitor>(),
-        std::declval<_Variants>()...))>;
-     if constexpr (__visit_ret_type_mismatch)
-       {
-  struct __cannot_match {};
-  return __cannot_match{};
-       }
-     else
-       return _Array_type{&__visit_invoke};
-   }
- else
-   return _Array_type{&__visit_invoke};
-      }
-    };
-
-  template<typename _Result_type, typename _Visitor, typename... _Variants>
-    struct __gen_vtable
-    {
-      using _Array_type =
-   _Multi_array<_Result_type (*)(_Visitor, _Variants...),
-         variant_size_v<remove_reference_t<_Variants>>...>;
-
-      static constexpr _Array_type _S_vtable
- = __gen_vtable_impl<_Array_type, std::index_sequence<>>::_S_apply();
-    };
-
-
-  template<size_t _Nm, typename _Tp>
-    struct _Base_dedup : public _Tp { };
-
-  template<typename _Variant, typename __indices>
-    struct _Variant_hash_base;
-
-  template<typename... _Types, size_t... __indices>
-    struct _Variant_hash_base<variant<_Types...>,
-         std::index_sequence<__indices...>>
-    : _Base_dedup<__indices, __hash_empty_base<remove_const_t<_Types>>>...
-    { };
-
-
-
-  template<size_t _Np, typename _Variant,
-      typename _AsV = decltype(__variant::__as(std::declval<_Variant>())),
-      typename _Tp = variant_alternative_t<_Np, remove_reference_t<_AsV>>>
-    using __get_t
-      = __conditional_t<is_lvalue_reference_v<_Variant>, _Tp&, _Tp&&>;
-
-
-  template<typename _Visitor, typename... _Variants>
-    using __visit_result_t
-      = invoke_result_t<_Visitor, __get_t<0, _Variants>...>;
-
-  template<typename _Tp, typename... _Types>
-    constexpr inline bool __same_types = (is_same_v<_Tp, _Types> && ...);
-
-  template <typename _Visitor, typename _Variant, size_t... _Idxs>
-    constexpr bool __check_visitor_results(std::index_sequence<_Idxs...>)
-    {
-      return __same_types<
- invoke_result_t<_Visitor, __get_t<_Idxs, _Variant>>...
- >;
-    }
-
-}
-}
-
-  template<typename _Tp, typename... _Types>
-    constexpr bool
-    holds_alternative(const variant<_Types...>& __v) noexcept
-    {
-      static_assert(__detail::__variant::__exactly_once<_Tp, _Types...>,
-      "T must occur exactly once in alternatives");
-      return __v.index() == std::__find_uniq_type_in_pack<_Tp, _Types...>();
-    }
-
-  template<typename _Tp, typename... _Types>
-    constexpr _Tp&
-    get(variant<_Types...>& __v)
-    {
-      static_assert(__detail::__variant::__exactly_once<_Tp, _Types...>,
-      "T must occur exactly once in alternatives");
-      constexpr size_t __n = std::__find_uniq_type_in_pack<_Tp, _Types...>();
-      return std::get<__n>(__v);
-    }
-
-  template<typename _Tp, typename... _Types>
-    constexpr _Tp&&
-    get(variant<_Types...>&& __v)
-    {
-      static_assert(__detail::__variant::__exactly_once<_Tp, _Types...>,
-      "T must occur exactly once in alternatives");
-      constexpr size_t __n = std::__find_uniq_type_in_pack<_Tp, _Types...>();
-      return std::get<__n>(std::move(__v));
-    }
-
-  template<typename _Tp, typename... _Types>
-    constexpr const _Tp&
-    get(const variant<_Types...>& __v)
-    {
-      static_assert(__detail::__variant::__exactly_once<_Tp, _Types...>,
-      "T must occur exactly once in alternatives");
-      constexpr size_t __n = std::__find_uniq_type_in_pack<_Tp, _Types...>();
-      return std::get<__n>(__v);
-    }
-
-  template<typename _Tp, typename... _Types>
-    constexpr const _Tp&&
-    get(const variant<_Types...>&& __v)
-    {
-      static_assert(__detail::__variant::__exactly_once<_Tp, _Types...>,
-      "T must occur exactly once in alternatives");
-      constexpr size_t __n = std::__find_uniq_type_in_pack<_Tp, _Types...>();
-      return std::get<__n>(std::move(__v));
-    }
-
-  template<size_t _Np, typename... _Types>
-    constexpr add_pointer_t<variant_alternative_t<_Np, variant<_Types...>>>
-    get_if(variant<_Types...>* __ptr) noexcept
-    {
-      using _Alternative_type = variant_alternative_t<_Np, variant<_Types...>>;
-      static_assert(_Np < sizeof...(_Types),
-      "The index must be in [0, number of alternatives)");
-      static_assert(!is_void_v<_Alternative_type>, "_Tp must not be void");
-      if (__ptr && __ptr->index() == _Np)
- return std::addressof(__detail::__variant::__get<_Np>(*__ptr));
-      return nullptr;
-    }
-
-  template<size_t _Np, typename... _Types>
-    constexpr
-    add_pointer_t<const variant_alternative_t<_Np, variant<_Types...>>>
-    get_if(const variant<_Types...>* __ptr) noexcept
-    {
-      using _Alternative_type = variant_alternative_t<_Np, variant<_Types...>>;
-      static_assert(_Np < sizeof...(_Types),
-      "The index must be in [0, number of alternatives)");
-      static_assert(!is_void_v<_Alternative_type>, "_Tp must not be void");
-      if (__ptr && __ptr->index() == _Np)
- return std::addressof(__detail::__variant::__get<_Np>(*__ptr));
-      return nullptr;
-    }
-
-  template<typename _Tp, typename... _Types>
-    constexpr add_pointer_t<_Tp>
-    get_if(variant<_Types...>* __ptr) noexcept
-    {
-      static_assert(__detail::__variant::__exactly_once<_Tp, _Types...>,
-      "T must occur exactly once in alternatives");
-      static_assert(!is_void_v<_Tp>, "_Tp must not be void");
-      constexpr size_t __n = std::__find_uniq_type_in_pack<_Tp, _Types...>();
-      return std::get_if<__n>(__ptr);
-    }
-
-  template<typename _Tp, typename... _Types>
-    constexpr add_pointer_t<const _Tp>
-    get_if(const variant<_Types...>* __ptr) noexcept
-    {
-      static_assert(__detail::__variant::__exactly_once<_Tp, _Types...>,
-      "T must occur exactly once in alternatives");
-      static_assert(!is_void_v<_Tp>, "_Tp must not be void");
-      constexpr size_t __n = std::__find_uniq_type_in_pack<_Tp, _Types...>();
-      return std::get_if<__n>(__ptr);
-    }
-
-namespace __detail::__variant
-{
-  template<typename _Ret, typename _Vp, typename _Op>
-    constexpr _Ret
-    __compare(_Ret __ret, const _Vp& __lhs, const _Vp& __rhs, _Op __op)
-    {
-      __variant::__raw_idx_visit(
- [&__ret, &__lhs, __op] (auto&& __rhs_mem, auto __rhs_index) mutable
- {
-   if constexpr (__rhs_index != variant_npos)
-     {
-       if (__lhs.index() == __rhs_index.value)
+    [[nodiscard]]
+    constexpr underlying_type_t<_Tp>
+    to_underlying(_Tp __value) noexcept
+    { return static_cast<underlying_type_t<_Tp>>(__value); }
+# 223 "/usr/include/c++/15.2.1/utility" 3
+  [[noreturn,__gnu__::__always_inline__]]
+  inline void
+  unreachable()
   {
-    auto& __this_mem = std::get<__rhs_index>(__lhs);
-    __ret = __op(__this_mem, __rhs_mem);
-    return;
-  }
-     }
-   __ret = __op(__lhs.index() + 1, __rhs_index + 1);
- }, __rhs);
-      return __ret;
-    }
-}
 
-  template<typename... _Types>
 
-    requires ((requires (const _Types& __t) {
-      { __t == __t } -> convertible_to<bool>; }) && ...)
 
-    constexpr bool
-    operator== [[nodiscard]] (const variant<_Types...>& __lhs,
-         const variant<_Types...>& __rhs)
-    {
-      namespace __variant = __detail::__variant;
-      return __variant::__compare(true, __lhs, __rhs,
-      [](auto&& __l, auto&& __r) -> bool {
-        return __l == __r;
-      });
-    }
+    __builtin_trap();
 
-  template<typename... _Types>
 
-    requires ((requires (const _Types& __t) {
-      { __t != __t } -> convertible_to<bool>; }) && ...)
 
-    constexpr bool
-    operator!= [[nodiscard]] (const variant<_Types...>& __lhs,
-         const variant<_Types...>& __rhs)
-    {
-      namespace __variant = __detail::__variant;
-      return __variant::__compare(true, __lhs, __rhs,
-      [](auto&& __l, auto&& __r) -> bool {
-        return __l != __r;
-      });
-    }
-
-  template<typename... _Types>
-
-    requires ((requires (const _Types& __t) {
-      { __t < __t } -> convertible_to<bool>; }) && ...)
-
-    constexpr bool
-    operator< [[nodiscard]] (const variant<_Types...>& __lhs,
-        const variant<_Types...>& __rhs)
-    {
-      namespace __variant = __detail::__variant;
-      return __variant::__compare(true, __lhs, __rhs,
-      [](auto&& __l, auto&& __r) -> bool {
-        return __l < __r;
-      });
-    }
-
-  template<typename... _Types>
-
-    requires ((requires (const _Types& __t) {
-      { __t <= __t } -> convertible_to<bool>; }) && ...)
-
-    constexpr bool
-    operator<= [[nodiscard]] (const variant<_Types...>& __lhs,
-         const variant<_Types...>& __rhs)
-    {
-      namespace __variant = __detail::__variant;
-      return __variant::__compare(true, __lhs, __rhs,
-      [](auto&& __l, auto&& __r) -> bool {
-        return __l <= __r;
-      });
-    }
-
-  template<typename... _Types>
-
-    requires ((requires (const _Types& __t) {
-      { __t > __t } -> convertible_to<bool>; }) && ...)
-
-    constexpr bool
-    operator> [[nodiscard]] (const variant<_Types...>& __lhs,
-        const variant<_Types...>& __rhs)
-    {
-      namespace __variant = __detail::__variant;
-      return __variant::__compare(true, __lhs, __rhs,
-      [](auto&& __l, auto&& __r) -> bool {
-        return __l > __r;
-      });
-    }
-
-  template<typename... _Types>
-
-    requires ((requires (const _Types& __t) {
-      { __t >= __t } -> convertible_to<bool>; }) && ...)
-
-    constexpr bool
-    operator>= [[nodiscard]] (const variant<_Types...>& __lhs,
-         const variant<_Types...>& __rhs)
-    {
-      namespace __variant = __detail::__variant;
-      return __variant::__compare(true, __lhs, __rhs,
-      [](auto&& __l, auto&& __r) -> bool {
-        return __l >= __r;
-      });
-    }
-
-
-  template<typename... _Types>
-    requires (three_way_comparable<_Types> && ...)
-    constexpr
-    common_comparison_category_t<compare_three_way_result_t<_Types>...>
-    operator<=>(const variant<_Types...>& __v, const variant<_Types...>& __w)
-    {
-      common_comparison_category_t<compare_three_way_result_t<_Types>...> __ret
- = strong_ordering::equal;
-      namespace __variant = __detail::__variant;
-      return __variant::__compare(__ret, __v, __w,
-      [](auto&& __l, auto&& __r) {
-        return __l <=> __r;
-      });
-    }
-
-
-  template<typename _Visitor, typename... _Variants>
-    constexpr __detail::__variant::__visit_result_t<_Visitor, _Variants...>
-    visit(_Visitor&&, _Variants&&...);
-
-
-  template<typename _Res, typename _Visitor, typename... _Variants>
-    constexpr _Res
-    visit(_Visitor&&, _Variants&&...);
-
-
-  template<typename... _Types>
-    constexpr
-    inline enable_if_t<(is_move_constructible_v<_Types> && ...)
-   && (is_swappable_v<_Types> && ...)>
-    swap(variant<_Types...>& __lhs, variant<_Types...>& __rhs)
-    noexcept(noexcept(__lhs.swap(__rhs)))
-    { __lhs.swap(__rhs); }
-
-  template<typename... _Types>
-    enable_if_t<!((is_move_constructible_v<_Types> && ...)
-     && (is_swappable_v<_Types> && ...))>
-    swap(variant<_Types...>&, variant<_Types...>&) = delete;
-
-  [[noreturn]] void __throw_bad_variant_access(unsigned);
-
-  class bad_variant_access : public exception
-  {
-  public:
-    bad_variant_access() noexcept { }
-
-    const char* what() const noexcept override
-    { return _M_reason; }
-
-  private:
-
-    bad_variant_access(const char* __reason) noexcept : _M_reason(__reason) { }
-
-
-    const char* _M_reason = "bad variant access";
-
-    friend void __throw_bad_variant_access([[maybe_unused]] unsigned __n)
-    {
-      [[maybe_unused]] static constexpr const char* __reasons[] = {
- "std::get: wrong index for variant",
- "std::get: variant is valueless",
- "std::visit: variant is valueless",
- "std::visit<R>: variant is valueless",
-      };
-      (throw (bad_variant_access(__reasons[__n % 4u])));
-    }
-  };
-
-  template<typename... _Types>
-    class variant
-    : private __detail::__variant::_Variant_base<_Types...>,
-      private _Enable_copy_move<
- __detail::__variant::_Traits<_Types...>::_S_copy_ctor,
- __detail::__variant::_Traits<_Types...>::_S_copy_assign,
- __detail::__variant::_Traits<_Types...>::_S_move_ctor,
- __detail::__variant::_Traits<_Types...>::_S_move_assign,
- variant<_Types...>>
-    {
-    private:
-      template <typename... _UTypes, typename _Tp>
- friend constexpr decltype(auto)
- __variant_cast(_Tp&&);
-
-      static_assert(sizeof...(_Types) > 0,
-      "variant must have at least one alternative");
-      static_assert(((std::is_object_v<_Types> && !is_array_v<_Types>) && ...),
-      "variant alternatives must be non-array object types");
-
-      using _Base = __detail::__variant::_Variant_base<_Types...>;
-
-      template<typename _Tp>
- static constexpr bool __not_self
-   = !is_same_v<__remove_cvref_t<_Tp>, variant>;
-
-      template<typename _Tp>
- static constexpr bool
- __exactly_once = __detail::__variant::__exactly_once<_Tp, _Types...>;
-
-      template<typename _Tp>
- static constexpr size_t __accepted_index
-   = __detail::__variant::__accepted_index<_Tp, variant>;
-
-      template<size_t _Np, typename = enable_if_t<(_Np < sizeof...(_Types))>>
- using __to_type = typename _Nth_type<_Np, _Types...>::type;
-
-      template<typename _Tp, typename = enable_if_t<__not_self<_Tp>>>
- using __accepted_type = __to_type<__accepted_index<_Tp>>;
-
-      template<typename _Tp>
- static constexpr size_t __index_of
-   = std::__find_uniq_type_in_pack<_Tp, _Types...>();
-
-      using _Traits = __detail::__variant::_Traits<_Types...>;
-
-      template<typename _Tp>
- static constexpr bool __not_in_place_tag
-   = !__is_in_place_type_v<__remove_cvref_t<_Tp>>
-       && !__is_in_place_index_v<__remove_cvref_t<_Tp>>;
-
-    public:
-
-      variant() requires is_default_constructible_v<__to_type<0>> = default;
-# 1486 "/usr/include/c++/15.2.1/variant" 3
-      variant(const variant& __rhs) = default;
-      variant(variant&&) = default;
-      variant& operator=(const variant&) = default;
-      variant& operator=(variant&&) = default;
-      constexpr ~variant() = default;
-
-      template<typename _Tp,
-        typename = enable_if_t<sizeof...(_Types) != 0>,
-        typename = enable_if_t<__not_in_place_tag<_Tp>>,
-        typename _Tj = __accepted_type<_Tp&&>,
-        typename = enable_if_t<__exactly_once<_Tj>
-          && is_constructible_v<_Tj, _Tp>>>
- constexpr
- variant(_Tp&& __t)
- noexcept(is_nothrow_constructible_v<_Tj, _Tp>)
- : variant(in_place_index<__accepted_index<_Tp>>,
-    std::forward<_Tp>(__t))
- { }
-
-      template<typename _Tp, typename... _Args,
-        typename = enable_if_t<__exactly_once<_Tp>
-          && is_constructible_v<_Tp, _Args...>>>
- constexpr explicit
- variant(in_place_type_t<_Tp>, _Args&&... __args)
- : variant(in_place_index<__index_of<_Tp>>,
-    std::forward<_Args>(__args)...)
- { }
-
-      template<typename _Tp, typename _Up, typename... _Args,
-        typename = enable_if_t<__exactly_once<_Tp>
-          && is_constructible_v<_Tp,
-        initializer_list<_Up>&, _Args...>>>
- constexpr explicit
- variant(in_place_type_t<_Tp>, initializer_list<_Up> __il,
-  _Args&&... __args)
- : variant(in_place_index<__index_of<_Tp>>, __il,
-    std::forward<_Args>(__args)...)
- { }
-
-      template<size_t _Np, typename... _Args,
-        typename _Tp = __to_type<_Np>,
-        typename = enable_if_t<is_constructible_v<_Tp, _Args...>>>
- constexpr explicit
- variant(in_place_index_t<_Np>, _Args&&... __args)
- : _Base(in_place_index<_Np>, std::forward<_Args>(__args)...)
- { }
-
-      template<size_t _Np, typename _Up, typename... _Args,
-        typename _Tp = __to_type<_Np>,
-        typename = enable_if_t<is_constructible_v<_Tp,
-        initializer_list<_Up>&,
-        _Args...>>>
- constexpr explicit
- variant(in_place_index_t<_Np>, initializer_list<_Up> __il,
-  _Args&&... __args)
- : _Base(in_place_index<_Np>, __il, std::forward<_Args>(__args)...)
- { }
-
-      template<typename _Tp>
- constexpr
- enable_if_t<__exactly_once<__accepted_type<_Tp&&>>
-      && is_constructible_v<__accepted_type<_Tp&&>, _Tp>
-      && is_assignable_v<__accepted_type<_Tp&&>&, _Tp>,
-      variant&>
- operator=(_Tp&& __rhs)
- noexcept(is_nothrow_assignable_v<__accepted_type<_Tp&&>&, _Tp>
-   && is_nothrow_constructible_v<__accepted_type<_Tp&&>, _Tp>)
- {
-   constexpr auto __index = __accepted_index<_Tp>;
-   if (index() == __index)
-     std::get<__index>(*this) = std::forward<_Tp>(__rhs);
-   else
-     {
-       using _Tj = __accepted_type<_Tp&&>;
-       if constexpr (is_nothrow_constructible_v<_Tj, _Tp>
-       || !is_nothrow_move_constructible_v<_Tj>)
-  this->emplace<__index>(std::forward<_Tp>(__rhs));
-       else
-
-
-  this->emplace<__index>(_Tj(std::forward<_Tp>(__rhs)));
-     }
-   return *this;
- }
-
-      template<typename _Tp, typename... _Args>
- constexpr
- enable_if_t<is_constructible_v<_Tp, _Args...> && __exactly_once<_Tp>,
-      _Tp&>
- emplace(_Args&&... __args)
- {
-   constexpr size_t __index = __index_of<_Tp>;
-   return this->emplace<__index>(std::forward<_Args>(__args)...);
- }
-
-      template<typename _Tp, typename _Up, typename... _Args>
- constexpr
- enable_if_t<is_constructible_v<_Tp, initializer_list<_Up>&, _Args...>
-      && __exactly_once<_Tp>,
-      _Tp&>
- emplace(initializer_list<_Up> __il, _Args&&... __args)
- {
-   constexpr size_t __index = __index_of<_Tp>;
-   return this->emplace<__index>(__il, std::forward<_Args>(__args)...);
- }
-
-      template<size_t _Np, typename... _Args>
- constexpr
- enable_if_t<is_constructible_v<__to_type<_Np>, _Args...>,
-      __to_type<_Np>&>
- emplace(_Args&&... __args)
- {
-   namespace __variant = std::__detail::__variant;
-   using type = typename _Nth_type<_Np, _Types...>::type;
-
-
-   if constexpr (is_nothrow_constructible_v<type, _Args...>)
-     {
-       __variant::__emplace<_Np>(*this, std::forward<_Args>(__args)...);
-     }
-   else if constexpr (is_scalar_v<type>)
-     {
-
-       const type __tmp(std::forward<_Args>(__args)...);
-
-       __variant::__emplace<_Np>(*this, __tmp);
-     }
-   else if constexpr (__variant::_Never_valueless_alt<type>()
-       && _Traits::_S_move_assign)
-     {
-
-       variant __tmp(in_place_index<_Np>,
-       std::forward<_Args>(__args)...);
-
-       *this = std::move(__tmp);
-     }
-   else
-     {
-
-
-       __variant::__emplace<_Np>(*this, std::forward<_Args>(__args)...);
-     }
-   return std::get<_Np>(*this);
- }
-
-      template<size_t _Np, typename _Up, typename... _Args>
- constexpr
- enable_if_t<is_constructible_v<__to_type<_Np>,
-           initializer_list<_Up>&, _Args...>,
-      __to_type<_Np>&>
- emplace(initializer_list<_Up> __il, _Args&&... __args)
- {
-   namespace __variant = std::__detail::__variant;
-   using type = typename _Nth_type<_Np, _Types...>::type;
-
-
-   if constexpr (is_nothrow_constructible_v<type,
-         initializer_list<_Up>&,
-         _Args...>)
-     {
-       __variant::__emplace<_Np>(*this, __il,
-     std::forward<_Args>(__args)...);
-     }
-   else if constexpr (__variant::_Never_valueless_alt<type>()
-       && _Traits::_S_move_assign)
-     {
-
-       variant __tmp(in_place_index<_Np>, __il,
-       std::forward<_Args>(__args)...);
-
-       *this = std::move(__tmp);
-     }
-   else
-     {
-
-
-       __variant::__emplace<_Np>(*this, __il,
-     std::forward<_Args>(__args)...);
-     }
-   return std::get<_Np>(*this);
- }
-
-      template<size_t _Np, typename... _Args>
- enable_if_t<!(_Np < sizeof...(_Types))> emplace(_Args&&...) = delete;
-
-      template<typename _Tp, typename... _Args>
- enable_if_t<!__exactly_once<_Tp>> emplace(_Args&&...) = delete;
-
-      constexpr bool valueless_by_exception() const noexcept
-      { return !this->_M_valid(); }
-
-      constexpr size_t index() const noexcept
-      {
- using __index_type = typename _Base::__index_type;
- if constexpr (__detail::__variant::__never_valueless<_Types...>())
-   return this->_M_index;
- else if constexpr (sizeof...(_Types) <= __index_type(-1) / 2)
-   return make_signed_t<__index_type>(this->_M_index);
- else
-   return size_t(__index_type(this->_M_index + 1)) - 1;
-      }
-
-      constexpr
-      void
-      swap(variant& __rhs)
-      noexcept((__is_nothrow_swappable<_Types>::value && ...)
-        && is_nothrow_move_constructible_v<variant>)
-      {
- static_assert((is_move_constructible_v<_Types> && ...));
-
-
- if (__rhs.valueless_by_exception()) [[__unlikely__]]
-   {
-     if (!this->valueless_by_exception()) [[__likely__]]
-       __rhs.swap(*this);
-     return;
-   }
-
- namespace __variant = __detail::__variant;
-
- __variant::__raw_idx_visit(
-   [this, &__rhs](auto&& __rhs_mem, auto __rhs_index) mutable
-   {
-     constexpr size_t __j = __rhs_index;
-     if constexpr (__j != variant_npos)
-       {
-  if (this->index() == __j)
-    {
-      using std::swap;
-      swap(std::get<__j>(*this), __rhs_mem);
-    }
-  else
-    {
-      auto __tmp(std::move(__rhs_mem));
-
-      if constexpr (_Traits::_S_trivial_move_assign)
-        __rhs = std::move(*this);
-      else
-        __variant::__raw_idx_visit(
-   [&__rhs](auto&& __this_mem, auto __this_index) mutable
-   {
-     constexpr size_t __k = __this_index;
-     if constexpr (__k != variant_npos)
-       __variant::__emplace<__k>(__rhs,
-            std::move(__this_mem));
-   }, *this);
-
-      __variant::__emplace<__j>(*this, std::move(__tmp));
-    }
-       }
-   }, __rhs);
-      }
-# 1749 "/usr/include/c++/15.2.1/variant" 3
-      template<int = 0, typename _Self, typename _Visitor>
- constexpr decltype(auto)
- visit(this _Self&& __self, _Visitor&& __vis)
- {
-   using _CVar = __conditional_t<is_const_v<remove_reference_t<_Self>>,
-     const variant, variant>;
-   using _Var = __conditional_t<is_rvalue_reference_v<_Self&&>,
-           _CVar&&, _CVar&>;
-   return std::visit(std::forward<_Visitor>(__vis), (_Var)__self);
- }
-# 1767 "/usr/include/c++/15.2.1/variant" 3
-      template<typename _Res, typename _Self, typename _Visitor>
- constexpr _Res
- visit(this _Self&& __self, _Visitor&& __vis)
- {
-   using _CVar = __conditional_t<is_const_v<remove_reference_t<_Self>>,
-     const variant, variant>;
-   using _Var = __conditional_t<is_rvalue_reference_v<_Self&&>,
-           _CVar&&, _CVar&>;
-   return std::visit<_Res>(std::forward<_Visitor>(__vis), (_Var)__self);
- }
-
-
-    private:
-      template<size_t _Np, typename _Vp>
- friend constexpr decltype(auto)
- __detail::__variant::__get(_Vp&& __v) noexcept;
-    };
-
-  template<size_t _Np, typename... _Types>
-    constexpr variant_alternative_t<_Np, variant<_Types...>>&
-    get(variant<_Types...>& __v)
-    {
-      static_assert(_Np < sizeof...(_Types),
-      "The index must be in [0, number of alternatives)");
-      if (__v.index() != _Np)
- __throw_bad_variant_access(__v.valueless_by_exception());
-      return __detail::__variant::__get<_Np>(__v);
-    }
-
-  template<size_t _Np, typename... _Types>
-    constexpr variant_alternative_t<_Np, variant<_Types...>>&&
-    get(variant<_Types...>&& __v)
-    {
-      static_assert(_Np < sizeof...(_Types),
-      "The index must be in [0, number of alternatives)");
-      if (__v.index() != _Np)
- __throw_bad_variant_access(__v.valueless_by_exception());
-      return __detail::__variant::__get<_Np>(std::move(__v));
-    }
-
-  template<size_t _Np, typename... _Types>
-    constexpr const variant_alternative_t<_Np, variant<_Types...>>&
-    get(const variant<_Types...>& __v)
-    {
-      static_assert(_Np < sizeof...(_Types),
-      "The index must be in [0, number of alternatives)");
-      if (__v.index() != _Np)
- __throw_bad_variant_access(__v.valueless_by_exception());
-      return __detail::__variant::__get<_Np>(__v);
-    }
-
-  template<size_t _Np, typename... _Types>
-    constexpr const variant_alternative_t<_Np, variant<_Types...>>&&
-    get(const variant<_Types...>&& __v)
-    {
-      static_assert(_Np < sizeof...(_Types),
-      "The index must be in [0, number of alternatives)");
-      if (__v.index() != _Np)
- __throw_bad_variant_access(__v.valueless_by_exception());
-      return __detail::__variant::__get<_Np>(std::move(__v));
-    }
-
-
-  template<typename _Result_type, typename _Visitor, typename... _Variants>
-    constexpr decltype(auto)
-    __do_visit(_Visitor&& __visitor, _Variants&&... __variants)
-    {
-
-      if constexpr (sizeof...(_Variants) == 0)
- {
-   if constexpr (is_void_v<_Result_type>)
-     return (void) std::forward<_Visitor>(__visitor)();
-   else
-     return std::forward<_Visitor>(__visitor)();
- }
-      else
- {
-   constexpr size_t __max = 11;
-
-
-   using _V0 = typename _Nth_type<0, _Variants...>::type;
-
-   constexpr auto __n = variant_size_v<remove_reference_t<_V0>>;
-
-   if constexpr (sizeof...(_Variants) > 1 || __n > __max)
-     {
-
-       constexpr auto& __vtable = __detail::__variant::__gen_vtable<
-  _Result_type, _Visitor&&, _Variants&&...>::_S_vtable;
-
-       auto __func_ptr = __vtable._M_access(__variants.index()...);
-       return (*__func_ptr)(std::forward<_Visitor>(__visitor),
-       std::forward<_Variants>(__variants)...);
-     }
-   else
-     {
-
-       _V0& __v0
-  = [](_V0& __v, ...) -> _V0& { return __v; }(__variants...);
-
-       using __detail::__variant::_Multi_array;
-       using __detail::__variant::__gen_vtable_impl;
-       using _Ma = _Multi_array<_Result_type (*)(_Visitor&&, _V0&&)>;
-# 1889 "/usr/include/c++/15.2.1/variant" 3
-       switch (__v0.index())
-  {
-    case 0: { if constexpr (0 < __n) { return __gen_vtable_impl<_Ma, index_sequence<0>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
-    case 1: { if constexpr (1 < __n) { return __gen_vtable_impl<_Ma, index_sequence<1>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
-    case 2: { if constexpr (2 < __n) { return __gen_vtable_impl<_Ma, index_sequence<2>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
-    case 3: { if constexpr (3 < __n) { return __gen_vtable_impl<_Ma, index_sequence<3>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
-    case 4: { if constexpr (4 < __n) { return __gen_vtable_impl<_Ma, index_sequence<4>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
-    case 5: { if constexpr (5 < __n) { return __gen_vtable_impl<_Ma, index_sequence<5>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
-    case 6: { if constexpr (6 < __n) { return __gen_vtable_impl<_Ma, index_sequence<6>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
-    case 7: { if constexpr (7 < __n) { return __gen_vtable_impl<_Ma, index_sequence<7>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
-    case 8: { if constexpr (8 < __n) { return __gen_vtable_impl<_Ma, index_sequence<8>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
-    case 9: { if constexpr (9 < __n) { return __gen_vtable_impl<_Ma, index_sequence<9>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
-    case 10: { if constexpr (10 < __n) { return __gen_vtable_impl<_Ma, index_sequence<10>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
-  case variant_npos:
-    using __detail::__variant::__variant_idx_cookie;
-    using __detail::__variant::__variant_cookie;
-    if constexpr (is_same_v<_Result_type, __variant_idx_cookie>
-    || is_same_v<_Result_type, __variant_cookie>)
-      {
-        using _Npos = index_sequence<variant_npos>;
-        return __gen_vtable_impl<_Ma, _Npos>::
-   __visit_invoke(std::forward<_Visitor>(__visitor),
-           std::forward<_V0>(__v0));
-      }
-    else
-      __builtin_unreachable();
-  default:
-    __builtin_unreachable();
   }
 
 
-     }
- }
-    }
-
-
-  template<typename _Visitor, typename... _Variants>
-    constexpr __detail::__variant::__visit_result_t<_Visitor, _Variants...>
-    visit(_Visitor&& __visitor, _Variants&&... __variants)
-    {
-      namespace __variant = std::__detail::__variant;
-
-      if ((__variant::__as(__variants).valueless_by_exception() || ...))
- __throw_bad_variant_access(2);
-
-      using _Result_type
- = __detail::__variant::__visit_result_t<_Visitor, _Variants...>;
-
-      using _Tag = __detail::__variant::__deduce_visit_result<_Result_type>;
-
-      if constexpr (sizeof...(_Variants) == 1)
- {
-   using _Vp = decltype(__variant::__as(std::declval<_Variants>()...));
-
-   constexpr bool __visit_rettypes_match = __detail::__variant::
-     __check_visitor_results<_Visitor, _Vp>(
-       make_index_sequence<variant_size_v<remove_reference_t<_Vp>>>());
-   if constexpr (!__visit_rettypes_match)
-     {
-       static_assert(__visit_rettypes_match,
-     "std::visit requires the visitor to have the same "
-     "return type for all alternatives of a variant");
-       return;
-     }
-   else
-     return std::__do_visit<_Tag>(
-       std::forward<_Visitor>(__visitor),
-       static_cast<_Vp>(__variants)...);
- }
-      else
- return std::__do_visit<_Tag>(
-   std::forward<_Visitor>(__visitor),
-   __variant::__as(std::forward<_Variants>(__variants))...);
-    }
-
-
-  template<typename _Res, typename _Visitor, typename... _Variants>
-    constexpr _Res
-    visit(_Visitor&& __visitor, _Variants&&... __variants)
-    {
-      namespace __variant = std::__detail::__variant;
-
-      if ((__variant::__as(__variants).valueless_by_exception() || ...))
- __throw_bad_variant_access(3);
-
-      return std::__do_visit<_Res>(std::forward<_Visitor>(__visitor),
-   __variant::__as(std::forward<_Variants>(__variants))...);
-    }
-
-
-
-  template<typename... _Types>
-    struct __variant_hash
-    {
-
-
-
-
-
-      size_t
-      operator()(const variant<_Types...>& __t) const
-      noexcept((is_nothrow_invocable_v<hash<decay_t<_Types>>, _Types> && ...))
-      {
- size_t __ret;
- __detail::__variant::__raw_visit(
-   [&__t, &__ret](auto&& __t_mem) mutable
-   {
-     using _Type = __remove_cvref_t<decltype(__t_mem)>;
-     if constexpr (!is_same_v<_Type,
-                __detail::__variant::__variant_cookie>)
-       __ret = std::hash<size_t>{}(__t.index())
-        + std::hash<_Type>{}(__t_mem);
-     else
-       __ret = std::hash<size_t>{}(__t.index());
-   }, __t);
- return __ret;
-      }
-    };
-
-
-  template<typename... _Types>
-    struct hash<variant<_Types...>>
-    : __conditional_t<(__is_hash_enabled_for<remove_const_t<_Types>> && ...),
-        __variant_hash<_Types...>,
-        __hash_not_enabled<variant<_Types...>>>
-
-      , __detail::__variant::_Variant_hash_base<variant<_Types...>,
-      index_sequence_for<_Types...>>
-
-    { };
-
-  template<typename... _Types>
-    struct __is_fast_hash<hash<variant<_Types...>>>
-    : bool_constant<(__is_fast_hash<_Types>::value && ...)>
-    { };
-
 
 }
-# 6 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
-# 1 "/usr/include/c++/15.2.1/memory" 1 3
-# 68 "/usr/include/c++/15.2.1/memory" 3
-# 1 "/usr/include/c++/15.2.1/bits/stl_tempbuf.h" 1 3
-# 65 "/usr/include/c++/15.2.1/bits/stl_tempbuf.h" 3
-namespace std __attribute__ ((__visibility__ ("default")))
-{
-
-# 77 "/usr/include/c++/15.2.1/bits/stl_tempbuf.h" 3
-  namespace __detail
-  {
-
-
-    template<typename _Tp>
-      inline _Tp*
-      __get_temporary_buffer(ptrdiff_t __len) noexcept
-      {
- if (__builtin_expect(size_t(__len) > (size_t(-1) / sizeof(_Tp)), 0))
-   return 0;
-
-
- if (alignof(_Tp) > 16)
-   return (_Tp*) __builtin_operator_new(__len * sizeof(_Tp),
-           align_val_t(alignof(_Tp)),
-           nothrow_t());
-
- return (_Tp*) __builtin_operator_new(__len * sizeof(_Tp), nothrow_t());
-      }
-
-
-
-    template<typename _Tp>
-      inline void
-      __return_temporary_buffer(_Tp* __p,
-    size_t __len __attribute__((__unused__)))
-      {
-
-
-
-
-
-
-
- if (alignof(_Tp) > 16)
-   {
-     __builtin_operator_delete((__p), (__len) * sizeof(_Tp),
-         align_val_t(alignof(_Tp)));
-     return;
-   }
-
- __builtin_operator_delete((__p), (__len) * sizeof(_Tp));
-      }
-
-  }
-# 140 "/usr/include/c++/15.2.1/bits/stl_tempbuf.h" 3
-  template<typename _Tp>
-    [[__deprecated__]]
-    pair<_Tp*, ptrdiff_t>
-    get_temporary_buffer(ptrdiff_t __len) noexcept
-    {
-      const ptrdiff_t __max =
- __gnu_cxx::__numeric_traits<ptrdiff_t>::__max / sizeof(_Tp);
-      if (__len > __max)
- __len = __max;
-
-      while (__len > 0)
- {
-   if (_Tp* __tmp = __detail::__get_temporary_buffer<_Tp>(__len))
-     return pair<_Tp*, ptrdiff_t>(__tmp, __len);
-   __len = __len == 1 ? 0 : ((__len + 1) / 2);
- }
-      return pair<_Tp*, ptrdiff_t>();
-    }
-# 166 "/usr/include/c++/15.2.1/bits/stl_tempbuf.h" 3
-  template<typename _Tp>
-    [[__deprecated__]]
-    inline void
-    return_temporary_buffer(_Tp* __p)
-    {
-
-      if (alignof(_Tp) > 16)
- __builtin_operator_delete(__p, align_val_t(alignof(_Tp)));
-      else
-
-      __builtin_operator_delete(__p);
-    }
-# 187 "/usr/include/c++/15.2.1/bits/stl_tempbuf.h" 3
-  template<typename _ForwardIterator, typename _Tp>
-    class _Temporary_buffer
-    {
-
-     
-
-    public:
-      typedef _Tp value_type;
-      typedef value_type* pointer;
-      typedef pointer iterator;
-      typedef ptrdiff_t size_type;
-
-    protected:
-      size_type _M_original_len;
-      struct _Impl
-      {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
- explicit
- _Impl(ptrdiff_t __original_len)
- {
-   pair<pointer, size_type> __p(
-     std::get_temporary_buffer<value_type>(__original_len));
-   _M_len = __p.second;
-   _M_buffer = __p.first;
- }
-#pragma GCC diagnostic pop
-
- ~_Impl()
- { std::__detail::__return_temporary_buffer(_M_buffer, _M_len); }
-
- size_type _M_len;
- pointer _M_buffer;
-      } _M_impl;
-
-    public:
-
-      size_type
-      size() const
-      { return _M_impl._M_len; }
-
-
-      size_type
-      requested_size() const
-      { return _M_original_len; }
-
-
-      iterator
-      begin()
-      { return _M_impl._M_buffer; }
-
-
-      iterator
-      end()
-      { return _M_impl._M_buffer + _M_impl._M_len; }
-
-
-
-
-
-      _Temporary_buffer(_ForwardIterator __seed, size_type __original_len);
-
-      ~_Temporary_buffer()
-      { std::_Destroy(_M_impl._M_buffer, _M_impl._M_buffer + _M_impl._M_len); }
-
-    private:
-
-      _Temporary_buffer(const _Temporary_buffer&);
-
-      void
-      operator=(const _Temporary_buffer&);
-    };
-
-
-  template<bool>
-    struct __uninitialized_construct_buf_dispatch
-    {
-      template<typename _Pointer, typename _ForwardIterator>
-        static void
-        __ucr(_Pointer __first, _Pointer __last,
-       _ForwardIterator __seed)
-        {
-   if (__builtin_expect(__first == __last, 0))
-     return;
-
-   _Pointer __cur = __first;
-   try
-     {
-       std::_Construct(std::__addressof(*__first),
-         std::move(*__seed));
-       _Pointer __prev = __cur;
-       ++__cur;
-       for(; __cur != __last; ++__cur, ++__prev)
-  std::_Construct(std::__addressof(*__cur),
-    std::move(*__prev));
-       *__seed = std::move(*__prev);
-     }
-   catch(...)
-     {
-       std::_Destroy(__first, __cur);
-       throw;
-     }
- }
-    };
-
-  template<>
-    struct __uninitialized_construct_buf_dispatch<true>
-    {
-      template<typename _Pointer, typename _ForwardIterator>
-        static void
-        __ucr(_Pointer, _Pointer, _ForwardIterator) { }
-    };
-# 311 "/usr/include/c++/15.2.1/bits/stl_tempbuf.h" 3
-  template<typename _Tp, typename _ForwardIterator>
-    inline void
-    __uninitialized_construct_buf(_Tp* __first, _Tp* __last,
-      _ForwardIterator __seed)
-    {
-      std::__uninitialized_construct_buf_dispatch<
- __has_trivial_constructor(_Tp)>::
-   __ucr(__first, __last, __seed);
-    }
-
-  template<typename _ForwardIterator, typename _Tp>
-    _Temporary_buffer<_ForwardIterator, _Tp>::
-    _Temporary_buffer(_ForwardIterator __seed, size_type __original_len)
-    : _M_original_len(__original_len), _M_impl(__original_len)
-    {
-      std::__uninitialized_construct_buf(begin(), end(), __seed);
-    }
-
-
-}
-# 69 "/usr/include/c++/15.2.1/memory" 2 3
-
-
+# 6 "/home/arch/code/projects/Compiler/include/token.h" 2
+# 1 "/usr/include/c++/15.2.1/vector" 1 3
+# 67 "/usr/include/c++/15.2.1/vector" 3
 # 1 "/usr/include/c++/15.2.1/bits/stl_uninitialized.h" 1 3
 # 71 "/usr/include/c++/15.2.1/bits/stl_uninitialized.h" 3
 namespace std __attribute__ ((__visibility__ ("default")))
@@ -38896,7 +36482,4939 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 
 }
-# 72 "/usr/include/c++/15.2.1/memory" 2 3
+# 68 "/usr/include/c++/15.2.1/vector" 2 3
+# 1 "/usr/include/c++/15.2.1/bits/stl_vector.h" 1 3
+# 84 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+
+
+  template<typename _Tp, typename _Alloc>
+    struct _Vector_base
+    {
+      typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template
+ rebind<_Tp>::other _Tp_alloc_type;
+      typedef typename __gnu_cxx::__alloc_traits<_Tp_alloc_type>::pointer
+        pointer;
+
+      struct _Vector_impl_data
+      {
+ pointer _M_start;
+ pointer _M_finish;
+ pointer _M_end_of_storage;
+
+ constexpr
+ _Vector_impl_data() noexcept
+ : _M_start(), _M_finish(), _M_end_of_storage()
+ { }
+
+
+ constexpr
+ _Vector_impl_data(_Vector_impl_data&& __x) noexcept
+ : _M_start(__x._M_start), _M_finish(__x._M_finish),
+   _M_end_of_storage(__x._M_end_of_storage)
+ { __x._M_start = __x._M_finish = __x._M_end_of_storage = pointer(); }
+
+
+ constexpr
+ void
+ _M_copy_data(_Vector_impl_data const& __x) noexcept
+ {
+   _M_start = __x._M_start;
+   _M_finish = __x._M_finish;
+   _M_end_of_storage = __x._M_end_of_storage;
+ }
+
+ constexpr
+ void
+ _M_swap_data(_Vector_impl_data& __x) noexcept
+ {
+
+
+   _Vector_impl_data __tmp;
+   __tmp._M_copy_data(*this);
+   _M_copy_data(__x);
+   __x._M_copy_data(__tmp);
+ }
+      };
+
+      struct _Vector_impl
+ : public _Tp_alloc_type, public _Vector_impl_data
+      {
+ constexpr
+ _Vector_impl() noexcept(is_nothrow_default_constructible<_Tp_alloc_type>::value)
+
+
+ requires is_default_constructible_v<_Tp_alloc_type>
+
+ : _Tp_alloc_type()
+ { }
+
+ constexpr
+ _Vector_impl(_Tp_alloc_type const& __a) noexcept
+ : _Tp_alloc_type(__a)
+ { }
+
+
+
+
+ constexpr
+ _Vector_impl(_Vector_impl&& __x) noexcept
+ : _Tp_alloc_type(std::move(__x)), _Vector_impl_data(std::move(__x))
+ { }
+
+ constexpr
+ _Vector_impl(_Tp_alloc_type&& __a) noexcept
+ : _Tp_alloc_type(std::move(__a))
+ { }
+
+ constexpr
+ _Vector_impl(_Tp_alloc_type&& __a, _Vector_impl&& __rv) noexcept
+ : _Tp_alloc_type(std::move(__a)), _Vector_impl_data(std::move(__rv))
+ { }
+# 300 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      };
+
+    public:
+      typedef _Alloc allocator_type;
+
+      constexpr
+      _Tp_alloc_type&
+      _M_get_Tp_allocator() noexcept
+      { return this->_M_impl; }
+
+      constexpr
+      const _Tp_alloc_type&
+      _M_get_Tp_allocator() const noexcept
+      { return this->_M_impl; }
+
+      constexpr
+      allocator_type
+      get_allocator() const noexcept
+      { return allocator_type(_M_get_Tp_allocator()); }
+
+
+      _Vector_base() = default;
+
+
+
+
+      constexpr
+      _Vector_base(const allocator_type& __a) noexcept
+      : _M_impl(__a) { }
+
+
+
+      constexpr
+      _Vector_base(size_t __n)
+      : _M_impl()
+      { _M_create_storage(__n); }
+
+
+      constexpr
+      _Vector_base(size_t __n, const allocator_type& __a)
+      : _M_impl(__a)
+      { _M_create_storage(__n); }
+
+
+      _Vector_base(_Vector_base&&) = default;
+
+
+
+      constexpr
+      _Vector_base(_Tp_alloc_type&& __a) noexcept
+      : _M_impl(std::move(__a)) { }
+
+      constexpr
+      _Vector_base(_Vector_base&& __x, const allocator_type& __a)
+      : _M_impl(__a)
+      {
+ if (__x.get_allocator() == __a)
+   this->_M_impl._M_swap_data(__x._M_impl);
+ else
+   {
+     size_t __n = __x._M_impl._M_finish - __x._M_impl._M_start;
+     _M_create_storage(__n);
+   }
+      }
+
+
+      constexpr
+      _Vector_base(const allocator_type& __a, _Vector_base&& __x)
+      : _M_impl(_Tp_alloc_type(__a), std::move(__x._M_impl))
+      { }
+
+
+      constexpr
+      ~_Vector_base() noexcept
+      {
+ _M_deallocate(_M_impl._M_start,
+        _M_impl._M_end_of_storage - _M_impl._M_start);
+      }
+
+    public:
+      _Vector_impl _M_impl;
+
+      constexpr
+      pointer
+      _M_allocate(size_t __n)
+      {
+ typedef __gnu_cxx::__alloc_traits<_Tp_alloc_type> _Tr;
+ return __n != 0 ? _Tr::allocate(_M_impl, __n) : pointer();
+      }
+
+      constexpr
+      void
+      _M_deallocate(pointer __p, size_t __n)
+      {
+ typedef __gnu_cxx::__alloc_traits<_Tp_alloc_type> _Tr;
+ if (__p)
+   _Tr::deallocate(_M_impl, __p, __n);
+      }
+
+    protected:
+
+      constexpr
+      void
+      _M_create_storage(size_t __n)
+      {
+ this->_M_impl._M_start = this->_M_allocate(__n);
+ this->_M_impl._M_finish = this->_M_impl._M_start;
+ this->_M_impl._M_end_of_storage = this->_M_impl._M_start + __n;
+      }
+
+
+
+
+
+
+
+      template<ranges::input_range _Rg>
+ constexpr void
+ _M_append_range_to(_Rg&& __rg, pointer& __ptr)
+ {
+   __ptr = std::__uninitialized_copy_a(ranges::begin(__rg),
+           ranges::end(__rg),
+           __ptr, _M_get_Tp_allocator());
+ }
+
+
+
+      template<ranges::input_range _Rg>
+ constexpr void
+ _M_append_range(_Rg&& __rg)
+ { _M_append_range_to(std::forward<_Rg>(__rg), _M_impl._M_finish); }
+
+    };
+# 457 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+  template<typename _Tp, typename _Alloc = std::allocator<_Tp> >
+    class vector : protected _Vector_base<_Tp, _Alloc>
+    {
+# 470 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      static_assert(is_same<typename remove_cv<_Tp>::type, _Tp>::value,
+   "std::vector must have a non-const, non-volatile value_type");
+
+      static_assert(is_same<typename _Alloc::value_type, _Tp>::value,
+   "std::vector must have the same value_type as its allocator");
+
+
+
+      typedef _Vector_base<_Tp, _Alloc> _Base;
+      typedef typename _Base::_Tp_alloc_type _Tp_alloc_type;
+      typedef __gnu_cxx::__alloc_traits<_Tp_alloc_type> _Alloc_traits;
+
+    public:
+      typedef _Tp value_type;
+      typedef typename _Base::pointer pointer;
+      typedef typename _Alloc_traits::const_pointer const_pointer;
+      typedef typename _Alloc_traits::reference reference;
+      typedef typename _Alloc_traits::const_reference const_reference;
+      typedef __gnu_cxx::__normal_iterator<pointer, vector> iterator;
+      typedef __gnu_cxx::__normal_iterator<const_pointer, vector>
+      const_iterator;
+      typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+      typedef std::reverse_iterator<iterator> reverse_iterator;
+      typedef size_t size_type;
+      typedef ptrdiff_t difference_type;
+      typedef _Alloc allocator_type;
+
+    private:
+
+      static constexpr bool
+      _S_nothrow_relocate(true_type)
+      {
+ return noexcept(std::__relocate_a(std::declval<pointer>(),
+       std::declval<pointer>(),
+       std::declval<pointer>(),
+       std::declval<_Tp_alloc_type&>()));
+      }
+
+      static constexpr bool
+      _S_nothrow_relocate(false_type)
+      { return false; }
+
+      static constexpr bool
+      _S_use_relocate()
+      {
+
+
+
+ return _S_nothrow_relocate(__is_move_insertable<_Tp_alloc_type>{});
+      }
+
+      static pointer
+      _S_do_relocate(pointer __first, pointer __last, pointer __result,
+       _Tp_alloc_type& __alloc, true_type) noexcept
+      {
+ return std::__relocate_a(__first, __last, __result, __alloc);
+      }
+
+      static pointer
+      _S_do_relocate(pointer, pointer, pointer __result,
+       _Tp_alloc_type&, false_type) noexcept
+      { return __result; }
+
+      static constexpr pointer
+      _S_relocate(pointer __first, pointer __last, pointer __result,
+    _Tp_alloc_type& __alloc) noexcept
+      {
+
+
+ return std::__relocate_a(__first, __last, __result, __alloc);
+
+
+
+
+      }
+
+
+    protected:
+      using _Base::_M_allocate;
+      using _Base::_M_deallocate;
+      using _Base::_M_impl;
+      using _Base::_M_get_Tp_allocator;
+
+    public:
+
+
+
+
+
+
+
+      vector() = default;
+# 570 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      explicit
+      constexpr
+      vector(const allocator_type& __a) noexcept
+      : _Base(__a) { }
+# 584 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      explicit
+      constexpr
+      vector(size_type __n, const allocator_type& __a = allocator_type())
+      : _Base(_S_check_init_len(__n, __a), __a)
+      { _M_default_initialize(__n); }
+# 598 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      vector(size_type __n, const value_type& __value,
+      const allocator_type& __a = allocator_type())
+      : _Base(_S_check_init_len(__n, __a), __a)
+      { _M_fill_initialize(__n, __value); }
+# 630 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      vector(const vector& __x)
+      : _Base(__x.size(),
+ _Alloc_traits::_S_select_on_copy(__x._M_get_Tp_allocator()))
+      {
+ this->_M_impl._M_finish =
+   std::__uninitialized_copy_a(__x.begin(), __x.end(),
+          this->_M_impl._M_start,
+          _M_get_Tp_allocator());
+      }
+# 650 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      vector(vector&&) noexcept = default;
+
+
+      constexpr
+      vector(const vector& __x, const __type_identity_t<allocator_type>& __a)
+      : _Base(__x.size(), __a)
+      {
+ this->_M_impl._M_finish =
+   std::__uninitialized_copy_a(__x.begin(), __x.end(),
+          this->_M_impl._M_start,
+          _M_get_Tp_allocator());
+      }
+
+    private:
+      constexpr
+      vector(vector&& __rv, const allocator_type& __m, true_type) noexcept
+      : _Base(__m, std::move(__rv))
+      { }
+
+      constexpr
+      vector(vector&& __rv, const allocator_type& __m, false_type)
+      : _Base(__m)
+      {
+ if (__rv.get_allocator() == __m)
+   this->_M_impl._M_swap_data(__rv._M_impl);
+ else if (!__rv.empty())
+   {
+     this->_M_create_storage(__rv.size());
+     this->_M_impl._M_finish =
+       std::__uninitialized_move_a(__rv.begin(), __rv.end(),
+       this->_M_impl._M_start,
+       _M_get_Tp_allocator());
+     __rv.clear();
+   }
+      }
+
+    public:
+
+      constexpr
+      vector(vector&& __rv, const __type_identity_t<allocator_type>& __m)
+      noexcept( noexcept(
+ vector(std::declval<vector&&>(), std::declval<const allocator_type&>(),
+        std::declval<typename _Alloc_traits::is_always_equal>())) )
+      : vector(std::move(__rv), __m, typename _Alloc_traits::is_always_equal{})
+      { }
+# 707 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      vector(initializer_list<value_type> __l,
+      const allocator_type& __a = allocator_type())
+      : _Base(__a)
+      {
+ _M_range_initialize_n(__l.begin(), __l.end(), __l.size());
+      }
+# 733 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      template<typename _InputIterator,
+        typename = std::_RequireInputIter<_InputIterator>>
+ constexpr
+ vector(_InputIterator __first, _InputIterator __last,
+        const allocator_type& __a = allocator_type())
+ : _Base(__a)
+ {
+
+   if constexpr (sized_sentinel_for<_InputIterator, _InputIterator>
+     || forward_iterator<_InputIterator>)
+     {
+       const auto __n
+  = static_cast<size_type>(ranges::distance(__first, __last));
+       _M_range_initialize_n(__first, __last, __n);
+       return;
+     }
+   else
+
+   _M_range_initialize(__first, __last,
+         std::__iterator_category(__first));
+ }
+# 772 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      template<__detail::__container_compatible_range<_Tp> _Rg>
+ constexpr
+ vector(from_range_t, _Rg&& __rg, const _Alloc& __a = _Alloc())
+ : vector(__a)
+ {
+   if constexpr (ranges::forward_range<_Rg> || ranges::sized_range<_Rg>)
+     {
+       const auto __n = static_cast<size_type>(ranges::distance(__rg));
+       _M_range_initialize_n(ranges::begin(__rg), ranges::end(__rg),
+        __n);
+     }
+   else
+     {
+       auto __first = ranges::begin(__rg);
+       const auto __last = ranges::end(__rg);
+       for (; __first != __last; ++__first)
+  emplace_back(*__first);
+     }
+ }
+# 799 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      ~vector() noexcept
+      {
+ std::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish,
+        _M_get_Tp_allocator());
+ ;
+      }
+# 816 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      vector&
+      operator=(const vector& __x);
+# 831 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      vector&
+      operator=(vector&& __x) noexcept(_Alloc_traits::_S_nothrow_move())
+      {
+ constexpr bool __move_storage =
+   _Alloc_traits::_S_propagate_on_move_assign()
+   || _Alloc_traits::_S_always_equal();
+ _M_move_assign(std::move(__x), __bool_constant<__move_storage>());
+ return *this;
+      }
+# 853 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      vector&
+      operator=(initializer_list<value_type> __l)
+      {
+ this->_M_assign_aux(__l.begin(), __l.end(),
+       random_access_iterator_tag());
+ return *this;
+      }
+# 873 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      void
+      assign(size_type __n, const value_type& __val)
+      { _M_fill_assign(__n, __val); }
+# 891 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      template<typename _InputIterator,
+        typename = std::_RequireInputIter<_InputIterator>>
+ constexpr
+ void
+ assign(_InputIterator __first, _InputIterator __last)
+ { _M_assign_aux(__first, __last, std::__iterator_category(__first)); }
+# 920 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      void
+      assign(initializer_list<value_type> __l)
+      {
+ this->_M_assign_aux(__l.begin(), __l.end(),
+       random_access_iterator_tag());
+      }
+# 936 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      template<__detail::__container_compatible_range<_Tp> _Rg>
+ constexpr void
+ assign_range(_Rg&& __rg)
+ {
+   static_assert(assignable_from<_Tp&, ranges::range_reference_t<_Rg>>);
+
+   if constexpr (ranges::forward_range<_Rg> || ranges::sized_range<_Rg>)
+     {
+       const auto __n = size_type(ranges::distance(__rg));
+       if (__n <= size())
+  {
+    auto __res = ranges::copy(__rg, this->_M_impl._M_start);
+    _M_erase_at_end(__res.out);
+    return;
+  }
+
+       reserve(__n);
+       auto __first = ranges::copy_n(ranges::begin(__rg), size(),
+         this->_M_impl._M_start).in;
+       [[maybe_unused]] const auto __diff = __n - size();
+       ;
+       _Base::_M_append_range(ranges::subrange(std::move(__first),
+            ranges::end(__rg)));
+       ;
+     }
+   else
+     {
+       auto __first = ranges::begin(__rg);
+       const auto __last = ranges::end(__rg);
+       pointer __ptr = this->_M_impl._M_start;
+       pointer const __end = this->_M_impl._M_finish;
+
+       while (__ptr < __end && __first != __last)
+  {
+    *__ptr = *__first;
+    ++__ptr;
+    ++__first;
+  }
+
+       if (__first == __last)
+  _M_erase_at_end(__ptr);
+       else
+  {
+    do
+      emplace_back(*__first);
+    while (++__first != __last);
+  }
+     }
+ }
+
+
+
+      using _Base::get_allocator;
+
+
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      iterator
+      begin() noexcept
+      { return iterator(this->_M_impl._M_start); }
+
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      const_iterator
+      begin() const noexcept
+      { return const_iterator(this->_M_impl._M_start); }
+
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      iterator
+      end() noexcept
+      { return iterator(this->_M_impl._M_finish); }
+
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      const_iterator
+      end() const noexcept
+      { return const_iterator(this->_M_impl._M_finish); }
+
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      reverse_iterator
+      rbegin() noexcept
+      { return reverse_iterator(end()); }
+
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      const_reverse_iterator
+      rbegin() const noexcept
+      { return const_reverse_iterator(end()); }
+
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      reverse_iterator
+      rend() noexcept
+      { return reverse_iterator(begin()); }
+
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      const_reverse_iterator
+      rend() const noexcept
+      { return const_reverse_iterator(begin()); }
+
+
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      const_iterator
+      cbegin() const noexcept
+      { return const_iterator(this->_M_impl._M_start); }
+
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      const_iterator
+      cend() const noexcept
+      { return const_iterator(this->_M_impl._M_finish); }
+
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      const_reverse_iterator
+      crbegin() const noexcept
+      { return const_reverse_iterator(end()); }
+
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      const_reverse_iterator
+      crend() const noexcept
+      { return const_reverse_iterator(begin()); }
+
+
+
+
+      [[__nodiscard__]] constexpr
+      size_type
+      size() const noexcept
+      {
+ ptrdiff_t __dif = this->_M_impl._M_finish - this->_M_impl._M_start;
+ if (__dif < 0)
+    __builtin_unreachable ();
+ return size_type(__dif);
+      }
+
+
+      [[__nodiscard__]] constexpr
+      size_type
+      max_size() const noexcept
+      { return _S_max_size(_M_get_Tp_allocator()); }
+# 1141 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      void
+      resize(size_type __new_size)
+      {
+ if (__new_size > size())
+   _M_default_append(__new_size - size());
+ else if (__new_size < size())
+   _M_erase_at_end(this->_M_impl._M_start + __new_size);
+      }
+# 1162 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      void
+      resize(size_type __new_size, const value_type& __x)
+      {
+ if (__new_size > size())
+   _M_fill_append(__new_size - size(), __x);
+ else if (__new_size < size())
+   _M_erase_at_end(this->_M_impl._M_start + __new_size);
+      }
+# 1196 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      void
+      shrink_to_fit()
+      { _M_shrink_to_fit(); }
+
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      size_type
+      capacity() const noexcept
+      {
+ ptrdiff_t __dif = this->_M_impl._M_end_of_storage
+     - this->_M_impl._M_start;
+ if (__dif < 0)
+    __builtin_unreachable ();
+ return size_type(__dif);
+      }
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      bool
+      empty() const noexcept
+      { return begin() == end(); }
+# 1243 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      void
+      reserve(size_type __n);
+# 1259 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      [[__nodiscard__]] constexpr
+      reference
+      operator[](size_type __n) noexcept
+      {
+ do { if (__builtin_expect(!bool(__n < this->size()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_vector.h", 1263, __PRETTY_FUNCTION__, "__n < this->size()"); } while (false);
+ return *(this->_M_impl._M_start + __n);
+      }
+# 1278 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      [[__nodiscard__]] constexpr
+      const_reference
+      operator[](size_type __n) const noexcept
+      {
+ do { if (__builtin_expect(!bool(__n < this->size()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_vector.h", 1282, __PRETTY_FUNCTION__, "__n < this->size()"); } while (false);
+ return *(this->_M_impl._M_start + __n);
+      }
+
+    protected:
+
+      constexpr
+      void
+      _M_range_check(size_type __n) const
+      {
+ if (__n >= this->size())
+   __throw_out_of_range_fmt(("vector::_M_range_check: __n " "(which is %zu) >= this->size() " "(which is %zu)")
+
+                            ,
+       __n, this->size());
+      }
+
+    public:
+# 1311 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      [[__nodiscard__]] constexpr
+      reference
+      at(size_type __n)
+      {
+ _M_range_check(__n);
+ return (*this)[__n];
+      }
+# 1330 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      [[__nodiscard__]] constexpr
+      const_reference
+      at(size_type __n) const
+      {
+ _M_range_check(__n);
+ return (*this)[__n];
+      }
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      reference
+      front() noexcept
+      {
+ do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_vector.h", 1346, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
+ return *begin();
+      }
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      const_reference
+      front() const noexcept
+      {
+ do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_vector.h", 1358, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
+ return *begin();
+      }
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      reference
+      back() noexcept
+      {
+ do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_vector.h", 1370, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
+ return *(end() - 1);
+      }
+
+
+
+
+
+      [[__nodiscard__]] constexpr
+      const_reference
+      back() const noexcept
+      {
+ do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_vector.h", 1382, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
+ return *(end() - 1);
+      }
+# 1393 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      [[__nodiscard__]] constexpr
+      _Tp*
+      data() noexcept
+      { return _M_data_ptr(this->_M_impl._M_start); }
+
+      [[__nodiscard__]] constexpr
+      const _Tp*
+      data() const noexcept
+      { return _M_data_ptr(this->_M_impl._M_start); }
+# 1414 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      void
+      push_back(const value_type& __x)
+      {
+ if (this->_M_impl._M_finish != this->_M_impl._M_end_of_storage)
+   {
+     ;
+     _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
+         __x);
+     ++this->_M_impl._M_finish;
+     ;
+   }
+ else
+   _M_realloc_append(__x);
+      }
+
+
+      constexpr
+      void
+      push_back(value_type&& __x)
+      { emplace_back(std::move(__x)); }
+
+      template<typename... _Args>
+
+ constexpr
+ reference
+
+
+
+ emplace_back(_Args&&... __args);
+# 1455 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      void
+      pop_back() noexcept
+      {
+ do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_vector.h", 1459, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
+ --this->_M_impl._M_finish;
+ _Alloc_traits::destroy(this->_M_impl, this->_M_impl._M_finish);
+ ;
+      }
+# 1478 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      template<typename... _Args>
+ constexpr
+ iterator
+ emplace(const_iterator __position, _Args&&... __args)
+ { return _M_emplace_aux(__position, std::forward<_Args>(__args)...); }
+# 1495 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      iterator
+      insert(const_iterator __position, const value_type& __x);
+# 1526 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      iterator
+      insert(const_iterator __position, value_type&& __x)
+      { return _M_insert_rval(__position, std::move(__x)); }
+# 1544 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      iterator
+      insert(const_iterator __position, initializer_list<value_type> __l)
+      {
+ auto __offset = __position - cbegin();
+ _M_range_insert(begin() + __offset, __l.begin(), __l.end(),
+   std::random_access_iterator_tag());
+ return begin() + __offset;
+      }
+# 1570 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      iterator
+      insert(const_iterator __position, size_type __n, const value_type& __x)
+      {
+ difference_type __offset = __position - cbegin();
+ _M_fill_insert(begin() + __offset, __n, __x);
+ return begin() + __offset;
+      }
+# 1613 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      template<typename _InputIterator,
+        typename = std::_RequireInputIter<_InputIterator>>
+ constexpr
+ iterator
+ insert(const_iterator __position, _InputIterator __first,
+        _InputIterator __last)
+ {
+   difference_type __offset = __position - cbegin();
+   _M_range_insert(begin() + __offset, __first, __last,
+     std::__iterator_category(__first));
+   return begin() + __offset;
+ }
+# 1660 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      template<__detail::__container_compatible_range<_Tp> _Rg>
+ constexpr iterator
+ insert_range(const_iterator __pos, _Rg&& __rg);
+
+
+
+
+
+
+      template<__detail::__container_compatible_range<_Tp> _Rg>
+ constexpr void
+ append_range(_Rg&& __rg)
+ {
+
+
+
+   if constexpr (ranges::forward_range<_Rg> || ranges::sized_range<_Rg>)
+     {
+       const auto __n = size_type(ranges::distance(__rg));
+
+
+
+       if (capacity() == 0)
+  reserve(__n);
+
+       const auto __sz = size();
+       const auto __capacity = capacity();
+       if ((__capacity - __sz) >= __n)
+  {
+    ;
+    _Base::_M_append_range(__rg);
+    ;
+    return;
+  }
+
+       const size_type __len = _M_check_len(__n, "vector::append_range");
+
+       pointer __old_start = this->_M_impl._M_start;
+       pointer __old_finish = this->_M_impl._M_finish;
+
+       allocator_type& __a = _M_get_Tp_allocator();
+       const pointer __start = this->_M_allocate(__len);
+       const pointer __mid = __start + __sz;
+       const pointer __back = __mid + __n;
+       _Guard_alloc __guard(__start, __len, *this);
+       std::__uninitialized_copy_a(ranges::begin(__rg),
+       ranges::end(__rg),
+       __mid, __a);
+
+       if constexpr (_S_use_relocate())
+  _S_relocate(__old_start, __old_finish, __start, __a);
+       else
+  {
+
+    struct _Guard_elts
+    {
+      pointer _M_first, _M_last;
+      _Tp_alloc_type& _M_alloc;
+
+      constexpr
+      _Guard_elts(pointer __f, pointer __l, _Tp_alloc_type& __a)
+      : _M_first(__f), _M_last(__l), _M_alloc(__a)
+      { }
+
+      constexpr
+      ~_Guard_elts()
+      { std::_Destroy(_M_first, _M_last, _M_alloc); }
+
+      _Guard_elts(_Guard_elts&&) = delete;
+    };
+    _Guard_elts __guard_elts{__mid, __back, __a};
+
+    std::__uninitialized_move_a(__old_start, __old_finish,
+           __start, __a);
+
+
+    __guard_elts._M_first = __old_start;
+    __guard_elts._M_last = __old_finish;
+  }
+
+
+       __guard._M_storage = __old_start;
+       __guard._M_len = __capacity;
+
+       this->_M_impl._M_start = __start;
+       this->_M_impl._M_finish = __back;
+       this->_M_impl._M_end_of_storage = __start + __len;
+     }
+   else
+     {
+       auto __first = ranges::begin(__rg);
+       const auto __last = ranges::end(__rg);
+
+
+       for (auto __free = capacity() - size();
+     __first != __last && __free > 0;
+     ++__first, (void) --__free)
+  emplace_back(*__first);
+
+       if (__first == __last)
+  return;
+
+
+       vector __tmp(_M_get_Tp_allocator());
+       for (; __first != __last; ++__first)
+  __tmp.emplace_back(*__first);
+       reserve(_M_check_len(__tmp.size(), "vector::append_range"));
+       ranges::subrange __r(std::make_move_iterator(__tmp.begin()),
+       std::make_move_iterator(__tmp.end()));
+       append_range(__r);
+     }
+ }
+# 1789 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      iterator
+
+      erase(const_iterator __position)
+      { return _M_erase(begin() + (__position - cbegin())); }
+# 1817 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      iterator
+
+      erase(const_iterator __first, const_iterator __last)
+      {
+ const auto __beg = begin();
+ const auto __cbeg = cbegin();
+ return _M_erase(__beg + (__first - __cbeg), __beg + (__last - __cbeg));
+      }
+# 1842 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      constexpr
+      void
+      swap(vector& __x) noexcept
+      {
+
+ do { if (__builtin_expect(!bool(_Alloc_traits::propagate_on_container_swap::value || _M_get_Tp_allocator() == __x._M_get_Tp_allocator()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_vector.h", 1847, __PRETTY_FUNCTION__, "_Alloc_traits::propagate_on_container_swap::value || _M_get_Tp_allocator() == __x._M_get_Tp_allocator()"); } while (false)
+                                                          ;
+
+ this->_M_impl._M_swap_data(__x._M_impl);
+ _Alloc_traits::_S_on_swap(_M_get_Tp_allocator(),
+      __x._M_get_Tp_allocator());
+      }
+
+
+
+
+
+
+
+      constexpr
+      void
+      clear() noexcept
+      { _M_erase_at_end(this->_M_impl._M_start); }
+
+    private:
+
+      struct _Guard_alloc
+      {
+ pointer _M_storage;
+ size_type _M_len;
+ _Base& _M_vect;
+
+ constexpr
+ _Guard_alloc(pointer __s, size_type __l, _Base& __vect)
+ : _M_storage(__s), _M_len(__l), _M_vect(__vect)
+ { }
+
+ constexpr
+ ~_Guard_alloc()
+ {
+   if (_M_storage)
+     _M_vect._M_deallocate(_M_storage, _M_len);
+ }
+
+ constexpr
+ pointer
+ _M_release()
+ {
+   pointer __res = _M_storage;
+   _M_storage = pointer();
+   return __res;
+ }
+
+      private:
+ _Guard_alloc(const _Guard_alloc&);
+      };
+
+    protected:
+
+
+
+
+      template<typename _ForwardIterator>
+ constexpr
+ pointer
+ _M_allocate_and_copy(size_type __n,
+        _ForwardIterator __first, _ForwardIterator __last)
+ {
+   _Guard_alloc __guard(this->_M_allocate(__n), __n, *this);
+   std::__uninitialized_copy_a
+     (__first, __last, __guard._M_storage, _M_get_Tp_allocator());
+   return __guard._M_release();
+ }
+# 1948 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      template<typename _InputIterator>
+ constexpr
+ void
+ _M_range_initialize(_InputIterator __first, _InputIterator __last,
+       std::input_iterator_tag)
+ {
+   try {
+     for (; __first != __last; ++__first)
+
+       emplace_back(*__first);
+
+
+
+   } catch(...) {
+     clear();
+     throw;
+   }
+ }
+
+
+      template<typename _ForwardIterator>
+ constexpr
+ void
+ _M_range_initialize(_ForwardIterator __first, _ForwardIterator __last,
+       std::forward_iterator_tag)
+ {
+   _M_range_initialize_n(__first, __last,
+    std::distance(__first, __last));
+ }
+
+      template<typename _Iterator, typename _Sentinel>
+ constexpr
+ void
+ _M_range_initialize_n(_Iterator __first, _Sentinel __last,
+         size_type __n)
+ {
+   pointer __start =
+     this->_M_allocate(_S_check_init_len(__n, _M_get_Tp_allocator()));
+   this->_M_impl._M_start = this->_M_impl._M_finish = __start;
+   this->_M_impl._M_end_of_storage = __start + __n;
+   this->_M_impl._M_finish
+       = std::__uninitialized_copy_a(std::move(__first), __last,
+         __start, _M_get_Tp_allocator());
+ }
+
+
+
+      constexpr
+      void
+      _M_fill_initialize(size_type __n, const value_type& __value)
+      {
+ this->_M_impl._M_finish =
+   std::__uninitialized_fill_n_a(this->_M_impl._M_start, __n, __value,
+     _M_get_Tp_allocator());
+      }
+
+
+
+      constexpr
+      void
+      _M_default_initialize(size_type __n)
+      {
+ this->_M_impl._M_finish =
+   std::__uninitialized_default_n_a(this->_M_impl._M_start, __n,
+        _M_get_Tp_allocator());
+      }
+# 2023 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      template<typename _Integer>
+ constexpr
+ void
+ _M_assign_dispatch(_Integer __n, _Integer __val, __true_type)
+ { _M_fill_assign(__n, __val); }
+
+
+      template<typename _InputIterator>
+ constexpr
+ void
+ _M_assign_dispatch(_InputIterator __first, _InputIterator __last,
+      __false_type)
+ { _M_assign_aux(__first, __last, std::__iterator_category(__first)); }
+
+
+      template<typename _InputIterator>
+ constexpr
+ void
+ _M_assign_aux(_InputIterator __first, _InputIterator __last,
+        std::input_iterator_tag);
+
+
+      template<typename _ForwardIterator>
+ constexpr
+ void
+ _M_assign_aux(_ForwardIterator __first, _ForwardIterator __last,
+        std::forward_iterator_tag);
+
+
+
+      constexpr
+      void
+      _M_fill_assign(size_type __n, const value_type& __val);
+
+
+
+
+
+
+
+      template<typename _Integer>
+ constexpr
+ void
+ _M_insert_dispatch(iterator __pos, _Integer __n, _Integer __val,
+      __true_type)
+ { _M_fill_insert(__pos, __n, __val); }
+
+
+      template<typename _InputIterator>
+ constexpr
+ void
+ _M_insert_dispatch(iterator __pos, _InputIterator __first,
+      _InputIterator __last, __false_type)
+ {
+   _M_range_insert(__pos, __first, __last,
+     std::__iterator_category(__first));
+ }
+
+
+      template<typename _InputIterator>
+ constexpr
+ void
+ _M_range_insert(iterator __pos, _InputIterator __first,
+   _InputIterator __last, std::input_iterator_tag);
+
+
+      template<typename _ForwardIterator>
+ constexpr
+ void
+ _M_range_insert(iterator __pos, _ForwardIterator __first,
+   _ForwardIterator __last, std::forward_iterator_tag);
+
+
+
+      constexpr
+      void
+      _M_fill_insert(iterator __pos, size_type __n, const value_type& __x);
+
+
+      constexpr
+      void
+      _M_fill_append(size_type __n, const value_type& __x);
+
+
+
+      constexpr
+      void
+      _M_default_append(size_type __n);
+
+      constexpr
+      bool
+      _M_shrink_to_fit();
+# 2130 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+      struct _Temporary_value
+      {
+ template<typename... _Args>
+   constexpr explicit
+   _Temporary_value(vector* __vec, _Args&&... __args) : _M_this(__vec)
+   {
+     _Alloc_traits::construct(_M_this->_M_impl, _M_ptr(),
+         std::forward<_Args>(__args)...);
+   }
+
+ constexpr
+ ~_Temporary_value()
+ { _Alloc_traits::destroy(_M_this->_M_impl, _M_ptr()); }
+
+ constexpr value_type&
+ _M_val() noexcept { return _M_storage._M_val; }
+
+      private:
+ constexpr _Tp*
+ _M_ptr() noexcept { return std::__addressof(_M_storage._M_val); }
+
+ union _Storage
+ {
+   constexpr _Storage() : _M_byte() { }
+   constexpr ~_Storage() { }
+   _Storage& operator=(const _Storage&) = delete;
+   unsigned char _M_byte;
+   _Tp _M_val;
+ };
+
+ vector* _M_this;
+ _Storage _M_storage;
+      };
+
+
+
+      template<typename _Arg>
+ constexpr
+ void
+ _M_insert_aux(iterator __position, _Arg&& __arg);
+
+      template<typename... _Args>
+ constexpr
+ void
+ _M_realloc_insert(iterator __position, _Args&&... __args);
+
+      template<typename... _Args>
+ constexpr
+ void
+ _M_realloc_append(_Args&&... __args);
+
+
+      constexpr
+      iterator
+      _M_insert_rval(const_iterator __position, value_type&& __v);
+
+
+      template<typename... _Args>
+ constexpr
+ iterator
+ _M_emplace_aux(const_iterator __position, _Args&&... __args);
+
+
+      constexpr
+      iterator
+      _M_emplace_aux(const_iterator __position, value_type&& __v)
+      { return _M_insert_rval(__position, std::move(__v)); }
+
+
+
+      constexpr
+      size_type
+      _M_check_len(size_type __n, const char* __s) const
+      {
+ if (max_size() - size() < __n)
+   __throw_length_error((__s));
+
+ const size_type __len = size() + (std::max)(size(), __n);
+ return (__len < size() || __len > max_size()) ? max_size() : __len;
+      }
+
+
+      static constexpr size_type
+      _S_check_init_len(size_type __n, const allocator_type& __a)
+      {
+ if (__n > _S_max_size(_Tp_alloc_type(__a)))
+   __throw_length_error(
+       ("cannot create std::vector larger than max_size()"));
+ return __n;
+      }
+
+      static constexpr size_type
+      _S_max_size(const _Tp_alloc_type& __a) noexcept
+      {
+
+
+
+ const size_t __diffmax
+   = __gnu_cxx::__numeric_traits<ptrdiff_t>::__max / sizeof(_Tp);
+ const size_t __allocmax = _Alloc_traits::max_size(__a);
+ return (std::min)(__diffmax, __allocmax);
+      }
+
+
+
+
+
+      constexpr
+      void
+      _M_erase_at_end(pointer __pos) noexcept
+      {
+ if (size_type __n = this->_M_impl._M_finish - __pos)
+   {
+     std::_Destroy(__pos, this->_M_impl._M_finish,
+     _M_get_Tp_allocator());
+     this->_M_impl._M_finish = __pos;
+     ;
+   }
+      }
+
+      constexpr
+      iterator
+      _M_erase(iterator __position);
+
+      constexpr
+      iterator
+      _M_erase(iterator __first, iterator __last);
+
+
+    private:
+
+
+
+      constexpr
+      void
+      _M_move_assign(vector&& __x, true_type) noexcept
+      {
+ vector __tmp(get_allocator());
+ this->_M_impl._M_swap_data(__x._M_impl);
+ __tmp._M_impl._M_swap_data(__x._M_impl);
+ std::__alloc_on_move(_M_get_Tp_allocator(), __x._M_get_Tp_allocator());
+      }
+
+
+
+      constexpr
+      void
+      _M_move_assign(vector&& __x, false_type)
+      {
+ if (__x._M_get_Tp_allocator() == this->_M_get_Tp_allocator())
+   _M_move_assign(std::move(__x), true_type());
+ else
+   {
+
+
+     this->_M_assign_aux(std::make_move_iterator(__x.begin()),
+           std::make_move_iterator(__x.end()),
+    std::random_access_iterator_tag());
+     __x.clear();
+   }
+      }
+
+
+      template<typename _Up>
+ constexpr
+ _Up*
+ _M_data_ptr(_Up* __ptr) const noexcept
+ { return __ptr; }
+
+
+      template<typename _Ptr>
+ constexpr
+ typename std::pointer_traits<_Ptr>::element_type*
+ _M_data_ptr(_Ptr __ptr) const
+ { return empty() ? nullptr : std::__to_address(__ptr); }
+
+
+
+
+
+
+    };
+
+
+  template<typename _InputIterator, typename _ValT
+      = typename iterator_traits<_InputIterator>::value_type,
+    typename _Allocator = allocator<_ValT>,
+    typename = _RequireInputIter<_InputIterator>,
+    typename = _RequireAllocator<_Allocator>>
+    vector(_InputIterator, _InputIterator, _Allocator = _Allocator())
+      -> vector<_ValT, _Allocator>;
+
+
+  template<ranges::input_range _Rg,
+    typename _Alloc = allocator<ranges::range_value_t<_Rg>>>
+    vector(from_range_t, _Rg&&, _Alloc = _Alloc())
+      -> vector<ranges::range_value_t<_Rg>, _Alloc>;
+# 2340 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+  template<typename _Tp, typename _Alloc>
+    [[__nodiscard__]] constexpr
+    inline bool
+    operator==(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
+    { return (__x.size() == __y.size()
+       && std::equal(__x.begin(), __x.end(), __y.begin())); }
+# 2359 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+  template<typename _Tp, typename _Alloc>
+    [[nodiscard]]
+    constexpr __detail::__synth3way_t<_Tp>
+    operator<=>(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
+    {
+      return std::lexicographical_compare_three_way(__x.begin(), __x.end(),
+          __y.begin(), __y.end(),
+          __detail::__synth3way);
+    }
+# 2412 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+  template<typename _Tp, typename _Alloc>
+    constexpr
+    inline void
+    swap(vector<_Tp, _Alloc>& __x, vector<_Tp, _Alloc>& __y)
+    noexcept(noexcept(__x.swap(__y)))
+    { __x.swap(__y); }
+
+
+
+
+  namespace __detail::__variant
+  {
+    template<typename> struct _Never_valueless_alt;
+
+
+
+    template<typename _Tp, typename _Alloc>
+      struct _Never_valueless_alt<std::vector<_Tp, _Alloc>>
+      : std::is_nothrow_move_assignable<std::vector<_Tp, _Alloc>>
+      { };
+  }
+
+
+
+}
+# 69 "/usr/include/c++/15.2.1/vector" 2 3
+# 1 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 1 3
+# 68 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+  typedef unsigned long _Bit_type;
+  enum { _S_word_bit = int(8 * sizeof(_Bit_type)) };
+
+  __attribute__((__nonnull__))
+  constexpr
+  void
+  __fill_bvector_n(_Bit_type*, size_t, bool) noexcept;
+
+
+
+  struct _Bit_reference
+  {
+  private:
+    template<typename, typename> friend class vector;
+    friend struct _Bit_iterator;
+    friend struct _Bit_const_iterator;
+
+    constexpr
+    _Bit_reference() noexcept : _M_p(0), _M_mask(0) { }
+
+    _Bit_type * _M_p;
+    _Bit_type _M_mask;
+
+    constexpr
+    _Bit_reference(_Bit_type * __x, _Bit_type __y)
+    : _M_p(__x), _M_mask(__y) { }
+
+  public:
+
+    _Bit_reference(const _Bit_reference&) = default;
+
+
+    [[__nodiscard__]] constexpr
+    operator bool() const noexcept
+    { return !!(*_M_p & _M_mask); }
+
+    constexpr
+    _Bit_reference&
+    operator=(bool __x) noexcept
+    {
+      if (__x)
+ *_M_p |= _M_mask;
+      else
+ *_M_p &= ~_M_mask;
+      return *this;
+    }
+
+
+    constexpr const _Bit_reference&
+    operator=(bool __x) const noexcept
+    {
+      if (__x)
+ *_M_p |= _M_mask;
+      else
+ *_M_p &= ~_M_mask;
+      return *this;
+    }
+
+
+    constexpr
+    _Bit_reference&
+    operator=(const _Bit_reference& __x) noexcept
+    { return *this = bool(__x); }
+
+    [[__nodiscard__]] constexpr
+    bool
+    operator==(const _Bit_reference& __x) const
+    { return bool(*this) == bool(__x); }
+
+    [[__nodiscard__]] constexpr
+    bool
+    operator<(const _Bit_reference& __x) const
+    { return !bool(*this) && bool(__x); }
+
+    constexpr
+    void
+    flip() noexcept
+    { *_M_p ^= _M_mask; }
+
+
+    constexpr
+    friend void
+    swap(_Bit_reference __x, _Bit_reference __y) noexcept
+    {
+      bool __tmp = __x;
+      __x = __y;
+      __y = __tmp;
+    }
+
+    constexpr
+    friend void
+    swap(_Bit_reference __x, bool& __y) noexcept
+    {
+      bool __tmp = __x;
+      __x = __y;
+      __y = __tmp;
+    }
+
+    constexpr
+    friend void
+    swap(bool& __x, _Bit_reference __y) noexcept
+    {
+      bool __tmp = __x;
+      __x = __y;
+      __y = __tmp;
+    }
+
+  };
+
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+  struct _Bit_iterator_base
+  : public std::iterator<std::random_access_iterator_tag, bool>
+  {
+    _Bit_type * _M_p;
+    unsigned int _M_offset;
+
+    constexpr inline __attribute__((__always_inline__))
+    void
+    _M_assume_normalized() const
+    {
+
+      unsigned int __ofst = _M_offset;
+      __attribute__ ((__assume__ (__ofst < unsigned(_S_word_bit))));
+
+    }
+
+    constexpr
+    _Bit_iterator_base(_Bit_type * __x, unsigned int __y)
+    : _M_p(__x), _M_offset(__y) { }
+
+    constexpr
+    void
+    _M_bump_up()
+    {
+      _M_assume_normalized();
+      if (_M_offset++ == int(_S_word_bit) - 1)
+ {
+   _M_offset = 0;
+   ++_M_p;
+ }
+    }
+
+    constexpr
+    void
+    _M_bump_down()
+    {
+      _M_assume_normalized();
+      if (_M_offset-- == 0)
+ {
+   _M_offset = int(_S_word_bit) - 1;
+   --_M_p;
+ }
+    }
+
+    constexpr
+    void
+    _M_incr(ptrdiff_t __i)
+    {
+      _M_assume_normalized();
+      difference_type __n = __i + _M_offset;
+      _M_p += __n / int(_S_word_bit);
+      __n = __n % int(_S_word_bit);
+      if (__n < 0)
+ {
+   __n += int(_S_word_bit);
+   --_M_p;
+ }
+      _M_offset = static_cast<unsigned int>(__n);
+    }
+
+    [[__nodiscard__]]
+    friend constexpr bool
+    operator==(const _Bit_iterator_base& __x, const _Bit_iterator_base& __y)
+    {
+      __x._M_assume_normalized();
+      __y._M_assume_normalized();
+      return __x._M_p == __y._M_p && __x._M_offset == __y._M_offset;
+    }
+
+
+    [[nodiscard]]
+    friend constexpr strong_ordering
+    operator<=>(const _Bit_iterator_base& __x, const _Bit_iterator_base& __y)
+    noexcept
+    {
+      __x._M_assume_normalized();
+      __y._M_assume_normalized();
+      if (const auto __cmp = __x._M_p <=> __y._M_p; __cmp != 0)
+ return __cmp;
+      return __x._M_offset <=> __y._M_offset;
+    }
+# 297 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
+    friend constexpr ptrdiff_t
+    operator-(const _Bit_iterator_base& __x, const _Bit_iterator_base& __y)
+    {
+      __x._M_assume_normalized();
+      __y._M_assume_normalized();
+      return (int(_S_word_bit) * (__x._M_p - __y._M_p)
+       + __x._M_offset - __y._M_offset);
+    }
+  };
+#pragma GCC diagnostic pop
+
+  struct _Bit_iterator : public _Bit_iterator_base
+  {
+    typedef _Bit_reference reference;
+
+    typedef void pointer;
+
+
+
+    typedef _Bit_iterator iterator;
+
+    constexpr
+    _Bit_iterator() : _Bit_iterator_base(0, 0) { }
+
+    constexpr
+    _Bit_iterator(_Bit_type * __x, unsigned int __y)
+    : _Bit_iterator_base(__x, __y) { }
+
+    constexpr
+    iterator
+    _M_const_cast() const
+    { return *this; }
+
+    [[__nodiscard__]] constexpr
+    reference
+    operator*() const
+    {
+      _M_assume_normalized();
+      return reference(_M_p, 1UL << _M_offset);
+    }
+
+    constexpr
+    iterator&
+    operator++()
+    {
+      _M_bump_up();
+      return *this;
+    }
+
+    constexpr
+    iterator
+    operator++(int)
+    {
+      iterator __tmp = *this;
+      _M_bump_up();
+      return __tmp;
+    }
+
+    constexpr
+    iterator&
+    operator--()
+    {
+      _M_bump_down();
+      return *this;
+    }
+
+    constexpr
+    iterator
+    operator--(int)
+    {
+      iterator __tmp = *this;
+      _M_bump_down();
+      return __tmp;
+    }
+
+    constexpr
+    iterator&
+    operator+=(difference_type __i)
+    {
+      _M_incr(__i);
+      return *this;
+    }
+
+    constexpr
+    iterator&
+    operator-=(difference_type __i)
+    {
+      *this += -__i;
+      return *this;
+    }
+
+    [[__nodiscard__]] constexpr
+    reference
+    operator[](difference_type __i) const
+    { return *(*this + __i); }
+
+    [[__nodiscard__]]
+    friend constexpr iterator
+    operator+(const iterator& __x, difference_type __n)
+    {
+      iterator __tmp = __x;
+      __tmp += __n;
+      return __tmp;
+    }
+
+    [[__nodiscard__]]
+    friend constexpr iterator
+    operator+(difference_type __n, const iterator& __x)
+    { return __x + __n; }
+
+    [[__nodiscard__]]
+    friend constexpr iterator
+    operator-(const iterator& __x, difference_type __n)
+    {
+      iterator __tmp = __x;
+      __tmp -= __n;
+      return __tmp;
+    }
+  };
+
+  struct _Bit_const_iterator : public _Bit_iterator_base
+  {
+    typedef bool reference;
+    typedef bool const_reference;
+
+    typedef void pointer;
+
+
+
+    typedef _Bit_const_iterator const_iterator;
+
+    constexpr
+    _Bit_const_iterator() : _Bit_iterator_base(0, 0) { }
+
+    constexpr
+    _Bit_const_iterator(_Bit_type * __x, unsigned int __y)
+    : _Bit_iterator_base(__x, __y) { }
+
+    constexpr
+    _Bit_const_iterator(const _Bit_iterator& __x)
+    : _Bit_iterator_base(__x._M_p, __x._M_offset) { }
+
+    constexpr
+    _Bit_iterator
+    _M_const_cast() const
+    { return _Bit_iterator(_M_p, _M_offset); }
+
+    [[__nodiscard__]] constexpr
+    const_reference
+    operator*() const
+    {
+      _M_assume_normalized();
+      return _Bit_reference(_M_p, 1UL << _M_offset);
+    }
+
+    constexpr
+    const_iterator&
+    operator++()
+    {
+      _M_bump_up();
+      return *this;
+    }
+
+    constexpr
+    const_iterator
+    operator++(int)
+    {
+      const_iterator __tmp = *this;
+      _M_bump_up();
+      return __tmp;
+    }
+
+    constexpr
+    const_iterator&
+    operator--()
+    {
+      _M_bump_down();
+      return *this;
+    }
+
+    constexpr
+    const_iterator
+    operator--(int)
+    {
+      const_iterator __tmp = *this;
+      _M_bump_down();
+      return __tmp;
+    }
+
+    constexpr
+    const_iterator&
+    operator+=(difference_type __i)
+    {
+      _M_incr(__i);
+      return *this;
+    }
+
+    constexpr
+    const_iterator&
+    operator-=(difference_type __i)
+    {
+      *this += -__i;
+      return *this;
+    }
+
+    [[__nodiscard__]] constexpr
+    const_reference
+    operator[](difference_type __i) const
+    { return *(*this + __i); }
+
+    [[__nodiscard__]]
+    friend constexpr const_iterator
+    operator+(const const_iterator& __x, difference_type __n)
+    {
+      const_iterator __tmp = __x;
+      __tmp += __n;
+      return __tmp;
+    }
+
+    [[__nodiscard__]]
+    friend constexpr const_iterator
+    operator-(const const_iterator& __x, difference_type __n)
+    {
+      const_iterator __tmp = __x;
+      __tmp -= __n;
+      return __tmp;
+    }
+
+    [[__nodiscard__]]
+    friend constexpr const_iterator
+    operator+(difference_type __n, const const_iterator& __x)
+    { return __x + __n; }
+  };
+
+  template<typename _Alloc>
+    struct _Bvector_base
+    {
+      typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template
+        rebind<_Bit_type>::other _Bit_alloc_type;
+      typedef typename __gnu_cxx::__alloc_traits<_Bit_alloc_type>
+ _Bit_alloc_traits;
+      typedef typename _Bit_alloc_traits::pointer _Bit_pointer;
+
+      struct _Bvector_impl_data
+      {
+
+ _Bit_iterator _M_start;
+# 553 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
+ _Bit_iterator _M_finish;
+ _Bit_pointer _M_end_of_storage;
+
+ constexpr
+ _Bvector_impl_data() noexcept
+ : _M_start(), _M_finish(), _M_end_of_storage()
+ { }
+
+
+ _Bvector_impl_data(const _Bvector_impl_data&) = default;
+
+ _Bvector_impl_data&
+ operator=(const _Bvector_impl_data&) = default;
+
+ constexpr
+ _Bvector_impl_data(_Bvector_impl_data&& __x) noexcept
+ : _Bvector_impl_data(__x)
+ { __x._M_reset(); }
+
+ constexpr
+ void
+ _M_move_data(_Bvector_impl_data&& __x) noexcept
+ {
+   *this = __x;
+   __x._M_reset();
+ }
+
+
+ constexpr
+ void
+ _M_reset() noexcept
+ { *this = _Bvector_impl_data(); }
+
+ constexpr
+ void
+ _M_swap_data(_Bvector_impl_data& __x) noexcept
+ {
+
+
+   std::swap(*this, __x);
+ }
+      };
+
+      struct _Bvector_impl
+ : public _Bit_alloc_type, public _Bvector_impl_data
+      {
+ constexpr
+ _Bvector_impl() noexcept(is_nothrow_default_constructible<_Bit_alloc_type>::value)
+
+
+ requires is_default_constructible_v<_Bit_alloc_type>
+
+ : _Bit_alloc_type()
+ { }
+
+ constexpr
+ _Bvector_impl(const _Bit_alloc_type& __a) noexcept
+ : _Bit_alloc_type(__a)
+ { }
+
+
+
+
+ constexpr
+ _Bvector_impl(_Bvector_impl&& __x) noexcept
+ : _Bit_alloc_type(std::move(__x)), _Bvector_impl_data(std::move(__x))
+ { }
+
+ constexpr
+ _Bvector_impl(_Bit_alloc_type&& __a, _Bvector_impl&& __x) noexcept
+ : _Bit_alloc_type(std::move(__a)), _Bvector_impl_data(std::move(__x))
+ { }
+
+
+ constexpr
+ _Bit_type*
+ _M_end_addr() const noexcept
+ {
+   if (this->_M_end_of_storage)
+     return std::__addressof(this->_M_end_of_storage[-1]) + 1;
+   return 0;
+ }
+      };
+
+    public:
+      typedef _Alloc allocator_type;
+
+      constexpr
+      _Bit_alloc_type&
+      _M_get_Bit_allocator() noexcept
+      { return this->_M_impl; }
+
+      constexpr
+      const _Bit_alloc_type&
+      _M_get_Bit_allocator() const noexcept
+      { return this->_M_impl; }
+
+      constexpr
+      allocator_type
+      get_allocator() const noexcept
+      { return allocator_type(_M_get_Bit_allocator()); }
+
+
+      _Bvector_base() = default;
+
+
+
+
+      constexpr
+      _Bvector_base(const allocator_type& __a)
+      : _M_impl(_Bit_alloc_type(__a)) { }
+
+
+      _Bvector_base(_Bvector_base&&) = default;
+
+      constexpr
+      _Bvector_base(_Bvector_base&& __x, const allocator_type& __a) noexcept
+      : _M_impl(_Bit_alloc_type(__a), std::move(__x._M_impl))
+      { }
+
+
+      constexpr
+      ~_Bvector_base()
+      { this->_M_deallocate(); }
+
+    protected:
+      _Bvector_impl _M_impl;
+
+      constexpr
+      _Bit_pointer
+      _M_allocate(size_t __n)
+      {
+ _Bit_pointer __p = _Bit_alloc_traits::allocate(_M_impl, _S_nword(__n));
+
+ if (std::is_constant_evaluated())
+   {
+     __n = _S_nword(__n);
+     for (size_t __i = 0; __i < __n; ++__i)
+       std::construct_at(std::to_address(__p) + __i);
+   }
+
+ return __p;
+      }
+
+      constexpr
+      void
+      _M_deallocate()
+      {
+ if (_M_impl._M_start._M_p)
+   {
+     const size_t __n = _M_impl._M_end_addr() - _M_impl._M_start._M_p;
+     _Bit_alloc_traits::deallocate(_M_impl,
+       _M_impl._M_end_of_storage - __n,
+       __n);
+     _M_impl._M_reset();
+   }
+      }
+
+
+      constexpr
+      void
+      _M_move_data(_Bvector_base&& __x) noexcept
+      { _M_impl._M_move_data(std::move(__x._M_impl)); }
+
+
+      constexpr
+      static size_t
+      _S_nword(size_t __n)
+      { return (__n + int(_S_word_bit) - 1) / int(_S_word_bit); }
+    };
+# 745 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
+  template<typename _Alloc>
+    class vector<bool, _Alloc> : protected _Bvector_base<_Alloc>
+    {
+      typedef _Bvector_base<_Alloc> _Base;
+      typedef typename _Base::_Bit_pointer _Bit_pointer;
+      typedef typename _Base::_Bit_alloc_traits _Bit_alloc_traits;
+
+
+      friend struct std::hash<vector>;
+
+      static_assert(is_same<typename _Alloc::value_type, bool>::value,
+   "std::vector must have the same value_type as its allocator");
+
+
+
+    public:
+      typedef bool value_type;
+      typedef size_t size_type;
+      typedef ptrdiff_t difference_type;
+      typedef _Bit_reference reference;
+      typedef bool const_reference;
+      typedef _Bit_reference* pointer;
+      typedef const bool* const_pointer;
+      typedef _Bit_iterator iterator;
+      typedef _Bit_const_iterator const_iterator;
+      typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+      typedef std::reverse_iterator<iterator> reverse_iterator;
+      typedef _Alloc allocator_type;
+
+      constexpr
+      allocator_type
+      get_allocator() const
+      { return _Base::get_allocator(); }
+
+    protected:
+      using _Base::_M_allocate;
+      using _Base::_M_deallocate;
+      using _Base::_S_nword;
+      using _Base::_M_get_Bit_allocator;
+
+    public:
+
+      vector() = default;
+
+
+
+
+      constexpr
+      explicit
+      vector(const allocator_type& __a) noexcept
+      : _Base(__a) { }
+
+
+      constexpr
+      explicit
+      vector(size_type __n, const allocator_type& __a = allocator_type())
+      : vector(__n, false, __a)
+      { }
+
+      constexpr
+      vector(size_type __n, const bool& __value,
+      const allocator_type& __a = allocator_type())
+
+
+
+
+
+      : _Base(__a)
+      {
+ _M_initialize(__n);
+ _M_initialize_value(__value);
+      }
+
+      constexpr
+      vector(const vector& __x)
+      : _Base(_Bit_alloc_traits::_S_select_on_copy(__x._M_get_Bit_allocator()))
+      {
+ const_iterator __xbegin = __x.begin(), __xend = __x.end();
+ _M_initialize(__x.size());
+ _M_copy_aligned(__xbegin, __xend, begin());
+      }
+
+
+      vector(vector&&) = default;
+
+    private:
+      constexpr
+      vector(vector&& __x, const allocator_type& __a, true_type) noexcept
+      : _Base(std::move(__x), __a)
+      { }
+
+      constexpr
+      vector(vector&& __x, const allocator_type& __a, false_type)
+      : _Base(__a)
+      {
+ if (__x.get_allocator() == __a)
+   this->_M_move_data(std::move(__x));
+ else
+   {
+     _M_initialize(__x.size());
+     _M_copy_aligned(__x.begin(), __x.end(), begin());
+     __x.clear();
+   }
+      }
+
+    public:
+      constexpr
+      vector(vector&& __x, const __type_identity_t<allocator_type>& __a)
+      noexcept(_Bit_alloc_traits::_S_always_equal())
+      : vector(std::move(__x), __a,
+        typename _Bit_alloc_traits::is_always_equal{})
+      { }
+
+      constexpr
+      vector(const vector& __x, const __type_identity_t<allocator_type>& __a)
+      : _Base(__a)
+      {
+ _M_initialize(__x.size());
+ _M_copy_aligned(__x.begin(), __x.end(), begin());
+      }
+
+      constexpr
+      vector(initializer_list<bool> __l,
+      const allocator_type& __a = allocator_type())
+      : _Base(__a)
+      {
+ _M_initialize_range(__l.begin(), __l.end(),
+       random_access_iterator_tag());
+      }
+
+
+
+      template<typename _InputIterator,
+        typename = std::_RequireInputIter<_InputIterator>>
+ constexpr
+ vector(_InputIterator __first, _InputIterator __last,
+        const allocator_type& __a = allocator_type())
+ : _Base(__a)
+ {
+   _M_initialize_range(__first, __last,
+         std::__iterator_category(__first));
+ }
+# 905 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
+      template<__detail::__container_compatible_range<bool> _Rg>
+ constexpr
+ vector(from_range_t, _Rg&& __rg, const _Alloc& __a = _Alloc())
+ : _Base(__a)
+ {
+   if constexpr (ranges::forward_range<_Rg> || ranges::sized_range<_Rg>)
+     {
+       _M_initialize(size_type(ranges::distance(__rg)));
+       ranges::copy(__rg, begin());
+     }
+   else
+     {
+       auto __first = ranges::begin(__rg);
+       const auto __last = ranges::end(__rg);
+       for (; __first != __last; ++__first)
+  emplace_back(*__first);
+     }
+ }
+
+
+      constexpr
+      ~vector() noexcept { }
+
+      constexpr
+      vector&
+      operator=(const vector& __x)
+      {
+ if (&__x == this)
+   return *this;
+
+ if (_Bit_alloc_traits::_S_propagate_on_copy_assign())
+   {
+     if (this->_M_get_Bit_allocator() != __x._M_get_Bit_allocator())
+       {
+  this->_M_deallocate();
+  std::__alloc_on_copy(_M_get_Bit_allocator(),
+         __x._M_get_Bit_allocator());
+  _M_initialize(__x.size());
+       }
+     else
+       std::__alloc_on_copy(_M_get_Bit_allocator(),
+       __x._M_get_Bit_allocator());
+   }
+
+ if (__x.size() > capacity())
+   {
+     this->_M_deallocate();
+     _M_initialize(__x.size());
+   }
+ this->_M_impl._M_finish = _M_copy_aligned(__x.begin(), __x.end(),
+        begin());
+ return *this;
+      }
+
+
+      constexpr
+      vector&
+      operator=(vector&& __x) noexcept(_Bit_alloc_traits::_S_nothrow_move())
+      {
+ if (_Bit_alloc_traits::_S_propagate_on_move_assign()
+     || this->_M_get_Bit_allocator() == __x._M_get_Bit_allocator())
+   {
+     this->_M_deallocate();
+     this->_M_move_data(std::move(__x));
+     std::__alloc_on_move(_M_get_Bit_allocator(),
+     __x._M_get_Bit_allocator());
+   }
+ else
+   {
+     if (__x.size() > capacity())
+       {
+  this->_M_deallocate();
+  _M_initialize(__x.size());
+       }
+     this->_M_impl._M_finish = _M_copy_aligned(__x.begin(), __x.end(),
+            begin());
+     __x.clear();
+   }
+ return *this;
+      }
+
+      constexpr
+      vector&
+      operator=(initializer_list<bool> __l)
+      {
+ this->assign(__l.begin(), __l.end());
+ return *this;
+      }
+
+
+
+
+
+
+      constexpr
+      void
+      assign(size_type __n, const bool& __x)
+      { _M_fill_assign(__n, __x); }
+
+
+      template<typename _InputIterator,
+        typename = std::_RequireInputIter<_InputIterator>>
+ constexpr
+ void
+ assign(_InputIterator __first, _InputIterator __last)
+ { _M_assign_aux(__first, __last, std::__iterator_category(__first)); }
+# 1023 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
+      constexpr
+      void
+      assign(initializer_list<bool> __l)
+      { _M_assign_aux(__l.begin(), __l.end(), random_access_iterator_tag()); }
+# 1036 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
+      template<__detail::__container_compatible_range<bool> _Rg>
+ constexpr void
+ assign_range(_Rg&& __rg)
+ {
+   static_assert(assignable_from<bool&, ranges::range_reference_t<_Rg>>);
+   if constexpr (ranges::forward_range<_Rg> || ranges::sized_range<_Rg>)
+     {
+       if (auto __n = size_type(ranges::distance(__rg)))
+  {
+    reserve(__n);
+    this->_M_impl._M_finish
+        = ranges::copy(std::forward<_Rg>(__rg), begin()).out;
+  }
+       else
+  clear();
+     }
+   else
+     {
+       clear();
+       auto __first = ranges::begin(__rg);
+       const auto __last = ranges::end(__rg);
+       for (; __first != __last; ++__first)
+  emplace_back(*__first);
+     }
+ }
+
+
+      [[__nodiscard__]] constexpr
+      iterator
+      begin() noexcept
+      { return iterator(this->_M_impl._M_start._M_p, 0); }
+
+      [[__nodiscard__]] constexpr
+      const_iterator
+      begin() const noexcept
+      { return const_iterator(this->_M_impl._M_start._M_p, 0); }
+
+      [[__nodiscard__]] constexpr
+      iterator
+      end() noexcept
+      { return this->_M_impl._M_finish; }
+
+      [[__nodiscard__]] constexpr
+      const_iterator
+      end() const noexcept
+      { return this->_M_impl._M_finish; }
+
+      [[__nodiscard__]] constexpr
+      reverse_iterator
+      rbegin() noexcept
+      { return reverse_iterator(end()); }
+
+      [[__nodiscard__]] constexpr
+      const_reverse_iterator
+      rbegin() const noexcept
+      { return const_reverse_iterator(end()); }
+
+      [[__nodiscard__]] constexpr
+      reverse_iterator
+      rend() noexcept
+      { return reverse_iterator(begin()); }
+
+      [[__nodiscard__]] constexpr
+      const_reverse_iterator
+      rend() const noexcept
+      { return const_reverse_iterator(begin()); }
+
+
+      [[__nodiscard__]] constexpr
+      const_iterator
+      cbegin() const noexcept
+      { return const_iterator(this->_M_impl._M_start._M_p, 0); }
+
+      [[__nodiscard__]] constexpr
+      const_iterator
+      cend() const noexcept
+      { return this->_M_impl._M_finish; }
+
+      [[__nodiscard__]] constexpr
+      const_reverse_iterator
+      crbegin() const noexcept
+      { return const_reverse_iterator(end()); }
+
+      [[__nodiscard__]] constexpr
+      const_reverse_iterator
+      crend() const noexcept
+      { return const_reverse_iterator(begin()); }
+
+
+      [[__nodiscard__]] constexpr
+      size_type
+      size() const noexcept
+      { return size_type(end() - begin()); }
+
+      [[__nodiscard__]] constexpr
+      size_type
+      max_size() const noexcept
+      {
+ const size_type __isize =
+   __gnu_cxx::__numeric_traits<difference_type>::__max
+   - int(_S_word_bit) + 1;
+ const size_type __asize
+   = _Bit_alloc_traits::max_size(_M_get_Bit_allocator());
+ return (__asize <= __isize / int(_S_word_bit)
+  ? __asize * int(_S_word_bit) : __isize);
+      }
+
+      [[__nodiscard__]] constexpr
+      size_type
+      capacity() const noexcept
+      { return size_type(const_iterator(this->_M_impl._M_end_addr(), 0)
+    - begin()); }
+
+      [[__nodiscard__]] constexpr
+      bool
+      empty() const noexcept
+      { return begin() == end(); }
+
+      [[__nodiscard__]] constexpr
+      reference
+      operator[](size_type __n)
+      {
+ do { if (__builtin_expect(!bool(__n < this->size()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_bvector.h", 1158, __PRETTY_FUNCTION__, "__n < this->size()"); } while (false);
+ return _Bit_reference (this->_M_impl._M_start._M_p
+          + __n / int(_S_word_bit),
+          1UL << __n % int(_S_word_bit));
+      }
+
+      [[__nodiscard__]] constexpr
+      const_reference
+      operator[](size_type __n) const
+      {
+ do { if (__builtin_expect(!bool(__n < this->size()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_bvector.h", 1168, __PRETTY_FUNCTION__, "__n < this->size()"); } while (false);
+ return _Bit_reference (this->_M_impl._M_start._M_p
+          + __n / int(_S_word_bit),
+          1UL << __n % int(_S_word_bit));
+      }
+
+    protected:
+      constexpr
+      void
+      _M_range_check(size_type __n) const
+      {
+ if (__n >= this->size())
+   __throw_out_of_range_fmt(("vector<bool>::_M_range_check: __n " "(which is %zu) >= this->size() " "(which is %zu)")
+
+                            ,
+       __n, this->size());
+      }
+
+    public:
+      [[__nodiscard__]] constexpr
+      reference
+      at(size_type __n)
+      {
+ _M_range_check(__n);
+ return (*this)[__n];
+      }
+
+      [[__nodiscard__]] constexpr
+      const_reference
+      at(size_type __n) const
+      {
+ _M_range_check(__n);
+ return (*this)[__n];
+      }
+
+      constexpr
+      void
+      reserve(size_type __n)
+      {
+ if (__n > max_size())
+   __throw_length_error(("vector::reserve"));
+ if (capacity() < __n)
+   _M_reallocate(__n);
+      }
+
+      [[__nodiscard__]] constexpr
+      reference
+      front()
+      {
+ do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_bvector.h", 1217, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
+ return *begin();
+      }
+
+      [[__nodiscard__]] constexpr
+      const_reference
+      front() const
+      {
+ do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_bvector.h", 1225, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
+ return *begin();
+      }
+
+      [[__nodiscard__]] constexpr
+      reference
+      back()
+      {
+ do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_bvector.h", 1233, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
+ return *(end() - 1);
+      }
+
+      [[__nodiscard__]] constexpr
+      const_reference
+      back() const
+      {
+ do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_bvector.h", 1241, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
+ return *(end() - 1);
+      }
+
+      constexpr
+      void
+      push_back(bool __x)
+      {
+ if (this->_M_impl._M_finish._M_p != this->_M_impl._M_end_addr())
+   *this->_M_impl._M_finish++ = __x;
+ else
+   _M_insert_aux(end(), __x);
+      }
+
+      constexpr
+      void
+      swap(vector& __x) noexcept
+      {
+
+ do { if (__builtin_expect(!bool(_Bit_alloc_traits::propagate_on_container_swap::value || _M_get_Bit_allocator() == __x._M_get_Bit_allocator()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_bvector.h", 1260, __PRETTY_FUNCTION__, "_Bit_alloc_traits::propagate_on_container_swap::value || _M_get_Bit_allocator() == __x._M_get_Bit_allocator()"); } while (false)
+                                                            ;
+
+ this->_M_impl._M_swap_data(__x._M_impl);
+ _Bit_alloc_traits::_S_on_swap(_M_get_Bit_allocator(),
+          __x._M_get_Bit_allocator());
+      }
+
+
+      constexpr
+      static void
+      swap(reference __x, reference __y) noexcept
+      {
+ bool __tmp = __x;
+ __x = __y;
+ __y = __tmp;
+      }
+
+      constexpr
+      iterator
+
+      insert(const_iterator __position, const bool& __x)
+
+
+
+      {
+ const difference_type __n = __position - begin();
+ if (this->_M_impl._M_finish._M_p != this->_M_impl._M_end_addr()
+     && __position == end())
+   *this->_M_impl._M_finish++ = __x;
+ else
+   _M_insert_aux(__position._M_const_cast(), __x);
+ return begin() + __n;
+      }
+
+
+      __attribute__ ((__deprecated__ ("use '" "insert(position, false)" "' instead")))
+      iterator
+      insert(const_iterator __position)
+      { return this->insert(__position._M_const_cast(), false); }
+
+
+
+      template<typename _InputIterator,
+        typename = std::_RequireInputIter<_InputIterator>>
+ constexpr
+ iterator
+ insert(const_iterator __position,
+        _InputIterator __first, _InputIterator __last)
+ {
+   difference_type __offset = __position - cbegin();
+   _M_insert_range(__position._M_const_cast(),
+     __first, __last,
+     std::__iterator_category(__first));
+   return begin() + __offset;
+ }
+# 1329 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
+      constexpr
+      iterator
+      insert(const_iterator __position, size_type __n, const bool& __x)
+      {
+ difference_type __offset = __position - cbegin();
+ _M_fill_insert(__position._M_const_cast(), __n, __x);
+ return begin() + __offset;
+      }
+
+
+
+
+
+
+
+      constexpr
+      iterator
+      insert(const_iterator __p, initializer_list<bool> __l)
+      { return this->insert(__p, __l.begin(), __l.end()); }
+# 1359 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
+      template<__detail::__container_compatible_range<bool> _Rg>
+ constexpr iterator
+ insert_range(const_iterator __pos, _Rg&& __rg)
+ {
+   if constexpr (ranges::forward_range<_Rg> || ranges::sized_range<_Rg>)
+     {
+       if (auto __n = size_type(ranges::distance(__rg)))
+  {
+    if (capacity() - size() >= __n)
+      {
+        std::copy_backward(__pos._M_const_cast(), end(),
+      this->_M_impl._M_finish
+        + difference_type(__n));
+        ranges::copy(__rg, __pos._M_const_cast());
+        this->_M_impl._M_finish += difference_type(__n);
+        return __pos._M_const_cast();
+      }
+    else
+      {
+        const size_type __len =
+   _M_check_len(__n, "vector<bool>::insert_range");
+        const iterator __begin = begin(), __end = end();
+        _Bit_pointer __q = this->_M_allocate(__len);
+        iterator __start(std::__addressof(*__q), 0);
+        iterator __i = _M_copy_aligned(__begin,
+           __pos._M_const_cast(),
+           __start);
+        iterator __j = ranges::copy(__rg, __i).out;
+        iterator __finish = std::copy(__pos._M_const_cast(),
+          __end, __j);
+        this->_M_deallocate();
+        this->_M_impl._M_end_of_storage = __q + _S_nword(__len);
+        this->_M_impl._M_start = __start;
+        this->_M_impl._M_finish = __finish;
+        return __i;
+      }
+  }
+       else
+  return __pos._M_const_cast();
+     }
+   else
+     return insert_range(__pos,
+    vector(from_range, __rg, get_allocator()));
+ }
+
+
+
+
+
+      template<__detail::__container_compatible_range<bool> _Rg>
+ constexpr void
+ append_range(_Rg&& __rg)
+ {
+
+
+
+   if constexpr (ranges::forward_range<_Rg> || ranges::sized_range<_Rg>)
+     {
+       const auto __n = size_type(ranges::distance(__rg));
+
+
+
+       if (capacity() == 0)
+  reserve(__n);
+
+       const auto __sz = size();
+       const auto __capacity = capacity();
+       if ((__capacity - __sz) >= __n)
+  {
+    this->_M_impl._M_finish
+        = ranges::copy(std::forward<_Rg>(__rg), end()).out;
+    return;
+  }
+
+       vector __tmp(get_allocator());
+       __tmp.reserve(_M_check_len(__n, "vector::append_range"));
+       __tmp._M_impl._M_finish
+     = _M_copy_aligned(cbegin(), cend(), __tmp.begin());
+       __tmp._M_impl._M_finish
+     = ranges::copy(std::forward<_Rg>(__rg), __tmp.end()).out;
+       swap(__tmp);
+     }
+   else
+     {
+       auto __first = ranges::begin(__rg);
+       const auto __last = ranges::end(__rg);
+
+
+       for (auto __free = capacity() - size();
+     __first != __last && __free > 0;
+     ++__first, (void) --__free)
+  emplace_back(*__first);
+
+       if (__first == __last)
+  return;
+
+
+       ranges::subrange __rest(std::move(__first), __last);
+       vector __tmp(from_range, __rest, get_allocator());
+       insert(end(), __tmp.begin(), __tmp.end());
+     }
+ }
+
+
+      constexpr
+      void
+      pop_back()
+      { --this->_M_impl._M_finish; }
+
+      constexpr
+      iterator
+
+      erase(const_iterator __position)
+
+
+
+      { return _M_erase(__position._M_const_cast()); }
+
+      constexpr
+      iterator
+
+      erase(const_iterator __first, const_iterator __last)
+
+
+
+      { return _M_erase(__first._M_const_cast(), __last._M_const_cast()); }
+
+      constexpr
+      void
+      resize(size_type __new_size, bool __x = bool())
+      {
+ if (__new_size < size())
+   _M_erase_at_end(begin() + difference_type(__new_size));
+ else
+   insert(end(), __new_size - size(), __x);
+      }
+
+
+      constexpr
+      void
+      shrink_to_fit()
+      { _M_shrink_to_fit(); }
+
+
+      constexpr
+      void
+      flip() noexcept
+      {
+ _Bit_type * const __end = this->_M_impl._M_end_addr();
+ for (_Bit_type * __p = this->_M_impl._M_start._M_p; __p != __end; ++__p)
+   *__p = ~*__p;
+      }
+
+      constexpr
+      void
+      clear() noexcept
+      { _M_erase_at_end(begin()); }
+
+
+      template<typename... _Args>
+
+ constexpr
+ reference
+
+
+
+ emplace_back(_Args&&... __args)
+ {
+   push_back(bool(std::forward<_Args>(__args)...));
+
+   return back();
+
+ }
+
+      template<typename... _Args>
+ constexpr
+ iterator
+ emplace(const_iterator __pos, _Args&&... __args)
+ { return insert(__pos, bool(std::forward<_Args>(__args)...)); }
+
+
+    protected:
+
+      constexpr
+      iterator
+      _M_copy_aligned(const_iterator __first, const_iterator __last,
+        iterator __result)
+      {
+ _Bit_type* __q = std::copy(__first._M_p, __last._M_p, __result._M_p);
+ return std::copy(const_iterator(__last._M_p, 0), __last,
+    iterator(__q, 0));
+      }
+
+      constexpr
+      void
+      _M_initialize(size_type __n)
+      {
+ if (__n)
+   {
+     _Bit_pointer __q = this->_M_allocate(__n);
+     this->_M_impl._M_end_of_storage = __q + _S_nword(__n);
+     iterator __start = iterator(std::__addressof(*__q), 0);
+     this->_M_impl._M_start = __start;
+     this->_M_impl._M_finish = __start + difference_type(__n);
+   }
+      }
+
+      constexpr
+      void
+      _M_initialize_value(bool __x) noexcept
+      {
+ if (_Bit_type* __p = this->_M_impl._M_start._M_p)
+   __fill_bvector_n(__p, this->_M_impl._M_end_addr() - __p, __x);
+      }
+
+      constexpr
+      void
+      _M_reallocate(size_type __n);
+
+
+      constexpr
+      bool
+      _M_shrink_to_fit();
+# 1603 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
+      template<typename _InputIterator>
+ constexpr
+ void
+ _M_initialize_range(_InputIterator __first, _InputIterator __last,
+       std::input_iterator_tag)
+ {
+   for (; __first != __last; ++__first)
+     push_back(*__first);
+ }
+
+      template<typename _ForwardIterator>
+ constexpr
+ void
+ _M_initialize_range(_ForwardIterator __first, _ForwardIterator __last,
+       std::forward_iterator_tag)
+ {
+   const size_type __n = std::distance(__first, __last);
+   _M_initialize(__n);
+   std::copy(__first, __last, begin());
+ }
+# 1639 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
+      constexpr
+      void
+      _M_fill_assign(size_t __n, bool __x)
+      {
+ if (__n > size())
+   {
+     _M_initialize_value(__x);
+     insert(end(), __n - size(), __x);
+   }
+ else
+   {
+     _M_erase_at_end(begin() + __n);
+     _M_initialize_value(__x);
+   }
+      }
+
+      template<typename _InputIterator>
+ constexpr
+ void
+ _M_assign_aux(_InputIterator __first, _InputIterator __last,
+        std::input_iterator_tag)
+ {
+   iterator __cur = begin();
+   for (; __first != __last && __cur != end(); ++__cur, (void)++__first)
+     *__cur = *__first;
+   if (__first == __last)
+     _M_erase_at_end(__cur);
+   else
+     insert(end(), __first, __last);
+ }
+
+      template<typename _ForwardIterator>
+ constexpr
+ void
+ _M_assign_aux(_ForwardIterator __first, _ForwardIterator __last,
+        std::forward_iterator_tag)
+ {
+   const size_type __len = std::distance(__first, __last);
+   if (__len < size())
+     _M_erase_at_end(std::copy(__first, __last, begin()));
+   else
+     {
+       _ForwardIterator __mid = __first;
+       std::advance(__mid, size());
+       std::copy(__first, __mid, begin());
+       insert(end(), __mid, __last);
+     }
+ }
+# 1706 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
+      constexpr
+      void
+      _M_fill_insert(iterator __position, size_type __n, bool __x);
+
+      template<typename _InputIterator>
+ constexpr
+ void
+ _M_insert_range(iterator __pos, _InputIterator __first,
+   _InputIterator __last, std::input_iterator_tag)
+ {
+   for (; __first != __last; ++__first)
+     {
+       __pos = insert(__pos, *__first);
+       ++__pos;
+     }
+ }
+
+      template<typename _ForwardIterator>
+ constexpr
+ void
+ _M_insert_range(iterator __position, _ForwardIterator __first,
+   _ForwardIterator __last, std::forward_iterator_tag);
+
+      constexpr
+      void
+      _M_insert_aux(iterator __position, bool __x);
+
+      constexpr
+      size_type
+      _M_check_len(size_type __n, const char* __s) const
+      {
+ if (max_size() - size() < __n)
+   __throw_length_error((__s));
+
+ const size_type __len = size() + std::max(size(), __n);
+ return (__len < size() || __len > max_size()) ? max_size() : __len;
+      }
+
+      constexpr
+      void
+      _M_erase_at_end(iterator __pos)
+      { this->_M_impl._M_finish = __pos; }
+
+      constexpr
+      iterator
+      _M_erase(iterator __pos);
+
+      constexpr
+      iterator
+      _M_erase(iterator __first, iterator __last);
+
+    protected:
+
+
+
+
+
+
+      void data() = delete;
+
+
+
+    };
+
+
+
+
+  constexpr
+  inline void
+  __fill_bvector(_Bit_type* __v, unsigned int __first, unsigned int __last,
+   bool __x) noexcept
+  {
+    const _Bit_type __fmask = ~0ul << __first;
+    const _Bit_type __lmask = ~0ul >> (_S_word_bit - __last);
+    const _Bit_type __mask = __fmask & __lmask;
+
+    if (__x)
+      *__v |= __mask;
+    else
+      *__v &= ~__mask;
+  }
+
+
+  __attribute__((__nonnull__))
+  constexpr
+  inline void
+  __fill_bvector_n(_Bit_type* __p, size_t __n, bool __x) noexcept
+  {
+
+    if (std::is_constant_evaluated())
+    {
+      for (size_t __i = 0; __i < __n; ++__i)
+ __p[__i] = __x ? ~0ul : 0ul;
+      return;
+    }
+
+    __builtin_memset(__p, __x ? ~0 : 0, __n * sizeof(_Bit_type));
+  }
+
+
+  constexpr
+  inline void
+  __fill_a1(std::_Bit_iterator __first,
+     std::_Bit_iterator __last, const bool& __x)
+  {
+    if (__first._M_p != __last._M_p)
+      {
+ _Bit_type* __first_p = __first._M_p;
+ if (__first._M_offset != 0)
+   __fill_bvector(__first_p++, __first._M_offset, _S_word_bit, __x);
+
+ __fill_bvector_n(__first_p, __last._M_p - __first_p, __x);
+
+ if (__last._M_offset != 0)
+   __fill_bvector(__last._M_p, 0, __last._M_offset, __x);
+      }
+    else if (__first._M_offset != __last._M_offset)
+      __fill_bvector(__first._M_p, __first._M_offset, __last._M_offset, __x);
+  }
+
+
+
+
+  template<typename _Alloc>
+    struct hash<std::vector<bool, _Alloc>>
+    : public __hash_base<size_t, std::vector<bool, _Alloc>>
+    {
+      size_t
+      operator()(const std::vector<bool, _Alloc>&) const noexcept;
+    };
+
+
+
+}
+# 70 "/usr/include/c++/15.2.1/vector" 2 3
+
+
+
+
+# 1 "/usr/include/c++/15.2.1/bits/vector.tcc" 1 3
+# 59 "/usr/include/c++/15.2.1/bits/vector.tcc" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+
+  template<typename _Tp, typename _Alloc>
+    constexpr
+    void
+    vector<_Tp, _Alloc>::
+    reserve(size_type __n)
+    {
+      if (__n > this->max_size())
+ __throw_length_error(("vector::reserve"));
+      if (this->capacity() < __n)
+ {
+   const size_type __old_size = size();
+   pointer __tmp;
+
+   if constexpr (_S_use_relocate())
+     {
+       __tmp = this->_M_allocate(__n);
+       _S_relocate(this->_M_impl._M_start, this->_M_impl._M_finish,
+     __tmp, _M_get_Tp_allocator());
+     }
+   else
+
+     {
+       __tmp = _M_allocate_and_copy(__n,
+  std::__make_move_if_noexcept_iterator(this->_M_impl._M_start),
+  std::__make_move_if_noexcept_iterator(this->_M_impl._M_finish));
+       std::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish,
+       _M_get_Tp_allocator());
+     }
+   ;
+   _M_deallocate(this->_M_impl._M_start,
+   this->_M_impl._M_end_of_storage
+   - this->_M_impl._M_start);
+   this->_M_impl._M_start = __tmp;
+   this->_M_impl._M_finish = __tmp + __old_size;
+   this->_M_impl._M_end_of_storage = this->_M_impl._M_start + __n;
+ }
+    }
+
+
+  template<typename _Tp, typename _Alloc>
+    template<typename... _Args>
+
+      constexpr
+      typename vector<_Tp, _Alloc>::reference
+
+
+
+      vector<_Tp, _Alloc>::
+      emplace_back(_Args&&... __args)
+      {
+ if (this->_M_impl._M_finish != this->_M_impl._M_end_of_storage)
+   {
+     ;
+     _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
+         std::forward<_Args>(__args)...);
+     ++this->_M_impl._M_finish;
+     ;
+   }
+ else
+   _M_realloc_append(std::forward<_Args>(__args)...);
+
+ return back();
+
+      }
+
+
+  template<typename _Tp, typename _Alloc>
+    constexpr
+    typename vector<_Tp, _Alloc>::iterator
+    vector<_Tp, _Alloc>::
+
+    insert(const_iterator __position, const value_type& __x)
+
+
+
+    {
+      const size_type __n = __position - begin();
+      if (this->_M_impl._M_finish != this->_M_impl._M_end_of_storage)
+ {
+   do { if (__builtin_expect(!bool(__position != const_iterator()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/vector.tcc", 143, __PRETTY_FUNCTION__, "__position != const_iterator()"); } while (false);
+   if (!(__position != const_iterator()))
+     __builtin_unreachable();
+
+   if (__position == end())
+     {
+       ;
+       _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
+           __x);
+       ++this->_M_impl._M_finish;
+       ;
+     }
+   else
+     {
+
+       const auto __pos = begin() + (__position - cbegin());
+
+
+       _Temporary_value __x_copy(this, __x);
+       _M_insert_aux(__pos, std::move(__x_copy._M_val()));
+
+
+
+     }
+ }
+      else
+
+ _M_realloc_insert(begin() + (__position - cbegin()), __x);
+
+
+
+
+      return iterator(this->_M_impl._M_start + __n);
+    }
+
+  template<typename _Tp, typename _Alloc>
+    constexpr
+    typename vector<_Tp, _Alloc>::iterator
+    vector<_Tp, _Alloc>::
+    _M_erase(iterator __position)
+    {
+      if (__position + 1 != end())
+ std::move(__position + 1, end(), __position);
+      --this->_M_impl._M_finish;
+      _Alloc_traits::destroy(this->_M_impl, this->_M_impl._M_finish);
+      ;
+      return __position;
+    }
+
+  template<typename _Tp, typename _Alloc>
+    constexpr
+    typename vector<_Tp, _Alloc>::iterator
+    vector<_Tp, _Alloc>::
+    _M_erase(iterator __first, iterator __last)
+    {
+      if (__first != __last)
+ {
+   if (__last != end())
+     std::move(__last, end(), __first);
+   _M_erase_at_end(__first.base() + (end() - __last));
+ }
+      return __first;
+    }
+
+  template<typename _Tp, typename _Alloc>
+    constexpr
+    vector<_Tp, _Alloc>&
+    vector<_Tp, _Alloc>::
+    operator=(const vector<_Tp, _Alloc>& __x)
+    {
+      if (std::__addressof(__x) != this)
+ {
+   ;
+
+   if (_Alloc_traits::_S_propagate_on_copy_assign())
+     {
+       if (!_Alloc_traits::_S_always_equal()
+           && _M_get_Tp_allocator() != __x._M_get_Tp_allocator())
+         {
+
+    this->clear();
+    _M_deallocate(this->_M_impl._M_start,
+    this->_M_impl._M_end_of_storage
+    - this->_M_impl._M_start);
+    this->_M_impl._M_start = nullptr;
+    this->_M_impl._M_finish = nullptr;
+    this->_M_impl._M_end_of_storage = nullptr;
+  }
+       std::__alloc_on_copy(_M_get_Tp_allocator(),
+       __x._M_get_Tp_allocator());
+     }
+
+   const size_type __xlen = __x.size();
+   if (__xlen > capacity())
+     {
+       pointer __tmp = _M_allocate_and_copy(__xlen, __x.begin(),
+         __x.end());
+       std::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish,
+       _M_get_Tp_allocator());
+       _M_deallocate(this->_M_impl._M_start,
+       this->_M_impl._M_end_of_storage
+       - this->_M_impl._M_start);
+       this->_M_impl._M_start = __tmp;
+       this->_M_impl._M_end_of_storage = this->_M_impl._M_start + __xlen;
+     }
+   else if (size() >= __xlen)
+     {
+       std::_Destroy(std::copy(__x.begin(), __x.end(), begin()),
+       end(), _M_get_Tp_allocator());
+     }
+   else
+     {
+       std::copy(__x._M_impl._M_start, __x._M_impl._M_start + size(),
+   this->_M_impl._M_start);
+       std::__uninitialized_copy_a(__x._M_impl._M_start + size(),
+       __x._M_impl._M_finish,
+       this->_M_impl._M_finish,
+       _M_get_Tp_allocator());
+     }
+   this->_M_impl._M_finish = this->_M_impl._M_start + __xlen;
+ }
+      return *this;
+    }
+
+  template<typename _Tp, typename _Alloc>
+    constexpr
+    void
+    vector<_Tp, _Alloc>::
+    _M_fill_assign(size_t __n, const value_type& __val)
+    {
+      const size_type __sz = size();
+      if (__n > capacity())
+ {
+   if (__n <= __sz)
+     __builtin_unreachable();
+   vector __tmp(__n, __val, _M_get_Tp_allocator());
+   __tmp._M_impl._M_swap_data(this->_M_impl);
+ }
+      else if (__n > __sz)
+ {
+   std::fill(begin(), end(), __val);
+   const size_type __add = __n - __sz;
+   ;
+   this->_M_impl._M_finish =
+     std::__uninitialized_fill_n_a(this->_M_impl._M_finish,
+       __add, __val, _M_get_Tp_allocator());
+   ;
+ }
+      else
+        _M_erase_at_end(std::fill_n(this->_M_impl._M_start, __n, __val));
+    }
+
+  template<typename _Tp, typename _Alloc>
+    template<typename _InputIterator>
+      constexpr
+      void
+      vector<_Tp, _Alloc>::
+      _M_assign_aux(_InputIterator __first, _InputIterator __last,
+      std::input_iterator_tag)
+      {
+ pointer __cur(this->_M_impl._M_start);
+ for (; __first != __last && __cur != this->_M_impl._M_finish;
+      ++__cur, (void)++__first)
+   *__cur = *__first;
+ if (__first == __last)
+   _M_erase_at_end(__cur);
+ else
+   _M_range_insert(end(), __first, __last,
+     std::__iterator_category(__first));
+      }
+
+  template<typename _Tp, typename _Alloc>
+    template<typename _ForwardIterator>
+      constexpr
+      void
+      vector<_Tp, _Alloc>::
+      _M_assign_aux(_ForwardIterator __first, _ForwardIterator __last,
+      std::forward_iterator_tag)
+      {
+ const size_type __sz = size();
+ const size_type __len = std::distance(__first, __last);
+
+ if (__len > capacity())
+   {
+     if (__len <= __sz)
+       __builtin_unreachable();
+
+     _S_check_init_len(__len, _M_get_Tp_allocator());
+     pointer __tmp(_M_allocate_and_copy(__len, __first, __last));
+     std::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish,
+     _M_get_Tp_allocator());
+     ;
+     _M_deallocate(this->_M_impl._M_start,
+     this->_M_impl._M_end_of_storage
+     - this->_M_impl._M_start);
+     this->_M_impl._M_start = __tmp;
+     this->_M_impl._M_finish = this->_M_impl._M_start + __len;
+     this->_M_impl._M_end_of_storage = this->_M_impl._M_finish;
+   }
+ else if (__sz >= __len)
+   _M_erase_at_end(std::copy(__first, __last, this->_M_impl._M_start));
+ else
+   {
+     _ForwardIterator __mid = __first;
+     std::advance(__mid, __sz);
+     std::copy(__first, __mid, this->_M_impl._M_start);
+     const size_type __attribute__((__unused__)) __n = __len - __sz;
+     ;
+     this->_M_impl._M_finish =
+       std::__uninitialized_copy_a(__mid, __last,
+       this->_M_impl._M_finish,
+       _M_get_Tp_allocator());
+     ;
+   }
+      }
+
+
+  template<typename _Tp, typename _Alloc>
+    constexpr
+    auto
+    vector<_Tp, _Alloc>::
+    _M_insert_rval(const_iterator __position, value_type&& __v) -> iterator
+    {
+      const auto __n = __position - cbegin();
+      if (this->_M_impl._M_finish != this->_M_impl._M_end_of_storage)
+ if (__position == cend())
+   {
+     ;
+     _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
+         std::move(__v));
+     ++this->_M_impl._M_finish;
+     ;
+   }
+ else
+   _M_insert_aux(begin() + __n, std::move(__v));
+      else
+ _M_realloc_insert(begin() + __n, std::move(__v));
+
+      return iterator(this->_M_impl._M_start + __n);
+    }
+
+  template<typename _Tp, typename _Alloc>
+    template<typename... _Args>
+      constexpr
+      auto
+      vector<_Tp, _Alloc>::
+      _M_emplace_aux(const_iterator __position, _Args&&... __args)
+      -> iterator
+      {
+ const auto __n = __position - cbegin();
+ if (this->_M_impl._M_finish != this->_M_impl._M_end_of_storage)
+   if (__position == cend())
+     {
+       ;
+       _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
+           std::forward<_Args>(__args)...);
+       ++this->_M_impl._M_finish;
+       ;
+     }
+   else
+     {
+
+
+
+       _Temporary_value __tmp(this, std::forward<_Args>(__args)...);
+       _M_insert_aux(begin() + __n, std::move(__tmp._M_val()));
+     }
+ else
+   _M_realloc_insert(begin() + __n, std::forward<_Args>(__args)...);
+
+ return iterator(this->_M_impl._M_start + __n);
+      }
+
+  template<typename _Tp, typename _Alloc>
+    template<typename _Arg>
+      constexpr
+      void
+      vector<_Tp, _Alloc>::
+      _M_insert_aux(iterator __position, _Arg&& __arg)
+
+
+
+
+
+
+    {
+      ;
+      _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
+          std::move(*(this->_M_impl._M_finish - 1)));
+      ++this->_M_impl._M_finish;
+      ;
+
+
+
+      std::move_backward(__position.base(), this->_M_impl._M_finish - 2, this->_M_impl._M_finish - 1)
+
+                                     ;
+
+
+
+      *__position = std::forward<_Arg>(__arg);
+
+    }
+
+
+  template<typename _Tp, typename _Alloc>
+    template<typename... _Args>
+      constexpr
+      void
+      vector<_Tp, _Alloc>::
+      _M_realloc_insert(iterator __position, _Args&&... __args)
+
+
+
+
+
+
+    {
+      const size_type __len = _M_check_len(1u, "vector::_M_realloc_insert");
+      if (__len <= 0)
+ __builtin_unreachable ();
+      pointer __old_start = this->_M_impl._M_start;
+      pointer __old_finish = this->_M_impl._M_finish;
+      const size_type __elems_before = __position - begin();
+      pointer __new_start(this->_M_allocate(__len));
+      pointer __new_finish(__new_start);
+
+      {
+ _Guard_alloc __guard(__new_start, __len, *this);
+# 481 "/usr/include/c++/15.2.1/bits/vector.tcc" 3
+ _Alloc_traits::construct(this->_M_impl,
+     std::__to_address(__new_start + __elems_before),
+     std::forward<_Args>(__args)...);
+
+
+
+
+
+
+
+ if constexpr (_S_use_relocate())
+   {
+
+     __new_finish = _S_relocate(__old_start, __position.base(),
+           __new_start, _M_get_Tp_allocator());
+     ++__new_finish;
+     __new_finish = _S_relocate(__position.base(), __old_finish,
+           __new_finish, _M_get_Tp_allocator());
+   }
+ else
+
+   {
+
+     struct _Guard_elts
+     {
+       pointer _M_first, _M_last;
+       _Tp_alloc_type& _M_alloc;
+
+       constexpr
+       _Guard_elts(pointer __elt, _Tp_alloc_type& __a)
+       : _M_first(__elt), _M_last(__elt + 1), _M_alloc(__a)
+       { }
+
+       constexpr
+       ~_Guard_elts()
+       { std::_Destroy(_M_first, _M_last, _M_alloc); }
+
+     private:
+       _Guard_elts(const _Guard_elts&);
+     };
+
+
+     _Guard_elts __guard_elts(__new_start + __elems_before, _M_impl);
+
+     __new_finish = std::__uninitialized_move_if_noexcept_a(
+        __old_start, __position.base(),
+        __new_start, _M_get_Tp_allocator());
+
+     ++__new_finish;
+
+     __guard_elts._M_first = __new_start;
+
+     __new_finish = std::__uninitialized_move_if_noexcept_a(
+         __position.base(), __old_finish,
+         __new_finish, _M_get_Tp_allocator());
+
+
+     __guard_elts._M_first = __old_start;
+     __guard_elts._M_last = __old_finish;
+   }
+ __guard._M_storage = __old_start;
+ __guard._M_len = this->_M_impl._M_end_of_storage - __old_start;
+      }
+
+
+
+      this->_M_impl._M_start = __new_start;
+      this->_M_impl._M_finish = __new_finish;
+      this->_M_impl._M_end_of_storage = __new_start + __len;
+    }
+
+
+  template<typename _Tp, typename _Alloc>
+    template<typename... _Args>
+      constexpr
+      void
+      vector<_Tp, _Alloc>::
+      _M_realloc_append(_Args&&... __args)
+
+
+
+
+
+
+    {
+      const size_type __len = _M_check_len(1u, "vector::_M_realloc_append");
+      if (__len <= 0)
+ __builtin_unreachable ();
+      pointer __old_start = this->_M_impl._M_start;
+      pointer __old_finish = this->_M_impl._M_finish;
+      const size_type __elems = end() - begin();
+      pointer __new_start(this->_M_allocate(__len));
+      pointer __new_finish(__new_start);
+
+      {
+ _Guard_alloc __guard(__new_start, __len, *this);
+# 586 "/usr/include/c++/15.2.1/bits/vector.tcc" 3
+ _Alloc_traits::construct(this->_M_impl,
+     std::__to_address(__new_start + __elems),
+     std::forward<_Args>(__args)...);
+
+
+
+
+
+
+
+ if constexpr (_S_use_relocate())
+   {
+
+     __new_finish = _S_relocate(__old_start, __old_finish,
+           __new_start, _M_get_Tp_allocator());
+     ++__new_finish;
+   }
+ else
+
+   {
+
+     struct _Guard_elts
+     {
+       pointer _M_first, _M_last;
+       _Tp_alloc_type& _M_alloc;
+
+       constexpr
+       _Guard_elts(pointer __elt, _Tp_alloc_type& __a)
+       : _M_first(__elt), _M_last(__elt + 1), _M_alloc(__a)
+       { }
+
+       constexpr
+       ~_Guard_elts()
+       { std::_Destroy(_M_first, _M_last, _M_alloc); }
+
+     private:
+       _Guard_elts(const _Guard_elts&);
+     };
+
+
+     _Guard_elts __guard_elts(__new_start + __elems, _M_impl);
+
+     __new_finish = std::__uninitialized_move_if_noexcept_a(
+        __old_start, __old_finish,
+        __new_start, _M_get_Tp_allocator());
+
+     ++__new_finish;
+
+
+     __guard_elts._M_first = __old_start;
+     __guard_elts._M_last = __old_finish;
+   }
+ __guard._M_storage = __old_start;
+ __guard._M_len = this->_M_impl._M_end_of_storage - __old_start;
+      }
+
+
+
+      this->_M_impl._M_start = __new_start;
+      this->_M_impl._M_finish = __new_finish;
+      this->_M_impl._M_end_of_storage = __new_start + __len;
+    }
+
+  template<typename _Tp, typename _Alloc>
+    constexpr
+    void
+    vector<_Tp, _Alloc>::
+    _M_fill_insert(iterator __position, size_type __n, const value_type& __x)
+    {
+      if (__n != 0)
+ {
+   if (__position.base() == this->_M_impl._M_finish)
+     _M_fill_append(__n, __x);
+   else if (size_type(this->_M_impl._M_end_of_storage
+          - this->_M_impl._M_finish) >= __n)
+     {
+
+
+
+       _Temporary_value __tmp(this, __x);
+       value_type& __x_copy = __tmp._M_val();
+
+       const size_type __elems_after = end() - __position;
+       pointer __old_finish(this->_M_impl._M_finish);
+       if (__elems_after > __n)
+  {
+    ;
+    std::__uninitialized_move_a(__old_finish - __n,
+           __old_finish,
+           __old_finish,
+           _M_get_Tp_allocator());
+    this->_M_impl._M_finish += __n;
+    ;
+    std::move_backward(__position.base(), __old_finish - __n, __old_finish)
+                                        ;
+    std::fill(__position.base(), __position.base() + __n,
+       __x_copy);
+  }
+       else
+  {
+    ;
+    this->_M_impl._M_finish =
+      std::__uninitialized_fill_n_a(__old_finish,
+        __n - __elems_after,
+        __x_copy,
+        _M_get_Tp_allocator());
+    ;
+    std::__uninitialized_move_a(__position.base(), __old_finish,
+           this->_M_impl._M_finish,
+           _M_get_Tp_allocator());
+    this->_M_impl._M_finish += __elems_after;
+    ;
+    std::fill(__position.base(), __old_finish, __x_copy);
+  }
+     }
+   else
+     {
+
+
+       pointer __old_start = this->_M_impl._M_start;
+       pointer __old_finish = this->_M_impl._M_finish;
+       const pointer __pos = __position.base();
+
+       const size_type __len =
+  _M_check_len(__n, "vector::_M_fill_insert");
+       const size_type __elems_before = __pos - __old_start;
+       pointer __new_start(this->_M_allocate(__len));
+       pointer __new_finish(__new_start);
+       try
+  {
+
+    std::__uninitialized_fill_n_a(__new_start + __elems_before,
+      __n, __x,
+      _M_get_Tp_allocator());
+    __new_finish = pointer();
+
+    __new_finish
+      = std::__uninitialized_move_if_noexcept_a
+      (__old_start, __pos, __new_start, _M_get_Tp_allocator());
+
+    __new_finish += __n;
+
+    __new_finish
+      = std::__uninitialized_move_if_noexcept_a
+      (__pos, __old_finish, __new_finish, _M_get_Tp_allocator());
+  }
+       catch(...)
+  {
+    if (!__new_finish)
+      std::_Destroy(__new_start + __elems_before,
+      __new_start + __elems_before + __n,
+      _M_get_Tp_allocator());
+    else
+      std::_Destroy(__new_start, __new_finish,
+      _M_get_Tp_allocator());
+    _M_deallocate(__new_start, __len);
+    throw;
+  }
+       std::_Destroy(__old_start, __old_finish, _M_get_Tp_allocator());
+       ;
+       _M_deallocate(__old_start,
+       this->_M_impl._M_end_of_storage - __old_start);
+       this->_M_impl._M_start = __new_start;
+       this->_M_impl._M_finish = __new_finish;
+       this->_M_impl._M_end_of_storage = __new_start + __len;
+     }
+ }
+    }
+
+  template<typename _Tp, typename _Alloc>
+    constexpr
+    void
+    vector<_Tp, _Alloc>::
+    _M_fill_append(size_type __n, const value_type& __x)
+    {
+       if (size_type(this->_M_impl._M_end_of_storage
+       - this->_M_impl._M_finish) >= __n)
+  {
+    ;
+    this->_M_impl._M_finish =
+      std::__uninitialized_fill_n_a(this->_M_impl._M_finish, __n, __x,
+        _M_get_Tp_allocator());
+    ;
+  }
+       else
+  {
+
+
+    pointer __old_start = this->_M_impl._M_start;
+    pointer __old_finish = this->_M_impl._M_finish;
+    const size_type __old_size = __old_finish - __old_start;
+
+    const size_type __len =
+      _M_check_len(__n, "vector::_M_fill_append");
+    pointer __new_start(this->_M_allocate(__len));
+    pointer __new_finish(__new_start + __old_size);
+    try
+      {
+
+        __new_finish = std::__uninitialized_fill_n_a(
+    __new_finish, __n, __x,
+    _M_get_Tp_allocator());
+        std::__uninitialized_move_if_noexcept_a(
+   __old_start, __old_finish, __new_start,
+   _M_get_Tp_allocator());
+      }
+    catch(...)
+      {
+  std::_Destroy(__new_start + __old_size, __new_finish,
+         _M_get_Tp_allocator());
+  _M_deallocate(__new_start, __len);
+  throw;
+       }
+    std::_Destroy(__old_start, __old_finish, _M_get_Tp_allocator());
+    ;
+    _M_deallocate(__old_start,
+    this->_M_impl._M_end_of_storage - __old_start);
+    this->_M_impl._M_start = __new_start;
+    this->_M_impl._M_finish = __new_finish;
+    this->_M_impl._M_end_of_storage = __new_start + __len;
+  }
+    }
+
+
+  template<typename _Tp, typename _Alloc>
+    constexpr
+    void
+    vector<_Tp, _Alloc>::
+    _M_default_append(size_type __n)
+    {
+      if (__n != 0)
+ {
+   const size_type __size = size();
+   size_type __navail = size_type(this->_M_impl._M_end_of_storage
+      - this->_M_impl._M_finish);
+
+   if (__size > max_size() || __navail > max_size() - __size)
+     __builtin_unreachable();
+
+   if (__navail >= __n)
+     {
+       if (!this->_M_impl._M_finish)
+  __builtin_unreachable();
+
+       ;
+       this->_M_impl._M_finish =
+  std::__uninitialized_default_n_a(this->_M_impl._M_finish,
+       __n, _M_get_Tp_allocator());
+       ;
+     }
+   else
+     {
+
+
+       pointer __old_start = this->_M_impl._M_start;
+       pointer __old_finish = this->_M_impl._M_finish;
+
+       const size_type __len =
+  _M_check_len(__n, "vector::_M_default_append");
+       pointer __new_start(this->_M_allocate(__len));
+
+       {
+  _Guard_alloc __guard(__new_start, __len, *this);
+
+  std::__uninitialized_default_n_a(__new_start + __size, __n,
+       _M_get_Tp_allocator());
+
+  if constexpr (_S_use_relocate())
+    {
+      _S_relocate(__old_start, __old_finish,
+    __new_start, _M_get_Tp_allocator());
+    }
+  else
+    {
+
+      struct _Guard_elts
+      {
+        pointer _M_first, _M_last;
+        _Tp_alloc_type& _M_alloc;
+
+        constexpr
+        _Guard_elts(pointer __first, size_type __n,
+      _Tp_alloc_type& __a)
+        : _M_first(__first), _M_last(__first + __n), _M_alloc(__a)
+        { }
+
+        constexpr
+        ~_Guard_elts()
+        { std::_Destroy(_M_first, _M_last, _M_alloc); }
+
+      private:
+        _Guard_elts(const _Guard_elts&);
+      };
+      _Guard_elts __guard_elts(__new_start + __size, __n, _M_impl);
+
+      std::__uninitialized_move_if_noexcept_a(
+        __old_start, __old_finish, __new_start,
+        _M_get_Tp_allocator());
+
+      __guard_elts._M_first = __old_start;
+      __guard_elts._M_last = __old_finish;
+    }
+  ;
+  __guard._M_storage = __old_start;
+  __guard._M_len = this->_M_impl._M_end_of_storage - __old_start;
+       }
+
+
+
+       this->_M_impl._M_start = __new_start;
+       this->_M_impl._M_finish = __new_start + __size + __n;
+       this->_M_impl._M_end_of_storage = __new_start + __len;
+     }
+ }
+    }
+
+  template<typename _Tp, typename _Alloc>
+    constexpr
+    bool
+    vector<_Tp, _Alloc>::
+    _M_shrink_to_fit()
+    {
+      if (capacity() == size())
+ return false;
+      ;
+      return std::__shrink_to_fit_aux<vector>::_S_do_it(*this);
+    }
+
+
+  template<typename _Tp, typename _Alloc>
+    template<typename _InputIterator>
+      constexpr
+      void
+      vector<_Tp, _Alloc>::
+      _M_range_insert(iterator __pos, _InputIterator __first,
+        _InputIterator __last, std::input_iterator_tag)
+      {
+ if (__pos == end())
+   {
+     for (; __first != __last; ++__first)
+       insert(end(), *__first);
+   }
+ else if (__first != __last)
+   {
+     vector __tmp(__first, __last, _M_get_Tp_allocator());
+     insert(__pos,
+     std::make_move_iterator(__tmp.begin()),
+     std::make_move_iterator(__tmp.end()));
+   }
+      }
+
+  template<typename _Tp, typename _Alloc>
+    template<typename _ForwardIterator>
+      constexpr
+      void
+      vector<_Tp, _Alloc>::
+      _M_range_insert(iterator __position, _ForwardIterator __first,
+        _ForwardIterator __last, std::forward_iterator_tag)
+      {
+ if (__first != __last)
+   {
+     const size_type __n = std::distance(__first, __last);
+     if (size_type(this->_M_impl._M_end_of_storage
+     - this->_M_impl._M_finish) >= __n)
+       {
+  const size_type __elems_after = end() - __position;
+  pointer __old_finish(this->_M_impl._M_finish);
+  if (__elems_after > __n)
+    {
+      ;
+      std::__uninitialized_move_a(this->_M_impl._M_finish - __n,
+      this->_M_impl._M_finish,
+      this->_M_impl._M_finish,
+      _M_get_Tp_allocator());
+      this->_M_impl._M_finish += __n;
+      ;
+      std::move_backward(__position.base(), __old_finish - __n, __old_finish)
+                                          ;
+      std::copy(__first, __last, __position);
+    }
+  else
+    {
+      _ForwardIterator __mid = __first;
+      std::advance(__mid, __elems_after);
+      ;
+      std::__uninitialized_copy_a(__mid, __last,
+      this->_M_impl._M_finish,
+      _M_get_Tp_allocator());
+      this->_M_impl._M_finish += __n - __elems_after;
+      ;
+      std::__uninitialized_move_a(__position.base(),
+      __old_finish,
+      this->_M_impl._M_finish,
+      _M_get_Tp_allocator());
+      this->_M_impl._M_finish += __elems_after;
+      ;
+      std::copy(__first, __mid, __position);
+    }
+       }
+     else
+       {
+
+
+
+  pointer __old_start = this->_M_impl._M_start;
+  pointer __old_finish = this->_M_impl._M_finish;
+
+  const size_type __len =
+    _M_check_len(__n, "vector::_M_range_insert");
+
+
+
+
+
+  pointer __new_start(this->_M_allocate(__len));
+  pointer __new_finish(__new_start);
+  try
+    {
+      __new_finish
+        = std::__uninitialized_move_if_noexcept_a
+        (__old_start, __position.base(),
+         __new_start, _M_get_Tp_allocator());
+      __new_finish
+        = std::__uninitialized_copy_a(__first, __last,
+          __new_finish,
+          _M_get_Tp_allocator());
+      __new_finish
+        = std::__uninitialized_move_if_noexcept_a
+        (__position.base(), __old_finish,
+         __new_finish, _M_get_Tp_allocator());
+    }
+  catch(...)
+    {
+      std::_Destroy(__new_start, __new_finish,
+      _M_get_Tp_allocator());
+      _M_deallocate(__new_start, __len);
+      throw;
+    }
+  std::_Destroy(__old_start, __old_finish,
+         _M_get_Tp_allocator());
+  ;
+  _M_deallocate(__old_start,
+         this->_M_impl._M_end_of_storage - __old_start);
+  this->_M_impl._M_start = __new_start;
+  this->_M_impl._M_finish = __new_finish;
+  this->_M_impl._M_end_of_storage = __new_start + __len;
+       }
+   }
+      }
+
+
+  template<typename _Tp, typename _Alloc>
+    template<__detail::__container_compatible_range<_Tp> _Rg>
+      constexpr auto
+      vector<_Tp, _Alloc>::
+      insert_range(const_iterator __pos, _Rg&& __rg)
+      -> iterator
+      {
+ if (__pos == cend())
+   {
+     const auto __ins_idx = size();
+     append_range(std::forward<_Rg>(__rg));
+     return begin() + __ins_idx;
+   }
+
+ if constexpr (ranges::forward_range<_Rg>)
+   {
+     const auto __ins_idx = __pos - cbegin();
+
+     const auto __n = size_type(ranges::distance(__rg));
+     if (__n == 0)
+       return begin() + __ins_idx;
+
+
+     pointer __old_start = this->_M_impl._M_start;
+
+     pointer __old_finish = this->_M_impl._M_finish;
+
+     pointer __ins = __old_start + __ins_idx;
+
+     const auto __cap = this->_M_impl._M_end_of_storage - __old_finish;
+     if (__cap >= __n)
+       {
+
+  const size_type __elems_after = cend() - __pos;
+  if (__elems_after > __n)
+    {
+      ;
+      std::__uninitialized_move_a(__old_finish - __n,
+      __old_finish,
+      __old_finish,
+      _M_get_Tp_allocator());
+      this->_M_impl._M_finish += __n;
+      ;
+      std::move_backward(__ins, __old_finish - __n, __old_finish);
+      ranges::copy(__rg, __ins);
+    }
+  else
+    {
+      auto __first = ranges::begin(__rg);
+      const auto __last = ranges::end(__rg);
+      auto __mid = ranges::next(__first, __elems_after);
+      ;
+      _Base::_M_append_range(ranges::subrange(__mid, __last));
+      ;
+      std::__uninitialized_move_a(__ins, __old_finish,
+      this->_M_impl._M_finish,
+      _M_get_Tp_allocator());
+      this->_M_impl._M_finish += __elems_after;
+      ;
+      ranges::copy(__first, __mid, __ins);
+    }
+       }
+     else
+       {
+  const size_type __len
+    = _M_check_len(__n, "vector::insert_range");
+
+  struct _Guard : _Guard_alloc
+  {
+
+    pointer _M_finish = _Guard_alloc::_M_storage;
+
+    using _Guard_alloc::_Guard_alloc;
+
+    constexpr
+    ~_Guard()
+    {
+      std::_Destroy(this->_M_storage, _M_finish,
+      this->_M_vect._M_get_Tp_allocator());
+    }
+  };
+
+
+  pointer __new_start(this->_M_allocate(__len));
+  _Guard __guard(__new_start, __len, *this);
+
+  auto& __alloc = _M_get_Tp_allocator();
+
+
+
+
+
+
+  __guard._M_finish
+    = std::__uninitialized_move_if_noexcept_a(
+        __old_start, __ins, __new_start, __alloc);
+
+
+  _Base::_M_append_range_to(__rg, __guard._M_finish);
+
+
+  __guard._M_finish
+      = std::__uninitialized_move_if_noexcept_a(
+   __ins, __old_finish, __guard._M_finish, __alloc);
+
+  ;
+
+
+
+  this->_M_impl._M_start = __guard._M_storage;
+  this->_M_impl._M_finish = __guard._M_finish;
+  this->_M_impl._M_end_of_storage = __new_start + __len;
+  __guard._M_storage = __old_start;
+  __guard._M_finish = __old_finish;
+  __guard._M_len = (__old_finish - __old_start) + __cap;
+
+
+
+       }
+     return begin() + __ins_idx;
+   }
+ else
+   return insert_range(__pos, vector(from_range, std::forward<_Rg>(__rg),
+         _M_get_Tp_allocator()));
+      }
+
+
+
+  template<typename _Alloc>
+    constexpr
+    void
+    vector<bool, _Alloc>::
+    _M_reallocate(size_type __n)
+    {
+      const iterator __begin = begin(), __end = end();
+      if (size_type(__end - __begin) > __n)
+ __builtin_unreachable();
+      _Bit_pointer __q = this->_M_allocate(__n);
+      iterator __start(std::__addressof(*__q), 0);
+      iterator __finish(_M_copy_aligned(__begin, __end, __start));
+      this->_M_deallocate();
+      this->_M_impl._M_start = __start;
+      this->_M_impl._M_finish = __finish;
+      this->_M_impl._M_end_of_storage = __q + _S_nword(__n);
+    }
+
+  template<typename _Alloc>
+    constexpr
+    void
+    vector<bool, _Alloc>::
+    _M_fill_insert(iterator __position, size_type __n, bool __x)
+    {
+      if (__n == 0)
+ return;
+      if (capacity() - size() >= __n)
+ {
+   std::copy_backward(__position, end(),
+        this->_M_impl._M_finish + difference_type(__n));
+   std::fill(__position, __position + difference_type(__n), __x);
+   this->_M_impl._M_finish += difference_type(__n);
+ }
+      else
+ {
+   const size_type __len =
+     _M_check_len(__n, "vector<bool>::_M_fill_insert");
+   iterator __begin = begin(), __end = end();
+   _Bit_pointer __q = this->_M_allocate(__len);
+   iterator __start(std::__addressof(*__q), 0);
+   iterator __i = _M_copy_aligned(__begin, __position, __start);
+   std::fill(__i, __i + difference_type(__n), __x);
+   iterator __finish = std::copy(__position, __end,
+     __i + difference_type(__n));
+   this->_M_deallocate();
+   this->_M_impl._M_end_of_storage = __q + _S_nword(__len);
+   this->_M_impl._M_start = __start;
+   this->_M_impl._M_finish = __finish;
+ }
+    }
+
+  template<typename _Alloc>
+    template<typename _ForwardIterator>
+      constexpr
+      void
+      vector<bool, _Alloc>::
+      _M_insert_range(iterator __position, _ForwardIterator __first,
+        _ForwardIterator __last, std::forward_iterator_tag)
+      {
+ if (__first != __last)
+   {
+     size_type __n = std::distance(__first, __last);
+     if (capacity() - size() >= __n)
+       {
+  std::copy_backward(__position, end(),
+       this->_M_impl._M_finish
+       + difference_type(__n));
+  std::copy(__first, __last, __position);
+  this->_M_impl._M_finish += difference_type(__n);
+       }
+     else
+       {
+  const size_type __len =
+    _M_check_len(__n, "vector<bool>::_M_insert_range");
+  const iterator __begin = begin(), __end = end();
+  _Bit_pointer __q = this->_M_allocate(__len);
+  iterator __start(std::__addressof(*__q), 0);
+  iterator __i = _M_copy_aligned(__begin, __position, __start);
+  __i = std::copy(__first, __last, __i);
+  iterator __finish = std::copy(__position, __end, __i);
+  this->_M_deallocate();
+  this->_M_impl._M_end_of_storage = __q + _S_nword(__len);
+  this->_M_impl._M_start = __start;
+  this->_M_impl._M_finish = __finish;
+       }
+   }
+      }
+
+  template<typename _Alloc>
+    constexpr
+    void
+    vector<bool, _Alloc>::
+    _M_insert_aux(iterator __position, bool __x)
+    {
+      if (this->_M_impl._M_finish._M_p != this->_M_impl._M_end_addr())
+ {
+   std::copy_backward(__position, this->_M_impl._M_finish,
+        this->_M_impl._M_finish + 1);
+   *__position = __x;
+   ++this->_M_impl._M_finish;
+ }
+      else
+ {
+   const size_type __len =
+     _M_check_len(size_type(1), "vector<bool>::_M_insert_aux");
+   _Bit_pointer __q = this->_M_allocate(__len);
+   iterator __start(std::__addressof(*__q), 0);
+   iterator __i = _M_copy_aligned(begin(), __position, __start);
+   *__i++ = __x;
+   iterator __finish = std::copy(__position, end(), __i);
+   this->_M_deallocate();
+   this->_M_impl._M_end_of_storage = __q + _S_nword(__len);
+   this->_M_impl._M_start = __start;
+   this->_M_impl._M_finish = __finish;
+ }
+    }
+
+  template<typename _Alloc>
+    constexpr
+    typename vector<bool, _Alloc>::iterator
+    vector<bool, _Alloc>::
+    _M_erase(iterator __position)
+    {
+      if (__position + 1 != end())
+        std::copy(__position + 1, end(), __position);
+      --this->_M_impl._M_finish;
+      return __position;
+    }
+
+  template<typename _Alloc>
+    constexpr
+    typename vector<bool, _Alloc>::iterator
+    vector<bool, _Alloc>::
+    _M_erase(iterator __first, iterator __last)
+    {
+      if (__first != __last)
+ _M_erase_at_end(std::copy(__last, end(), __first));
+      return __first;
+    }
+
+
+  template<typename _Alloc>
+    constexpr
+    bool
+    vector<bool, _Alloc>::
+    _M_shrink_to_fit()
+    {
+      if (capacity() - size() < int(_S_word_bit))
+ return false;
+      try
+ {
+   if (size_type __n = size())
+     _M_reallocate(__n);
+   else
+     {
+       this->_M_deallocate();
+       this->_M_impl._M_reset();
+     }
+   return true;
+ }
+      catch(...)
+ { return false; }
+    }
+
+
+
+
+}
+
+
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+  template<typename _Alloc>
+    size_t
+    hash<std::vector<bool, _Alloc>>::
+    operator()(const std::vector<bool, _Alloc>& __b) const noexcept
+    {
+      size_t __hash = 0;
+      const size_t __words = __b.size() / _S_word_bit;
+      if (__words)
+ {
+   const size_t __clength = __words * sizeof(_Bit_type);
+   __hash = std::_Hash_impl::hash(__b._M_impl._M_start._M_p, __clength);
+ }
+
+      const size_t __extrabits = __b.size() % _S_word_bit;
+      if (__extrabits)
+ {
+   _Bit_type __hiword = *__b._M_impl._M_finish._M_p;
+   __hiword &= ~((~static_cast<_Bit_type>(0)) << __extrabits);
+
+   const size_t __clength
+     = (__extrabits + 8 - 1) / 8;
+   if (__words)
+     __hash = std::_Hash_impl::hash(&__hiword, __clength, __hash);
+   else
+     __hash = std::_Hash_impl::hash(&__hiword, __clength);
+ }
+
+      return __hash;
+    }
+
+
+}
+# 75 "/usr/include/c++/15.2.1/vector" 2 3
+# 88 "/usr/include/c++/15.2.1/vector" 3
+# 1 "/usr/include/c++/15.2.1/bits/version.h" 1 3
+# 89 "/usr/include/c++/15.2.1/vector" 2 3
+
+
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+  namespace pmr {
+    template<typename _Tp>
+      using vector = std::vector<_Tp, polymorphic_allocator<_Tp>>;
+  }
+
+
+
+
+
+
+
+
+}
+
+
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+  template<typename _Tp, typename _Alloc, typename _Predicate>
+    constexpr
+    inline typename vector<_Tp, _Alloc>::size_type
+    erase_if(vector<_Tp, _Alloc>& __cont, _Predicate __pred)
+    {
+      using namespace __gnu_cxx;
+      std::vector<_Tp, _Alloc>& __ucont = __cont;
+      const auto __osz = __cont.size();
+      const auto __end = __ucont.end();
+      auto __removed = std::__remove_if(__ucont.begin(), __end,
+     __ops::__pred_iter(std::ref(__pred)));
+      if (__removed != __end)
+ {
+   __cont.erase(__niter_wrap(__cont.begin(), __removed),
+         __cont.end());
+   return __osz - __cont.size();
+ }
+
+      return 0;
+    }
+
+  template<typename _Tp, typename _Alloc,
+    typename _Up = _Tp>
+    constexpr
+    inline typename vector<_Tp, _Alloc>::size_type
+    erase(vector<_Tp, _Alloc>& __cont, const _Up& __value)
+    {
+      using namespace __gnu_cxx;
+      std::vector<_Tp, _Alloc>& __ucont = __cont;
+      const auto __osz = __cont.size();
+      const auto __end = __ucont.end();
+      auto __removed = std::__remove_if(__ucont.begin(), __end,
+     __ops::__iter_equals_val(__value));
+      if (__removed != __end)
+ {
+   __cont.erase(__niter_wrap(__cont.begin(), __removed),
+         __cont.end());
+   return __osz - __cont.size();
+ }
+
+      return 0;
+    }
+
+}
+
+
+
+# 1 "/usr/include/c++/15.2.1/bits/formatfwd.h" 1 3
+# 46 "/usr/include/c++/15.2.1/bits/formatfwd.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+
+  template<typename _Out, typename _CharT> class basic_format_context;
+
+
+  template<typename _CharT> class basic_format_parse_context;
+
+
+  template<typename _Tp, typename _CharT = char> struct formatter;
+
+
+namespace __format
+{
+
+  template<typename _CharT>
+    concept __char = same_as<_CharT, char> || same_as<_CharT, wchar_t>;
+
+
+
+
+
+  template<typename _Tp, typename _Context,
+    typename _Formatter
+      = typename _Context::template formatter_type<remove_const_t<_Tp>>,
+    typename _ParseContext
+      = basic_format_parse_context<typename _Context::char_type>>
+    concept __parsable_with
+      = semiregular<_Formatter>
+   && requires (_Formatter __f, _ParseContext __pc)
+    {
+      { __f.parse(__pc) } -> same_as<typename _ParseContext::iterator>;
+    };
+
+  template<typename _Tp, typename _Context,
+    typename _Formatter
+      = typename _Context::template formatter_type<remove_const_t<_Tp>>,
+    typename _ParseContext
+      = basic_format_parse_context<typename _Context::char_type>>
+    concept __formattable_with
+      = semiregular<_Formatter>
+   && requires (const _Formatter __cf, _Tp&& __t, _Context __fc)
+    {
+      { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+    };
+
+
+  template<typename _CharT>
+    struct _Iter_for;
+  template<typename _CharT>
+    using _Iter_for_t = typename _Iter_for<_CharT>::type;
+
+  template<typename _Tp, typename _CharT,
+    typename _Context = basic_format_context<_Iter_for_t<_CharT>, _CharT>>
+    concept __formattable_impl
+      = __parsable_with<_Tp, _Context> && __formattable_with<_Tp, _Context>;
+
+  template<typename _Formatter>
+    concept __has_debug_format = requires(_Formatter __f)
+    {
+      __f.set_debug_format();
+    };
+
+  template<__char _CharT>
+    struct __formatter_int;
+}
+
+
+
+
+  template<typename _Tp, typename _CharT>
+    concept formattable
+      = __format::__formattable_impl<remove_reference_t<_Tp>, _CharT>;
+
+   template<typename _Tp, __format::__char _CharT = char>
+     requires same_as<remove_cvref_t<_Tp>, _Tp> && formattable<_Tp, _CharT>
+     class range_formatter;
+
+
+namespace __format
+{
+  template<typename _Rg, typename _CharT>
+    concept __const_formattable_range
+      = ranges::input_range<const _Rg>
+   && formattable<ranges::range_reference_t<const _Rg>, _CharT>;
+
+  template<typename _Rg, typename _CharT>
+    using __maybe_const_range
+      = __conditional_t<__const_formattable_range<_Rg, _CharT>, const _Rg, _Rg>;
+
+  template<typename _Tp, typename _CharT>
+    using __maybe_const
+      = __conditional_t<formattable<const _Tp, _CharT>, const _Tp, _Tp>;
+}
+
+
+
+
+}
+# 163 "/usr/include/c++/15.2.1/vector" 2 3
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+
+  template<__format::__char _CharT>
+    struct formatter<std::_Bit_reference, _CharT>
+    {
+
+
+      constexpr typename basic_format_parse_context<_CharT>::iterator
+      parse(basic_format_parse_context<_CharT>& __pc)
+      { return _M_f.template _M_parse<bool>(__pc); }
+
+
+
+      template<typename _Out>
+ typename basic_format_context<_Out, _CharT>::iterator
+ format(const std::_Bit_reference& __u,
+        basic_format_context<_Out, _CharT>& __fc) const
+ { return _M_f.format(static_cast<bool>(__u), __fc); }
+
+    private:
+      __format::__formatter_int<_CharT> _M_f;
+    };
+
+}
+# 7 "/home/arch/code/projects/Compiler/include/token.h" 2
+
+
+# 8 "/home/arch/code/projects/Compiler/include/token.h"
+enum class TokenType {
+  PLUS,
+  MINUS,
+  TIMES,
+  DIVIDE,
+
+  LET,
+  BE,
+  POINTER,
+  TO,
+  STOP,
+  DEFINE,
+  AS,
+  END,
+  WITH,
+  IF,
+  GREATER_THAN,
+  GREATER_THAN_OR_EQUALS_TO,
+  LESS_THAN,
+  LESS_THAN_OR_EQUALS_TO,
+  THEN,
+  OR,
+  EQUALS,
+  OTHERWISE,
+  FOR,
+  REPEAT,
+  JUST,
+
+  IDENTIFIER,
+  INTEGER_LITERAL
+};
+
+extern std::vector<TokenType> inequalitySymbols;
+
+class Token {
+public:
+  TokenType tokenType;
+  std::string tokenString;
+
+  Token(const TokenType tokenType, std::string tokenString) : tokenType(tokenType), tokenString(std::move(tokenString)) {}
+};
+# 5 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
+# 1 "/usr/include/c++/15.2.1/memory" 1 3
+# 68 "/usr/include/c++/15.2.1/memory" 3
+# 1 "/usr/include/c++/15.2.1/bits/stl_tempbuf.h" 1 3
+# 65 "/usr/include/c++/15.2.1/bits/stl_tempbuf.h" 3
+
+# 65 "/usr/include/c++/15.2.1/bits/stl_tempbuf.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+# 77 "/usr/include/c++/15.2.1/bits/stl_tempbuf.h" 3
+  namespace __detail
+  {
+
+
+    template<typename _Tp>
+      inline _Tp*
+      __get_temporary_buffer(ptrdiff_t __len) noexcept
+      {
+ if (__builtin_expect(size_t(__len) > (size_t(-1) / sizeof(_Tp)), 0))
+   return 0;
+
+
+ if (alignof(_Tp) > 16)
+   return (_Tp*) __builtin_operator_new(__len * sizeof(_Tp),
+           align_val_t(alignof(_Tp)),
+           nothrow_t());
+
+ return (_Tp*) __builtin_operator_new(__len * sizeof(_Tp), nothrow_t());
+      }
+
+
+
+    template<typename _Tp>
+      inline void
+      __return_temporary_buffer(_Tp* __p,
+    size_t __len __attribute__((__unused__)))
+      {
+
+
+
+
+
+
+
+ if (alignof(_Tp) > 16)
+   {
+     __builtin_operator_delete((__p), (__len) * sizeof(_Tp),
+         align_val_t(alignof(_Tp)));
+     return;
+   }
+
+ __builtin_operator_delete((__p), (__len) * sizeof(_Tp));
+      }
+
+  }
+# 140 "/usr/include/c++/15.2.1/bits/stl_tempbuf.h" 3
+  template<typename _Tp>
+    [[__deprecated__]]
+    pair<_Tp*, ptrdiff_t>
+    get_temporary_buffer(ptrdiff_t __len) noexcept
+    {
+      const ptrdiff_t __max =
+ __gnu_cxx::__numeric_traits<ptrdiff_t>::__max / sizeof(_Tp);
+      if (__len > __max)
+ __len = __max;
+
+      while (__len > 0)
+ {
+   if (_Tp* __tmp = __detail::__get_temporary_buffer<_Tp>(__len))
+     return pair<_Tp*, ptrdiff_t>(__tmp, __len);
+   __len = __len == 1 ? 0 : ((__len + 1) / 2);
+ }
+      return pair<_Tp*, ptrdiff_t>();
+    }
+# 166 "/usr/include/c++/15.2.1/bits/stl_tempbuf.h" 3
+  template<typename _Tp>
+    [[__deprecated__]]
+    inline void
+    return_temporary_buffer(_Tp* __p)
+    {
+
+      if (alignof(_Tp) > 16)
+ __builtin_operator_delete(__p, align_val_t(alignof(_Tp)));
+      else
+
+      __builtin_operator_delete(__p);
+    }
+# 187 "/usr/include/c++/15.2.1/bits/stl_tempbuf.h" 3
+  template<typename _ForwardIterator, typename _Tp>
+    class _Temporary_buffer
+    {
+
+     
+
+    public:
+      typedef _Tp value_type;
+      typedef value_type* pointer;
+      typedef pointer iterator;
+      typedef ptrdiff_t size_type;
+
+    protected:
+      size_type _M_original_len;
+      struct _Impl
+      {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+ explicit
+ _Impl(ptrdiff_t __original_len)
+ {
+   pair<pointer, size_type> __p(
+     std::get_temporary_buffer<value_type>(__original_len));
+   _M_len = __p.second;
+   _M_buffer = __p.first;
+ }
+#pragma GCC diagnostic pop
+
+ ~_Impl()
+ { std::__detail::__return_temporary_buffer(_M_buffer, _M_len); }
+
+ size_type _M_len;
+ pointer _M_buffer;
+      } _M_impl;
+
+    public:
+
+      size_type
+      size() const
+      { return _M_impl._M_len; }
+
+
+      size_type
+      requested_size() const
+      { return _M_original_len; }
+
+
+      iterator
+      begin()
+      { return _M_impl._M_buffer; }
+
+
+      iterator
+      end()
+      { return _M_impl._M_buffer + _M_impl._M_len; }
+
+
+
+
+
+      _Temporary_buffer(_ForwardIterator __seed, size_type __original_len);
+
+      ~_Temporary_buffer()
+      { std::_Destroy(_M_impl._M_buffer, _M_impl._M_buffer + _M_impl._M_len); }
+
+    private:
+
+      _Temporary_buffer(const _Temporary_buffer&);
+
+      void
+      operator=(const _Temporary_buffer&);
+    };
+
+
+  template<bool>
+    struct __uninitialized_construct_buf_dispatch
+    {
+      template<typename _Pointer, typename _ForwardIterator>
+        static void
+        __ucr(_Pointer __first, _Pointer __last,
+       _ForwardIterator __seed)
+        {
+   if (__builtin_expect(__first == __last, 0))
+     return;
+
+   _Pointer __cur = __first;
+   try
+     {
+       std::_Construct(std::__addressof(*__first),
+         std::move(*__seed));
+       _Pointer __prev = __cur;
+       ++__cur;
+       for(; __cur != __last; ++__cur, ++__prev)
+  std::_Construct(std::__addressof(*__cur),
+    std::move(*__prev));
+       *__seed = std::move(*__prev);
+     }
+   catch(...)
+     {
+       std::_Destroy(__first, __cur);
+       throw;
+     }
+ }
+    };
+
+  template<>
+    struct __uninitialized_construct_buf_dispatch<true>
+    {
+      template<typename _Pointer, typename _ForwardIterator>
+        static void
+        __ucr(_Pointer, _Pointer, _ForwardIterator) { }
+    };
+# 311 "/usr/include/c++/15.2.1/bits/stl_tempbuf.h" 3
+  template<typename _Tp, typename _ForwardIterator>
+    inline void
+    __uninitialized_construct_buf(_Tp* __first, _Tp* __last,
+      _ForwardIterator __seed)
+    {
+      std::__uninitialized_construct_buf_dispatch<
+ __has_trivial_constructor(_Tp)>::
+   __ucr(__first, __last, __seed);
+    }
+
+  template<typename _ForwardIterator, typename _Tp>
+    _Temporary_buffer<_ForwardIterator, _Tp>::
+    _Temporary_buffer(_ForwardIterator __seed, size_type __original_len)
+    : _M_original_len(__original_len), _M_impl(__original_len)
+    {
+      std::__uninitialized_construct_buf(begin(), end(), __seed);
+    }
+
+
+}
+# 69 "/usr/include/c++/15.2.1/memory" 2 3
+
+
+
 # 1 "/usr/include/c++/15.2.1/bits/stl_raw_storage_iter.h" 1 3
 # 59 "/usr/include/c++/15.2.1/bits/stl_raw_storage_iter.h" 3
 namespace std __attribute__ ((__visibility__ ("default")))
@@ -68682,4671 +71200,3724 @@ uninitialized_value_construct_n(_ExecutionPolicy&& __exec, _ForwardIterator __fi
 
 }
 # 175 "/usr/include/c++/15.2.1/memory" 2 3
-# 7 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
-# 1 "/usr/include/c++/15.2.1/vector" 1 3
-# 68 "/usr/include/c++/15.2.1/vector" 3
-# 1 "/usr/include/c++/15.2.1/bits/stl_vector.h" 1 3
-# 84 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
+# 6 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
+# 1 "/usr/include/c++/15.2.1/optional" 1 3
+# 40 "/usr/include/c++/15.2.1/optional" 3
+# 1 "/usr/include/c++/15.2.1/bits/version.h" 1 3
+# 41 "/usr/include/c++/15.2.1/optional" 2 3
+
+
+
+
+
+
+
+# 1 "/usr/include/c++/15.2.1/bits/enable_special_members.h" 1 3
+# 39 "/usr/include/c++/15.2.1/bits/enable_special_members.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+
+  struct _Enable_default_constructor_tag
+  {
+    explicit constexpr _Enable_default_constructor_tag() = default;
+  };
+
+
+
+
+
+
+template<bool _Switch, typename _Tag = void>
+  struct _Enable_default_constructor
+  {
+    constexpr _Enable_default_constructor() noexcept = default;
+    constexpr _Enable_default_constructor(_Enable_default_constructor const&)
+      noexcept = default;
+    constexpr _Enable_default_constructor(_Enable_default_constructor&&)
+      noexcept = default;
+    _Enable_default_constructor&
+    operator=(_Enable_default_constructor const&) noexcept = default;
+    _Enable_default_constructor&
+    operator=(_Enable_default_constructor&&) noexcept = default;
+
+
+    constexpr explicit
+    _Enable_default_constructor(_Enable_default_constructor_tag) { }
+  };
+
+
+
+
+
+
+
+template<bool _Switch, typename _Tag = void>
+  struct _Enable_destructor { };
+
+
+
+
+
+
+template<bool _Copy, bool _CopyAssignment,
+         bool _Move, bool _MoveAssignment,
+         typename _Tag = void>
+  struct _Enable_copy_move { };
+# 98 "/usr/include/c++/15.2.1/bits/enable_special_members.h" 3
+template<bool _Default, bool _Destructor,
+         bool _Copy, bool _CopyAssignment,
+         bool _Move, bool _MoveAssignment,
+         typename _Tag = void>
+  struct _Enable_special_members
+  : private _Enable_default_constructor<_Default, _Tag>,
+    private _Enable_destructor<_Destructor, _Tag>,
+    private _Enable_copy_move<_Copy, _CopyAssignment,
+                              _Move, _MoveAssignment,
+                              _Tag>
+  { };
+
+
+
+template<typename _Tag>
+  struct _Enable_default_constructor<false, _Tag>
+  {
+    constexpr _Enable_default_constructor() noexcept = delete;
+    constexpr _Enable_default_constructor(_Enable_default_constructor const&)
+      noexcept = default;
+    constexpr _Enable_default_constructor(_Enable_default_constructor&&)
+      noexcept = default;
+    _Enable_default_constructor&
+    operator=(_Enable_default_constructor const&) noexcept = default;
+    _Enable_default_constructor&
+    operator=(_Enable_default_constructor&&) noexcept = default;
+
+
+    constexpr explicit
+    _Enable_default_constructor(_Enable_default_constructor_tag) { }
+  };
+
+template<typename _Tag>
+  struct _Enable_destructor<false, _Tag>
+  { ~_Enable_destructor() noexcept = delete; };
+
+template<typename _Tag>
+  struct _Enable_copy_move<false, true, true, true, _Tag>
+  {
+    constexpr _Enable_copy_move() noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = delete;
+    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = default;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move const&) noexcept = default;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move&&) noexcept = default;
+  };
+
+template<typename _Tag>
+  struct _Enable_copy_move<true, false, true, true, _Tag>
+  {
+    constexpr _Enable_copy_move() noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = default;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move const&) noexcept = delete;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move&&) noexcept = default;
+  };
+
+template<typename _Tag>
+  struct _Enable_copy_move<false, false, true, true, _Tag>
+  {
+    constexpr _Enable_copy_move() noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = delete;
+    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = default;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move const&) noexcept = delete;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move&&) noexcept = default;
+  };
+
+template<typename _Tag>
+  struct _Enable_copy_move<true, true, false, true, _Tag>
+  {
+    constexpr _Enable_copy_move() noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = delete;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move const&) noexcept = default;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move&&) noexcept = default;
+  };
+
+template<typename _Tag>
+  struct _Enable_copy_move<false, true, false, true, _Tag>
+  {
+    constexpr _Enable_copy_move() noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = delete;
+    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = delete;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move const&) noexcept = default;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move&&) noexcept = default;
+  };
+
+template<typename _Tag>
+  struct _Enable_copy_move<true, false, false, true, _Tag>
+  {
+    constexpr _Enable_copy_move() noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = delete;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move const&) noexcept = delete;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move&&) noexcept = default;
+  };
+
+template<typename _Tag>
+  struct _Enable_copy_move<false, false, false, true, _Tag>
+  {
+    constexpr _Enable_copy_move() noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = delete;
+    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = delete;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move const&) noexcept = delete;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move&&) noexcept = default;
+  };
+
+template<typename _Tag>
+  struct _Enable_copy_move<true, true, true, false, _Tag>
+  {
+    constexpr _Enable_copy_move() noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = default;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move const&) noexcept = default;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move&&) noexcept = delete;
+  };
+
+template<typename _Tag>
+  struct _Enable_copy_move<false, true, true, false, _Tag>
+  {
+    constexpr _Enable_copy_move() noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = delete;
+    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = default;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move const&) noexcept = default;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move&&) noexcept = delete;
+  };
+
+template<typename _Tag>
+  struct _Enable_copy_move<true, false, true, false, _Tag>
+  {
+    constexpr _Enable_copy_move() noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = default;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move const&) noexcept = delete;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move&&) noexcept = delete;
+  };
+
+template<typename _Tag>
+  struct _Enable_copy_move<false, false, true, false, _Tag>
+  {
+    constexpr _Enable_copy_move() noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = delete;
+    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = default;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move const&) noexcept = delete;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move&&) noexcept = delete;
+  };
+
+template<typename _Tag>
+  struct _Enable_copy_move<true, true, false, false, _Tag>
+  {
+    constexpr _Enable_copy_move() noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = delete;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move const&) noexcept = default;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move&&) noexcept = delete;
+  };
+
+template<typename _Tag>
+  struct _Enable_copy_move<false, true, false, false, _Tag>
+  {
+    constexpr _Enable_copy_move() noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = delete;
+    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = delete;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move const&) noexcept = default;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move&&) noexcept = delete;
+  };
+
+template<typename _Tag>
+  struct _Enable_copy_move<true, false, false, false, _Tag>
+  {
+    constexpr _Enable_copy_move() noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = delete;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move const&) noexcept = delete;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move&&) noexcept = delete;
+  };
+
+template<typename _Tag>
+  struct _Enable_copy_move<false, false, false, false, _Tag>
+  {
+    constexpr _Enable_copy_move() noexcept = default;
+    constexpr _Enable_copy_move(_Enable_copy_move const&) noexcept = delete;
+    constexpr _Enable_copy_move(_Enable_copy_move&&) noexcept = delete;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move const&) noexcept = delete;
+    _Enable_copy_move&
+    operator=(_Enable_copy_move&&) noexcept = delete;
+  };
+
+
+
+}
+# 49 "/usr/include/c++/15.2.1/optional" 2 3
+# 61 "/usr/include/c++/15.2.1/optional" 3
 namespace std __attribute__ ((__visibility__ ("default")))
 {
 
 
 
 
-  template<typename _Tp, typename _Alloc>
-    struct _Vector_base
+
+
+
+  template<typename _Tp>
+    class optional;
+
+
+  struct nullopt_t
+  {
+
+
+
+
+
+    enum class _Construct { _Token };
+
+
+    explicit constexpr nullopt_t(_Construct) noexcept { }
+  };
+
+
+  inline constexpr nullopt_t nullopt { nullopt_t::_Construct::_Token };
+
+  template<typename _Fn> struct _Optional_func { _Fn& _M_f; };
+
+
+
+
+
+
+  class bad_optional_access : public exception
+  {
+  public:
+    bad_optional_access() = default;
+    virtual ~bad_optional_access() = default;
+
+    const char* what() const noexcept override
+    { return "bad optional access"; }
+  };
+
+
+  [[__noreturn__]] inline void
+  __throw_bad_optional_access()
+  { (throw (bad_optional_access())); }
+
+
+
+  template <typename _Tp>
+    struct _Optional_payload_base
     {
-      typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template
- rebind<_Tp>::other _Tp_alloc_type;
-      typedef typename __gnu_cxx::__alloc_traits<_Tp_alloc_type>::pointer
-        pointer;
+      using _Stored_type = remove_const_t<_Tp>;
 
-      struct _Vector_impl_data
+      _Optional_payload_base() = default;
+      ~_Optional_payload_base() = default;
+
+      template<typename... _Args>
+ constexpr
+ _Optional_payload_base(in_place_t __tag, _Args&&... __args)
+ : _M_payload(__tag, std::forward<_Args>(__args)...),
+   _M_engaged(true)
+ { }
+
+      template<typename _Up, typename... _Args>
+ constexpr
+ _Optional_payload_base(std::initializer_list<_Up> __il,
+          _Args&&... __args)
+ : _M_payload(__il, std::forward<_Args>(__args)...),
+   _M_engaged(true)
+ { }
+
+
+
+      constexpr
+      _Optional_payload_base(bool ,
+        const _Optional_payload_base& __other)
       {
- pointer _M_start;
- pointer _M_finish;
- pointer _M_end_of_storage;
-
- constexpr
- _Vector_impl_data() noexcept
- : _M_start(), _M_finish(), _M_end_of_storage()
- { }
+ if (__other._M_engaged)
+   this->_M_construct(__other._M_get());
+      }
 
 
- constexpr
- _Vector_impl_data(_Vector_impl_data&& __x) noexcept
- : _M_start(__x._M_start), _M_finish(__x._M_finish),
-   _M_end_of_storage(__x._M_end_of_storage)
- { __x._M_start = __x._M_finish = __x._M_end_of_storage = pointer(); }
 
-
- constexpr
- void
- _M_copy_data(_Vector_impl_data const& __x) noexcept
- {
-   _M_start = __x._M_start;
-   _M_finish = __x._M_finish;
-   _M_end_of_storage = __x._M_end_of_storage;
- }
-
- constexpr
- void
- _M_swap_data(_Vector_impl_data& __x) noexcept
- {
-
-
-   _Vector_impl_data __tmp;
-   __tmp._M_copy_data(*this);
-   _M_copy_data(__x);
-   __x._M_copy_data(__tmp);
- }
-      };
-
-      struct _Vector_impl
- : public _Tp_alloc_type, public _Vector_impl_data
+      constexpr
+      _Optional_payload_base(bool ,
+        _Optional_payload_base&& __other)
       {
- constexpr
- _Vector_impl() noexcept(is_nothrow_default_constructible<_Tp_alloc_type>::value)
-
-
- requires is_default_constructible_v<_Tp_alloc_type>
-
- : _Tp_alloc_type()
- { }
-
- constexpr
- _Vector_impl(_Tp_alloc_type const& __a) noexcept
- : _Tp_alloc_type(__a)
- { }
+ if (__other._M_engaged)
+   this->_M_construct(std::move(__other._M_get()));
+      }
 
 
 
-
- constexpr
- _Vector_impl(_Vector_impl&& __x) noexcept
- : _Tp_alloc_type(std::move(__x)), _Vector_impl_data(std::move(__x))
- { }
-
- constexpr
- _Vector_impl(_Tp_alloc_type&& __a) noexcept
- : _Tp_alloc_type(std::move(__a))
- { }
-
- constexpr
- _Vector_impl(_Tp_alloc_type&& __a, _Vector_impl&& __rv) noexcept
- : _Tp_alloc_type(std::move(__a)), _Vector_impl_data(std::move(__rv))
- { }
-# 300 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      };
-
-    public:
-      typedef _Alloc allocator_type;
-
-      constexpr
-      _Tp_alloc_type&
-      _M_get_Tp_allocator() noexcept
-      { return this->_M_impl; }
-
-      constexpr
-      const _Tp_alloc_type&
-      _M_get_Tp_allocator() const noexcept
-      { return this->_M_impl; }
-
-      constexpr
-      allocator_type
-      get_allocator() const noexcept
-      { return allocator_type(_M_get_Tp_allocator()); }
-
-
-      _Vector_base() = default;
+      _Optional_payload_base(const _Optional_payload_base&) = default;
 
 
 
+      _Optional_payload_base(_Optional_payload_base&&) = default;
 
-      constexpr
-      _Vector_base(const allocator_type& __a) noexcept
-      : _M_impl(__a) { }
+      _Optional_payload_base&
+      operator=(const _Optional_payload_base&) = default;
 
-
-
-      constexpr
-      _Vector_base(size_t __n)
-      : _M_impl()
-      { _M_create_storage(__n); }
+      _Optional_payload_base&
+      operator=(_Optional_payload_base&&) = default;
 
 
-      constexpr
-      _Vector_base(size_t __n, const allocator_type& __a)
-      : _M_impl(__a)
-      { _M_create_storage(__n); }
-
-
-      _Vector_base(_Vector_base&&) = default;
-
-
-
-      constexpr
-      _Vector_base(_Tp_alloc_type&& __a) noexcept
-      : _M_impl(std::move(__a)) { }
-
-      constexpr
-      _Vector_base(_Vector_base&& __x, const allocator_type& __a)
-      : _M_impl(__a)
+      constexpr void
+      _M_copy_assign(const _Optional_payload_base& __other)
       {
- if (__x.get_allocator() == __a)
-   this->_M_impl._M_swap_data(__x._M_impl);
+ if (this->_M_engaged && __other._M_engaged)
+   this->_M_get() = __other._M_get();
  else
    {
-     size_t __n = __x._M_impl._M_finish - __x._M_impl._M_start;
-     _M_create_storage(__n);
+     if (__other._M_engaged)
+       this->_M_construct(__other._M_get());
+     else
+       this->_M_reset();
    }
       }
 
 
-      constexpr
-      _Vector_base(const allocator_type& __a, _Vector_base&& __x)
-      : _M_impl(_Tp_alloc_type(__a), std::move(__x._M_impl))
-      { }
-
-
-      constexpr
-      ~_Vector_base() noexcept
+      constexpr void
+      _M_move_assign(_Optional_payload_base&& __other)
+      noexcept(__and_v<is_nothrow_move_constructible<_Tp>,
+         is_nothrow_move_assignable<_Tp>>)
       {
- _M_deallocate(_M_impl._M_start,
-        _M_impl._M_end_of_storage - _M_impl._M_start);
+ if (this->_M_engaged && __other._M_engaged)
+   this->_M_get() = std::move(__other._M_get());
+ else
+   {
+     if (__other._M_engaged)
+       this->_M_construct(std::move(__other._M_get()));
+     else
+       this->_M_reset();
+   }
       }
 
-    public:
-      _Vector_impl _M_impl;
+      struct _Empty_byte { };
 
-      constexpr
-      pointer
-      _M_allocate(size_t __n)
-      {
- typedef __gnu_cxx::__alloc_traits<_Tp_alloc_type> _Tr;
- return __n != 0 ? _Tr::allocate(_M_impl, __n) : pointer();
-      }
-
-      constexpr
-      void
-      _M_deallocate(pointer __p, size_t __n)
-      {
- typedef __gnu_cxx::__alloc_traits<_Tp_alloc_type> _Tr;
- if (__p)
-   _Tr::deallocate(_M_impl, __p, __n);
-      }
-
-    protected:
-
-      constexpr
-      void
-      _M_create_storage(size_t __n)
-      {
- this->_M_impl._M_start = this->_M_allocate(__n);
- this->_M_impl._M_finish = this->_M_impl._M_start;
- this->_M_impl._M_end_of_storage = this->_M_impl._M_start + __n;
-      }
-
-
-
-
-
-
-
-      template<ranges::input_range _Rg>
- constexpr void
- _M_append_range_to(_Rg&& __rg, pointer& __ptr)
+      template<typename _Up, bool = is_trivially_destructible_v<_Up>>
+ union _Storage
  {
-   __ptr = std::__uninitialized_copy_a(ranges::begin(__rg),
-           ranges::end(__rg),
-           __ptr, _M_get_Tp_allocator());
+   constexpr _Storage() noexcept : _M_empty() { }
+
+   template<typename... _Args>
+     constexpr
+     _Storage(in_place_t, _Args&&... __args)
+     : _M_value(std::forward<_Args>(__args)...)
+     { }
+
+   template<typename _Vp, typename... _Args>
+     constexpr
+     _Storage(std::initializer_list<_Vp> __il, _Args&&... __args)
+     : _M_value(__il, std::forward<_Args>(__args)...)
+     { }
+
+
+   template<typename _Fn, typename _Arg>
+     constexpr
+     _Storage(_Optional_func<_Fn> __f, _Arg&& __arg)
+     : _M_value(std::__invoke(std::forward<_Fn>(__f._M_f),
+         std::forward<_Arg>(__arg)))
+     { }
+
+
+
+   ~_Storage() = default;
+
+
+   constexpr
+   ~_Storage() requires (!is_trivially_destructible_v<_Up>)
+   { }
+
+   _Storage(const _Storage&) = default;
+   _Storage(_Storage&&) = default;
+   _Storage& operator=(const _Storage&) = default;
+   _Storage& operator=(_Storage&&) = default;
+
+
+   _Empty_byte _M_empty;
+   _Up _M_value;
+ };
+# 289 "/usr/include/c++/15.2.1/optional" 3
+      _Storage<_Stored_type> _M_payload;
+
+      bool _M_engaged = false;
+
+      template<typename... _Args>
+ constexpr void
+ _M_construct(_Args&&... __args)
+ noexcept(is_nothrow_constructible_v<_Stored_type, _Args...>)
+ {
+   std::_Construct(std::__addressof(this->_M_payload._M_value),
+     std::forward<_Args>(__args)...);
+   this->_M_engaged = true;
+ }
+
+      constexpr void
+      _M_destroy() noexcept
+      {
+ _M_engaged = false;
+ _M_payload._M_value.~_Stored_type();
+      }
+
+
+      template<typename _Fn, typename _Up>
+ constexpr void
+ _M_apply(_Optional_func<_Fn> __f, _Up&& __x)
+ {
+   std::construct_at(std::__addressof(this->_M_payload),
+       __f, std::forward<_Up>(__x));
+   _M_engaged = true;
  }
 
 
 
-      template<ranges::input_range _Rg>
- constexpr void
- _M_append_range(_Rg&& __rg)
- { _M_append_range_to(std::forward<_Rg>(__rg), _M_impl._M_finish); }
 
+
+
+      constexpr _Tp&
+      _M_get() noexcept
+      { return this->_M_payload._M_value; }
+
+      constexpr const _Tp&
+      _M_get() const noexcept
+      { return this->_M_payload._M_value; }
+
+
+      constexpr void
+      _M_reset() noexcept
+      {
+ if (this->_M_engaged)
+   _M_destroy();
+ else
+   this->_M_engaged = false;
+      }
     };
-# 457 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-  template<typename _Tp, typename _Alloc = std::allocator<_Tp> >
-    class vector : protected _Vector_base<_Tp, _Alloc>
+
+
+  template <typename _Tp,
+     bool =
+       is_trivially_destructible_v<_Tp>,
+     bool =
+       is_trivially_copy_assignable_v<_Tp>
+       && is_trivially_copy_constructible_v<_Tp>,
+     bool =
+       is_trivially_move_assignable_v<_Tp>
+       && is_trivially_move_constructible_v<_Tp>>
+    struct _Optional_payload;
+
+
+  template <typename _Tp>
+    struct _Optional_payload<_Tp, true, true, true>
+    : _Optional_payload_base<_Tp>
     {
-# 470 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      static_assert(is_same<typename remove_cv<_Tp>::type, _Tp>::value,
-   "std::vector must have a non-const, non-volatile value_type");
+      using _Optional_payload_base<_Tp>::_Optional_payload_base;
 
-      static_assert(is_same<typename _Alloc::value_type, _Tp>::value,
-   "std::vector must have the same value_type as its allocator");
+      _Optional_payload() = default;
+    };
 
 
+  template <typename _Tp>
+    struct _Optional_payload<_Tp, true, false, true>
+    : _Optional_payload_base<_Tp>
+    {
+      using _Optional_payload_base<_Tp>::_Optional_payload_base;
 
-      typedef _Vector_base<_Tp, _Alloc> _Base;
-      typedef typename _Base::_Tp_alloc_type _Tp_alloc_type;
-      typedef __gnu_cxx::__alloc_traits<_Tp_alloc_type> _Alloc_traits;
-
-    public:
-      typedef _Tp value_type;
-      typedef typename _Base::pointer pointer;
-      typedef typename _Alloc_traits::const_pointer const_pointer;
-      typedef typename _Alloc_traits::reference reference;
-      typedef typename _Alloc_traits::const_reference const_reference;
-      typedef __gnu_cxx::__normal_iterator<pointer, vector> iterator;
-      typedef __gnu_cxx::__normal_iterator<const_pointer, vector>
-      const_iterator;
-      typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
-      typedef std::reverse_iterator<iterator> reverse_iterator;
-      typedef size_t size_type;
-      typedef ptrdiff_t difference_type;
-      typedef _Alloc allocator_type;
-
-    private:
-
-      static constexpr bool
-      _S_nothrow_relocate(true_type)
-      {
- return noexcept(std::__relocate_a(std::declval<pointer>(),
-       std::declval<pointer>(),
-       std::declval<pointer>(),
-       std::declval<_Tp_alloc_type&>()));
-      }
-
-      static constexpr bool
-      _S_nothrow_relocate(false_type)
-      { return false; }
-
-      static constexpr bool
-      _S_use_relocate()
-      {
-
-
-
- return _S_nothrow_relocate(__is_move_insertable<_Tp_alloc_type>{});
-      }
-
-      static pointer
-      _S_do_relocate(pointer __first, pointer __last, pointer __result,
-       _Tp_alloc_type& __alloc, true_type) noexcept
-      {
- return std::__relocate_a(__first, __last, __result, __alloc);
-      }
-
-      static pointer
-      _S_do_relocate(pointer, pointer, pointer __result,
-       _Tp_alloc_type&, false_type) noexcept
-      { return __result; }
-
-      static constexpr pointer
-      _S_relocate(pointer __first, pointer __last, pointer __result,
-    _Tp_alloc_type& __alloc) noexcept
-      {
-
-
- return std::__relocate_a(__first, __last, __result, __alloc);
-
-
-
-
-      }
-
-
-    protected:
-      using _Base::_M_allocate;
-      using _Base::_M_deallocate;
-      using _Base::_M_impl;
-      using _Base::_M_get_Tp_allocator;
-
-    public:
-
-
-
-
-
-
-
-      vector() = default;
-# 570 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      explicit
-      constexpr
-      vector(const allocator_type& __a) noexcept
-      : _Base(__a) { }
-# 584 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      explicit
-      constexpr
-      vector(size_type __n, const allocator_type& __a = allocator_type())
-      : _Base(_S_check_init_len(__n, __a), __a)
-      { _M_default_initialize(__n); }
-# 598 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      vector(size_type __n, const value_type& __value,
-      const allocator_type& __a = allocator_type())
-      : _Base(_S_check_init_len(__n, __a), __a)
-      { _M_fill_initialize(__n, __value); }
-# 630 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      vector(const vector& __x)
-      : _Base(__x.size(),
- _Alloc_traits::_S_select_on_copy(__x._M_get_Tp_allocator()))
-      {
- this->_M_impl._M_finish =
-   std::__uninitialized_copy_a(__x.begin(), __x.end(),
-          this->_M_impl._M_start,
-          _M_get_Tp_allocator());
-      }
-# 650 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      vector(vector&&) noexcept = default;
+      _Optional_payload() = default;
+      ~_Optional_payload() = default;
+      _Optional_payload(const _Optional_payload&) = default;
+      _Optional_payload(_Optional_payload&&) = default;
+      _Optional_payload& operator=(_Optional_payload&&) = default;
 
 
       constexpr
-      vector(const vector& __x, const __type_identity_t<allocator_type>& __a)
-      : _Base(__x.size(), __a)
+      _Optional_payload&
+      operator=(const _Optional_payload& __other)
       {
- this->_M_impl._M_finish =
-   std::__uninitialized_copy_a(__x.begin(), __x.end(),
-          this->_M_impl._M_start,
-          _M_get_Tp_allocator());
+ this->_M_copy_assign(__other);
+ return *this;
+      }
+    };
+
+
+  template <typename _Tp>
+    struct _Optional_payload<_Tp, true, true, false>
+    : _Optional_payload_base<_Tp>
+    {
+      using _Optional_payload_base<_Tp>::_Optional_payload_base;
+
+      _Optional_payload() = default;
+      ~_Optional_payload() = default;
+      _Optional_payload(const _Optional_payload&) = default;
+      _Optional_payload(_Optional_payload&&) = default;
+      _Optional_payload& operator=(const _Optional_payload&) = default;
+
+
+      constexpr
+      _Optional_payload&
+      operator=(_Optional_payload&& __other)
+      noexcept(__and_v<is_nothrow_move_constructible<_Tp>,
+         is_nothrow_move_assignable<_Tp>>)
+      {
+ this->_M_move_assign(std::move(__other));
+ return *this;
+      }
+    };
+
+
+  template <typename _Tp>
+    struct _Optional_payload<_Tp, true, false, false>
+    : _Optional_payload_base<_Tp>
+    {
+      using _Optional_payload_base<_Tp>::_Optional_payload_base;
+
+      _Optional_payload() = default;
+      ~_Optional_payload() = default;
+      _Optional_payload(const _Optional_payload&) = default;
+      _Optional_payload(_Optional_payload&&) = default;
+
+
+      constexpr
+      _Optional_payload&
+      operator=(const _Optional_payload& __other)
+      {
+ this->_M_copy_assign(__other);
+ return *this;
       }
 
-    private:
+
       constexpr
-      vector(vector&& __rv, const allocator_type& __m, true_type) noexcept
-      : _Base(__m, std::move(__rv))
+      _Optional_payload&
+      operator=(_Optional_payload&& __other)
+      noexcept(__and_v<is_nothrow_move_constructible<_Tp>,
+         is_nothrow_move_assignable<_Tp>>)
+      {
+ this->_M_move_assign(std::move(__other));
+ return *this;
+      }
+    };
+
+
+  template <typename _Tp, bool _Copy, bool _Move>
+    struct _Optional_payload<_Tp, false, _Copy, _Move>
+    : _Optional_payload<_Tp, true, false, false>
+    {
+
+      using _Optional_payload<_Tp, true, false, false>::_Optional_payload;
+      _Optional_payload() = default;
+      _Optional_payload(const _Optional_payload&) = default;
+      _Optional_payload(_Optional_payload&&) = default;
+      _Optional_payload& operator=(const _Optional_payload&) = default;
+      _Optional_payload& operator=(_Optional_payload&&) = default;
+
+
+      constexpr ~_Optional_payload() { this->_M_reset(); }
+    };
+# 482 "/usr/include/c++/15.2.1/optional" 3
+  template<typename _Tp,
+    bool = is_trivially_copy_constructible_v<_Tp>,
+    bool = is_trivially_move_constructible_v<_Tp>>
+    struct _Optional_base
+    {
+
+      constexpr _Optional_base() = default;
+
+
+      template<typename... _Args,
+        enable_if_t<is_constructible_v<_Tp, _Args...>, bool> = false>
+ constexpr explicit
+ _Optional_base(in_place_t, _Args&&... __args)
+ : _M_payload(in_place, std::forward<_Args>(__args)...)
+ { }
+
+      template<typename _Up, typename... _Args,
+        enable_if_t<is_constructible_v<_Tp,
+           initializer_list<_Up>&,
+           _Args...>, bool> = false>
+ constexpr explicit
+ _Optional_base(in_place_t,
+         initializer_list<_Up> __il,
+         _Args&&... __args)
+ : _M_payload(in_place, __il, std::forward<_Args>(__args)...)
+ { }
+
+
+      constexpr
+      _Optional_base(const _Optional_base& __other)
+      noexcept(is_nothrow_copy_constructible_v<_Tp>)
+      : _M_payload(__other._M_payload._M_engaged, __other._M_payload)
       { }
 
       constexpr
-      vector(vector&& __rv, const allocator_type& __m, false_type)
-      : _Base(__m)
+      _Optional_base(_Optional_base&& __other)
+      noexcept(is_nothrow_move_constructible_v<_Tp>)
+      : _M_payload(__other._M_payload._M_engaged,
+     std::move(__other._M_payload))
+      { }
+
+
+
+
+      constexpr _Optional_base(const _Optional_base&)
+ requires is_trivially_copy_constructible_v<_Tp> = default;
+
+      constexpr _Optional_base(_Optional_base&&)
+ requires is_trivially_move_constructible_v<_Tp> = default;
+
+
+
+      _Optional_base& operator=(const _Optional_base&) = default;
+      _Optional_base& operator=(_Optional_base&&) = default;
+
+      _Optional_payload<_Tp> _M_payload;
+
+    protected:
+
+      using _Stored_type = remove_const_t<_Tp>;
+
+
+
+      template<typename... _Args>
+ constexpr void
+ _M_construct(_Args&&... __args)
+ noexcept(is_nothrow_constructible_v<_Stored_type, _Args...>)
+ {
+   _M_payload._M_construct(std::forward<_Args>(__args)...);
+ }
+
+      constexpr void
+      _M_destruct() noexcept
+      { _M_payload._M_destroy(); }
+
+
+      constexpr void
+      _M_reset() noexcept
+      { _M_payload._M_reset(); }
+
+      constexpr bool _M_is_engaged() const noexcept
+      { return _M_payload._M_engaged; }
+
+
+      constexpr _Tp&
+      _M_get() noexcept
+      { return _M_payload._M_get(); }
+
+      constexpr const _Tp&
+      _M_get() const noexcept
+      { return _M_payload._M_get(); }
+    };
+# 746 "/usr/include/c++/15.2.1/optional" 3
+  template<typename _Tp>
+    inline constexpr bool __is_optional_v = false;
+  template<typename _Tp>
+    inline constexpr bool __is_optional_v<optional<_Tp>> = true;
+
+  template<typename _Tp, typename _Wp>
+    using __converts_from_any_cvref = __or_<
+ is_constructible<_Tp, _Wp&>, is_convertible<_Wp&, _Tp>,
+ is_constructible<_Tp, _Wp>, is_convertible<_Wp, _Tp>,
+ is_constructible<_Tp, const _Wp&>, is_convertible<const _Wp&, _Tp>,
+ is_constructible<_Tp, const _Wp>, is_convertible<const _Wp, _Tp>
+      >;
+
+  template<typename _Tp, typename _Up>
+    using __converts_from_optional
+      = __converts_from_any_cvref<_Tp, optional<_Up>>;
+
+  template<typename _Tp, typename _Up>
+    using __assigns_from_optional =
+      __or_<is_assignable<_Tp&, const optional<_Up>&>,
+     is_assignable<_Tp&, optional<_Up>&>,
+     is_assignable<_Tp&, const optional<_Up>&&>,
+     is_assignable<_Tp&, optional<_Up>&&>>;
+# 777 "/usr/include/c++/15.2.1/optional" 3
+  template<typename _Tp>
+    class optional
+    : private _Optional_base<_Tp>,
+      private _Enable_copy_move<
+
+ is_copy_constructible_v<_Tp>,
+
+ __and_v<is_copy_constructible<_Tp>, is_copy_assignable<_Tp>>,
+
+ is_move_constructible_v<_Tp>,
+
+ __and_v<is_move_constructible<_Tp>, is_move_assignable<_Tp>>,
+
+ optional<_Tp>>
+    {
+      static_assert(!is_same_v<remove_cv_t<_Tp>, nullopt_t>);
+      static_assert(!is_same_v<remove_cv_t<_Tp>, in_place_t>);
+      static_assert(is_object_v<_Tp> && !is_array_v<_Tp>);
+
+    private:
+      using _Base = _Optional_base<_Tp>;
+# 806 "/usr/include/c++/15.2.1/optional" 3
+      template<typename _From, typename = remove_cv_t<_Tp>>
+ static constexpr bool __not_constructing_bool_from_optional
+   = true;
+
+
+
+      template<typename _From>
+ static constexpr bool
+ __not_constructing_bool_from_optional<_From, bool>
+   = !__is_optional_v<remove_cvref_t<_From>>;
+
+
+
+
+
+      template<typename _From, typename = remove_cv_t<_Tp>>
+ static constexpr bool __construct_from_contained_value
+   = !__converts_from_optional<_Tp, _From>::value;
+
+
+
+      template<typename _From>
+ static constexpr bool __construct_from_contained_value<_From, bool>
+   = true;
+# 859 "/usr/include/c++/15.2.1/optional" 3
+    public:
+      using value_type = _Tp;
+
+      constexpr optional() noexcept { }
+
+      constexpr optional(nullopt_t) noexcept { }
+
+
+
+      template<typename _Up = remove_cv_t<_Tp>>
+ requires (!is_same_v<optional, remove_cvref_t<_Up>>)
+   && (!is_same_v<in_place_t, remove_cvref_t<_Up>>)
+   && is_constructible_v<_Tp, _Up>
+   && __not_constructing_bool_from_optional<_Up>
+ constexpr explicit(!is_convertible_v<_Up, _Tp>)
+ optional(_Up&& __t)
+ noexcept(is_nothrow_constructible_v<_Tp, _Up>)
+ : _Base(std::in_place, std::forward<_Up>(__t)) { }
+
+      template<typename _Up>
+ requires (!is_same_v<_Tp, _Up>)
+   && is_constructible_v<_Tp, const _Up&>
+   && __construct_from_contained_value<_Up>
+ constexpr explicit(!is_convertible_v<const _Up&, _Tp>)
+ optional(const optional<_Up>& __t)
+ noexcept(is_nothrow_constructible_v<_Tp, const _Up&>)
+ {
+   if (__t)
+     emplace(__t._M_get());
+ }
+
+      template<typename _Up>
+ requires (!is_same_v<_Tp, _Up>)
+   && is_constructible_v<_Tp, _Up>
+   && __construct_from_contained_value<_Up>
+ constexpr explicit(!is_convertible_v<_Up, _Tp>)
+ optional(optional<_Up>&& __t)
+ noexcept(is_nothrow_constructible_v<_Tp, _Up>)
+ {
+   if (__t)
+     emplace(std::move(__t._M_get()));
+ }
+
+      template<typename... _Args>
+ requires is_constructible_v<_Tp, _Args...>
+ explicit constexpr
+ optional(in_place_t, _Args&&... __args)
+ noexcept(is_nothrow_constructible_v<_Tp, _Args...>)
+ : _Base(std::in_place, std::forward<_Args>(__args)...)
+ { }
+
+      template<typename _Up, typename... _Args>
+ requires is_constructible_v<_Tp, initializer_list<_Up>&, _Args...>
+ explicit constexpr
+ optional(in_place_t, initializer_list<_Up> __il, _Args&&... __args)
+ noexcept(is_nothrow_constructible_v<_Tp, initializer_list<_Up>&,
+         _Args...>)
+ : _Base(std::in_place, __il, std::forward<_Args>(__args)...)
+ { }
+# 1010 "/usr/include/c++/15.2.1/optional" 3
+      constexpr optional&
+      operator=(nullopt_t) noexcept
       {
- if (__rv.get_allocator() == __m)
-   this->_M_impl._M_swap_data(__rv._M_impl);
- else if (!__rv.empty())
+ this->_M_reset();
+ return *this;
+      }
+
+      template<typename _Up = remove_cv_t<_Tp>>
+
+ requires (!is_same_v<optional, remove_cvref_t<_Up>>)
+   && (!(is_scalar_v<_Tp> && is_same_v<_Tp, decay_t<_Up>>))
+   && is_constructible_v<_Tp, _Up>
+   && is_assignable_v<_Tp&, _Up>
+ constexpr optional&
+# 1032 "/usr/include/c++/15.2.1/optional" 3
+ operator=(_Up&& __u)
+ noexcept(__and_v<is_nothrow_constructible<_Tp, _Up>,
+    is_nothrow_assignable<_Tp&, _Up>>)
+ {
+   if (this->_M_is_engaged())
+     this->_M_get() = std::forward<_Up>(__u);
+   else
+     this->_M_construct(std::forward<_Up>(__u));
+
+   return *this;
+ }
+
+      template<typename _Up>
+
+ requires (!is_same_v<_Tp, _Up>)
+   && is_constructible_v<_Tp, const _Up&>
+   && is_assignable_v<_Tp&, const _Up&>
+   && (!__converts_from_optional<_Tp, _Up>::value)
+   && (!__assigns_from_optional<_Tp, _Up>::value)
+ constexpr optional&
+# 1060 "/usr/include/c++/15.2.1/optional" 3
+ operator=(const optional<_Up>& __u)
+ noexcept(__and_v<is_nothrow_constructible<_Tp, const _Up&>,
+    is_nothrow_assignable<_Tp&, const _Up&>>)
+ {
+   if (__u)
+     {
+       if (this->_M_is_engaged())
+  this->_M_get() = __u._M_get();
+       else
+  this->_M_construct(__u._M_get());
+     }
+   else
+     {
+       this->_M_reset();
+     }
+   return *this;
+ }
+
+      template<typename _Up>
+
+ requires (!is_same_v<_Tp, _Up>)
+   && is_constructible_v<_Tp, _Up>
+   && is_assignable_v<_Tp&, _Up>
+   && (!__converts_from_optional<_Tp, _Up>::value)
+   && (!__assigns_from_optional<_Tp, _Up>::value)
+ constexpr optional&
+# 1094 "/usr/include/c++/15.2.1/optional" 3
+ operator=(optional<_Up>&& __u)
+ noexcept(__and_v<is_nothrow_constructible<_Tp, _Up>,
+    is_nothrow_assignable<_Tp&, _Up>>)
+ {
+   if (__u)
+     {
+       if (this->_M_is_engaged())
+  this->_M_get() = std::move(__u._M_get());
+       else
+  this->_M_construct(std::move(__u._M_get()));
+     }
+   else
+     {
+       this->_M_reset();
+     }
+
+   return *this;
+ }
+
+      template<typename... _Args>
+ constexpr
+ enable_if_t<is_constructible_v<_Tp, _Args...>, _Tp&>
+ emplace(_Args&&... __args)
+ noexcept(is_nothrow_constructible_v<_Tp, _Args...>)
+ {
+   this->_M_reset();
+   this->_M_construct(std::forward<_Args>(__args)...);
+   return this->_M_get();
+ }
+
+      template<typename _Up, typename... _Args>
+ constexpr
+ enable_if_t<is_constructible_v<_Tp, initializer_list<_Up>&, _Args...>,
+      _Tp&>
+ emplace(initializer_list<_Up> __il, _Args&&... __args)
+ noexcept(is_nothrow_constructible_v<_Tp, initializer_list<_Up>&,
+         _Args...>)
+ {
+   this->_M_reset();
+   this->_M_construct(__il, std::forward<_Args>(__args)...);
+   return this->_M_get();
+ }
+
+
+
+
+      constexpr void
+      swap(optional& __other)
+      noexcept(is_nothrow_move_constructible_v<_Tp>
+        && is_nothrow_swappable_v<_Tp>)
+      {
+ using std::swap;
+
+ if (this->_M_is_engaged() && __other._M_is_engaged())
+   swap(this->_M_get(), __other._M_get());
+ else if (this->_M_is_engaged())
    {
-     this->_M_create_storage(__rv.size());
-     this->_M_impl._M_finish =
-       std::__uninitialized_move_a(__rv.begin(), __rv.end(),
-       this->_M_impl._M_start,
-       _M_get_Tp_allocator());
-     __rv.clear();
+     __other._M_construct(std::move(this->_M_get()));
+     this->_M_destruct();
+   }
+ else if (__other._M_is_engaged())
+   {
+     this->_M_construct(std::move(__other._M_get()));
+     __other._M_destruct();
    }
       }
 
+
+      constexpr const _Tp*
+      operator->() const noexcept
+      {
+ do { if (__builtin_expect(!bool(this->_M_is_engaged()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/optional", 1165, __PRETTY_FUNCTION__, "this->_M_is_engaged()"); } while (false);
+ return std::__addressof(this->_M_get());
+      }
+
+      constexpr _Tp*
+      operator->() noexcept
+      {
+ do { if (__builtin_expect(!bool(this->_M_is_engaged()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/optional", 1172, __PRETTY_FUNCTION__, "this->_M_is_engaged()"); } while (false);
+ return std::__addressof(this->_M_get());
+      }
+
+      constexpr const _Tp&
+      operator*() const& noexcept
+      {
+ do { if (__builtin_expect(!bool(this->_M_is_engaged()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/optional", 1179, __PRETTY_FUNCTION__, "this->_M_is_engaged()"); } while (false);
+ return this->_M_get();
+      }
+
+      constexpr _Tp&
+      operator*()& noexcept
+      {
+ do { if (__builtin_expect(!bool(this->_M_is_engaged()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/optional", 1186, __PRETTY_FUNCTION__, "this->_M_is_engaged()"); } while (false);
+ return this->_M_get();
+      }
+
+      constexpr _Tp&&
+      operator*()&& noexcept
+      {
+ do { if (__builtin_expect(!bool(this->_M_is_engaged()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/optional", 1193, __PRETTY_FUNCTION__, "this->_M_is_engaged()"); } while (false);
+ return std::move(this->_M_get());
+      }
+
+      constexpr const _Tp&&
+      operator*() const&& noexcept
+      {
+ do { if (__builtin_expect(!bool(this->_M_is_engaged()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/optional", 1200, __PRETTY_FUNCTION__, "this->_M_is_engaged()"); } while (false);
+ return std::move(this->_M_get());
+      }
+
+      constexpr explicit operator bool() const noexcept
+      { return this->_M_is_engaged(); }
+
+      constexpr bool has_value() const noexcept
+      { return this->_M_is_engaged(); }
+
+      constexpr const _Tp&
+      value() const&
+      {
+ if (this->_M_is_engaged())
+   return this->_M_get();
+ __throw_bad_optional_access();
+      }
+
+      constexpr _Tp&
+      value()&
+      {
+ if (this->_M_is_engaged())
+   return this->_M_get();
+ __throw_bad_optional_access();
+      }
+
+      constexpr _Tp&&
+      value()&&
+      {
+ if (this->_M_is_engaged())
+   return std::move(this->_M_get());
+ __throw_bad_optional_access();
+      }
+
+      constexpr const _Tp&&
+      value() const&&
+      {
+ if (this->_M_is_engaged())
+   return std::move(this->_M_get());
+ __throw_bad_optional_access();
+      }
+
+      template<typename _Up = remove_cv_t<_Tp>>
+ constexpr _Tp
+ value_or(_Up&& __u) const&
+ {
+   static_assert(is_copy_constructible_v<_Tp>);
+   static_assert(is_convertible_v<_Up&&, _Tp>);
+
+   if (this->_M_is_engaged())
+     return this->_M_get();
+   else
+     return static_cast<_Tp>(std::forward<_Up>(__u));
+ }
+
+      template<typename _Up = remove_cv_t<_Tp>>
+ constexpr _Tp
+ value_or(_Up&& __u) &&
+ {
+   static_assert(is_move_constructible_v<_Tp>);
+   static_assert(is_convertible_v<_Up&&, _Tp>);
+
+   if (this->_M_is_engaged())
+     return std::move(this->_M_get());
+   else
+     return static_cast<_Tp>(std::forward<_Up>(__u));
+ }
+
+
+
+
+      template<typename _Fn>
+ constexpr auto
+ and_then(_Fn&& __f) &
+ {
+   using _Up = remove_cvref_t<invoke_result_t<_Fn, _Tp&>>;
+   static_assert(__is_optional_v<remove_cvref_t<_Up>>,
+   "the function passed to std::optional<T>::and_then "
+   "must return a std::optional");
+   if (has_value())
+     return std::__invoke(std::forward<_Fn>(__f), _M_get());
+   else
+     return _Up();
+ }
+
+      template<typename _Fn>
+ constexpr auto
+ and_then(_Fn&& __f) const &
+ {
+   using _Up = remove_cvref_t<invoke_result_t<_Fn, const _Tp&>>;
+   static_assert(__is_optional_v<_Up>,
+   "the function passed to std::optional<T>::and_then "
+   "must return a std::optional");
+   if (has_value())
+     return std::__invoke(std::forward<_Fn>(__f), _M_get());
+   else
+     return _Up();
+ }
+
+      template<typename _Fn>
+ constexpr auto
+ and_then(_Fn&& __f) &&
+ {
+   using _Up = remove_cvref_t<invoke_result_t<_Fn, _Tp>>;
+   static_assert(__is_optional_v<remove_cvref_t<_Up>>,
+   "the function passed to std::optional<T>::and_then "
+   "must return a std::optional");
+   if (has_value())
+     return std::__invoke(std::forward<_Fn>(__f), std::move(_M_get()));
+   else
+     return _Up();
+ }
+
+      template<typename _Fn>
+ constexpr auto
+ and_then(_Fn&& __f) const &&
+ {
+   using _Up = remove_cvref_t<invoke_result_t<_Fn, const _Tp>>;
+   static_assert(__is_optional_v<remove_cvref_t<_Up>>,
+   "the function passed to std::optional<T>::and_then "
+   "must return a std::optional");
+   if (has_value())
+     return std::__invoke(std::forward<_Fn>(__f), std::move(_M_get()));
+   else
+     return _Up();
+ }
+
+      template<typename _Fn>
+ constexpr auto
+ transform(_Fn&& __f) &
+ {
+   using _Up = remove_cv_t<invoke_result_t<_Fn, _Tp&>>;
+   if (has_value())
+     return optional<_Up>(_Optional_func<_Fn>{__f}, _M_get());
+   else
+     return optional<_Up>();
+ }
+
+      template<typename _Fn>
+ constexpr auto
+ transform(_Fn&& __f) const &
+ {
+   using _Up = remove_cv_t<invoke_result_t<_Fn, const _Tp&>>;
+   if (has_value())
+     return optional<_Up>(_Optional_func<_Fn>{__f}, _M_get());
+   else
+     return optional<_Up>();
+ }
+
+      template<typename _Fn>
+ constexpr auto
+ transform(_Fn&& __f) &&
+ {
+   using _Up = remove_cv_t<invoke_result_t<_Fn, _Tp>>;
+   if (has_value())
+     return optional<_Up>(_Optional_func<_Fn>{__f}, std::move(_M_get()));
+   else
+     return optional<_Up>();
+ }
+
+      template<typename _Fn>
+ constexpr auto
+ transform(_Fn&& __f) const &&
+ {
+   using _Up = remove_cv_t<invoke_result_t<_Fn, const _Tp>>;
+   if (has_value())
+     return optional<_Up>(_Optional_func<_Fn>{__f}, std::move(_M_get()));
+   else
+     return optional<_Up>();
+ }
+
+      template<typename _Fn> requires invocable<_Fn> && copy_constructible<_Tp>
+ constexpr optional
+ or_else(_Fn&& __f) const&
+ {
+   using _Up = invoke_result_t<_Fn>;
+   static_assert(is_same_v<remove_cvref_t<_Up>, optional>,
+   "the function passed to std::optional<T>::or_else "
+   "must return a std::optional<T>");
+
+   if (has_value())
+     return *this;
+   else
+     return std::forward<_Fn>(__f)();
+ }
+
+      template<typename _Fn> requires invocable<_Fn> && move_constructible<_Tp>
+ constexpr optional
+ or_else(_Fn&& __f) &&
+ {
+   using _Up = invoke_result_t<_Fn>;
+   static_assert(is_same_v<remove_cvref_t<_Up>, optional>,
+   "the function passed to std::optional<T>::or_else "
+   "must return a std::optional<T>");
+
+   if (has_value())
+     return std::move(*this);
+   else
+     return std::forward<_Fn>(__f)();
+ }
+
+
+      constexpr void reset() noexcept { this->_M_reset(); }
+
+    private:
+      using _Base::_M_get;
+
+      template<typename _Up> friend class optional;
+
+
+      template<typename _Fn, typename _Value>
+ explicit constexpr
+ optional(_Optional_func<_Fn> __f, _Value&& __v)
+ {
+   this->_M_payload._M_apply(__f, std::forward<_Value>(__v));
+ }
+
+    };
+
+  template<typename _Tp>
+    using __optional_relop_t =
+      enable_if_t<is_convertible_v<_Tp, bool>, bool>;
+
+  template<typename _Tp, typename _Up>
+    using __optional_eq_t = __optional_relop_t<
+      decltype(std::declval<const _Tp&>() == std::declval<const _Up&>())
+      >;
+
+  template<typename _Tp, typename _Up>
+    using __optional_ne_t = __optional_relop_t<
+      decltype(std::declval<const _Tp&>() != std::declval<const _Up&>())
+      >;
+
+  template<typename _Tp, typename _Up>
+    using __optional_lt_t = __optional_relop_t<
+      decltype(std::declval<const _Tp&>() < std::declval<const _Up&>())
+      >;
+
+  template<typename _Tp, typename _Up>
+    using __optional_gt_t = __optional_relop_t<
+      decltype(std::declval<const _Tp&>() > std::declval<const _Up&>())
+      >;
+
+  template<typename _Tp, typename _Up>
+    using __optional_le_t = __optional_relop_t<
+      decltype(std::declval<const _Tp&>() <= std::declval<const _Up&>())
+      >;
+
+  template<typename _Tp, typename _Up>
+    using __optional_ge_t = __optional_relop_t<
+      decltype(std::declval<const _Tp&>() >= std::declval<const _Up&>())
+      >;
+
+
+  template<typename _Tp, typename _Up>
+    constexpr auto
+    operator==(const optional<_Tp>& __lhs, const optional<_Up>& __rhs)
+    -> __optional_eq_t<_Tp, _Up>
+    {
+      return static_cast<bool>(__lhs) == static_cast<bool>(__rhs)
+      && (!__lhs || *__lhs == *__rhs);
+    }
+
+  template<typename _Tp, typename _Up>
+    constexpr auto
+    operator!=(const optional<_Tp>& __lhs, const optional<_Up>& __rhs)
+    -> __optional_ne_t<_Tp, _Up>
+    {
+      return static_cast<bool>(__lhs) != static_cast<bool>(__rhs)
+ || (static_cast<bool>(__lhs) && *__lhs != *__rhs);
+    }
+
+  template<typename _Tp, typename _Up>
+    constexpr auto
+    operator<(const optional<_Tp>& __lhs, const optional<_Up>& __rhs)
+    -> __optional_lt_t<_Tp, _Up>
+    {
+      return static_cast<bool>(__rhs) && (!__lhs || *__lhs < *__rhs);
+    }
+
+  template<typename _Tp, typename _Up>
+    constexpr auto
+    operator>(const optional<_Tp>& __lhs, const optional<_Up>& __rhs)
+    -> __optional_gt_t<_Tp, _Up>
+    {
+      return static_cast<bool>(__lhs) && (!__rhs || *__lhs > *__rhs);
+    }
+
+  template<typename _Tp, typename _Up>
+    constexpr auto
+    operator<=(const optional<_Tp>& __lhs, const optional<_Up>& __rhs)
+    -> __optional_le_t<_Tp, _Up>
+    {
+      return !__lhs || (static_cast<bool>(__rhs) && *__lhs <= *__rhs);
+    }
+
+  template<typename _Tp, typename _Up>
+    constexpr auto
+    operator>=(const optional<_Tp>& __lhs, const optional<_Up>& __rhs)
+    -> __optional_ge_t<_Tp, _Up>
+    {
+      return !__rhs || (static_cast<bool>(__lhs) && *__lhs >= *__rhs);
+    }
+
+
+  template<typename _Tp, three_way_comparable_with<_Tp> _Up>
+    [[nodiscard]]
+    constexpr compare_three_way_result_t<_Tp, _Up>
+    operator<=>(const optional<_Tp>& __x, const optional<_Up>& __y)
+    {
+      return __x && __y ? *__x <=> *__y : bool(__x) <=> bool(__y);
+    }
+
+
+
+  template<typename _Tp>
+    [[nodiscard]]
+    constexpr bool
+    operator==(const optional<_Tp>& __lhs, nullopt_t) noexcept
+    { return !__lhs; }
+
+
+  template<typename _Tp>
+    [[nodiscard]]
+    constexpr strong_ordering
+    operator<=>(const optional<_Tp>& __x, nullopt_t) noexcept
+    { return bool(__x) <=> false; }
+# 1593 "/usr/include/c++/15.2.1/optional" 3
+  template<typename _Tp, typename _Up>
+    requires (!__is_optional_v<_Up>)
+    constexpr auto
+    operator== [[nodiscard]] (const optional<_Tp>& __lhs, const _Up& __rhs)
+    -> __optional_eq_t<_Tp, _Up>
+    { return __lhs && *__lhs == __rhs; }
+
+  template<typename _Tp, typename _Up>
+    requires (!__is_optional_v<_Tp>)
+    constexpr auto
+    operator== [[nodiscard]] (const _Tp& __lhs, const optional<_Up>& __rhs)
+    -> __optional_eq_t<_Tp, _Up>
+    { return __rhs && __lhs == *__rhs; }
+
+  template<typename _Tp, typename _Up>
+    requires (!__is_optional_v<_Up>)
+    constexpr auto
+    operator!= [[nodiscard]] (const optional<_Tp>& __lhs, const _Up& __rhs)
+    -> __optional_ne_t<_Tp, _Up>
+    { return !__lhs || *__lhs != __rhs; }
+
+  template<typename _Tp, typename _Up>
+    requires (!__is_optional_v<_Tp>)
+    constexpr auto
+    operator!= [[nodiscard]] (const _Tp& __lhs, const optional<_Up>& __rhs)
+    -> __optional_ne_t<_Tp, _Up>
+    { return !__rhs || __lhs != *__rhs; }
+
+  template<typename _Tp, typename _Up>
+    requires (!__is_optional_v<_Up>)
+    constexpr auto
+    operator< [[nodiscard]] (const optional<_Tp>& __lhs, const _Up& __rhs)
+    -> __optional_lt_t<_Tp, _Up>
+    { return !__lhs || *__lhs < __rhs; }
+
+  template<typename _Tp, typename _Up>
+    requires (!__is_optional_v<_Tp>)
+    constexpr auto
+    operator< [[nodiscard]] (const _Tp& __lhs, const optional<_Up>& __rhs)
+    -> __optional_lt_t<_Tp, _Up>
+    { return __rhs && __lhs < *__rhs; }
+
+  template<typename _Tp, typename _Up>
+    requires (!__is_optional_v<_Up>)
+    constexpr auto
+    operator> [[nodiscard]] (const optional<_Tp>& __lhs, const _Up& __rhs)
+    -> __optional_gt_t<_Tp, _Up>
+    { return __lhs && *__lhs > __rhs; }
+
+  template<typename _Tp, typename _Up>
+    requires (!__is_optional_v<_Tp>)
+    constexpr auto
+    operator> [[nodiscard]] (const _Tp& __lhs, const optional<_Up>& __rhs)
+    -> __optional_gt_t<_Tp, _Up>
+    { return !__rhs || __lhs > *__rhs; }
+
+  template<typename _Tp, typename _Up>
+    requires (!__is_optional_v<_Up>)
+    constexpr auto
+    operator<= [[nodiscard]] (const optional<_Tp>& __lhs, const _Up& __rhs)
+    -> __optional_le_t<_Tp, _Up>
+    { return !__lhs || *__lhs <= __rhs; }
+
+  template<typename _Tp, typename _Up>
+    requires (!__is_optional_v<_Tp>)
+    constexpr auto
+    operator<= [[nodiscard]] (const _Tp& __lhs, const optional<_Up>& __rhs)
+    -> __optional_le_t<_Tp, _Up>
+    { return __rhs && __lhs <= *__rhs; }
+
+  template<typename _Tp, typename _Up>
+    requires (!__is_optional_v<_Up>)
+    constexpr auto
+    operator>= [[nodiscard]] (const optional<_Tp>& __lhs, const _Up& __rhs)
+    -> __optional_ge_t<_Tp, _Up>
+    { return __lhs && *__lhs >= __rhs; }
+
+  template<typename _Tp, typename _Up>
+    requires (!__is_optional_v<_Tp>)
+    constexpr auto
+    operator>= [[nodiscard]] (const _Tp& __lhs, const optional<_Up>& __rhs)
+    -> __optional_ge_t<_Tp, _Up>
+    { return !__rhs || __lhs >= *__rhs; }
+
+
+
+
+
+  template<typename _Tp>
+    concept __is_derived_from_optional = requires (const _Tp& __t) {
+      []<typename _Up>(const optional<_Up>&){ }(__t);
+    };
+
+  template<typename _Tp, typename _Up>
+    requires (!__is_derived_from_optional<_Up>)
+      && requires { typename compare_three_way_result_t<_Tp, _Up>; }
+      && three_way_comparable_with<_Tp, _Up>
+    constexpr compare_three_way_result_t<_Tp, _Up>
+    operator<=> [[nodiscard]] (const optional<_Tp>& __x, const _Up& __v)
+    { return bool(__x) ? *__x <=> __v : strong_ordering::less; }
+
+
+
+
+
+
+  template<typename _Tp>
+    constexpr
+    inline enable_if_t<is_move_constructible_v<_Tp> && is_swappable_v<_Tp>>
+    swap(optional<_Tp>& __lhs, optional<_Tp>& __rhs)
+    noexcept(noexcept(__lhs.swap(__rhs)))
+    { __lhs.swap(__rhs); }
+
+  template<typename _Tp>
+    enable_if_t<!(is_move_constructible_v<_Tp> && is_swappable_v<_Tp>)>
+    swap(optional<_Tp>&, optional<_Tp>&) = delete;
+
+  template<typename _Tp>
+    constexpr
+    enable_if_t<is_constructible_v<decay_t<_Tp>, _Tp>,
+  optional<decay_t<_Tp>>>
+    make_optional(_Tp&& __t)
+    noexcept(is_nothrow_constructible_v<optional<decay_t<_Tp>>, _Tp>)
+    { return optional<decay_t<_Tp>>{ std::forward<_Tp>(__t) }; }
+
+  template<typename _Tp, typename... _Args>
+    constexpr
+    enable_if_t<is_constructible_v<_Tp, _Args...>,
+  optional<_Tp>>
+    make_optional(_Args&&... __args)
+    noexcept(is_nothrow_constructible_v<_Tp, _Args...>)
+    { return optional<_Tp>{ in_place, std::forward<_Args>(__args)... }; }
+
+  template<typename _Tp, typename _Up, typename... _Args>
+    constexpr
+    enable_if_t<is_constructible_v<_Tp, initializer_list<_Up>&, _Args...>,
+  optional<_Tp>>
+    make_optional(initializer_list<_Up> __il, _Args&&... __args)
+    noexcept(is_nothrow_constructible_v<_Tp, initializer_list<_Up>&, _Args...>)
+    { return optional<_Tp>{ in_place, __il, std::forward<_Args>(__args)... }; }
+
+
+
+  template<typename _Tp, typename _Up = remove_const_t<_Tp>>
+    struct __optional_hash
+
+    : public __hash_empty_base<_Up>
+
+    {
+
+
+
+
+
+      size_t
+      operator()(const optional<_Tp>& __t) const
+      noexcept(noexcept(hash<_Up>{}(*__t)))
+      {
+
+
+ constexpr size_t __magic_disengaged_hash = static_cast<size_t>(-3333);
+ return __t ? hash<_Up>{}(*__t) : __magic_disengaged_hash;
+      }
+    };
+
+  template<typename _Tp>
+    struct hash<optional<_Tp>>
+    : public __conditional_t<__is_hash_enabled_for<remove_const_t<_Tp>>,
+        __optional_hash<_Tp>,
+        __hash_not_enabled<_Tp>>
+    { };
+
+  template<typename _Tp>
+    struct __is_fast_hash<hash<optional<_Tp>>> : __is_fast_hash<hash<_Tp>>
+    { };
+
+
+
+
+  template <typename _Tp> optional(_Tp) -> optional<_Tp>;
+
+
+
+
+
+}
+# 7 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
+
+# 1 "/usr/include/c++/15.2.1/variant" 1 3
+# 39 "/usr/include/c++/15.2.1/variant" 3
+# 1 "/usr/include/c++/15.2.1/bits/version.h" 1 3
+# 40 "/usr/include/c++/15.2.1/variant" 2 3
+# 49 "/usr/include/c++/15.2.1/variant" 3
+# 1 "/usr/include/c++/15.2.1/bits/parse_numbers.h" 1 3
+# 44 "/usr/include/c++/15.2.1/bits/parse_numbers.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+namespace __parse_int
+{
+  template<unsigned _Base, char _Dig>
+    struct _Digit;
+
+  template<unsigned _Base>
+    struct _Digit<_Base, '0'> : integral_constant<unsigned, 0>
+    {
+      using __valid = true_type;
+    };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, '1'> : integral_constant<unsigned, 1>
+    {
+      using __valid = true_type;
+    };
+
+  template<unsigned _Base, unsigned _Val>
+    struct _Digit_impl : integral_constant<unsigned, _Val>
+    {
+      static_assert(_Base > _Val, "invalid digit");
+      using __valid = true_type;
+    };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, '2'> : _Digit_impl<_Base, 2>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, '3'> : _Digit_impl<_Base, 3>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, '4'> : _Digit_impl<_Base, 4>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, '5'> : _Digit_impl<_Base, 5>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, '6'> : _Digit_impl<_Base, 6>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, '7'> : _Digit_impl<_Base, 7>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, '8'> : _Digit_impl<_Base, 8>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, '9'> : _Digit_impl<_Base, 9>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, 'a'> : _Digit_impl<_Base, 0xa>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, 'A'> : _Digit_impl<_Base, 0xa>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, 'b'> : _Digit_impl<_Base, 0xb>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, 'B'> : _Digit_impl<_Base, 0xb>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, 'c'> : _Digit_impl<_Base, 0xc>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, 'C'> : _Digit_impl<_Base, 0xc>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, 'd'> : _Digit_impl<_Base, 0xd>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, 'D'> : _Digit_impl<_Base, 0xd>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, 'e'> : _Digit_impl<_Base, 0xe>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, 'E'> : _Digit_impl<_Base, 0xe>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, 'f'> : _Digit_impl<_Base, 0xf>
+    { };
+
+  template<unsigned _Base>
+    struct _Digit<_Base, 'F'> : _Digit_impl<_Base, 0xf>
+    { };
+
+
+  template<unsigned _Base>
+    struct _Digit<_Base, '\''> : integral_constant<unsigned, 0>
+    {
+      using __valid = false_type;
+    };
+
+
+
+  template<unsigned long long _Val>
+    using __ull_constant = integral_constant<unsigned long long, _Val>;
+
+  template<unsigned _Base, char _Dig, char... _Digs>
+    struct _Power_help
+    {
+      using __next = typename _Power_help<_Base, _Digs...>::type;
+      using __valid_digit = typename _Digit<_Base, _Dig>::__valid;
+      using type
+ = __ull_constant<__next::value * (__valid_digit{} ? _Base : 1ULL)>;
+    };
+
+  template<unsigned _Base, char _Dig>
+    struct _Power_help<_Base, _Dig>
+    {
+      using __valid_digit = typename _Digit<_Base, _Dig>::__valid;
+      using type = __ull_constant<__valid_digit::value>;
+    };
+
+  template<unsigned _Base, char... _Digs>
+    struct _Power : _Power_help<_Base, _Digs...>::type
+    { };
+
+  template<unsigned _Base>
+    struct _Power<_Base> : __ull_constant<0>
+    { };
+
+
+
+  template<unsigned _Base, unsigned long long _Pow, char _Dig, char... _Digs>
+    struct _Number_help
+    {
+      using __digit = _Digit<_Base, _Dig>;
+      using __valid_digit = typename __digit::__valid;
+      using __next = _Number_help<_Base,
+      __valid_digit::value ? _Pow / _Base : _Pow,
+      _Digs...>;
+      using type = __ull_constant<_Pow * __digit::value + __next::type::value>;
+      static_assert((type::value / _Pow) == __digit::value,
+      "integer literal does not fit in unsigned long long");
+    };
+
+
+  template<unsigned _Base, unsigned long long _Pow, char _Dig, char..._Digs>
+    struct _Number_help<_Base, _Pow, '\'', _Dig, _Digs...>
+    : _Number_help<_Base, _Pow, _Dig, _Digs...>
+    { };
+
+
+  template<unsigned _Base, char _Dig>
+    struct _Number_help<_Base, 1ULL, _Dig>
+    {
+      using type = __ull_constant<_Digit<_Base, _Dig>::value>;
+    };
+
+  template<unsigned _Base, char... _Digs>
+    struct _Number
+    : _Number_help<_Base, _Power<_Base, _Digs...>::value, _Digs...>::type
+    { };
+
+  template<unsigned _Base>
+    struct _Number<_Base>
+    : __ull_constant<0>
+    { };
+
+
+
+  template<char... _Digs>
+    struct _Parse_int;
+
+  template<char... _Digs>
+    struct _Parse_int<'0', 'b', _Digs...>
+    : _Number<2U, _Digs...>::type
+    { };
+
+  template<char... _Digs>
+    struct _Parse_int<'0', 'B', _Digs...>
+    : _Number<2U, _Digs...>::type
+    { };
+
+  template<char... _Digs>
+    struct _Parse_int<'0', 'x', _Digs...>
+    : _Number<16U, _Digs...>::type
+    { };
+
+  template<char... _Digs>
+    struct _Parse_int<'0', 'X', _Digs...>
+    : _Number<16U, _Digs...>::type
+    { };
+
+  template<char... _Digs>
+    struct _Parse_int<'0', _Digs...>
+    : _Number<8U, _Digs...>::type
+    { };
+
+  template<char... _Digs>
+    struct _Parse_int
+    : _Number<10U, _Digs...>::type
+    { };
+
+}
+
+
+namespace __select_int
+{
+  template<unsigned long long _Val, typename... _Ints>
+    struct _Select_int_base;
+
+  template<unsigned long long _Val, typename _IntType, typename... _Ints>
+    struct _Select_int_base<_Val, _IntType, _Ints...>
+    : __conditional_t<(_Val <= __gnu_cxx::__int_traits<_IntType>::__max),
+        integral_constant<_IntType, (_IntType)_Val>,
+        _Select_int_base<_Val, _Ints...>>
+    { };
+
+  template<unsigned long long _Val>
+    struct _Select_int_base<_Val>
+    { };
+
+  template<char... _Digs>
+    using _Select_int = typename _Select_int_base<
+ __parse_int::_Parse_int<_Digs...>::value,
+ unsigned char,
+ unsigned short,
+ unsigned int,
+ unsigned long,
+ unsigned long long
+      >::type;
+
+}
+
+
+}
+# 50 "/usr/include/c++/15.2.1/variant" 2 3
+# 63 "/usr/include/c++/15.2.1/variant" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+  template<typename... _Types> class tuple;
+  template<typename... _Types> class variant;
+
+  template<typename _Variant>
+    struct variant_size;
+
+  template<typename _Variant>
+    struct variant_size<const _Variant> : variant_size<_Variant> {};
+
+  template<typename _Variant>
+    struct variant_size<volatile _Variant> : variant_size<_Variant> {};
+
+  template<typename _Variant>
+    struct variant_size<const volatile _Variant> : variant_size<_Variant> {};
+
+  template<typename... _Types>
+    struct variant_size<variant<_Types...>>
+    : std::integral_constant<size_t, sizeof...(_Types)> {};
+
+  template<typename _Variant>
+    inline constexpr size_t variant_size_v = variant_size<_Variant>::value;
+
+  template<typename... _Types>
+    inline constexpr size_t
+    variant_size_v<variant<_Types...>> = sizeof...(_Types);
+
+  template<typename... _Types>
+    inline constexpr size_t
+    variant_size_v<const variant<_Types...>> = sizeof...(_Types);
+
+  template<size_t _Np, typename _Variant>
+    struct variant_alternative;
+
+  template<size_t _Np, typename... _Types>
+    struct variant_alternative<_Np, variant<_Types...>>
+    {
+      static_assert(_Np < sizeof...(_Types));
+
+      using type = typename _Nth_type<_Np, _Types...>::type;
+    };
+
+  template<size_t _Np, typename _Variant>
+    using variant_alternative_t =
+      typename variant_alternative<_Np, _Variant>::type;
+
+  template<size_t _Np, typename _Variant>
+    struct variant_alternative<_Np, const _Variant>
+    { using type = const variant_alternative_t<_Np, _Variant>; };
+
+  template<size_t _Np, typename _Variant>
+    struct variant_alternative<_Np, volatile _Variant>
+    { using type = volatile variant_alternative_t<_Np, _Variant>; };
+
+  template<size_t _Np, typename _Variant>
+    struct variant_alternative<_Np, const volatile _Variant>
+    { using type = const volatile variant_alternative_t<_Np, _Variant>; };
+
+  inline constexpr size_t variant_npos = -1;
+
+  template<size_t _Np, typename... _Types>
+    constexpr variant_alternative_t<_Np, variant<_Types...>>&
+    get(variant<_Types...>&);
+
+  template<size_t _Np, typename... _Types>
+    constexpr variant_alternative_t<_Np, variant<_Types...>>&&
+    get(variant<_Types...>&&);
+
+  template<size_t _Np, typename... _Types>
+    constexpr variant_alternative_t<_Np, variant<_Types...>> const&
+    get(const variant<_Types...>&);
+
+  template<size_t _Np, typename... _Types>
+    constexpr variant_alternative_t<_Np, variant<_Types...>> const&&
+    get(const variant<_Types...>&&);
+
+  template<typename _Result_type, typename _Visitor, typename... _Variants>
+    constexpr decltype(auto)
+    __do_visit(_Visitor&& __visitor, _Variants&&... __variants);
+
+  template <typename... _Types, typename _Tp>
+    constexpr
+    decltype(auto)
+    __variant_cast(_Tp&& __rhs)
+    {
+      if constexpr (is_lvalue_reference_v<_Tp>)
+ {
+   if constexpr (is_const_v<remove_reference_t<_Tp>>)
+     return static_cast<const variant<_Types...>&>(__rhs);
+   else
+     return static_cast<variant<_Types...>&>(__rhs);
+ }
+      else
+        return static_cast<variant<_Types...>&&>(__rhs);
+    }
+
+namespace __detail
+{
+namespace __variant
+{
+
+  struct __variant_cookie {};
+
+  struct __variant_idx_cookie { using type = __variant_idx_cookie; };
+
+  template<typename _Tp> struct __deduce_visit_result { using type = _Tp; };
+
+
+  template<typename _Visitor, typename... _Variants>
+    constexpr void
+    __raw_visit(_Visitor&& __visitor, _Variants&&... __variants)
+    {
+      std::__do_visit<__variant_cookie>(std::forward<_Visitor>(__visitor),
+            std::forward<_Variants>(__variants)...);
+    }
+
+
+  template<typename _Visitor, typename... _Variants>
+    constexpr void
+    __raw_idx_visit(_Visitor&& __visitor, _Variants&&... __variants)
+    {
+      std::__do_visit<__variant_idx_cookie>(std::forward<_Visitor>(__visitor),
+   std::forward<_Variants>(__variants)...);
+    }
+
+
+
+  template<typename... _Types>
+    constexpr std::variant<_Types...>&
+    __as(std::variant<_Types...>& __v) noexcept
+    { return __v; }
+
+  template<typename... _Types>
+    constexpr const std::variant<_Types...>&
+    __as(const std::variant<_Types...>& __v) noexcept
+    { return __v; }
+
+  template<typename... _Types>
+    constexpr std::variant<_Types...>&&
+    __as(std::variant<_Types...>&& __v) noexcept
+    { return std::move(__v); }
+
+  template<typename... _Types>
+    constexpr const std::variant<_Types...>&&
+    __as(const std::variant<_Types...>&& __v) noexcept
+    { return std::move(__v); }
+
+
+
+
+
+  template<typename _Type, bool = true>
+    struct _Uninitialized;
+
+
+
+
+  template<typename _Type, bool>
+    struct _Uninitialized
+    {
+      template<typename... _Args>
+ constexpr
+ _Uninitialized(in_place_index_t<0>, _Args&&... __args)
+ : _M_storage(std::forward<_Args>(__args)...)
+ { }
+# 246 "/usr/include/c++/15.2.1/variant" 3
+      _Type _M_storage;
+    };
+# 294 "/usr/include/c++/15.2.1/variant" 3
+  template<size_t _Np, typename _Union>
+    constexpr auto&&
+    __get_n(_Union&& __u) noexcept
+    {
+      if constexpr (_Np == 0)
+ return std::forward<_Union>(__u)._M_first._M_storage;
+      else if constexpr (_Np == 1)
+ return std::forward<_Union>(__u)._M_rest._M_first._M_storage;
+      else if constexpr (_Np == 2)
+ return std::forward<_Union>(__u)._M_rest._M_rest._M_first._M_storage;
+      else
+ return __variant::__get_n<_Np - 3>(
+   std::forward<_Union>(__u)._M_rest._M_rest._M_rest);
+    }
+
+
+
+  template<size_t _Np, typename _Variant>
+    constexpr decltype(auto)
+    __get(_Variant&& __v) noexcept
+    { return __variant::__get_n<_Np>(std::forward<_Variant>(__v)._M_u); }
+
+
+  template<size_t _Np, typename _Union>
+    constexpr decltype(auto)
+    __construct_n(_Union& __u) noexcept
+    {
+      if constexpr (_Np == 0)
+ return &__u._M_first;
+      else if constexpr (_Np == 1)
+ {
+   std::_Construct(&__u._M_rest);
+   return &__u._M_rest._M_first;
+ }
+      else if constexpr (_Np == 2)
+ {
+   std::_Construct(&__u._M_rest);
+   std::_Construct(&__u._M_rest._M_rest);
+   return &__u._M_rest._M_rest._M_first;
+ }
+      else
+ {
+   std::_Construct(&__u._M_rest);
+   std::_Construct(&__u._M_rest._M_rest);
+   std::_Construct(&__u._M_rest._M_rest._M_rest);
+   return __variant::__construct_n<_Np - 3>(__u._M_rest._M_rest._M_rest);
+ }
+    }
+
+  template<typename... _Types>
+    struct _Traits
+    {
+      static constexpr bool _S_default_ctor =
+   is_default_constructible_v<typename _Nth_type<0, _Types...>::type>;
+      static constexpr bool _S_copy_ctor =
+   (is_copy_constructible_v<_Types> && ...);
+      static constexpr bool _S_move_ctor =
+   (is_move_constructible_v<_Types> && ...);
+      static constexpr bool _S_copy_assign =
+   _S_copy_ctor
+   && (is_copy_assignable_v<_Types> && ...);
+      static constexpr bool _S_move_assign =
+   _S_move_ctor
+   && (is_move_assignable_v<_Types> && ...);
+
+      static constexpr bool _S_trivial_dtor =
+   (is_trivially_destructible_v<_Types> && ...);
+      static constexpr bool _S_trivial_copy_ctor =
+   (is_trivially_copy_constructible_v<_Types> && ...);
+      static constexpr bool _S_trivial_move_ctor =
+   (is_trivially_move_constructible_v<_Types> && ...);
+      static constexpr bool _S_trivial_copy_assign =
+   _S_trivial_dtor && _S_trivial_copy_ctor
+   && (is_trivially_copy_assignable_v<_Types> && ...);
+      static constexpr bool _S_trivial_move_assign =
+   _S_trivial_dtor && _S_trivial_move_ctor
+   && (is_trivially_move_assignable_v<_Types> && ...);
+
+
+
+      static constexpr bool _S_nothrow_default_ctor =
+   is_nothrow_default_constructible_v<
+       typename _Nth_type<0, _Types...>::type>;
+      static constexpr bool _S_nothrow_copy_ctor = false;
+      static constexpr bool _S_nothrow_move_ctor =
+   (is_nothrow_move_constructible_v<_Types> && ...);
+      static constexpr bool _S_nothrow_copy_assign = false;
+      static constexpr bool _S_nothrow_move_assign =
+   _S_nothrow_move_ctor
+   && (is_nothrow_move_assignable_v<_Types> && ...);
+    };
+
+
+  template<bool __trivially_destructible, typename... _Types>
+    union _Variadic_union
+    {
+      _Variadic_union() = default;
+
+      template<size_t _Np, typename... _Args>
+ _Variadic_union(in_place_index_t<_Np>, _Args&&...) = delete;
+    };
+
+  template<bool __trivially_destructible, typename _First, typename... _Rest>
+    union _Variadic_union<__trivially_destructible, _First, _Rest...>
+    {
+      constexpr _Variadic_union() : _M_rest() { }
+
+      template<typename... _Args>
+ constexpr
+ _Variadic_union(in_place_index_t<0>, _Args&&... __args)
+ : _M_first(in_place_index<0>, std::forward<_Args>(__args)...)
+ { }
+
+      template<size_t _Np, typename... _Args>
+ constexpr
+ _Variadic_union(in_place_index_t<_Np>, _Args&&... __args)
+ : _M_rest(in_place_index<_Np-1>, std::forward<_Args>(__args)...)
+ { }
+
+
+      _Variadic_union(const _Variadic_union&) = default;
+      _Variadic_union(_Variadic_union&&) = default;
+      _Variadic_union& operator=(const _Variadic_union&) = default;
+      _Variadic_union& operator=(_Variadic_union&&) = default;
+
+      ~_Variadic_union() = default;
+
+
+
+
+      constexpr ~_Variadic_union()
+ requires (!__trivially_destructible)
+      { }
+
+
+      _Uninitialized<_First> _M_first;
+      _Variadic_union<__trivially_destructible, _Rest...> _M_rest;
+    };
+
+
+
+
+
+
+  template<typename _Tp>
+    struct _Never_valueless_alt
+    : __and_<bool_constant<sizeof(_Tp) <= 256>, is_trivially_copyable<_Tp>>
+    { };
+# 453 "/usr/include/c++/15.2.1/variant" 3
+  template <typename... _Types>
+    constexpr bool __never_valueless()
+    {
+      return _Traits<_Types...>::_S_move_assign
+ && (_Never_valueless_alt<_Types>::value && ...);
+    }
+
+
+  template<bool __trivially_destructible, typename... _Types>
+    struct _Variant_storage;
+
+  template <typename... _Types>
+    using __select_index =
+      typename __select_int::_Select_int_base<sizeof...(_Types),
+           unsigned char,
+           unsigned short>::type::value_type;
+
+  template<typename... _Types>
+    struct _Variant_storage<false, _Types...>
+    {
+      constexpr
+      _Variant_storage()
+      : _M_index(static_cast<__index_type>(variant_npos))
+      { }
+
+      template<size_t _Np, typename... _Args>
+ constexpr
+ _Variant_storage(in_place_index_t<_Np>, _Args&&... __args)
+ : _M_u(in_place_index<_Np>, std::forward<_Args>(__args)...),
+   _M_index{_Np}
+ { }
+
+      constexpr void
+      _M_reset()
+      {
+ if (!_M_valid()) [[__unlikely__]]
+   return;
+
+ std::__do_visit<void>([](auto&& __this_mem) mutable
+   {
+     std::_Destroy(std::__addressof(__this_mem));
+   }, __variant_cast<_Types...>(*this));
+
+ _M_index = static_cast<__index_type>(variant_npos);
+      }
+
+      constexpr
+      ~_Variant_storage()
+      { _M_reset(); }
+
+      constexpr bool
+      _M_valid() const noexcept
+      {
+ if constexpr (__variant::__never_valueless<_Types...>())
+   return true;
+ return this->_M_index != __index_type(variant_npos);
+      }
+
+      _Variadic_union<false, _Types...> _M_u;
+      using __index_type = __select_index<_Types...>;
+      __index_type _M_index;
+    };
+
+  template<typename... _Types>
+    struct _Variant_storage<true, _Types...>
+    {
+      constexpr
+      _Variant_storage()
+      : _M_index(static_cast<__index_type>(variant_npos))
+      { }
+
+      template<size_t _Np, typename... _Args>
+ constexpr
+ _Variant_storage(in_place_index_t<_Np>, _Args&&... __args)
+ : _M_u(in_place_index<_Np>, std::forward<_Args>(__args)...),
+   _M_index{_Np}
+ { }
+
+      constexpr void
+      _M_reset() noexcept
+      { _M_index = static_cast<__index_type>(variant_npos); }
+
+      constexpr bool
+      _M_valid() const noexcept
+      {
+ if constexpr (__variant::__never_valueless<_Types...>())
+   return true;
+
+
+
+
+
+
+ return this->_M_index != static_cast<__index_type>(variant_npos);
+      }
+
+      _Variadic_union<true, _Types...> _M_u;
+      using __index_type = __select_index<_Types...>;
+      __index_type _M_index;
+    };
+
+
+  template<size_t _Np, bool _Triv, typename... _Types, typename... _Args>
+    constexpr
+    inline void
+    __emplace(_Variant_storage<_Triv, _Types...>& __v, _Args&&... __args)
+    {
+      __v._M_reset();
+      auto* __addr = __variant::__construct_n<_Np>(__v._M_u);
+      std::_Construct(__addr, in_place_index<0>,
+        std::forward<_Args>(__args)...);
+
+      __v._M_index = _Np;
+    }
+
+  template<typename... _Types>
+    using _Variant_storage_alias =
+ _Variant_storage<_Traits<_Types...>::_S_trivial_dtor, _Types...>;
+
+
+
+
+  template<bool, typename... _Types>
+    struct _Copy_ctor_base : _Variant_storage_alias<_Types...>
+    {
+      using _Base = _Variant_storage_alias<_Types...>;
+      using _Base::_Base;
+
+      constexpr
+      _Copy_ctor_base(const _Copy_ctor_base& __rhs)
+   noexcept(_Traits<_Types...>::_S_nothrow_copy_ctor)
+      {
+ __variant::__raw_idx_visit(
+   [this](auto&& __rhs_mem, auto __rhs_index) mutable
+   {
+     constexpr size_t __j = __rhs_index;
+     if constexpr (__j != variant_npos)
+       std::_Construct(std::__addressof(this->_M_u),
+         in_place_index<__j>, __rhs_mem);
+   }, __variant_cast<_Types...>(__rhs));
+ this->_M_index = __rhs._M_index;
+      }
+
+      _Copy_ctor_base(_Copy_ctor_base&&) = default;
+      _Copy_ctor_base& operator=(const _Copy_ctor_base&) = default;
+      _Copy_ctor_base& operator=(_Copy_ctor_base&&) = default;
+    };
+
+  template<typename... _Types>
+    struct _Copy_ctor_base<true, _Types...> : _Variant_storage_alias<_Types...>
+    {
+      using _Base = _Variant_storage_alias<_Types...>;
+      using _Base::_Base;
+    };
+
+  template<typename... _Types>
+    using _Copy_ctor_alias =
+ _Copy_ctor_base<_Traits<_Types...>::_S_trivial_copy_ctor, _Types...>;
+
+  template<bool, typename... _Types>
+    struct _Move_ctor_base : _Copy_ctor_alias<_Types...>
+    {
+      using _Base = _Copy_ctor_alias<_Types...>;
+      using _Base::_Base;
+
+      constexpr
+      _Move_ctor_base(_Move_ctor_base&& __rhs)
+   noexcept(_Traits<_Types...>::_S_nothrow_move_ctor)
+      {
+ __variant::__raw_idx_visit(
+   [this](auto&& __rhs_mem, auto __rhs_index) mutable
+   {
+     constexpr size_t __j = __rhs_index;
+     if constexpr (__j != variant_npos)
+       std::_Construct(std::__addressof(this->_M_u),
+         in_place_index<__j>,
+         std::forward<decltype(__rhs_mem)>(__rhs_mem));
+   }, __variant_cast<_Types...>(std::move(__rhs)));
+ this->_M_index = __rhs._M_index;
+      }
+
+      _Move_ctor_base(const _Move_ctor_base&) = default;
+      _Move_ctor_base& operator=(const _Move_ctor_base&) = default;
+      _Move_ctor_base& operator=(_Move_ctor_base&&) = default;
+    };
+
+  template<typename... _Types>
+    struct _Move_ctor_base<true, _Types...> : _Copy_ctor_alias<_Types...>
+    {
+      using _Base = _Copy_ctor_alias<_Types...>;
+      using _Base::_Base;
+    };
+
+  template<typename... _Types>
+    using _Move_ctor_alias =
+ _Move_ctor_base<_Traits<_Types...>::_S_trivial_move_ctor, _Types...>;
+
+  template<bool, typename... _Types>
+    struct _Copy_assign_base : _Move_ctor_alias<_Types...>
+    {
+      using _Base = _Move_ctor_alias<_Types...>;
+      using _Base::_Base;
+
+      constexpr
+      _Copy_assign_base&
+      operator=(const _Copy_assign_base& __rhs)
+   noexcept(_Traits<_Types...>::_S_nothrow_copy_assign)
+      {
+ __variant::__raw_idx_visit(
+   [this](auto&& __rhs_mem, auto __rhs_index) mutable
+   {
+     constexpr size_t __j = __rhs_index;
+     if constexpr (__j == variant_npos)
+       this->_M_reset();
+     else if (this->_M_index == __j)
+       __variant::__get<__j>(*this) = __rhs_mem;
+     else
+       {
+  using _Tj = typename _Nth_type<__j, _Types...>::type;
+  if constexpr (is_nothrow_copy_constructible_v<_Tj>
+         || !is_nothrow_move_constructible_v<_Tj>)
+    __variant::__emplace<__j>(*this, __rhs_mem);
+  else
+    {
+      using _Variant = variant<_Types...>;
+      _Variant& __self = __variant_cast<_Types...>(*this);
+      __self = _Variant(in_place_index<__j>, __rhs_mem);
+    }
+       }
+   }, __variant_cast<_Types...>(__rhs));
+ return *this;
+      }
+
+      _Copy_assign_base(const _Copy_assign_base&) = default;
+      _Copy_assign_base(_Copy_assign_base&&) = default;
+      _Copy_assign_base& operator=(_Copy_assign_base&&) = default;
+    };
+
+  template<typename... _Types>
+    struct _Copy_assign_base<true, _Types...> : _Move_ctor_alias<_Types...>
+    {
+      using _Base = _Move_ctor_alias<_Types...>;
+      using _Base::_Base;
+    };
+
+  template<typename... _Types>
+    using _Copy_assign_alias =
+      _Copy_assign_base<_Traits<_Types...>::_S_trivial_copy_assign, _Types...>;
+
+  template<bool, typename... _Types>
+    struct _Move_assign_base : _Copy_assign_alias<_Types...>
+    {
+      using _Base = _Copy_assign_alias<_Types...>;
+      using _Base::_Base;
+
+      constexpr
+      _Move_assign_base&
+      operator=(_Move_assign_base&& __rhs)
+   noexcept(_Traits<_Types...>::_S_nothrow_move_assign)
+      {
+ __variant::__raw_idx_visit(
+   [this](auto&& __rhs_mem, auto __rhs_index) mutable
+   {
+     constexpr size_t __j = __rhs_index;
+     if constexpr (__j != variant_npos)
+       {
+  if (this->_M_index == __j)
+    __variant::__get<__j>(*this) = std::move(__rhs_mem);
+  else
+    {
+      using _Tj = typename _Nth_type<__j, _Types...>::type;
+      if constexpr (is_nothrow_move_constructible_v<_Tj>)
+        __variant::__emplace<__j>(*this, std::move(__rhs_mem));
+      else
+        {
+   using _Variant = variant<_Types...>;
+   _Variant& __self = __variant_cast<_Types...>(*this);
+   __self.template emplace<__j>(std::move(__rhs_mem));
+        }
+    }
+       }
+     else
+       this->_M_reset();
+   }, __variant_cast<_Types...>(__rhs));
+ return *this;
+      }
+
+      _Move_assign_base(const _Move_assign_base&) = default;
+      _Move_assign_base(_Move_assign_base&&) = default;
+      _Move_assign_base& operator=(const _Move_assign_base&) = default;
+    };
+
+  template<typename... _Types>
+    struct _Move_assign_base<true, _Types...> : _Copy_assign_alias<_Types...>
+    {
+      using _Base = _Copy_assign_alias<_Types...>;
+      using _Base::_Base;
+    };
+
+  template<typename... _Types>
+    using _Move_assign_alias =
+      _Move_assign_base<_Traits<_Types...>::_S_trivial_move_assign, _Types...>;
+
+  template<typename... _Types>
+    struct _Variant_base : _Move_assign_alias<_Types...>
+    {
+      using _Base = _Move_assign_alias<_Types...>;
+
+      constexpr
+      _Variant_base() noexcept(_Traits<_Types...>::_S_nothrow_default_ctor)
+      : _Variant_base(in_place_index<0>) { }
+
+      template<size_t _Np, typename... _Args>
+ constexpr explicit
+ _Variant_base(in_place_index_t<_Np> __i, _Args&&... __args)
+ : _Base(__i, std::forward<_Args>(__args)...)
+ { }
+
+      _Variant_base(const _Variant_base&) = default;
+      _Variant_base(_Variant_base&&) = default;
+      _Variant_base& operator=(const _Variant_base&) = default;
+      _Variant_base& operator=(_Variant_base&&) = default;
+    };
+
+  template<typename _Tp, typename... _Types>
+    inline constexpr bool __exactly_once
+      = std::__find_uniq_type_in_pack<_Tp, _Types...>() < sizeof...(_Types);
+
+
+  template<typename _Ti> struct _Arr { _Ti _M_x[1]; };
+
+
+  template<size_t _Ind, typename _Tp, typename _Ti, typename = void>
+    struct _Build_FUN
+    {
+
+
+      void _S_fun() = delete;
+    };
+
+
+  template<size_t _Ind, typename _Tp, typename _Ti>
+    struct _Build_FUN<_Ind, _Tp, _Ti,
+        void_t<decltype(_Arr<_Ti>{{std::declval<_Tp>()}})>>
+    {
+
+      static integral_constant<size_t, _Ind> _S_fun(_Ti);
+    };
+
+  template<typename _Tp, typename _Variant,
+    typename = make_index_sequence<variant_size_v<_Variant>>>
+    struct _Build_FUNs;
+
+  template<typename _Tp, typename... _Ti, size_t... _Ind>
+    struct _Build_FUNs<_Tp, variant<_Ti...>, index_sequence<_Ind...>>
+    : _Build_FUN<_Ind, _Tp, _Ti>...
+    {
+      using _Build_FUN<_Ind, _Tp, _Ti>::_S_fun...;
+    };
+
+
+
+  template<typename _Tp, typename _Variant>
+    using _FUN_type
+      = decltype(_Build_FUNs<_Tp, _Variant>::_S_fun(std::declval<_Tp>()));
+
+
+  template<typename _Tp, typename _Variant, typename = void>
+    inline constexpr size_t
+    __accepted_index = variant_npos;
+
+  template<typename _Tp, typename _Variant>
+    inline constexpr size_t
+    __accepted_index<_Tp, _Variant, void_t<_FUN_type<_Tp, _Variant>>>
+      = _FUN_type<_Tp, _Variant>::value;
+
+  template<typename _Maybe_variant_cookie, typename _Variant,
+    typename = __remove_cvref_t<_Variant>>
+    inline constexpr bool
+    __extra_visit_slot_needed = false;
+
+  template<typename _Var, typename... _Types>
+    inline constexpr bool
+    __extra_visit_slot_needed<__variant_cookie, _Var, variant<_Types...>>
+      = !__variant::__never_valueless<_Types...>();
+
+  template<typename _Var, typename... _Types>
+    inline constexpr bool
+    __extra_visit_slot_needed<__variant_idx_cookie, _Var, variant<_Types...>>
+      = !__variant::__never_valueless<_Types...>();
+
+
+  template<typename _Tp, size_t... _Dimensions>
+    struct _Multi_array;
+
+
+  template<typename _Tp>
+    struct _Multi_array<_Tp>
+    {
+      template<typename>
+ struct __untag_result
+ : false_type
+ { using element_type = _Tp; };
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wignored-qualifiers"
+      template <typename... _Args>
+ struct __untag_result<const void(*)(_Args...)>
+ : false_type
+ { using element_type = void(*)(_Args...); };
+#pragma GCC diagnostic pop
+
+      template <typename... _Args>
+ struct __untag_result<__variant_cookie(*)(_Args...)>
+ : false_type
+ { using element_type = void(*)(_Args...); };
+
+      template <typename... _Args>
+ struct __untag_result<__variant_idx_cookie(*)(_Args...)>
+ : false_type
+ { using element_type = void(*)(_Args...); };
+
+      template <typename _Res, typename... _Args>
+ struct __untag_result<__deduce_visit_result<_Res>(*)(_Args...)>
+ : true_type
+ { using element_type = _Res(*)(_Args...); };
+
+      using __result_is_deduced = __untag_result<_Tp>;
+
+      constexpr const typename __untag_result<_Tp>::element_type&
+      _M_access() const
+      { return _M_data; }
+
+      typename __untag_result<_Tp>::element_type _M_data;
+    };
+
+
+  template<typename _Ret,
+    typename _Visitor,
+    typename... _Variants,
+    size_t __first, size_t... __rest>
+    struct _Multi_array<_Ret(*)(_Visitor, _Variants...), __first, __rest...>
+    {
+      static constexpr size_t __index =
+ sizeof...(_Variants) - sizeof...(__rest) - 1;
+
+      using _Variant = typename _Nth_type<__index, _Variants...>::type;
+
+      static constexpr int __do_cookie =
+ __extra_visit_slot_needed<_Ret, _Variant> ? 1 : 0;
+
+      using _Tp = _Ret(*)(_Visitor, _Variants...);
+
+      template<typename... _Args>
+ constexpr decltype(auto)
+ _M_access(size_t __first_index, _Args... __rest_indices) const
+        {
+   return _M_arr[__first_index + __do_cookie]
+     ._M_access(__rest_indices...);
+ }
+
+      _Multi_array<_Tp, __rest...> _M_arr[__first + __do_cookie];
+    };
+# 944 "/usr/include/c++/15.2.1/variant" 3
+  template<typename _Array_type, typename _Index_seq>
+    struct __gen_vtable_impl;
+# 954 "/usr/include/c++/15.2.1/variant" 3
+  template<typename _Result_type, typename _Visitor, size_t... __dimensions,
+    typename... _Variants, size_t... __indices>
+    struct __gen_vtable_impl<
+ _Multi_array<_Result_type (*)(_Visitor, _Variants...), __dimensions...>,
+ std::index_sequence<__indices...>>
+    {
+      using _Next =
+   remove_reference_t<typename _Nth_type<sizeof...(__indices),
+        _Variants...>::type>;
+      using _Array_type =
+   _Multi_array<_Result_type (*)(_Visitor, _Variants...),
+         __dimensions...>;
+
+      static constexpr _Array_type
+      _S_apply()
+      {
+ _Array_type __vtable{};
+ _S_apply_all_alts(
+   __vtable, make_index_sequence<variant_size_v<_Next>>());
+ return __vtable;
+      }
+
+      template<size_t... __var_indices>
+ static constexpr void
+ _S_apply_all_alts(_Array_type& __vtable,
+     std::index_sequence<__var_indices...>)
+ {
+   if constexpr (__extra_visit_slot_needed<_Result_type, _Next>)
+     (_S_apply_single_alt<true, __var_indices>(
+       __vtable._M_arr[__var_indices + 1],
+       &(__vtable._M_arr[0])), ...);
+   else
+     (_S_apply_single_alt<false, __var_indices>(
+       __vtable._M_arr[__var_indices]), ...);
+ }
+
+      template<bool __do_cookie, size_t __index, typename _Tp>
+ static constexpr void
+ _S_apply_single_alt(_Tp& __element, _Tp* __cookie_element = nullptr)
+ {
+   if constexpr (__do_cookie)
+     {
+       __element = __gen_vtable_impl<
+  _Tp,
+  std::index_sequence<__indices..., __index>>::_S_apply();
+       *__cookie_element = __gen_vtable_impl<
+  _Tp,
+  std::index_sequence<__indices..., variant_npos>>::_S_apply();
+     }
+   else
+     {
+       auto __tmp_element = __gen_vtable_impl<
+  remove_reference_t<decltype(__element)>,
+  std::index_sequence<__indices..., __index>>::_S_apply();
+       static_assert(is_same_v<_Tp, decltype(__tmp_element)>,
+       "std::visit requires the visitor to have the same "
+       "return type for all alternatives of a variant");
+       __element = __tmp_element;
+     }
+ }
+    };
+
+
+
+
+  template<typename _Result_type, typename _Visitor, typename... _Variants,
+    size_t... __indices>
+    struct __gen_vtable_impl<
+      _Multi_array<_Result_type (*)(_Visitor, _Variants...)>,
+     std::index_sequence<__indices...>>
+    {
+      using _Array_type =
+   _Multi_array<_Result_type (*)(_Visitor, _Variants...)>;
+
+      template<size_t __index, typename _Variant>
+ static constexpr decltype(auto)
+ __element_by_index_or_cookie(_Variant&& __var) noexcept
+        {
+   if constexpr (__index != variant_npos)
+     return __variant::__get<__index>(std::forward<_Variant>(__var));
+   else
+     return __variant_cookie{};
+ }
+
+      static constexpr decltype(auto)
+      __visit_invoke(_Visitor&& __visitor, _Variants... __vars)
+      {
+ if constexpr (is_same_v<_Result_type, __variant_idx_cookie>)
+
+
+   std::__invoke(std::forward<_Visitor>(__visitor),
+       __element_by_index_or_cookie<__indices>(
+  std::forward<_Variants>(__vars))...,
+       integral_constant<size_t, __indices>()...);
+ else if constexpr (is_same_v<_Result_type, __variant_cookie>)
+
+   std::__invoke(std::forward<_Visitor>(__visitor),
+       __element_by_index_or_cookie<__indices>(
+  std::forward<_Variants>(__vars))...);
+ else if constexpr (_Array_type::__result_is_deduced::value)
+
+   return std::__invoke(std::forward<_Visitor>(__visitor),
+       __element_by_index_or_cookie<__indices>(
+  std::forward<_Variants>(__vars))...);
+ else
+   return std::__invoke_r<_Result_type>(
+       std::forward<_Visitor>(__visitor),
+       __variant::__get<__indices>(std::forward<_Variants>(__vars))...);
+      }
+
+      static constexpr auto
+      _S_apply()
+      {
+ if constexpr (_Array_type::__result_is_deduced::value)
+   {
+     constexpr bool __visit_ret_type_mismatch =
+       !is_same_v<typename _Result_type::type,
+    decltype(__visit_invoke(std::declval<_Visitor>(),
+        std::declval<_Variants>()...))>;
+     if constexpr (__visit_ret_type_mismatch)
+       {
+  struct __cannot_match {};
+  return __cannot_match{};
+       }
+     else
+       return _Array_type{&__visit_invoke};
+   }
+ else
+   return _Array_type{&__visit_invoke};
+      }
+    };
+
+  template<typename _Result_type, typename _Visitor, typename... _Variants>
+    struct __gen_vtable
+    {
+      using _Array_type =
+   _Multi_array<_Result_type (*)(_Visitor, _Variants...),
+         variant_size_v<remove_reference_t<_Variants>>...>;
+
+      static constexpr _Array_type _S_vtable
+ = __gen_vtable_impl<_Array_type, std::index_sequence<>>::_S_apply();
+    };
+
+
+  template<size_t _Nm, typename _Tp>
+    struct _Base_dedup : public _Tp { };
+
+  template<typename _Variant, typename __indices>
+    struct _Variant_hash_base;
+
+  template<typename... _Types, size_t... __indices>
+    struct _Variant_hash_base<variant<_Types...>,
+         std::index_sequence<__indices...>>
+    : _Base_dedup<__indices, __hash_empty_base<remove_const_t<_Types>>>...
+    { };
+
+
+
+  template<size_t _Np, typename _Variant,
+      typename _AsV = decltype(__variant::__as(std::declval<_Variant>())),
+      typename _Tp = variant_alternative_t<_Np, remove_reference_t<_AsV>>>
+    using __get_t
+      = __conditional_t<is_lvalue_reference_v<_Variant>, _Tp&, _Tp&&>;
+
+
+  template<typename _Visitor, typename... _Variants>
+    using __visit_result_t
+      = invoke_result_t<_Visitor, __get_t<0, _Variants>...>;
+
+  template<typename _Tp, typename... _Types>
+    constexpr inline bool __same_types = (is_same_v<_Tp, _Types> && ...);
+
+  template <typename _Visitor, typename _Variant, size_t... _Idxs>
+    constexpr bool __check_visitor_results(std::index_sequence<_Idxs...>)
+    {
+      return __same_types<
+ invoke_result_t<_Visitor, __get_t<_Idxs, _Variant>>...
+ >;
+    }
+
+}
+}
+
+  template<typename _Tp, typename... _Types>
+    constexpr bool
+    holds_alternative(const variant<_Types...>& __v) noexcept
+    {
+      static_assert(__detail::__variant::__exactly_once<_Tp, _Types...>,
+      "T must occur exactly once in alternatives");
+      return __v.index() == std::__find_uniq_type_in_pack<_Tp, _Types...>();
+    }
+
+  template<typename _Tp, typename... _Types>
+    constexpr _Tp&
+    get(variant<_Types...>& __v)
+    {
+      static_assert(__detail::__variant::__exactly_once<_Tp, _Types...>,
+      "T must occur exactly once in alternatives");
+      constexpr size_t __n = std::__find_uniq_type_in_pack<_Tp, _Types...>();
+      return std::get<__n>(__v);
+    }
+
+  template<typename _Tp, typename... _Types>
+    constexpr _Tp&&
+    get(variant<_Types...>&& __v)
+    {
+      static_assert(__detail::__variant::__exactly_once<_Tp, _Types...>,
+      "T must occur exactly once in alternatives");
+      constexpr size_t __n = std::__find_uniq_type_in_pack<_Tp, _Types...>();
+      return std::get<__n>(std::move(__v));
+    }
+
+  template<typename _Tp, typename... _Types>
+    constexpr const _Tp&
+    get(const variant<_Types...>& __v)
+    {
+      static_assert(__detail::__variant::__exactly_once<_Tp, _Types...>,
+      "T must occur exactly once in alternatives");
+      constexpr size_t __n = std::__find_uniq_type_in_pack<_Tp, _Types...>();
+      return std::get<__n>(__v);
+    }
+
+  template<typename _Tp, typename... _Types>
+    constexpr const _Tp&&
+    get(const variant<_Types...>&& __v)
+    {
+      static_assert(__detail::__variant::__exactly_once<_Tp, _Types...>,
+      "T must occur exactly once in alternatives");
+      constexpr size_t __n = std::__find_uniq_type_in_pack<_Tp, _Types...>();
+      return std::get<__n>(std::move(__v));
+    }
+
+  template<size_t _Np, typename... _Types>
+    constexpr add_pointer_t<variant_alternative_t<_Np, variant<_Types...>>>
+    get_if(variant<_Types...>* __ptr) noexcept
+    {
+      using _Alternative_type = variant_alternative_t<_Np, variant<_Types...>>;
+      static_assert(_Np < sizeof...(_Types),
+      "The index must be in [0, number of alternatives)");
+      static_assert(!is_void_v<_Alternative_type>, "_Tp must not be void");
+      if (__ptr && __ptr->index() == _Np)
+ return std::addressof(__detail::__variant::__get<_Np>(*__ptr));
+      return nullptr;
+    }
+
+  template<size_t _Np, typename... _Types>
+    constexpr
+    add_pointer_t<const variant_alternative_t<_Np, variant<_Types...>>>
+    get_if(const variant<_Types...>* __ptr) noexcept
+    {
+      using _Alternative_type = variant_alternative_t<_Np, variant<_Types...>>;
+      static_assert(_Np < sizeof...(_Types),
+      "The index must be in [0, number of alternatives)");
+      static_assert(!is_void_v<_Alternative_type>, "_Tp must not be void");
+      if (__ptr && __ptr->index() == _Np)
+ return std::addressof(__detail::__variant::__get<_Np>(*__ptr));
+      return nullptr;
+    }
+
+  template<typename _Tp, typename... _Types>
+    constexpr add_pointer_t<_Tp>
+    get_if(variant<_Types...>* __ptr) noexcept
+    {
+      static_assert(__detail::__variant::__exactly_once<_Tp, _Types...>,
+      "T must occur exactly once in alternatives");
+      static_assert(!is_void_v<_Tp>, "_Tp must not be void");
+      constexpr size_t __n = std::__find_uniq_type_in_pack<_Tp, _Types...>();
+      return std::get_if<__n>(__ptr);
+    }
+
+  template<typename _Tp, typename... _Types>
+    constexpr add_pointer_t<const _Tp>
+    get_if(const variant<_Types...>* __ptr) noexcept
+    {
+      static_assert(__detail::__variant::__exactly_once<_Tp, _Types...>,
+      "T must occur exactly once in alternatives");
+      static_assert(!is_void_v<_Tp>, "_Tp must not be void");
+      constexpr size_t __n = std::__find_uniq_type_in_pack<_Tp, _Types...>();
+      return std::get_if<__n>(__ptr);
+    }
+
+namespace __detail::__variant
+{
+  template<typename _Ret, typename _Vp, typename _Op>
+    constexpr _Ret
+    __compare(_Ret __ret, const _Vp& __lhs, const _Vp& __rhs, _Op __op)
+    {
+      __variant::__raw_idx_visit(
+ [&__ret, &__lhs, __op] (auto&& __rhs_mem, auto __rhs_index) mutable
+ {
+   if constexpr (__rhs_index != variant_npos)
+     {
+       if (__lhs.index() == __rhs_index.value)
+  {
+    auto& __this_mem = std::get<__rhs_index>(__lhs);
+    __ret = __op(__this_mem, __rhs_mem);
+    return;
+  }
+     }
+   __ret = __op(__lhs.index() + 1, __rhs_index + 1);
+ }, __rhs);
+      return __ret;
+    }
+}
+
+  template<typename... _Types>
+
+    requires ((requires (const _Types& __t) {
+      { __t == __t } -> convertible_to<bool>; }) && ...)
+
+    constexpr bool
+    operator== [[nodiscard]] (const variant<_Types...>& __lhs,
+         const variant<_Types...>& __rhs)
+    {
+      namespace __variant = __detail::__variant;
+      return __variant::__compare(true, __lhs, __rhs,
+      [](auto&& __l, auto&& __r) -> bool {
+        return __l == __r;
+      });
+    }
+
+  template<typename... _Types>
+
+    requires ((requires (const _Types& __t) {
+      { __t != __t } -> convertible_to<bool>; }) && ...)
+
+    constexpr bool
+    operator!= [[nodiscard]] (const variant<_Types...>& __lhs,
+         const variant<_Types...>& __rhs)
+    {
+      namespace __variant = __detail::__variant;
+      return __variant::__compare(true, __lhs, __rhs,
+      [](auto&& __l, auto&& __r) -> bool {
+        return __l != __r;
+      });
+    }
+
+  template<typename... _Types>
+
+    requires ((requires (const _Types& __t) {
+      { __t < __t } -> convertible_to<bool>; }) && ...)
+
+    constexpr bool
+    operator< [[nodiscard]] (const variant<_Types...>& __lhs,
+        const variant<_Types...>& __rhs)
+    {
+      namespace __variant = __detail::__variant;
+      return __variant::__compare(true, __lhs, __rhs,
+      [](auto&& __l, auto&& __r) -> bool {
+        return __l < __r;
+      });
+    }
+
+  template<typename... _Types>
+
+    requires ((requires (const _Types& __t) {
+      { __t <= __t } -> convertible_to<bool>; }) && ...)
+
+    constexpr bool
+    operator<= [[nodiscard]] (const variant<_Types...>& __lhs,
+         const variant<_Types...>& __rhs)
+    {
+      namespace __variant = __detail::__variant;
+      return __variant::__compare(true, __lhs, __rhs,
+      [](auto&& __l, auto&& __r) -> bool {
+        return __l <= __r;
+      });
+    }
+
+  template<typename... _Types>
+
+    requires ((requires (const _Types& __t) {
+      { __t > __t } -> convertible_to<bool>; }) && ...)
+
+    constexpr bool
+    operator> [[nodiscard]] (const variant<_Types...>& __lhs,
+        const variant<_Types...>& __rhs)
+    {
+      namespace __variant = __detail::__variant;
+      return __variant::__compare(true, __lhs, __rhs,
+      [](auto&& __l, auto&& __r) -> bool {
+        return __l > __r;
+      });
+    }
+
+  template<typename... _Types>
+
+    requires ((requires (const _Types& __t) {
+      { __t >= __t } -> convertible_to<bool>; }) && ...)
+
+    constexpr bool
+    operator>= [[nodiscard]] (const variant<_Types...>& __lhs,
+         const variant<_Types...>& __rhs)
+    {
+      namespace __variant = __detail::__variant;
+      return __variant::__compare(true, __lhs, __rhs,
+      [](auto&& __l, auto&& __r) -> bool {
+        return __l >= __r;
+      });
+    }
+
+
+  template<typename... _Types>
+    requires (three_way_comparable<_Types> && ...)
+    constexpr
+    common_comparison_category_t<compare_three_way_result_t<_Types>...>
+    operator<=>(const variant<_Types...>& __v, const variant<_Types...>& __w)
+    {
+      common_comparison_category_t<compare_three_way_result_t<_Types>...> __ret
+ = strong_ordering::equal;
+      namespace __variant = __detail::__variant;
+      return __variant::__compare(__ret, __v, __w,
+      [](auto&& __l, auto&& __r) {
+        return __l <=> __r;
+      });
+    }
+
+
+  template<typename _Visitor, typename... _Variants>
+    constexpr __detail::__variant::__visit_result_t<_Visitor, _Variants...>
+    visit(_Visitor&&, _Variants&&...);
+
+
+  template<typename _Res, typename _Visitor, typename... _Variants>
+    constexpr _Res
+    visit(_Visitor&&, _Variants&&...);
+
+
+  template<typename... _Types>
+    constexpr
+    inline enable_if_t<(is_move_constructible_v<_Types> && ...)
+   && (is_swappable_v<_Types> && ...)>
+    swap(variant<_Types...>& __lhs, variant<_Types...>& __rhs)
+    noexcept(noexcept(__lhs.swap(__rhs)))
+    { __lhs.swap(__rhs); }
+
+  template<typename... _Types>
+    enable_if_t<!((is_move_constructible_v<_Types> && ...)
+     && (is_swappable_v<_Types> && ...))>
+    swap(variant<_Types...>&, variant<_Types...>&) = delete;
+
+  [[noreturn]] void __throw_bad_variant_access(unsigned);
+
+  class bad_variant_access : public exception
+  {
+  public:
+    bad_variant_access() noexcept { }
+
+    const char* what() const noexcept override
+    { return _M_reason; }
+
+  private:
+
+    bad_variant_access(const char* __reason) noexcept : _M_reason(__reason) { }
+
+
+    const char* _M_reason = "bad variant access";
+
+    friend void __throw_bad_variant_access([[maybe_unused]] unsigned __n)
+    {
+      [[maybe_unused]] static constexpr const char* __reasons[] = {
+ "std::get: wrong index for variant",
+ "std::get: variant is valueless",
+ "std::visit: variant is valueless",
+ "std::visit<R>: variant is valueless",
+      };
+      (throw (bad_variant_access(__reasons[__n % 4u])));
+    }
+  };
+
+  template<typename... _Types>
+    class variant
+    : private __detail::__variant::_Variant_base<_Types...>,
+      private _Enable_copy_move<
+ __detail::__variant::_Traits<_Types...>::_S_copy_ctor,
+ __detail::__variant::_Traits<_Types...>::_S_copy_assign,
+ __detail::__variant::_Traits<_Types...>::_S_move_ctor,
+ __detail::__variant::_Traits<_Types...>::_S_move_assign,
+ variant<_Types...>>
+    {
+    private:
+      template <typename... _UTypes, typename _Tp>
+ friend constexpr decltype(auto)
+ __variant_cast(_Tp&&);
+
+      static_assert(sizeof...(_Types) > 0,
+      "variant must have at least one alternative");
+      static_assert(((std::is_object_v<_Types> && !is_array_v<_Types>) && ...),
+      "variant alternatives must be non-array object types");
+
+      using _Base = __detail::__variant::_Variant_base<_Types...>;
+
+      template<typename _Tp>
+ static constexpr bool __not_self
+   = !is_same_v<__remove_cvref_t<_Tp>, variant>;
+
+      template<typename _Tp>
+ static constexpr bool
+ __exactly_once = __detail::__variant::__exactly_once<_Tp, _Types...>;
+
+      template<typename _Tp>
+ static constexpr size_t __accepted_index
+   = __detail::__variant::__accepted_index<_Tp, variant>;
+
+      template<size_t _Np, typename = enable_if_t<(_Np < sizeof...(_Types))>>
+ using __to_type = typename _Nth_type<_Np, _Types...>::type;
+
+      template<typename _Tp, typename = enable_if_t<__not_self<_Tp>>>
+ using __accepted_type = __to_type<__accepted_index<_Tp>>;
+
+      template<typename _Tp>
+ static constexpr size_t __index_of
+   = std::__find_uniq_type_in_pack<_Tp, _Types...>();
+
+      using _Traits = __detail::__variant::_Traits<_Types...>;
+
+      template<typename _Tp>
+ static constexpr bool __not_in_place_tag
+   = !__is_in_place_type_v<__remove_cvref_t<_Tp>>
+       && !__is_in_place_index_v<__remove_cvref_t<_Tp>>;
+
     public:
 
-      constexpr
-      vector(vector&& __rv, const __type_identity_t<allocator_type>& __m)
-      noexcept( noexcept(
- vector(std::declval<vector&&>(), std::declval<const allocator_type&>(),
-        std::declval<typename _Alloc_traits::is_always_equal>())) )
-      : vector(std::move(__rv), __m, typename _Alloc_traits::is_always_equal{})
-      { }
-# 707 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      vector(initializer_list<value_type> __l,
-      const allocator_type& __a = allocator_type())
-      : _Base(__a)
-      {
- _M_range_initialize_n(__l.begin(), __l.end(), __l.size());
-      }
-# 733 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      template<typename _InputIterator,
-        typename = std::_RequireInputIter<_InputIterator>>
- constexpr
- vector(_InputIterator __first, _InputIterator __last,
-        const allocator_type& __a = allocator_type())
- : _Base(__a)
- {
+      variant() requires is_default_constructible_v<__to_type<0>> = default;
+# 1486 "/usr/include/c++/15.2.1/variant" 3
+      variant(const variant& __rhs) = default;
+      variant(variant&&) = default;
+      variant& operator=(const variant&) = default;
+      variant& operator=(variant&&) = default;
+      constexpr ~variant() = default;
 
-   if constexpr (sized_sentinel_for<_InputIterator, _InputIterator>
-     || forward_iterator<_InputIterator>)
+      template<typename _Tp,
+        typename = enable_if_t<sizeof...(_Types) != 0>,
+        typename = enable_if_t<__not_in_place_tag<_Tp>>,
+        typename _Tj = __accepted_type<_Tp&&>,
+        typename = enable_if_t<__exactly_once<_Tj>
+          && is_constructible_v<_Tj, _Tp>>>
+ constexpr
+ variant(_Tp&& __t)
+ noexcept(is_nothrow_constructible_v<_Tj, _Tp>)
+ : variant(in_place_index<__accepted_index<_Tp>>,
+    std::forward<_Tp>(__t))
+ { }
+
+      template<typename _Tp, typename... _Args,
+        typename = enable_if_t<__exactly_once<_Tp>
+          && is_constructible_v<_Tp, _Args...>>>
+ constexpr explicit
+ variant(in_place_type_t<_Tp>, _Args&&... __args)
+ : variant(in_place_index<__index_of<_Tp>>,
+    std::forward<_Args>(__args)...)
+ { }
+
+      template<typename _Tp, typename _Up, typename... _Args,
+        typename = enable_if_t<__exactly_once<_Tp>
+          && is_constructible_v<_Tp,
+        initializer_list<_Up>&, _Args...>>>
+ constexpr explicit
+ variant(in_place_type_t<_Tp>, initializer_list<_Up> __il,
+  _Args&&... __args)
+ : variant(in_place_index<__index_of<_Tp>>, __il,
+    std::forward<_Args>(__args)...)
+ { }
+
+      template<size_t _Np, typename... _Args,
+        typename _Tp = __to_type<_Np>,
+        typename = enable_if_t<is_constructible_v<_Tp, _Args...>>>
+ constexpr explicit
+ variant(in_place_index_t<_Np>, _Args&&... __args)
+ : _Base(in_place_index<_Np>, std::forward<_Args>(__args)...)
+ { }
+
+      template<size_t _Np, typename _Up, typename... _Args,
+        typename _Tp = __to_type<_Np>,
+        typename = enable_if_t<is_constructible_v<_Tp,
+        initializer_list<_Up>&,
+        _Args...>>>
+ constexpr explicit
+ variant(in_place_index_t<_Np>, initializer_list<_Up> __il,
+  _Args&&... __args)
+ : _Base(in_place_index<_Np>, __il, std::forward<_Args>(__args)...)
+ { }
+
+      template<typename _Tp>
+ constexpr
+ enable_if_t<__exactly_once<__accepted_type<_Tp&&>>
+      && is_constructible_v<__accepted_type<_Tp&&>, _Tp>
+      && is_assignable_v<__accepted_type<_Tp&&>&, _Tp>,
+      variant&>
+ operator=(_Tp&& __rhs)
+ noexcept(is_nothrow_assignable_v<__accepted_type<_Tp&&>&, _Tp>
+   && is_nothrow_constructible_v<__accepted_type<_Tp&&>, _Tp>)
+ {
+   constexpr auto __index = __accepted_index<_Tp>;
+   if (index() == __index)
+     std::get<__index>(*this) = std::forward<_Tp>(__rhs);
+   else
      {
-       const auto __n
-  = static_cast<size_type>(ranges::distance(__first, __last));
-       _M_range_initialize_n(__first, __last, __n);
+       using _Tj = __accepted_type<_Tp&&>;
+       if constexpr (is_nothrow_constructible_v<_Tj, _Tp>
+       || !is_nothrow_move_constructible_v<_Tj>)
+  this->emplace<__index>(std::forward<_Tp>(__rhs));
+       else
+
+
+  this->emplace<__index>(_Tj(std::forward<_Tp>(__rhs)));
+     }
+   return *this;
+ }
+
+      template<typename _Tp, typename... _Args>
+ constexpr
+ enable_if_t<is_constructible_v<_Tp, _Args...> && __exactly_once<_Tp>,
+      _Tp&>
+ emplace(_Args&&... __args)
+ {
+   constexpr size_t __index = __index_of<_Tp>;
+   return this->emplace<__index>(std::forward<_Args>(__args)...);
+ }
+
+      template<typename _Tp, typename _Up, typename... _Args>
+ constexpr
+ enable_if_t<is_constructible_v<_Tp, initializer_list<_Up>&, _Args...>
+      && __exactly_once<_Tp>,
+      _Tp&>
+ emplace(initializer_list<_Up> __il, _Args&&... __args)
+ {
+   constexpr size_t __index = __index_of<_Tp>;
+   return this->emplace<__index>(__il, std::forward<_Args>(__args)...);
+ }
+
+      template<size_t _Np, typename... _Args>
+ constexpr
+ enable_if_t<is_constructible_v<__to_type<_Np>, _Args...>,
+      __to_type<_Np>&>
+ emplace(_Args&&... __args)
+ {
+   namespace __variant = std::__detail::__variant;
+   using type = typename _Nth_type<_Np, _Types...>::type;
+
+
+   if constexpr (is_nothrow_constructible_v<type, _Args...>)
+     {
+       __variant::__emplace<_Np>(*this, std::forward<_Args>(__args)...);
+     }
+   else if constexpr (is_scalar_v<type>)
+     {
+
+       const type __tmp(std::forward<_Args>(__args)...);
+
+       __variant::__emplace<_Np>(*this, __tmp);
+     }
+   else if constexpr (__variant::_Never_valueless_alt<type>()
+       && _Traits::_S_move_assign)
+     {
+
+       variant __tmp(in_place_index<_Np>,
+       std::forward<_Args>(__args)...);
+
+       *this = std::move(__tmp);
+     }
+   else
+     {
+
+
+       __variant::__emplace<_Np>(*this, std::forward<_Args>(__args)...);
+     }
+   return std::get<_Np>(*this);
+ }
+
+      template<size_t _Np, typename _Up, typename... _Args>
+ constexpr
+ enable_if_t<is_constructible_v<__to_type<_Np>,
+           initializer_list<_Up>&, _Args...>,
+      __to_type<_Np>&>
+ emplace(initializer_list<_Up> __il, _Args&&... __args)
+ {
+   namespace __variant = std::__detail::__variant;
+   using type = typename _Nth_type<_Np, _Types...>::type;
+
+
+   if constexpr (is_nothrow_constructible_v<type,
+         initializer_list<_Up>&,
+         _Args...>)
+     {
+       __variant::__emplace<_Np>(*this, __il,
+     std::forward<_Args>(__args)...);
+     }
+   else if constexpr (__variant::_Never_valueless_alt<type>()
+       && _Traits::_S_move_assign)
+     {
+
+       variant __tmp(in_place_index<_Np>, __il,
+       std::forward<_Args>(__args)...);
+
+       *this = std::move(__tmp);
+     }
+   else
+     {
+
+
+       __variant::__emplace<_Np>(*this, __il,
+     std::forward<_Args>(__args)...);
+     }
+   return std::get<_Np>(*this);
+ }
+
+      template<size_t _Np, typename... _Args>
+ enable_if_t<!(_Np < sizeof...(_Types))> emplace(_Args&&...) = delete;
+
+      template<typename _Tp, typename... _Args>
+ enable_if_t<!__exactly_once<_Tp>> emplace(_Args&&...) = delete;
+
+      constexpr bool valueless_by_exception() const noexcept
+      { return !this->_M_valid(); }
+
+      constexpr size_t index() const noexcept
+      {
+ using __index_type = typename _Base::__index_type;
+ if constexpr (__detail::__variant::__never_valueless<_Types...>())
+   return this->_M_index;
+ else if constexpr (sizeof...(_Types) <= __index_type(-1) / 2)
+   return make_signed_t<__index_type>(this->_M_index);
+ else
+   return size_t(__index_type(this->_M_index + 1)) - 1;
+      }
+
+      constexpr
+      void
+      swap(variant& __rhs)
+      noexcept((__is_nothrow_swappable<_Types>::value && ...)
+        && is_nothrow_move_constructible_v<variant>)
+      {
+ static_assert((is_move_constructible_v<_Types> && ...));
+
+
+ if (__rhs.valueless_by_exception()) [[__unlikely__]]
+   {
+     if (!this->valueless_by_exception()) [[__likely__]]
+       __rhs.swap(*this);
+     return;
+   }
+
+ namespace __variant = __detail::__variant;
+
+ __variant::__raw_idx_visit(
+   [this, &__rhs](auto&& __rhs_mem, auto __rhs_index) mutable
+   {
+     constexpr size_t __j = __rhs_index;
+     if constexpr (__j != variant_npos)
+       {
+  if (this->index() == __j)
+    {
+      using std::swap;
+      swap(std::get<__j>(*this), __rhs_mem);
+    }
+  else
+    {
+      auto __tmp(std::move(__rhs_mem));
+
+      if constexpr (_Traits::_S_trivial_move_assign)
+        __rhs = std::move(*this);
+      else
+        __variant::__raw_idx_visit(
+   [&__rhs](auto&& __this_mem, auto __this_index) mutable
+   {
+     constexpr size_t __k = __this_index;
+     if constexpr (__k != variant_npos)
+       __variant::__emplace<__k>(__rhs,
+            std::move(__this_mem));
+   }, *this);
+
+      __variant::__emplace<__j>(*this, std::move(__tmp));
+    }
+       }
+   }, __rhs);
+      }
+# 1749 "/usr/include/c++/15.2.1/variant" 3
+      template<int = 0, typename _Self, typename _Visitor>
+ constexpr decltype(auto)
+ visit(this _Self&& __self, _Visitor&& __vis)
+ {
+   using _CVar = __conditional_t<is_const_v<remove_reference_t<_Self>>,
+     const variant, variant>;
+   using _Var = __conditional_t<is_rvalue_reference_v<_Self&&>,
+           _CVar&&, _CVar&>;
+   return std::visit(std::forward<_Visitor>(__vis), (_Var)__self);
+ }
+# 1767 "/usr/include/c++/15.2.1/variant" 3
+      template<typename _Res, typename _Self, typename _Visitor>
+ constexpr _Res
+ visit(this _Self&& __self, _Visitor&& __vis)
+ {
+   using _CVar = __conditional_t<is_const_v<remove_reference_t<_Self>>,
+     const variant, variant>;
+   using _Var = __conditional_t<is_rvalue_reference_v<_Self&&>,
+           _CVar&&, _CVar&>;
+   return std::visit<_Res>(std::forward<_Visitor>(__vis), (_Var)__self);
+ }
+
+
+    private:
+      template<size_t _Np, typename _Vp>
+ friend constexpr decltype(auto)
+ __detail::__variant::__get(_Vp&& __v) noexcept;
+    };
+
+  template<size_t _Np, typename... _Types>
+    constexpr variant_alternative_t<_Np, variant<_Types...>>&
+    get(variant<_Types...>& __v)
+    {
+      static_assert(_Np < sizeof...(_Types),
+      "The index must be in [0, number of alternatives)");
+      if (__v.index() != _Np)
+ __throw_bad_variant_access(__v.valueless_by_exception());
+      return __detail::__variant::__get<_Np>(__v);
+    }
+
+  template<size_t _Np, typename... _Types>
+    constexpr variant_alternative_t<_Np, variant<_Types...>>&&
+    get(variant<_Types...>&& __v)
+    {
+      static_assert(_Np < sizeof...(_Types),
+      "The index must be in [0, number of alternatives)");
+      if (__v.index() != _Np)
+ __throw_bad_variant_access(__v.valueless_by_exception());
+      return __detail::__variant::__get<_Np>(std::move(__v));
+    }
+
+  template<size_t _Np, typename... _Types>
+    constexpr const variant_alternative_t<_Np, variant<_Types...>>&
+    get(const variant<_Types...>& __v)
+    {
+      static_assert(_Np < sizeof...(_Types),
+      "The index must be in [0, number of alternatives)");
+      if (__v.index() != _Np)
+ __throw_bad_variant_access(__v.valueless_by_exception());
+      return __detail::__variant::__get<_Np>(__v);
+    }
+
+  template<size_t _Np, typename... _Types>
+    constexpr const variant_alternative_t<_Np, variant<_Types...>>&&
+    get(const variant<_Types...>&& __v)
+    {
+      static_assert(_Np < sizeof...(_Types),
+      "The index must be in [0, number of alternatives)");
+      if (__v.index() != _Np)
+ __throw_bad_variant_access(__v.valueless_by_exception());
+      return __detail::__variant::__get<_Np>(std::move(__v));
+    }
+
+
+  template<typename _Result_type, typename _Visitor, typename... _Variants>
+    constexpr decltype(auto)
+    __do_visit(_Visitor&& __visitor, _Variants&&... __variants)
+    {
+
+      if constexpr (sizeof...(_Variants) == 0)
+ {
+   if constexpr (is_void_v<_Result_type>)
+     return (void) std::forward<_Visitor>(__visitor)();
+   else
+     return std::forward<_Visitor>(__visitor)();
+ }
+      else
+ {
+   constexpr size_t __max = 11;
+
+
+   using _V0 = typename _Nth_type<0, _Variants...>::type;
+
+   constexpr auto __n = variant_size_v<remove_reference_t<_V0>>;
+
+   if constexpr (sizeof...(_Variants) > 1 || __n > __max)
+     {
+
+       constexpr auto& __vtable = __detail::__variant::__gen_vtable<
+  _Result_type, _Visitor&&, _Variants&&...>::_S_vtable;
+
+       auto __func_ptr = __vtable._M_access(__variants.index()...);
+       return (*__func_ptr)(std::forward<_Visitor>(__visitor),
+       std::forward<_Variants>(__variants)...);
+     }
+   else
+     {
+
+       _V0& __v0
+  = [](_V0& __v, ...) -> _V0& { return __v; }(__variants...);
+
+       using __detail::__variant::_Multi_array;
+       using __detail::__variant::__gen_vtable_impl;
+       using _Ma = _Multi_array<_Result_type (*)(_Visitor&&, _V0&&)>;
+# 1889 "/usr/include/c++/15.2.1/variant" 3
+       switch (__v0.index())
+  {
+    case 0: { if constexpr (0 < __n) { return __gen_vtable_impl<_Ma, index_sequence<0>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
+    case 1: { if constexpr (1 < __n) { return __gen_vtable_impl<_Ma, index_sequence<1>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
+    case 2: { if constexpr (2 < __n) { return __gen_vtable_impl<_Ma, index_sequence<2>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
+    case 3: { if constexpr (3 < __n) { return __gen_vtable_impl<_Ma, index_sequence<3>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
+    case 4: { if constexpr (4 < __n) { return __gen_vtable_impl<_Ma, index_sequence<4>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
+    case 5: { if constexpr (5 < __n) { return __gen_vtable_impl<_Ma, index_sequence<5>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
+    case 6: { if constexpr (6 < __n) { return __gen_vtable_impl<_Ma, index_sequence<6>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
+    case 7: { if constexpr (7 < __n) { return __gen_vtable_impl<_Ma, index_sequence<7>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
+    case 8: { if constexpr (8 < __n) { return __gen_vtable_impl<_Ma, index_sequence<8>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
+    case 9: { if constexpr (9 < __n) { return __gen_vtable_impl<_Ma, index_sequence<9>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
+    case 10: { if constexpr (10 < __n) { return __gen_vtable_impl<_Ma, index_sequence<10>>:: __visit_invoke(std::forward<_Visitor>(__visitor), std::forward<_V0>(__v0)); } else __builtin_unreachable(); }
+  case variant_npos:
+    using __detail::__variant::__variant_idx_cookie;
+    using __detail::__variant::__variant_cookie;
+    if constexpr (is_same_v<_Result_type, __variant_idx_cookie>
+    || is_same_v<_Result_type, __variant_cookie>)
+      {
+        using _Npos = index_sequence<variant_npos>;
+        return __gen_vtable_impl<_Ma, _Npos>::
+   __visit_invoke(std::forward<_Visitor>(__visitor),
+           std::forward<_V0>(__v0));
+      }
+    else
+      __builtin_unreachable();
+  default:
+    __builtin_unreachable();
+  }
+
+
+     }
+ }
+    }
+
+
+  template<typename _Visitor, typename... _Variants>
+    constexpr __detail::__variant::__visit_result_t<_Visitor, _Variants...>
+    visit(_Visitor&& __visitor, _Variants&&... __variants)
+    {
+      namespace __variant = std::__detail::__variant;
+
+      if ((__variant::__as(__variants).valueless_by_exception() || ...))
+ __throw_bad_variant_access(2);
+
+      using _Result_type
+ = __detail::__variant::__visit_result_t<_Visitor, _Variants...>;
+
+      using _Tag = __detail::__variant::__deduce_visit_result<_Result_type>;
+
+      if constexpr (sizeof...(_Variants) == 1)
+ {
+   using _Vp = decltype(__variant::__as(std::declval<_Variants>()...));
+
+   constexpr bool __visit_rettypes_match = __detail::__variant::
+     __check_visitor_results<_Visitor, _Vp>(
+       make_index_sequence<variant_size_v<remove_reference_t<_Vp>>>());
+   if constexpr (!__visit_rettypes_match)
+     {
+       static_assert(__visit_rettypes_match,
+     "std::visit requires the visitor to have the same "
+     "return type for all alternatives of a variant");
        return;
      }
    else
-
-   _M_range_initialize(__first, __last,
-         std::__iterator_category(__first));
+     return std::__do_visit<_Tag>(
+       std::forward<_Visitor>(__visitor),
+       static_cast<_Vp>(__variants)...);
  }
-# 772 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      template<__detail::__container_compatible_range<_Tp> _Rg>
- constexpr
- vector(from_range_t, _Rg&& __rg, const _Alloc& __a = _Alloc())
- : vector(__a)
- {
-   if constexpr (ranges::forward_range<_Rg> || ranges::sized_range<_Rg>)
-     {
-       const auto __n = static_cast<size_type>(ranges::distance(__rg));
-       _M_range_initialize_n(ranges::begin(__rg), ranges::end(__rg),
-        __n);
-     }
-   else
-     {
-       auto __first = ranges::begin(__rg);
-       const auto __last = ranges::end(__rg);
-       for (; __first != __last; ++__first)
-  emplace_back(*__first);
-     }
- }
-# 799 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      ~vector() noexcept
-      {
- std::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish,
-        _M_get_Tp_allocator());
- ;
-      }
-# 816 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      vector&
-      operator=(const vector& __x);
-# 831 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      vector&
-      operator=(vector&& __x) noexcept(_Alloc_traits::_S_nothrow_move())
-      {
- constexpr bool __move_storage =
-   _Alloc_traits::_S_propagate_on_move_assign()
-   || _Alloc_traits::_S_always_equal();
- _M_move_assign(std::move(__x), __bool_constant<__move_storage>());
- return *this;
-      }
-# 853 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      vector&
-      operator=(initializer_list<value_type> __l)
-      {
- this->_M_assign_aux(__l.begin(), __l.end(),
-       random_access_iterator_tag());
- return *this;
-      }
-# 873 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      void
-      assign(size_type __n, const value_type& __val)
-      { _M_fill_assign(__n, __val); }
-# 891 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      template<typename _InputIterator,
-        typename = std::_RequireInputIter<_InputIterator>>
- constexpr
- void
- assign(_InputIterator __first, _InputIterator __last)
- { _M_assign_aux(__first, __last, std::__iterator_category(__first)); }
-# 920 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      void
-      assign(initializer_list<value_type> __l)
-      {
- this->_M_assign_aux(__l.begin(), __l.end(),
-       random_access_iterator_tag());
-      }
-# 936 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      template<__detail::__container_compatible_range<_Tp> _Rg>
- constexpr void
- assign_range(_Rg&& __rg)
- {
-   static_assert(assignable_from<_Tp&, ranges::range_reference_t<_Rg>>);
-
-   if constexpr (ranges::forward_range<_Rg> || ranges::sized_range<_Rg>)
-     {
-       const auto __n = size_type(ranges::distance(__rg));
-       if (__n <= size())
-  {
-    auto __res = ranges::copy(__rg, this->_M_impl._M_start);
-    _M_erase_at_end(__res.out);
-    return;
-  }
-
-       reserve(__n);
-       auto __first = ranges::copy_n(ranges::begin(__rg), size(),
-         this->_M_impl._M_start).in;
-       [[maybe_unused]] const auto __diff = __n - size();
-       ;
-       _Base::_M_append_range(ranges::subrange(std::move(__first),
-            ranges::end(__rg)));
-       ;
-     }
-   else
-     {
-       auto __first = ranges::begin(__rg);
-       const auto __last = ranges::end(__rg);
-       pointer __ptr = this->_M_impl._M_start;
-       pointer const __end = this->_M_impl._M_finish;
-
-       while (__ptr < __end && __first != __last)
-  {
-    *__ptr = *__first;
-    ++__ptr;
-    ++__first;
-  }
-
-       if (__first == __last)
-  _M_erase_at_end(__ptr);
-       else
-  {
-    do
-      emplace_back(*__first);
-    while (++__first != __last);
-  }
-     }
- }
-
-
-
-      using _Base::get_allocator;
-
-
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      iterator
-      begin() noexcept
-      { return iterator(this->_M_impl._M_start); }
-
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      const_iterator
-      begin() const noexcept
-      { return const_iterator(this->_M_impl._M_start); }
-
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      iterator
-      end() noexcept
-      { return iterator(this->_M_impl._M_finish); }
-
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      const_iterator
-      end() const noexcept
-      { return const_iterator(this->_M_impl._M_finish); }
-
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      reverse_iterator
-      rbegin() noexcept
-      { return reverse_iterator(end()); }
-
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      const_reverse_iterator
-      rbegin() const noexcept
-      { return const_reverse_iterator(end()); }
-
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      reverse_iterator
-      rend() noexcept
-      { return reverse_iterator(begin()); }
-
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      const_reverse_iterator
-      rend() const noexcept
-      { return const_reverse_iterator(begin()); }
-
-
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      const_iterator
-      cbegin() const noexcept
-      { return const_iterator(this->_M_impl._M_start); }
-
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      const_iterator
-      cend() const noexcept
-      { return const_iterator(this->_M_impl._M_finish); }
-
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      const_reverse_iterator
-      crbegin() const noexcept
-      { return const_reverse_iterator(end()); }
-
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      const_reverse_iterator
-      crend() const noexcept
-      { return const_reverse_iterator(begin()); }
-
-
-
-
-      [[__nodiscard__]] constexpr
-      size_type
-      size() const noexcept
-      {
- ptrdiff_t __dif = this->_M_impl._M_finish - this->_M_impl._M_start;
- if (__dif < 0)
-    __builtin_unreachable ();
- return size_type(__dif);
-      }
-
-
-      [[__nodiscard__]] constexpr
-      size_type
-      max_size() const noexcept
-      { return _S_max_size(_M_get_Tp_allocator()); }
-# 1141 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      void
-      resize(size_type __new_size)
-      {
- if (__new_size > size())
-   _M_default_append(__new_size - size());
- else if (__new_size < size())
-   _M_erase_at_end(this->_M_impl._M_start + __new_size);
-      }
-# 1162 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      void
-      resize(size_type __new_size, const value_type& __x)
-      {
- if (__new_size > size())
-   _M_fill_append(__new_size - size(), __x);
- else if (__new_size < size())
-   _M_erase_at_end(this->_M_impl._M_start + __new_size);
-      }
-# 1196 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      void
-      shrink_to_fit()
-      { _M_shrink_to_fit(); }
-
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      size_type
-      capacity() const noexcept
-      {
- ptrdiff_t __dif = this->_M_impl._M_end_of_storage
-     - this->_M_impl._M_start;
- if (__dif < 0)
-    __builtin_unreachable ();
- return size_type(__dif);
-      }
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      bool
-      empty() const noexcept
-      { return begin() == end(); }
-# 1243 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      void
-      reserve(size_type __n);
-# 1259 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      [[__nodiscard__]] constexpr
-      reference
-      operator[](size_type __n) noexcept
-      {
- do { if (__builtin_expect(!bool(__n < this->size()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_vector.h", 1263, __PRETTY_FUNCTION__, "__n < this->size()"); } while (false);
- return *(this->_M_impl._M_start + __n);
-      }
-# 1278 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      [[__nodiscard__]] constexpr
-      const_reference
-      operator[](size_type __n) const noexcept
-      {
- do { if (__builtin_expect(!bool(__n < this->size()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_vector.h", 1282, __PRETTY_FUNCTION__, "__n < this->size()"); } while (false);
- return *(this->_M_impl._M_start + __n);
-      }
-
-    protected:
-
-      constexpr
-      void
-      _M_range_check(size_type __n) const
-      {
- if (__n >= this->size())
-   __throw_out_of_range_fmt(("vector::_M_range_check: __n " "(which is %zu) >= this->size() " "(which is %zu)")
-
-                            ,
-       __n, this->size());
-      }
-
-    public:
-# 1311 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      [[__nodiscard__]] constexpr
-      reference
-      at(size_type __n)
-      {
- _M_range_check(__n);
- return (*this)[__n];
-      }
-# 1330 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      [[__nodiscard__]] constexpr
-      const_reference
-      at(size_type __n) const
-      {
- _M_range_check(__n);
- return (*this)[__n];
-      }
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      reference
-      front() noexcept
-      {
- do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_vector.h", 1346, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
- return *begin();
-      }
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      const_reference
-      front() const noexcept
-      {
- do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_vector.h", 1358, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
- return *begin();
-      }
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      reference
-      back() noexcept
-      {
- do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_vector.h", 1370, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
- return *(end() - 1);
-      }
-
-
-
-
-
-      [[__nodiscard__]] constexpr
-      const_reference
-      back() const noexcept
-      {
- do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_vector.h", 1382, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
- return *(end() - 1);
-      }
-# 1393 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      [[__nodiscard__]] constexpr
-      _Tp*
-      data() noexcept
-      { return _M_data_ptr(this->_M_impl._M_start); }
-
-      [[__nodiscard__]] constexpr
-      const _Tp*
-      data() const noexcept
-      { return _M_data_ptr(this->_M_impl._M_start); }
-# 1414 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      void
-      push_back(const value_type& __x)
-      {
- if (this->_M_impl._M_finish != this->_M_impl._M_end_of_storage)
-   {
-     ;
-     _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
-         __x);
-     ++this->_M_impl._M_finish;
-     ;
-   }
- else
-   _M_realloc_append(__x);
-      }
-
-
-      constexpr
-      void
-      push_back(value_type&& __x)
-      { emplace_back(std::move(__x)); }
-
-      template<typename... _Args>
-
- constexpr
- reference
-
-
-
- emplace_back(_Args&&... __args);
-# 1455 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      void
-      pop_back() noexcept
-      {
- do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_vector.h", 1459, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
- --this->_M_impl._M_finish;
- _Alloc_traits::destroy(this->_M_impl, this->_M_impl._M_finish);
- ;
-      }
-# 1478 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      template<typename... _Args>
- constexpr
- iterator
- emplace(const_iterator __position, _Args&&... __args)
- { return _M_emplace_aux(__position, std::forward<_Args>(__args)...); }
-# 1495 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      iterator
-      insert(const_iterator __position, const value_type& __x);
-# 1526 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      iterator
-      insert(const_iterator __position, value_type&& __x)
-      { return _M_insert_rval(__position, std::move(__x)); }
-# 1544 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      iterator
-      insert(const_iterator __position, initializer_list<value_type> __l)
-      {
- auto __offset = __position - cbegin();
- _M_range_insert(begin() + __offset, __l.begin(), __l.end(),
-   std::random_access_iterator_tag());
- return begin() + __offset;
-      }
-# 1570 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      iterator
-      insert(const_iterator __position, size_type __n, const value_type& __x)
-      {
- difference_type __offset = __position - cbegin();
- _M_fill_insert(begin() + __offset, __n, __x);
- return begin() + __offset;
-      }
-# 1613 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      template<typename _InputIterator,
-        typename = std::_RequireInputIter<_InputIterator>>
- constexpr
- iterator
- insert(const_iterator __position, _InputIterator __first,
-        _InputIterator __last)
- {
-   difference_type __offset = __position - cbegin();
-   _M_range_insert(begin() + __offset, __first, __last,
-     std::__iterator_category(__first));
-   return begin() + __offset;
- }
-# 1660 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      template<__detail::__container_compatible_range<_Tp> _Rg>
- constexpr iterator
- insert_range(const_iterator __pos, _Rg&& __rg);
-
-
-
-
-
-
-      template<__detail::__container_compatible_range<_Tp> _Rg>
- constexpr void
- append_range(_Rg&& __rg)
- {
-
-
-
-   if constexpr (ranges::forward_range<_Rg> || ranges::sized_range<_Rg>)
-     {
-       const auto __n = size_type(ranges::distance(__rg));
-
-
-
-       if (capacity() == 0)
-  reserve(__n);
-
-       const auto __sz = size();
-       const auto __capacity = capacity();
-       if ((__capacity - __sz) >= __n)
-  {
-    ;
-    _Base::_M_append_range(__rg);
-    ;
-    return;
-  }
-
-       const size_type __len = _M_check_len(__n, "vector::append_range");
-
-       pointer __old_start = this->_M_impl._M_start;
-       pointer __old_finish = this->_M_impl._M_finish;
-
-       allocator_type& __a = _M_get_Tp_allocator();
-       const pointer __start = this->_M_allocate(__len);
-       const pointer __mid = __start + __sz;
-       const pointer __back = __mid + __n;
-       _Guard_alloc __guard(__start, __len, *this);
-       std::__uninitialized_copy_a(ranges::begin(__rg),
-       ranges::end(__rg),
-       __mid, __a);
-
-       if constexpr (_S_use_relocate())
-  _S_relocate(__old_start, __old_finish, __start, __a);
-       else
-  {
-
-    struct _Guard_elts
-    {
-      pointer _M_first, _M_last;
-      _Tp_alloc_type& _M_alloc;
-
-      constexpr
-      _Guard_elts(pointer __f, pointer __l, _Tp_alloc_type& __a)
-      : _M_first(__f), _M_last(__l), _M_alloc(__a)
-      { }
-
-      constexpr
-      ~_Guard_elts()
-      { std::_Destroy(_M_first, _M_last, _M_alloc); }
-
-      _Guard_elts(_Guard_elts&&) = delete;
-    };
-    _Guard_elts __guard_elts{__mid, __back, __a};
-
-    std::__uninitialized_move_a(__old_start, __old_finish,
-           __start, __a);
-
-
-    __guard_elts._M_first = __old_start;
-    __guard_elts._M_last = __old_finish;
-  }
-
-
-       __guard._M_storage = __old_start;
-       __guard._M_len = __capacity;
-
-       this->_M_impl._M_start = __start;
-       this->_M_impl._M_finish = __back;
-       this->_M_impl._M_end_of_storage = __start + __len;
-     }
-   else
-     {
-       auto __first = ranges::begin(__rg);
-       const auto __last = ranges::end(__rg);
-
-
-       for (auto __free = capacity() - size();
-     __first != __last && __free > 0;
-     ++__first, (void) --__free)
-  emplace_back(*__first);
-
-       if (__first == __last)
-  return;
-
-
-       vector __tmp(_M_get_Tp_allocator());
-       for (; __first != __last; ++__first)
-  __tmp.emplace_back(*__first);
-       reserve(_M_check_len(__tmp.size(), "vector::append_range"));
-       ranges::subrange __r(std::make_move_iterator(__tmp.begin()),
-       std::make_move_iterator(__tmp.end()));
-       append_range(__r);
-     }
- }
-# 1789 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      iterator
-
-      erase(const_iterator __position)
-      { return _M_erase(begin() + (__position - cbegin())); }
-# 1817 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      iterator
-
-      erase(const_iterator __first, const_iterator __last)
-      {
- const auto __beg = begin();
- const auto __cbeg = cbegin();
- return _M_erase(__beg + (__first - __cbeg), __beg + (__last - __cbeg));
-      }
-# 1842 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      constexpr
-      void
-      swap(vector& __x) noexcept
-      {
-
- do { if (__builtin_expect(!bool(_Alloc_traits::propagate_on_container_swap::value || _M_get_Tp_allocator() == __x._M_get_Tp_allocator()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_vector.h", 1847, __PRETTY_FUNCTION__, "_Alloc_traits::propagate_on_container_swap::value || _M_get_Tp_allocator() == __x._M_get_Tp_allocator()"); } while (false)
-                                                          ;
-
- this->_M_impl._M_swap_data(__x._M_impl);
- _Alloc_traits::_S_on_swap(_M_get_Tp_allocator(),
-      __x._M_get_Tp_allocator());
-      }
-
-
-
-
-
-
-
-      constexpr
-      void
-      clear() noexcept
-      { _M_erase_at_end(this->_M_impl._M_start); }
-
-    private:
-
-      struct _Guard_alloc
-      {
- pointer _M_storage;
- size_type _M_len;
- _Base& _M_vect;
-
- constexpr
- _Guard_alloc(pointer __s, size_type __l, _Base& __vect)
- : _M_storage(__s), _M_len(__l), _M_vect(__vect)
- { }
-
- constexpr
- ~_Guard_alloc()
- {
-   if (_M_storage)
-     _M_vect._M_deallocate(_M_storage, _M_len);
- }
-
- constexpr
- pointer
- _M_release()
- {
-   pointer __res = _M_storage;
-   _M_storage = pointer();
-   return __res;
- }
-
-      private:
- _Guard_alloc(const _Guard_alloc&);
-      };
-
-    protected:
-
-
-
-
-      template<typename _ForwardIterator>
- constexpr
- pointer
- _M_allocate_and_copy(size_type __n,
-        _ForwardIterator __first, _ForwardIterator __last)
- {
-   _Guard_alloc __guard(this->_M_allocate(__n), __n, *this);
-   std::__uninitialized_copy_a
-     (__first, __last, __guard._M_storage, _M_get_Tp_allocator());
-   return __guard._M_release();
- }
-# 1948 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      template<typename _InputIterator>
- constexpr
- void
- _M_range_initialize(_InputIterator __first, _InputIterator __last,
-       std::input_iterator_tag)
- {
-   try {
-     for (; __first != __last; ++__first)
-
-       emplace_back(*__first);
-
-
-
-   } catch(...) {
-     clear();
-     throw;
-   }
- }
-
-
-      template<typename _ForwardIterator>
- constexpr
- void
- _M_range_initialize(_ForwardIterator __first, _ForwardIterator __last,
-       std::forward_iterator_tag)
- {
-   _M_range_initialize_n(__first, __last,
-    std::distance(__first, __last));
- }
-
-      template<typename _Iterator, typename _Sentinel>
- constexpr
- void
- _M_range_initialize_n(_Iterator __first, _Sentinel __last,
-         size_type __n)
- {
-   pointer __start =
-     this->_M_allocate(_S_check_init_len(__n, _M_get_Tp_allocator()));
-   this->_M_impl._M_start = this->_M_impl._M_finish = __start;
-   this->_M_impl._M_end_of_storage = __start + __n;
-   this->_M_impl._M_finish
-       = std::__uninitialized_copy_a(std::move(__first), __last,
-         __start, _M_get_Tp_allocator());
- }
-
-
-
-      constexpr
-      void
-      _M_fill_initialize(size_type __n, const value_type& __value)
-      {
- this->_M_impl._M_finish =
-   std::__uninitialized_fill_n_a(this->_M_impl._M_start, __n, __value,
-     _M_get_Tp_allocator());
-      }
-
-
-
-      constexpr
-      void
-      _M_default_initialize(size_type __n)
-      {
- this->_M_impl._M_finish =
-   std::__uninitialized_default_n_a(this->_M_impl._M_start, __n,
-        _M_get_Tp_allocator());
-      }
-# 2023 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      template<typename _Integer>
- constexpr
- void
- _M_assign_dispatch(_Integer __n, _Integer __val, __true_type)
- { _M_fill_assign(__n, __val); }
-
-
-      template<typename _InputIterator>
- constexpr
- void
- _M_assign_dispatch(_InputIterator __first, _InputIterator __last,
-      __false_type)
- { _M_assign_aux(__first, __last, std::__iterator_category(__first)); }
-
-
-      template<typename _InputIterator>
- constexpr
- void
- _M_assign_aux(_InputIterator __first, _InputIterator __last,
-        std::input_iterator_tag);
-
-
-      template<typename _ForwardIterator>
- constexpr
- void
- _M_assign_aux(_ForwardIterator __first, _ForwardIterator __last,
-        std::forward_iterator_tag);
-
-
-
-      constexpr
-      void
-      _M_fill_assign(size_type __n, const value_type& __val);
-
-
-
-
-
-
-
-      template<typename _Integer>
- constexpr
- void
- _M_insert_dispatch(iterator __pos, _Integer __n, _Integer __val,
-      __true_type)
- { _M_fill_insert(__pos, __n, __val); }
-
-
-      template<typename _InputIterator>
- constexpr
- void
- _M_insert_dispatch(iterator __pos, _InputIterator __first,
-      _InputIterator __last, __false_type)
- {
-   _M_range_insert(__pos, __first, __last,
-     std::__iterator_category(__first));
- }
-
-
-      template<typename _InputIterator>
- constexpr
- void
- _M_range_insert(iterator __pos, _InputIterator __first,
-   _InputIterator __last, std::input_iterator_tag);
-
-
-      template<typename _ForwardIterator>
- constexpr
- void
- _M_range_insert(iterator __pos, _ForwardIterator __first,
-   _ForwardIterator __last, std::forward_iterator_tag);
-
-
-
-      constexpr
-      void
-      _M_fill_insert(iterator __pos, size_type __n, const value_type& __x);
-
-
-      constexpr
-      void
-      _M_fill_append(size_type __n, const value_type& __x);
-
-
-
-      constexpr
-      void
-      _M_default_append(size_type __n);
-
-      constexpr
-      bool
-      _M_shrink_to_fit();
-# 2130 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-      struct _Temporary_value
-      {
- template<typename... _Args>
-   constexpr explicit
-   _Temporary_value(vector* __vec, _Args&&... __args) : _M_this(__vec)
-   {
-     _Alloc_traits::construct(_M_this->_M_impl, _M_ptr(),
-         std::forward<_Args>(__args)...);
-   }
-
- constexpr
- ~_Temporary_value()
- { _Alloc_traits::destroy(_M_this->_M_impl, _M_ptr()); }
-
- constexpr value_type&
- _M_val() noexcept { return _M_storage._M_val; }
-
-      private:
- constexpr _Tp*
- _M_ptr() noexcept { return std::__addressof(_M_storage._M_val); }
-
- union _Storage
- {
-   constexpr _Storage() : _M_byte() { }
-   constexpr ~_Storage() { }
-   _Storage& operator=(const _Storage&) = delete;
-   unsigned char _M_byte;
-   _Tp _M_val;
- };
-
- vector* _M_this;
- _Storage _M_storage;
-      };
-
-
-
-      template<typename _Arg>
- constexpr
- void
- _M_insert_aux(iterator __position, _Arg&& __arg);
-
-      template<typename... _Args>
- constexpr
- void
- _M_realloc_insert(iterator __position, _Args&&... __args);
-
-      template<typename... _Args>
- constexpr
- void
- _M_realloc_append(_Args&&... __args);
-
-
-      constexpr
-      iterator
-      _M_insert_rval(const_iterator __position, value_type&& __v);
-
-
-      template<typename... _Args>
- constexpr
- iterator
- _M_emplace_aux(const_iterator __position, _Args&&... __args);
-
-
-      constexpr
-      iterator
-      _M_emplace_aux(const_iterator __position, value_type&& __v)
-      { return _M_insert_rval(__position, std::move(__v)); }
-
-
-
-      constexpr
-      size_type
-      _M_check_len(size_type __n, const char* __s) const
-      {
- if (max_size() - size() < __n)
-   __throw_length_error((__s));
-
- const size_type __len = size() + (std::max)(size(), __n);
- return (__len < size() || __len > max_size()) ? max_size() : __len;
-      }
-
-
-      static constexpr size_type
-      _S_check_init_len(size_type __n, const allocator_type& __a)
-      {
- if (__n > _S_max_size(_Tp_alloc_type(__a)))
-   __throw_length_error(
-       ("cannot create std::vector larger than max_size()"));
- return __n;
-      }
-
-      static constexpr size_type
-      _S_max_size(const _Tp_alloc_type& __a) noexcept
-      {
-
-
-
- const size_t __diffmax
-   = __gnu_cxx::__numeric_traits<ptrdiff_t>::__max / sizeof(_Tp);
- const size_t __allocmax = _Alloc_traits::max_size(__a);
- return (std::min)(__diffmax, __allocmax);
-      }
-
-
-
-
-
-      constexpr
-      void
-      _M_erase_at_end(pointer __pos) noexcept
-      {
- if (size_type __n = this->_M_impl._M_finish - __pos)
-   {
-     std::_Destroy(__pos, this->_M_impl._M_finish,
-     _M_get_Tp_allocator());
-     this->_M_impl._M_finish = __pos;
-     ;
-   }
-      }
-
-      constexpr
-      iterator
-      _M_erase(iterator __position);
-
-      constexpr
-      iterator
-      _M_erase(iterator __first, iterator __last);
-
-
-    private:
-
-
-
-      constexpr
-      void
-      _M_move_assign(vector&& __x, true_type) noexcept
-      {
- vector __tmp(get_allocator());
- this->_M_impl._M_swap_data(__x._M_impl);
- __tmp._M_impl._M_swap_data(__x._M_impl);
- std::__alloc_on_move(_M_get_Tp_allocator(), __x._M_get_Tp_allocator());
-      }
-
-
-
-      constexpr
-      void
-      _M_move_assign(vector&& __x, false_type)
-      {
- if (__x._M_get_Tp_allocator() == this->_M_get_Tp_allocator())
-   _M_move_assign(std::move(__x), true_type());
- else
-   {
-
-
-     this->_M_assign_aux(std::make_move_iterator(__x.begin()),
-           std::make_move_iterator(__x.end()),
-    std::random_access_iterator_tag());
-     __x.clear();
-   }
-      }
-
-
-      template<typename _Up>
- constexpr
- _Up*
- _M_data_ptr(_Up* __ptr) const noexcept
- { return __ptr; }
-
-
-      template<typename _Ptr>
- constexpr
- typename std::pointer_traits<_Ptr>::element_type*
- _M_data_ptr(_Ptr __ptr) const
- { return empty() ? nullptr : std::__to_address(__ptr); }
-
-
-
-
-
-
-    };
-
-
-  template<typename _InputIterator, typename _ValT
-      = typename iterator_traits<_InputIterator>::value_type,
-    typename _Allocator = allocator<_ValT>,
-    typename = _RequireInputIter<_InputIterator>,
-    typename = _RequireAllocator<_Allocator>>
-    vector(_InputIterator, _InputIterator, _Allocator = _Allocator())
-      -> vector<_ValT, _Allocator>;
-
-
-  template<ranges::input_range _Rg,
-    typename _Alloc = allocator<ranges::range_value_t<_Rg>>>
-    vector(from_range_t, _Rg&&, _Alloc = _Alloc())
-      -> vector<ranges::range_value_t<_Rg>, _Alloc>;
-# 2340 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-  template<typename _Tp, typename _Alloc>
-    [[__nodiscard__]] constexpr
-    inline bool
-    operator==(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
-    { return (__x.size() == __y.size()
-       && std::equal(__x.begin(), __x.end(), __y.begin())); }
-# 2359 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-  template<typename _Tp, typename _Alloc>
-    [[nodiscard]]
-    constexpr __detail::__synth3way_t<_Tp>
-    operator<=>(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
-    {
-      return std::lexicographical_compare_three_way(__x.begin(), __x.end(),
-          __y.begin(), __y.end(),
-          __detail::__synth3way);
-    }
-# 2412 "/usr/include/c++/15.2.1/bits/stl_vector.h" 3
-  template<typename _Tp, typename _Alloc>
-    constexpr
-    inline void
-    swap(vector<_Tp, _Alloc>& __x, vector<_Tp, _Alloc>& __y)
-    noexcept(noexcept(__x.swap(__y)))
-    { __x.swap(__y); }
-
-
-
-
-  namespace __detail::__variant
-  {
-    template<typename> struct _Never_valueless_alt;
-
-
-
-    template<typename _Tp, typename _Alloc>
-      struct _Never_valueless_alt<std::vector<_Tp, _Alloc>>
-      : std::is_nothrow_move_assignable<std::vector<_Tp, _Alloc>>
-      { };
-  }
-
-
-
-}
-# 69 "/usr/include/c++/15.2.1/vector" 2 3
-# 1 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 1 3
-# 68 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
-namespace std __attribute__ ((__visibility__ ("default")))
-{
-
-
-  typedef unsigned long _Bit_type;
-  enum { _S_word_bit = int(8 * sizeof(_Bit_type)) };
-
-  __attribute__((__nonnull__))
-  constexpr
-  void
-  __fill_bvector_n(_Bit_type*, size_t, bool) noexcept;
-
-
-
-  struct _Bit_reference
-  {
-  private:
-    template<typename, typename> friend class vector;
-    friend struct _Bit_iterator;
-    friend struct _Bit_const_iterator;
-
-    constexpr
-    _Bit_reference() noexcept : _M_p(0), _M_mask(0) { }
-
-    _Bit_type * _M_p;
-    _Bit_type _M_mask;
-
-    constexpr
-    _Bit_reference(_Bit_type * __x, _Bit_type __y)
-    : _M_p(__x), _M_mask(__y) { }
-
-  public:
-
-    _Bit_reference(const _Bit_reference&) = default;
-
-
-    [[__nodiscard__]] constexpr
-    operator bool() const noexcept
-    { return !!(*_M_p & _M_mask); }
-
-    constexpr
-    _Bit_reference&
-    operator=(bool __x) noexcept
-    {
-      if (__x)
- *_M_p |= _M_mask;
       else
- *_M_p &= ~_M_mask;
-      return *this;
+ return std::__do_visit<_Tag>(
+   std::forward<_Visitor>(__visitor),
+   __variant::__as(std::forward<_Variants>(__variants))...);
     }
 
 
-    constexpr const _Bit_reference&
-    operator=(bool __x) const noexcept
+  template<typename _Res, typename _Visitor, typename... _Variants>
+    constexpr _Res
+    visit(_Visitor&& __visitor, _Variants&&... __variants)
     {
-      if (__x)
- *_M_p |= _M_mask;
-      else
- *_M_p &= ~_M_mask;
-      return *this;
+      namespace __variant = std::__detail::__variant;
+
+      if ((__variant::__as(__variants).valueless_by_exception() || ...))
+ __throw_bad_variant_access(3);
+
+      return std::__do_visit<_Res>(std::forward<_Visitor>(__visitor),
+   __variant::__as(std::forward<_Variants>(__variants))...);
     }
 
 
-    constexpr
-    _Bit_reference&
-    operator=(const _Bit_reference& __x) noexcept
-    { return *this = bool(__x); }
 
-    [[__nodiscard__]] constexpr
-    bool
-    operator==(const _Bit_reference& __x) const
-    { return bool(*this) == bool(__x); }
-
-    [[__nodiscard__]] constexpr
-    bool
-    operator<(const _Bit_reference& __x) const
-    { return !bool(*this) && bool(__x); }
-
-    constexpr
-    void
-    flip() noexcept
-    { *_M_p ^= _M_mask; }
-
-
-    constexpr
-    friend void
-    swap(_Bit_reference __x, _Bit_reference __y) noexcept
-    {
-      bool __tmp = __x;
-      __x = __y;
-      __y = __tmp;
-    }
-
-    constexpr
-    friend void
-    swap(_Bit_reference __x, bool& __y) noexcept
-    {
-      bool __tmp = __x;
-      __x = __y;
-      __y = __tmp;
-    }
-
-    constexpr
-    friend void
-    swap(bool& __x, _Bit_reference __y) noexcept
-    {
-      bool __tmp = __x;
-      __x = __y;
-      __y = __tmp;
-    }
-
-  };
-
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-  struct _Bit_iterator_base
-  : public std::iterator<std::random_access_iterator_tag, bool>
-  {
-    _Bit_type * _M_p;
-    unsigned int _M_offset;
-
-    constexpr inline __attribute__((__always_inline__))
-    void
-    _M_assume_normalized() const
+  template<typename... _Types>
+    struct __variant_hash
     {
 
-      unsigned int __ofst = _M_offset;
-      __attribute__ ((__assume__ (__ofst < unsigned(_S_word_bit))));
 
-    }
 
-    constexpr
-    _Bit_iterator_base(_Bit_type * __x, unsigned int __y)
-    : _M_p(__x), _M_offset(__y) { }
 
-    constexpr
-    void
-    _M_bump_up()
-    {
-      _M_assume_normalized();
-      if (_M_offset++ == int(_S_word_bit) - 1)
- {
-   _M_offset = 0;
-   ++_M_p;
- }
-    }
 
-    constexpr
-    void
-    _M_bump_down()
-    {
-      _M_assume_normalized();
-      if (_M_offset-- == 0)
- {
-   _M_offset = int(_S_word_bit) - 1;
-   --_M_p;
- }
-    }
-
-    constexpr
-    void
-    _M_incr(ptrdiff_t __i)
-    {
-      _M_assume_normalized();
-      difference_type __n = __i + _M_offset;
-      _M_p += __n / int(_S_word_bit);
-      __n = __n % int(_S_word_bit);
-      if (__n < 0)
- {
-   __n += int(_S_word_bit);
-   --_M_p;
- }
-      _M_offset = static_cast<unsigned int>(__n);
-    }
-
-    [[__nodiscard__]]
-    friend constexpr bool
-    operator==(const _Bit_iterator_base& __x, const _Bit_iterator_base& __y)
-    {
-      __x._M_assume_normalized();
-      __y._M_assume_normalized();
-      return __x._M_p == __y._M_p && __x._M_offset == __y._M_offset;
-    }
-
-
-    [[nodiscard]]
-    friend constexpr strong_ordering
-    operator<=>(const _Bit_iterator_base& __x, const _Bit_iterator_base& __y)
-    noexcept
-    {
-      __x._M_assume_normalized();
-      __y._M_assume_normalized();
-      if (const auto __cmp = __x._M_p <=> __y._M_p; __cmp != 0)
- return __cmp;
-      return __x._M_offset <=> __y._M_offset;
-    }
-# 297 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
-    friend constexpr ptrdiff_t
-    operator-(const _Bit_iterator_base& __x, const _Bit_iterator_base& __y)
-    {
-      __x._M_assume_normalized();
-      __y._M_assume_normalized();
-      return (int(_S_word_bit) * (__x._M_p - __y._M_p)
-       + __x._M_offset - __y._M_offset);
-    }
-  };
-#pragma GCC diagnostic pop
-
-  struct _Bit_iterator : public _Bit_iterator_base
-  {
-    typedef _Bit_reference reference;
-
-    typedef void pointer;
-
-
-
-    typedef _Bit_iterator iterator;
-
-    constexpr
-    _Bit_iterator() : _Bit_iterator_base(0, 0) { }
-
-    constexpr
-    _Bit_iterator(_Bit_type * __x, unsigned int __y)
-    : _Bit_iterator_base(__x, __y) { }
-
-    constexpr
-    iterator
-    _M_const_cast() const
-    { return *this; }
-
-    [[__nodiscard__]] constexpr
-    reference
-    operator*() const
-    {
-      _M_assume_normalized();
-      return reference(_M_p, 1UL << _M_offset);
-    }
-
-    constexpr
-    iterator&
-    operator++()
-    {
-      _M_bump_up();
-      return *this;
-    }
-
-    constexpr
-    iterator
-    operator++(int)
-    {
-      iterator __tmp = *this;
-      _M_bump_up();
-      return __tmp;
-    }
-
-    constexpr
-    iterator&
-    operator--()
-    {
-      _M_bump_down();
-      return *this;
-    }
-
-    constexpr
-    iterator
-    operator--(int)
-    {
-      iterator __tmp = *this;
-      _M_bump_down();
-      return __tmp;
-    }
-
-    constexpr
-    iterator&
-    operator+=(difference_type __i)
-    {
-      _M_incr(__i);
-      return *this;
-    }
-
-    constexpr
-    iterator&
-    operator-=(difference_type __i)
-    {
-      *this += -__i;
-      return *this;
-    }
-
-    [[__nodiscard__]] constexpr
-    reference
-    operator[](difference_type __i) const
-    { return *(*this + __i); }
-
-    [[__nodiscard__]]
-    friend constexpr iterator
-    operator+(const iterator& __x, difference_type __n)
-    {
-      iterator __tmp = __x;
-      __tmp += __n;
-      return __tmp;
-    }
-
-    [[__nodiscard__]]
-    friend constexpr iterator
-    operator+(difference_type __n, const iterator& __x)
-    { return __x + __n; }
-
-    [[__nodiscard__]]
-    friend constexpr iterator
-    operator-(const iterator& __x, difference_type __n)
-    {
-      iterator __tmp = __x;
-      __tmp -= __n;
-      return __tmp;
-    }
-  };
-
-  struct _Bit_const_iterator : public _Bit_iterator_base
-  {
-    typedef bool reference;
-    typedef bool const_reference;
-
-    typedef void pointer;
-
-
-
-    typedef _Bit_const_iterator const_iterator;
-
-    constexpr
-    _Bit_const_iterator() : _Bit_iterator_base(0, 0) { }
-
-    constexpr
-    _Bit_const_iterator(_Bit_type * __x, unsigned int __y)
-    : _Bit_iterator_base(__x, __y) { }
-
-    constexpr
-    _Bit_const_iterator(const _Bit_iterator& __x)
-    : _Bit_iterator_base(__x._M_p, __x._M_offset) { }
-
-    constexpr
-    _Bit_iterator
-    _M_const_cast() const
-    { return _Bit_iterator(_M_p, _M_offset); }
-
-    [[__nodiscard__]] constexpr
-    const_reference
-    operator*() const
-    {
-      _M_assume_normalized();
-      return _Bit_reference(_M_p, 1UL << _M_offset);
-    }
-
-    constexpr
-    const_iterator&
-    operator++()
-    {
-      _M_bump_up();
-      return *this;
-    }
-
-    constexpr
-    const_iterator
-    operator++(int)
-    {
-      const_iterator __tmp = *this;
-      _M_bump_up();
-      return __tmp;
-    }
-
-    constexpr
-    const_iterator&
-    operator--()
-    {
-      _M_bump_down();
-      return *this;
-    }
-
-    constexpr
-    const_iterator
-    operator--(int)
-    {
-      const_iterator __tmp = *this;
-      _M_bump_down();
-      return __tmp;
-    }
-
-    constexpr
-    const_iterator&
-    operator+=(difference_type __i)
-    {
-      _M_incr(__i);
-      return *this;
-    }
-
-    constexpr
-    const_iterator&
-    operator-=(difference_type __i)
-    {
-      *this += -__i;
-      return *this;
-    }
-
-    [[__nodiscard__]] constexpr
-    const_reference
-    operator[](difference_type __i) const
-    { return *(*this + __i); }
-
-    [[__nodiscard__]]
-    friend constexpr const_iterator
-    operator+(const const_iterator& __x, difference_type __n)
-    {
-      const_iterator __tmp = __x;
-      __tmp += __n;
-      return __tmp;
-    }
-
-    [[__nodiscard__]]
-    friend constexpr const_iterator
-    operator-(const const_iterator& __x, difference_type __n)
-    {
-      const_iterator __tmp = __x;
-      __tmp -= __n;
-      return __tmp;
-    }
-
-    [[__nodiscard__]]
-    friend constexpr const_iterator
-    operator+(difference_type __n, const const_iterator& __x)
-    { return __x + __n; }
-  };
-
-  template<typename _Alloc>
-    struct _Bvector_base
-    {
-      typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template
-        rebind<_Bit_type>::other _Bit_alloc_type;
-      typedef typename __gnu_cxx::__alloc_traits<_Bit_alloc_type>
- _Bit_alloc_traits;
-      typedef typename _Bit_alloc_traits::pointer _Bit_pointer;
-
-      struct _Bvector_impl_data
-      {
-
- _Bit_iterator _M_start;
-# 553 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
- _Bit_iterator _M_finish;
- _Bit_pointer _M_end_of_storage;
-
- constexpr
- _Bvector_impl_data() noexcept
- : _M_start(), _M_finish(), _M_end_of_storage()
- { }
-
-
- _Bvector_impl_data(const _Bvector_impl_data&) = default;
-
- _Bvector_impl_data&
- operator=(const _Bvector_impl_data&) = default;
-
- constexpr
- _Bvector_impl_data(_Bvector_impl_data&& __x) noexcept
- : _Bvector_impl_data(__x)
- { __x._M_reset(); }
-
- constexpr
- void
- _M_move_data(_Bvector_impl_data&& __x) noexcept
- {
-   *this = __x;
-   __x._M_reset();
- }
-
-
- constexpr
- void
- _M_reset() noexcept
- { *this = _Bvector_impl_data(); }
-
- constexpr
- void
- _M_swap_data(_Bvector_impl_data& __x) noexcept
- {
-
-
-   std::swap(*this, __x);
- }
-      };
-
-      struct _Bvector_impl
- : public _Bit_alloc_type, public _Bvector_impl_data
-      {
- constexpr
- _Bvector_impl() noexcept(is_nothrow_default_constructible<_Bit_alloc_type>::value)
-
-
- requires is_default_constructible_v<_Bit_alloc_type>
-
- : _Bit_alloc_type()
- { }
-
- constexpr
- _Bvector_impl(const _Bit_alloc_type& __a) noexcept
- : _Bit_alloc_type(__a)
- { }
-
-
-
-
- constexpr
- _Bvector_impl(_Bvector_impl&& __x) noexcept
- : _Bit_alloc_type(std::move(__x)), _Bvector_impl_data(std::move(__x))
- { }
-
- constexpr
- _Bvector_impl(_Bit_alloc_type&& __a, _Bvector_impl&& __x) noexcept
- : _Bit_alloc_type(std::move(__a)), _Bvector_impl_data(std::move(__x))
- { }
-
-
- constexpr
- _Bit_type*
- _M_end_addr() const noexcept
- {
-   if (this->_M_end_of_storage)
-     return std::__addressof(this->_M_end_of_storage[-1]) + 1;
-   return 0;
- }
-      };
-
-    public:
-      typedef _Alloc allocator_type;
-
-      constexpr
-      _Bit_alloc_type&
-      _M_get_Bit_allocator() noexcept
-      { return this->_M_impl; }
-
-      constexpr
-      const _Bit_alloc_type&
-      _M_get_Bit_allocator() const noexcept
-      { return this->_M_impl; }
-
-      constexpr
-      allocator_type
-      get_allocator() const noexcept
-      { return allocator_type(_M_get_Bit_allocator()); }
-
-
-      _Bvector_base() = default;
-
-
-
-
-      constexpr
-      _Bvector_base(const allocator_type& __a)
-      : _M_impl(_Bit_alloc_type(__a)) { }
-
-
-      _Bvector_base(_Bvector_base&&) = default;
-
-      constexpr
-      _Bvector_base(_Bvector_base&& __x, const allocator_type& __a) noexcept
-      : _M_impl(_Bit_alloc_type(__a), std::move(__x._M_impl))
-      { }
-
-
-      constexpr
-      ~_Bvector_base()
-      { this->_M_deallocate(); }
-
-    protected:
-      _Bvector_impl _M_impl;
-
-      constexpr
-      _Bit_pointer
-      _M_allocate(size_t __n)
-      {
- _Bit_pointer __p = _Bit_alloc_traits::allocate(_M_impl, _S_nword(__n));
-
- if (std::is_constant_evaluated())
-   {
-     __n = _S_nword(__n);
-     for (size_t __i = 0; __i < __n; ++__i)
-       std::construct_at(std::to_address(__p) + __i);
-   }
-
- return __p;
-      }
-
-      constexpr
-      void
-      _M_deallocate()
-      {
- if (_M_impl._M_start._M_p)
-   {
-     const size_t __n = _M_impl._M_end_addr() - _M_impl._M_start._M_p;
-     _Bit_alloc_traits::deallocate(_M_impl,
-       _M_impl._M_end_of_storage - __n,
-       __n);
-     _M_impl._M_reset();
-   }
-      }
-
-
-      constexpr
-      void
-      _M_move_data(_Bvector_base&& __x) noexcept
-      { _M_impl._M_move_data(std::move(__x._M_impl)); }
-
-
-      constexpr
-      static size_t
-      _S_nword(size_t __n)
-      { return (__n + int(_S_word_bit) - 1) / int(_S_word_bit); }
-    };
-# 745 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
-  template<typename _Alloc>
-    class vector<bool, _Alloc> : protected _Bvector_base<_Alloc>
-    {
-      typedef _Bvector_base<_Alloc> _Base;
-      typedef typename _Base::_Bit_pointer _Bit_pointer;
-      typedef typename _Base::_Bit_alloc_traits _Bit_alloc_traits;
-
-
-      friend struct std::hash<vector>;
-
-      static_assert(is_same<typename _Alloc::value_type, bool>::value,
-   "std::vector must have the same value_type as its allocator");
-
-
-
-    public:
-      typedef bool value_type;
-      typedef size_t size_type;
-      typedef ptrdiff_t difference_type;
-      typedef _Bit_reference reference;
-      typedef bool const_reference;
-      typedef _Bit_reference* pointer;
-      typedef const bool* const_pointer;
-      typedef _Bit_iterator iterator;
-      typedef _Bit_const_iterator const_iterator;
-      typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
-      typedef std::reverse_iterator<iterator> reverse_iterator;
-      typedef _Alloc allocator_type;
-
-      constexpr
-      allocator_type
-      get_allocator() const
-      { return _Base::get_allocator(); }
-
-    protected:
-      using _Base::_M_allocate;
-      using _Base::_M_deallocate;
-      using _Base::_S_nword;
-      using _Base::_M_get_Bit_allocator;
-
-    public:
-
-      vector() = default;
-
-
-
-
-      constexpr
-      explicit
-      vector(const allocator_type& __a) noexcept
-      : _Base(__a) { }
-
-
-      constexpr
-      explicit
-      vector(size_type __n, const allocator_type& __a = allocator_type())
-      : vector(__n, false, __a)
-      { }
-
-      constexpr
-      vector(size_type __n, const bool& __value,
-      const allocator_type& __a = allocator_type())
-
-
-
-
-
-      : _Base(__a)
-      {
- _M_initialize(__n);
- _M_initialize_value(__value);
-      }
-
-      constexpr
-      vector(const vector& __x)
-      : _Base(_Bit_alloc_traits::_S_select_on_copy(__x._M_get_Bit_allocator()))
-      {
- const_iterator __xbegin = __x.begin(), __xend = __x.end();
- _M_initialize(__x.size());
- _M_copy_aligned(__xbegin, __xend, begin());
-      }
-
-
-      vector(vector&&) = default;
-
-    private:
-      constexpr
-      vector(vector&& __x, const allocator_type& __a, true_type) noexcept
-      : _Base(std::move(__x), __a)
-      { }
-
-      constexpr
-      vector(vector&& __x, const allocator_type& __a, false_type)
-      : _Base(__a)
-      {
- if (__x.get_allocator() == __a)
-   this->_M_move_data(std::move(__x));
- else
-   {
-     _M_initialize(__x.size());
-     _M_copy_aligned(__x.begin(), __x.end(), begin());
-     __x.clear();
-   }
-      }
-
-    public:
-      constexpr
-      vector(vector&& __x, const __type_identity_t<allocator_type>& __a)
-      noexcept(_Bit_alloc_traits::_S_always_equal())
-      : vector(std::move(__x), __a,
-        typename _Bit_alloc_traits::is_always_equal{})
-      { }
-
-      constexpr
-      vector(const vector& __x, const __type_identity_t<allocator_type>& __a)
-      : _Base(__a)
-      {
- _M_initialize(__x.size());
- _M_copy_aligned(__x.begin(), __x.end(), begin());
-      }
-
-      constexpr
-      vector(initializer_list<bool> __l,
-      const allocator_type& __a = allocator_type())
-      : _Base(__a)
-      {
- _M_initialize_range(__l.begin(), __l.end(),
-       random_access_iterator_tag());
-      }
-
-
-
-      template<typename _InputIterator,
-        typename = std::_RequireInputIter<_InputIterator>>
- constexpr
- vector(_InputIterator __first, _InputIterator __last,
-        const allocator_type& __a = allocator_type())
- : _Base(__a)
- {
-   _M_initialize_range(__first, __last,
-         std::__iterator_category(__first));
- }
-# 905 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
-      template<__detail::__container_compatible_range<bool> _Rg>
- constexpr
- vector(from_range_t, _Rg&& __rg, const _Alloc& __a = _Alloc())
- : _Base(__a)
- {
-   if constexpr (ranges::forward_range<_Rg> || ranges::sized_range<_Rg>)
-     {
-       _M_initialize(size_type(ranges::distance(__rg)));
-       ranges::copy(__rg, begin());
-     }
-   else
-     {
-       auto __first = ranges::begin(__rg);
-       const auto __last = ranges::end(__rg);
-       for (; __first != __last; ++__first)
-  emplace_back(*__first);
-     }
- }
-
-
-      constexpr
-      ~vector() noexcept { }
-
-      constexpr
-      vector&
-      operator=(const vector& __x)
-      {
- if (&__x == this)
-   return *this;
-
- if (_Bit_alloc_traits::_S_propagate_on_copy_assign())
-   {
-     if (this->_M_get_Bit_allocator() != __x._M_get_Bit_allocator())
-       {
-  this->_M_deallocate();
-  std::__alloc_on_copy(_M_get_Bit_allocator(),
-         __x._M_get_Bit_allocator());
-  _M_initialize(__x.size());
-       }
-     else
-       std::__alloc_on_copy(_M_get_Bit_allocator(),
-       __x._M_get_Bit_allocator());
-   }
-
- if (__x.size() > capacity())
-   {
-     this->_M_deallocate();
-     _M_initialize(__x.size());
-   }
- this->_M_impl._M_finish = _M_copy_aligned(__x.begin(), __x.end(),
-        begin());
- return *this;
-      }
-
-
-      constexpr
-      vector&
-      operator=(vector&& __x) noexcept(_Bit_alloc_traits::_S_nothrow_move())
-      {
- if (_Bit_alloc_traits::_S_propagate_on_move_assign()
-     || this->_M_get_Bit_allocator() == __x._M_get_Bit_allocator())
-   {
-     this->_M_deallocate();
-     this->_M_move_data(std::move(__x));
-     std::__alloc_on_move(_M_get_Bit_allocator(),
-     __x._M_get_Bit_allocator());
-   }
- else
-   {
-     if (__x.size() > capacity())
-       {
-  this->_M_deallocate();
-  _M_initialize(__x.size());
-       }
-     this->_M_impl._M_finish = _M_copy_aligned(__x.begin(), __x.end(),
-            begin());
-     __x.clear();
-   }
- return *this;
-      }
-
-      constexpr
-      vector&
-      operator=(initializer_list<bool> __l)
-      {
- this->assign(__l.begin(), __l.end());
- return *this;
-      }
-
-
-
-
-
-
-      constexpr
-      void
-      assign(size_type __n, const bool& __x)
-      { _M_fill_assign(__n, __x); }
-
-
-      template<typename _InputIterator,
-        typename = std::_RequireInputIter<_InputIterator>>
- constexpr
- void
- assign(_InputIterator __first, _InputIterator __last)
- { _M_assign_aux(__first, __last, std::__iterator_category(__first)); }
-# 1023 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
-      constexpr
-      void
-      assign(initializer_list<bool> __l)
-      { _M_assign_aux(__l.begin(), __l.end(), random_access_iterator_tag()); }
-# 1036 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
-      template<__detail::__container_compatible_range<bool> _Rg>
- constexpr void
- assign_range(_Rg&& __rg)
- {
-   static_assert(assignable_from<bool&, ranges::range_reference_t<_Rg>>);
-   if constexpr (ranges::forward_range<_Rg> || ranges::sized_range<_Rg>)
-     {
-       if (auto __n = size_type(ranges::distance(__rg)))
-  {
-    reserve(__n);
-    this->_M_impl._M_finish
-        = ranges::copy(std::forward<_Rg>(__rg), begin()).out;
-  }
-       else
-  clear();
-     }
-   else
-     {
-       clear();
-       auto __first = ranges::begin(__rg);
-       const auto __last = ranges::end(__rg);
-       for (; __first != __last; ++__first)
-  emplace_back(*__first);
-     }
- }
-
-
-      [[__nodiscard__]] constexpr
-      iterator
-      begin() noexcept
-      { return iterator(this->_M_impl._M_start._M_p, 0); }
-
-      [[__nodiscard__]] constexpr
-      const_iterator
-      begin() const noexcept
-      { return const_iterator(this->_M_impl._M_start._M_p, 0); }
-
-      [[__nodiscard__]] constexpr
-      iterator
-      end() noexcept
-      { return this->_M_impl._M_finish; }
-
-      [[__nodiscard__]] constexpr
-      const_iterator
-      end() const noexcept
-      { return this->_M_impl._M_finish; }
-
-      [[__nodiscard__]] constexpr
-      reverse_iterator
-      rbegin() noexcept
-      { return reverse_iterator(end()); }
-
-      [[__nodiscard__]] constexpr
-      const_reverse_iterator
-      rbegin() const noexcept
-      { return const_reverse_iterator(end()); }
-
-      [[__nodiscard__]] constexpr
-      reverse_iterator
-      rend() noexcept
-      { return reverse_iterator(begin()); }
-
-      [[__nodiscard__]] constexpr
-      const_reverse_iterator
-      rend() const noexcept
-      { return const_reverse_iterator(begin()); }
-
-
-      [[__nodiscard__]] constexpr
-      const_iterator
-      cbegin() const noexcept
-      { return const_iterator(this->_M_impl._M_start._M_p, 0); }
-
-      [[__nodiscard__]] constexpr
-      const_iterator
-      cend() const noexcept
-      { return this->_M_impl._M_finish; }
-
-      [[__nodiscard__]] constexpr
-      const_reverse_iterator
-      crbegin() const noexcept
-      { return const_reverse_iterator(end()); }
-
-      [[__nodiscard__]] constexpr
-      const_reverse_iterator
-      crend() const noexcept
-      { return const_reverse_iterator(begin()); }
-
-
-      [[__nodiscard__]] constexpr
-      size_type
-      size() const noexcept
-      { return size_type(end() - begin()); }
-
-      [[__nodiscard__]] constexpr
-      size_type
-      max_size() const noexcept
-      {
- const size_type __isize =
-   __gnu_cxx::__numeric_traits<difference_type>::__max
-   - int(_S_word_bit) + 1;
- const size_type __asize
-   = _Bit_alloc_traits::max_size(_M_get_Bit_allocator());
- return (__asize <= __isize / int(_S_word_bit)
-  ? __asize * int(_S_word_bit) : __isize);
-      }
-
-      [[__nodiscard__]] constexpr
-      size_type
-      capacity() const noexcept
-      { return size_type(const_iterator(this->_M_impl._M_end_addr(), 0)
-    - begin()); }
-
-      [[__nodiscard__]] constexpr
-      bool
-      empty() const noexcept
-      { return begin() == end(); }
-
-      [[__nodiscard__]] constexpr
-      reference
-      operator[](size_type __n)
-      {
- do { if (__builtin_expect(!bool(__n < this->size()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_bvector.h", 1158, __PRETTY_FUNCTION__, "__n < this->size()"); } while (false);
- return _Bit_reference (this->_M_impl._M_start._M_p
-          + __n / int(_S_word_bit),
-          1UL << __n % int(_S_word_bit));
-      }
-
-      [[__nodiscard__]] constexpr
-      const_reference
-      operator[](size_type __n) const
-      {
- do { if (__builtin_expect(!bool(__n < this->size()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_bvector.h", 1168, __PRETTY_FUNCTION__, "__n < this->size()"); } while (false);
- return _Bit_reference (this->_M_impl._M_start._M_p
-          + __n / int(_S_word_bit),
-          1UL << __n % int(_S_word_bit));
-      }
-
-    protected:
-      constexpr
-      void
-      _M_range_check(size_type __n) const
-      {
- if (__n >= this->size())
-   __throw_out_of_range_fmt(("vector<bool>::_M_range_check: __n " "(which is %zu) >= this->size() " "(which is %zu)")
-
-                            ,
-       __n, this->size());
-      }
-
-    public:
-      [[__nodiscard__]] constexpr
-      reference
-      at(size_type __n)
-      {
- _M_range_check(__n);
- return (*this)[__n];
-      }
-
-      [[__nodiscard__]] constexpr
-      const_reference
-      at(size_type __n) const
-      {
- _M_range_check(__n);
- return (*this)[__n];
-      }
-
-      constexpr
-      void
-      reserve(size_type __n)
-      {
- if (__n > max_size())
-   __throw_length_error(("vector::reserve"));
- if (capacity() < __n)
-   _M_reallocate(__n);
-      }
-
-      [[__nodiscard__]] constexpr
-      reference
-      front()
-      {
- do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_bvector.h", 1217, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
- return *begin();
-      }
-
-      [[__nodiscard__]] constexpr
-      const_reference
-      front() const
-      {
- do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_bvector.h", 1225, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
- return *begin();
-      }
-
-      [[__nodiscard__]] constexpr
-      reference
-      back()
-      {
- do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_bvector.h", 1233, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
- return *(end() - 1);
-      }
-
-      [[__nodiscard__]] constexpr
-      const_reference
-      back() const
-      {
- do { if (__builtin_expect(!bool(!this->empty()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_bvector.h", 1241, __PRETTY_FUNCTION__, "!this->empty()"); } while (false);
- return *(end() - 1);
-      }
-
-      constexpr
-      void
-      push_back(bool __x)
-      {
- if (this->_M_impl._M_finish._M_p != this->_M_impl._M_end_addr())
-   *this->_M_impl._M_finish++ = __x;
- else
-   _M_insert_aux(end(), __x);
-      }
-
-      constexpr
-      void
-      swap(vector& __x) noexcept
-      {
-
- do { if (__builtin_expect(!bool(_Bit_alloc_traits::propagate_on_container_swap::value || _M_get_Bit_allocator() == __x._M_get_Bit_allocator()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/stl_bvector.h", 1260, __PRETTY_FUNCTION__, "_Bit_alloc_traits::propagate_on_container_swap::value || _M_get_Bit_allocator() == __x._M_get_Bit_allocator()"); } while (false)
-                                                            ;
-
- this->_M_impl._M_swap_data(__x._M_impl);
- _Bit_alloc_traits::_S_on_swap(_M_get_Bit_allocator(),
-          __x._M_get_Bit_allocator());
-      }
-
-
-      constexpr
-      static void
-      swap(reference __x, reference __y) noexcept
-      {
- bool __tmp = __x;
- __x = __y;
- __y = __tmp;
-      }
-
-      constexpr
-      iterator
-
-      insert(const_iterator __position, const bool& __x)
-
-
-
-      {
- const difference_type __n = __position - begin();
- if (this->_M_impl._M_finish._M_p != this->_M_impl._M_end_addr()
-     && __position == end())
-   *this->_M_impl._M_finish++ = __x;
- else
-   _M_insert_aux(__position._M_const_cast(), __x);
- return begin() + __n;
-      }
-
-
-      __attribute__ ((__deprecated__ ("use '" "insert(position, false)" "' instead")))
-      iterator
-      insert(const_iterator __position)
-      { return this->insert(__position._M_const_cast(), false); }
-
-
-
-      template<typename _InputIterator,
-        typename = std::_RequireInputIter<_InputIterator>>
- constexpr
- iterator
- insert(const_iterator __position,
-        _InputIterator __first, _InputIterator __last)
- {
-   difference_type __offset = __position - cbegin();
-   _M_insert_range(__position._M_const_cast(),
-     __first, __last,
-     std::__iterator_category(__first));
-   return begin() + __offset;
- }
-# 1329 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
-      constexpr
-      iterator
-      insert(const_iterator __position, size_type __n, const bool& __x)
-      {
- difference_type __offset = __position - cbegin();
- _M_fill_insert(__position._M_const_cast(), __n, __x);
- return begin() + __offset;
-      }
-
-
-
-
-
-
-
-      constexpr
-      iterator
-      insert(const_iterator __p, initializer_list<bool> __l)
-      { return this->insert(__p, __l.begin(), __l.end()); }
-# 1359 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
-      template<__detail::__container_compatible_range<bool> _Rg>
- constexpr iterator
- insert_range(const_iterator __pos, _Rg&& __rg)
- {
-   if constexpr (ranges::forward_range<_Rg> || ranges::sized_range<_Rg>)
-     {
-       if (auto __n = size_type(ranges::distance(__rg)))
-  {
-    if (capacity() - size() >= __n)
-      {
-        std::copy_backward(__pos._M_const_cast(), end(),
-      this->_M_impl._M_finish
-        + difference_type(__n));
-        ranges::copy(__rg, __pos._M_const_cast());
-        this->_M_impl._M_finish += difference_type(__n);
-        return __pos._M_const_cast();
-      }
-    else
-      {
-        const size_type __len =
-   _M_check_len(__n, "vector<bool>::insert_range");
-        const iterator __begin = begin(), __end = end();
-        _Bit_pointer __q = this->_M_allocate(__len);
-        iterator __start(std::__addressof(*__q), 0);
-        iterator __i = _M_copy_aligned(__begin,
-           __pos._M_const_cast(),
-           __start);
-        iterator __j = ranges::copy(__rg, __i).out;
-        iterator __finish = std::copy(__pos._M_const_cast(),
-          __end, __j);
-        this->_M_deallocate();
-        this->_M_impl._M_end_of_storage = __q + _S_nword(__len);
-        this->_M_impl._M_start = __start;
-        this->_M_impl._M_finish = __finish;
-        return __i;
-      }
-  }
-       else
-  return __pos._M_const_cast();
-     }
-   else
-     return insert_range(__pos,
-    vector(from_range, __rg, get_allocator()));
- }
-
-
-
-
-
-      template<__detail::__container_compatible_range<bool> _Rg>
- constexpr void
- append_range(_Rg&& __rg)
- {
-
-
-
-   if constexpr (ranges::forward_range<_Rg> || ranges::sized_range<_Rg>)
-     {
-       const auto __n = size_type(ranges::distance(__rg));
-
-
-
-       if (capacity() == 0)
-  reserve(__n);
-
-       const auto __sz = size();
-       const auto __capacity = capacity();
-       if ((__capacity - __sz) >= __n)
-  {
-    this->_M_impl._M_finish
-        = ranges::copy(std::forward<_Rg>(__rg), end()).out;
-    return;
-  }
-
-       vector __tmp(get_allocator());
-       __tmp.reserve(_M_check_len(__n, "vector::append_range"));
-       __tmp._M_impl._M_finish
-     = _M_copy_aligned(cbegin(), cend(), __tmp.begin());
-       __tmp._M_impl._M_finish
-     = ranges::copy(std::forward<_Rg>(__rg), __tmp.end()).out;
-       swap(__tmp);
-     }
-   else
-     {
-       auto __first = ranges::begin(__rg);
-       const auto __last = ranges::end(__rg);
-
-
-       for (auto __free = capacity() - size();
-     __first != __last && __free > 0;
-     ++__first, (void) --__free)
-  emplace_back(*__first);
-
-       if (__first == __last)
-  return;
-
-
-       ranges::subrange __rest(std::move(__first), __last);
-       vector __tmp(from_range, __rest, get_allocator());
-       insert(end(), __tmp.begin(), __tmp.end());
-     }
- }
-
-
-      constexpr
-      void
-      pop_back()
-      { --this->_M_impl._M_finish; }
-
-      constexpr
-      iterator
-
-      erase(const_iterator __position)
-
-
-
-      { return _M_erase(__position._M_const_cast()); }
-
-      constexpr
-      iterator
-
-      erase(const_iterator __first, const_iterator __last)
-
-
-
-      { return _M_erase(__first._M_const_cast(), __last._M_const_cast()); }
-
-      constexpr
-      void
-      resize(size_type __new_size, bool __x = bool())
-      {
- if (__new_size < size())
-   _M_erase_at_end(begin() + difference_type(__new_size));
- else
-   insert(end(), __new_size - size(), __x);
-      }
-
-
-      constexpr
-      void
-      shrink_to_fit()
-      { _M_shrink_to_fit(); }
-
-
-      constexpr
-      void
-      flip() noexcept
-      {
- _Bit_type * const __end = this->_M_impl._M_end_addr();
- for (_Bit_type * __p = this->_M_impl._M_start._M_p; __p != __end; ++__p)
-   *__p = ~*__p;
-      }
-
-      constexpr
-      void
-      clear() noexcept
-      { _M_erase_at_end(begin()); }
-
-
-      template<typename... _Args>
-
- constexpr
- reference
-
-
-
- emplace_back(_Args&&... __args)
- {
-   push_back(bool(std::forward<_Args>(__args)...));
-
-   return back();
-
- }
-
-      template<typename... _Args>
- constexpr
- iterator
- emplace(const_iterator __pos, _Args&&... __args)
- { return insert(__pos, bool(std::forward<_Args>(__args)...)); }
-
-
-    protected:
-
-      constexpr
-      iterator
-      _M_copy_aligned(const_iterator __first, const_iterator __last,
-        iterator __result)
-      {
- _Bit_type* __q = std::copy(__first._M_p, __last._M_p, __result._M_p);
- return std::copy(const_iterator(__last._M_p, 0), __last,
-    iterator(__q, 0));
-      }
-
-      constexpr
-      void
-      _M_initialize(size_type __n)
-      {
- if (__n)
-   {
-     _Bit_pointer __q = this->_M_allocate(__n);
-     this->_M_impl._M_end_of_storage = __q + _S_nword(__n);
-     iterator __start = iterator(std::__addressof(*__q), 0);
-     this->_M_impl._M_start = __start;
-     this->_M_impl._M_finish = __start + difference_type(__n);
-   }
-      }
-
-      constexpr
-      void
-      _M_initialize_value(bool __x) noexcept
-      {
- if (_Bit_type* __p = this->_M_impl._M_start._M_p)
-   __fill_bvector_n(__p, this->_M_impl._M_end_addr() - __p, __x);
-      }
-
-      constexpr
-      void
-      _M_reallocate(size_type __n);
-
-
-      constexpr
-      bool
-      _M_shrink_to_fit();
-# 1603 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
-      template<typename _InputIterator>
- constexpr
- void
- _M_initialize_range(_InputIterator __first, _InputIterator __last,
-       std::input_iterator_tag)
- {
-   for (; __first != __last; ++__first)
-     push_back(*__first);
- }
-
-      template<typename _ForwardIterator>
- constexpr
- void
- _M_initialize_range(_ForwardIterator __first, _ForwardIterator __last,
-       std::forward_iterator_tag)
- {
-   const size_type __n = std::distance(__first, __last);
-   _M_initialize(__n);
-   std::copy(__first, __last, begin());
- }
-# 1639 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
-      constexpr
-      void
-      _M_fill_assign(size_t __n, bool __x)
-      {
- if (__n > size())
-   {
-     _M_initialize_value(__x);
-     insert(end(), __n - size(), __x);
-   }
- else
-   {
-     _M_erase_at_end(begin() + __n);
-     _M_initialize_value(__x);
-   }
-      }
-
-      template<typename _InputIterator>
- constexpr
- void
- _M_assign_aux(_InputIterator __first, _InputIterator __last,
-        std::input_iterator_tag)
- {
-   iterator __cur = begin();
-   for (; __first != __last && __cur != end(); ++__cur, (void)++__first)
-     *__cur = *__first;
-   if (__first == __last)
-     _M_erase_at_end(__cur);
-   else
-     insert(end(), __first, __last);
- }
-
-      template<typename _ForwardIterator>
- constexpr
- void
- _M_assign_aux(_ForwardIterator __first, _ForwardIterator __last,
-        std::forward_iterator_tag)
- {
-   const size_type __len = std::distance(__first, __last);
-   if (__len < size())
-     _M_erase_at_end(std::copy(__first, __last, begin()));
-   else
-     {
-       _ForwardIterator __mid = __first;
-       std::advance(__mid, size());
-       std::copy(__first, __mid, begin());
-       insert(end(), __mid, __last);
-     }
- }
-# 1706 "/usr/include/c++/15.2.1/bits/stl_bvector.h" 3
-      constexpr
-      void
-      _M_fill_insert(iterator __position, size_type __n, bool __x);
-
-      template<typename _InputIterator>
- constexpr
- void
- _M_insert_range(iterator __pos, _InputIterator __first,
-   _InputIterator __last, std::input_iterator_tag)
- {
-   for (; __first != __last; ++__first)
-     {
-       __pos = insert(__pos, *__first);
-       ++__pos;
-     }
- }
-
-      template<typename _ForwardIterator>
- constexpr
- void
- _M_insert_range(iterator __position, _ForwardIterator __first,
-   _ForwardIterator __last, std::forward_iterator_tag);
-
-      constexpr
-      void
-      _M_insert_aux(iterator __position, bool __x);
-
-      constexpr
-      size_type
-      _M_check_len(size_type __n, const char* __s) const
-      {
- if (max_size() - size() < __n)
-   __throw_length_error((__s));
-
- const size_type __len = size() + std::max(size(), __n);
- return (__len < size() || __len > max_size()) ? max_size() : __len;
-      }
-
-      constexpr
-      void
-      _M_erase_at_end(iterator __pos)
-      { this->_M_impl._M_finish = __pos; }
-
-      constexpr
-      iterator
-      _M_erase(iterator __pos);
-
-      constexpr
-      iterator
-      _M_erase(iterator __first, iterator __last);
-
-    protected:
-
-
-
-
-
-
-      void data() = delete;
-
-
-
-    };
-
-
-
-
-  constexpr
-  inline void
-  __fill_bvector(_Bit_type* __v, unsigned int __first, unsigned int __last,
-   bool __x) noexcept
-  {
-    const _Bit_type __fmask = ~0ul << __first;
-    const _Bit_type __lmask = ~0ul >> (_S_word_bit - __last);
-    const _Bit_type __mask = __fmask & __lmask;
-
-    if (__x)
-      *__v |= __mask;
-    else
-      *__v &= ~__mask;
-  }
-
-
-  __attribute__((__nonnull__))
-  constexpr
-  inline void
-  __fill_bvector_n(_Bit_type* __p, size_t __n, bool __x) noexcept
-  {
-
-    if (std::is_constant_evaluated())
-    {
-      for (size_t __i = 0; __i < __n; ++__i)
- __p[__i] = __x ? ~0ul : 0ul;
-      return;
-    }
-
-    __builtin_memset(__p, __x ? ~0 : 0, __n * sizeof(_Bit_type));
-  }
-
-
-  constexpr
-  inline void
-  __fill_a1(std::_Bit_iterator __first,
-     std::_Bit_iterator __last, const bool& __x)
-  {
-    if (__first._M_p != __last._M_p)
-      {
- _Bit_type* __first_p = __first._M_p;
- if (__first._M_offset != 0)
-   __fill_bvector(__first_p++, __first._M_offset, _S_word_bit, __x);
-
- __fill_bvector_n(__first_p, __last._M_p - __first_p, __x);
-
- if (__last._M_offset != 0)
-   __fill_bvector(__last._M_p, 0, __last._M_offset, __x);
-      }
-    else if (__first._M_offset != __last._M_offset)
-      __fill_bvector(__first._M_p, __first._M_offset, __last._M_offset, __x);
-  }
-
-
-
-
-  template<typename _Alloc>
-    struct hash<std::vector<bool, _Alloc>>
-    : public __hash_base<size_t, std::vector<bool, _Alloc>>
-    {
       size_t
-      operator()(const std::vector<bool, _Alloc>&) const noexcept;
-    };
-
-
-
-}
-# 70 "/usr/include/c++/15.2.1/vector" 2 3
-
-
-
-
-# 1 "/usr/include/c++/15.2.1/bits/vector.tcc" 1 3
-# 59 "/usr/include/c++/15.2.1/bits/vector.tcc" 3
-namespace std __attribute__ ((__visibility__ ("default")))
-{
-
-
-
-  template<typename _Tp, typename _Alloc>
-    constexpr
-    void
-    vector<_Tp, _Alloc>::
-    reserve(size_type __n)
-    {
-      if (__n > this->max_size())
- __throw_length_error(("vector::reserve"));
-      if (this->capacity() < __n)
- {
-   const size_type __old_size = size();
-   pointer __tmp;
-
-   if constexpr (_S_use_relocate())
-     {
-       __tmp = this->_M_allocate(__n);
-       _S_relocate(this->_M_impl._M_start, this->_M_impl._M_finish,
-     __tmp, _M_get_Tp_allocator());
-     }
-   else
-
-     {
-       __tmp = _M_allocate_and_copy(__n,
-  std::__make_move_if_noexcept_iterator(this->_M_impl._M_start),
-  std::__make_move_if_noexcept_iterator(this->_M_impl._M_finish));
-       std::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish,
-       _M_get_Tp_allocator());
-     }
-   ;
-   _M_deallocate(this->_M_impl._M_start,
-   this->_M_impl._M_end_of_storage
-   - this->_M_impl._M_start);
-   this->_M_impl._M_start = __tmp;
-   this->_M_impl._M_finish = __tmp + __old_size;
-   this->_M_impl._M_end_of_storage = this->_M_impl._M_start + __n;
- }
-    }
-
-
-  template<typename _Tp, typename _Alloc>
-    template<typename... _Args>
-
-      constexpr
-      typename vector<_Tp, _Alloc>::reference
-
-
-
-      vector<_Tp, _Alloc>::
-      emplace_back(_Args&&... __args)
+      operator()(const variant<_Types...>& __t) const
+      noexcept((is_nothrow_invocable_v<hash<decay_t<_Types>>, _Types> && ...))
       {
- if (this->_M_impl._M_finish != this->_M_impl._M_end_of_storage)
+ size_t __ret;
+ __detail::__variant::__raw_visit(
+   [&__t, &__ret](auto&& __t_mem) mutable
    {
-     ;
-     _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
-         std::forward<_Args>(__args)...);
-     ++this->_M_impl._M_finish;
-     ;
-   }
- else
-   _M_realloc_append(std::forward<_Args>(__args)...);
-
- return back();
-
-      }
-
-
-  template<typename _Tp, typename _Alloc>
-    constexpr
-    typename vector<_Tp, _Alloc>::iterator
-    vector<_Tp, _Alloc>::
-
-    insert(const_iterator __position, const value_type& __x)
-
-
-
-    {
-      const size_type __n = __position - begin();
-      if (this->_M_impl._M_finish != this->_M_impl._M_end_of_storage)
- {
-   do { if (__builtin_expect(!bool(__position != const_iterator()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/bits/vector.tcc", 143, __PRETTY_FUNCTION__, "__position != const_iterator()"); } while (false);
-   if (!(__position != const_iterator()))
-     __builtin_unreachable();
-
-   if (__position == end())
-     {
-       ;
-       _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
-           __x);
-       ++this->_M_impl._M_finish;
-       ;
-     }
-   else
-     {
-
-       const auto __pos = begin() + (__position - cbegin());
-
-
-       _Temporary_value __x_copy(this, __x);
-       _M_insert_aux(__pos, std::move(__x_copy._M_val()));
-
-
-
-     }
- }
-      else
-
- _M_realloc_insert(begin() + (__position - cbegin()), __x);
-
-
-
-
-      return iterator(this->_M_impl._M_start + __n);
-    }
-
-  template<typename _Tp, typename _Alloc>
-    constexpr
-    typename vector<_Tp, _Alloc>::iterator
-    vector<_Tp, _Alloc>::
-    _M_erase(iterator __position)
-    {
-      if (__position + 1 != end())
- std::move(__position + 1, end(), __position);
-      --this->_M_impl._M_finish;
-      _Alloc_traits::destroy(this->_M_impl, this->_M_impl._M_finish);
-      ;
-      return __position;
-    }
-
-  template<typename _Tp, typename _Alloc>
-    constexpr
-    typename vector<_Tp, _Alloc>::iterator
-    vector<_Tp, _Alloc>::
-    _M_erase(iterator __first, iterator __last)
-    {
-      if (__first != __last)
- {
-   if (__last != end())
-     std::move(__last, end(), __first);
-   _M_erase_at_end(__first.base() + (end() - __last));
- }
-      return __first;
-    }
-
-  template<typename _Tp, typename _Alloc>
-    constexpr
-    vector<_Tp, _Alloc>&
-    vector<_Tp, _Alloc>::
-    operator=(const vector<_Tp, _Alloc>& __x)
-    {
-      if (std::__addressof(__x) != this)
- {
-   ;
-
-   if (_Alloc_traits::_S_propagate_on_copy_assign())
-     {
-       if (!_Alloc_traits::_S_always_equal()
-           && _M_get_Tp_allocator() != __x._M_get_Tp_allocator())
-         {
-
-    this->clear();
-    _M_deallocate(this->_M_impl._M_start,
-    this->_M_impl._M_end_of_storage
-    - this->_M_impl._M_start);
-    this->_M_impl._M_start = nullptr;
-    this->_M_impl._M_finish = nullptr;
-    this->_M_impl._M_end_of_storage = nullptr;
-  }
-       std::__alloc_on_copy(_M_get_Tp_allocator(),
-       __x._M_get_Tp_allocator());
-     }
-
-   const size_type __xlen = __x.size();
-   if (__xlen > capacity())
-     {
-       pointer __tmp = _M_allocate_and_copy(__xlen, __x.begin(),
-         __x.end());
-       std::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish,
-       _M_get_Tp_allocator());
-       _M_deallocate(this->_M_impl._M_start,
-       this->_M_impl._M_end_of_storage
-       - this->_M_impl._M_start);
-       this->_M_impl._M_start = __tmp;
-       this->_M_impl._M_end_of_storage = this->_M_impl._M_start + __xlen;
-     }
-   else if (size() >= __xlen)
-     {
-       std::_Destroy(std::copy(__x.begin(), __x.end(), begin()),
-       end(), _M_get_Tp_allocator());
-     }
-   else
-     {
-       std::copy(__x._M_impl._M_start, __x._M_impl._M_start + size(),
-   this->_M_impl._M_start);
-       std::__uninitialized_copy_a(__x._M_impl._M_start + size(),
-       __x._M_impl._M_finish,
-       this->_M_impl._M_finish,
-       _M_get_Tp_allocator());
-     }
-   this->_M_impl._M_finish = this->_M_impl._M_start + __xlen;
- }
-      return *this;
-    }
-
-  template<typename _Tp, typename _Alloc>
-    constexpr
-    void
-    vector<_Tp, _Alloc>::
-    _M_fill_assign(size_t __n, const value_type& __val)
-    {
-      const size_type __sz = size();
-      if (__n > capacity())
- {
-   if (__n <= __sz)
-     __builtin_unreachable();
-   vector __tmp(__n, __val, _M_get_Tp_allocator());
-   __tmp._M_impl._M_swap_data(this->_M_impl);
- }
-      else if (__n > __sz)
- {
-   std::fill(begin(), end(), __val);
-   const size_type __add = __n - __sz;
-   ;
-   this->_M_impl._M_finish =
-     std::__uninitialized_fill_n_a(this->_M_impl._M_finish,
-       __add, __val, _M_get_Tp_allocator());
-   ;
- }
-      else
-        _M_erase_at_end(std::fill_n(this->_M_impl._M_start, __n, __val));
-    }
-
-  template<typename _Tp, typename _Alloc>
-    template<typename _InputIterator>
-      constexpr
-      void
-      vector<_Tp, _Alloc>::
-      _M_assign_aux(_InputIterator __first, _InputIterator __last,
-      std::input_iterator_tag)
-      {
- pointer __cur(this->_M_impl._M_start);
- for (; __first != __last && __cur != this->_M_impl._M_finish;
-      ++__cur, (void)++__first)
-   *__cur = *__first;
- if (__first == __last)
-   _M_erase_at_end(__cur);
- else
-   _M_range_insert(end(), __first, __last,
-     std::__iterator_category(__first));
-      }
-
-  template<typename _Tp, typename _Alloc>
-    template<typename _ForwardIterator>
-      constexpr
-      void
-      vector<_Tp, _Alloc>::
-      _M_assign_aux(_ForwardIterator __first, _ForwardIterator __last,
-      std::forward_iterator_tag)
-      {
- const size_type __sz = size();
- const size_type __len = std::distance(__first, __last);
-
- if (__len > capacity())
-   {
-     if (__len <= __sz)
-       __builtin_unreachable();
-
-     _S_check_init_len(__len, _M_get_Tp_allocator());
-     pointer __tmp(_M_allocate_and_copy(__len, __first, __last));
-     std::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish,
-     _M_get_Tp_allocator());
-     ;
-     _M_deallocate(this->_M_impl._M_start,
-     this->_M_impl._M_end_of_storage
-     - this->_M_impl._M_start);
-     this->_M_impl._M_start = __tmp;
-     this->_M_impl._M_finish = this->_M_impl._M_start + __len;
-     this->_M_impl._M_end_of_storage = this->_M_impl._M_finish;
-   }
- else if (__sz >= __len)
-   _M_erase_at_end(std::copy(__first, __last, this->_M_impl._M_start));
- else
-   {
-     _ForwardIterator __mid = __first;
-     std::advance(__mid, __sz);
-     std::copy(__first, __mid, this->_M_impl._M_start);
-     const size_type __attribute__((__unused__)) __n = __len - __sz;
-     ;
-     this->_M_impl._M_finish =
-       std::__uninitialized_copy_a(__mid, __last,
-       this->_M_impl._M_finish,
-       _M_get_Tp_allocator());
-     ;
-   }
-      }
-
-
-  template<typename _Tp, typename _Alloc>
-    constexpr
-    auto
-    vector<_Tp, _Alloc>::
-    _M_insert_rval(const_iterator __position, value_type&& __v) -> iterator
-    {
-      const auto __n = __position - cbegin();
-      if (this->_M_impl._M_finish != this->_M_impl._M_end_of_storage)
- if (__position == cend())
-   {
-     ;
-     _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
-         std::move(__v));
-     ++this->_M_impl._M_finish;
-     ;
-   }
- else
-   _M_insert_aux(begin() + __n, std::move(__v));
-      else
- _M_realloc_insert(begin() + __n, std::move(__v));
-
-      return iterator(this->_M_impl._M_start + __n);
-    }
-
-  template<typename _Tp, typename _Alloc>
-    template<typename... _Args>
-      constexpr
-      auto
-      vector<_Tp, _Alloc>::
-      _M_emplace_aux(const_iterator __position, _Args&&... __args)
-      -> iterator
-      {
- const auto __n = __position - cbegin();
- if (this->_M_impl._M_finish != this->_M_impl._M_end_of_storage)
-   if (__position == cend())
-     {
-       ;
-       _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
-           std::forward<_Args>(__args)...);
-       ++this->_M_impl._M_finish;
-       ;
-     }
-   else
-     {
-
-
-
-       _Temporary_value __tmp(this, std::forward<_Args>(__args)...);
-       _M_insert_aux(begin() + __n, std::move(__tmp._M_val()));
-     }
- else
-   _M_realloc_insert(begin() + __n, std::forward<_Args>(__args)...);
-
- return iterator(this->_M_impl._M_start + __n);
-      }
-
-  template<typename _Tp, typename _Alloc>
-    template<typename _Arg>
-      constexpr
-      void
-      vector<_Tp, _Alloc>::
-      _M_insert_aux(iterator __position, _Arg&& __arg)
-
-
-
-
-
-
-    {
-      ;
-      _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
-          std::move(*(this->_M_impl._M_finish - 1)));
-      ++this->_M_impl._M_finish;
-      ;
-
-
-
-      std::move_backward(__position.base(), this->_M_impl._M_finish - 2, this->_M_impl._M_finish - 1)
-
-                                     ;
-
-
-
-      *__position = std::forward<_Arg>(__arg);
-
-    }
-
-
-  template<typename _Tp, typename _Alloc>
-    template<typename... _Args>
-      constexpr
-      void
-      vector<_Tp, _Alloc>::
-      _M_realloc_insert(iterator __position, _Args&&... __args)
-
-
-
-
-
-
-    {
-      const size_type __len = _M_check_len(1u, "vector::_M_realloc_insert");
-      if (__len <= 0)
- __builtin_unreachable ();
-      pointer __old_start = this->_M_impl._M_start;
-      pointer __old_finish = this->_M_impl._M_finish;
-      const size_type __elems_before = __position - begin();
-      pointer __new_start(this->_M_allocate(__len));
-      pointer __new_finish(__new_start);
-
-      {
- _Guard_alloc __guard(__new_start, __len, *this);
-# 481 "/usr/include/c++/15.2.1/bits/vector.tcc" 3
- _Alloc_traits::construct(this->_M_impl,
-     std::__to_address(__new_start + __elems_before),
-     std::forward<_Args>(__args)...);
-
-
-
-
-
-
-
- if constexpr (_S_use_relocate())
-   {
-
-     __new_finish = _S_relocate(__old_start, __position.base(),
-           __new_start, _M_get_Tp_allocator());
-     ++__new_finish;
-     __new_finish = _S_relocate(__position.base(), __old_finish,
-           __new_finish, _M_get_Tp_allocator());
-   }
- else
-
-   {
-
-     struct _Guard_elts
-     {
-       pointer _M_first, _M_last;
-       _Tp_alloc_type& _M_alloc;
-
-       constexpr
-       _Guard_elts(pointer __elt, _Tp_alloc_type& __a)
-       : _M_first(__elt), _M_last(__elt + 1), _M_alloc(__a)
-       { }
-
-       constexpr
-       ~_Guard_elts()
-       { std::_Destroy(_M_first, _M_last, _M_alloc); }
-
-     private:
-       _Guard_elts(const _Guard_elts&);
-     };
-
-
-     _Guard_elts __guard_elts(__new_start + __elems_before, _M_impl);
-
-     __new_finish = std::__uninitialized_move_if_noexcept_a(
-        __old_start, __position.base(),
-        __new_start, _M_get_Tp_allocator());
-
-     ++__new_finish;
-
-     __guard_elts._M_first = __new_start;
-
-     __new_finish = std::__uninitialized_move_if_noexcept_a(
-         __position.base(), __old_finish,
-         __new_finish, _M_get_Tp_allocator());
-
-
-     __guard_elts._M_first = __old_start;
-     __guard_elts._M_last = __old_finish;
-   }
- __guard._M_storage = __old_start;
- __guard._M_len = this->_M_impl._M_end_of_storage - __old_start;
-      }
-
-
-
-      this->_M_impl._M_start = __new_start;
-      this->_M_impl._M_finish = __new_finish;
-      this->_M_impl._M_end_of_storage = __new_start + __len;
-    }
-
-
-  template<typename _Tp, typename _Alloc>
-    template<typename... _Args>
-      constexpr
-      void
-      vector<_Tp, _Alloc>::
-      _M_realloc_append(_Args&&... __args)
-
-
-
-
-
-
-    {
-      const size_type __len = _M_check_len(1u, "vector::_M_realloc_append");
-      if (__len <= 0)
- __builtin_unreachable ();
-      pointer __old_start = this->_M_impl._M_start;
-      pointer __old_finish = this->_M_impl._M_finish;
-      const size_type __elems = end() - begin();
-      pointer __new_start(this->_M_allocate(__len));
-      pointer __new_finish(__new_start);
-
-      {
- _Guard_alloc __guard(__new_start, __len, *this);
-# 586 "/usr/include/c++/15.2.1/bits/vector.tcc" 3
- _Alloc_traits::construct(this->_M_impl,
-     std::__to_address(__new_start + __elems),
-     std::forward<_Args>(__args)...);
-
-
-
-
-
-
-
- if constexpr (_S_use_relocate())
-   {
-
-     __new_finish = _S_relocate(__old_start, __old_finish,
-           __new_start, _M_get_Tp_allocator());
-     ++__new_finish;
-   }
- else
-
-   {
-
-     struct _Guard_elts
-     {
-       pointer _M_first, _M_last;
-       _Tp_alloc_type& _M_alloc;
-
-       constexpr
-       _Guard_elts(pointer __elt, _Tp_alloc_type& __a)
-       : _M_first(__elt), _M_last(__elt + 1), _M_alloc(__a)
-       { }
-
-       constexpr
-       ~_Guard_elts()
-       { std::_Destroy(_M_first, _M_last, _M_alloc); }
-
-     private:
-       _Guard_elts(const _Guard_elts&);
-     };
-
-
-     _Guard_elts __guard_elts(__new_start + __elems, _M_impl);
-
-     __new_finish = std::__uninitialized_move_if_noexcept_a(
-        __old_start, __old_finish,
-        __new_start, _M_get_Tp_allocator());
-
-     ++__new_finish;
-
-
-     __guard_elts._M_first = __old_start;
-     __guard_elts._M_last = __old_finish;
-   }
- __guard._M_storage = __old_start;
- __guard._M_len = this->_M_impl._M_end_of_storage - __old_start;
-      }
-
-
-
-      this->_M_impl._M_start = __new_start;
-      this->_M_impl._M_finish = __new_finish;
-      this->_M_impl._M_end_of_storage = __new_start + __len;
-    }
-
-  template<typename _Tp, typename _Alloc>
-    constexpr
-    void
-    vector<_Tp, _Alloc>::
-    _M_fill_insert(iterator __position, size_type __n, const value_type& __x)
-    {
-      if (__n != 0)
- {
-   if (__position.base() == this->_M_impl._M_finish)
-     _M_fill_append(__n, __x);
-   else if (size_type(this->_M_impl._M_end_of_storage
-          - this->_M_impl._M_finish) >= __n)
-     {
-
-
-
-       _Temporary_value __tmp(this, __x);
-       value_type& __x_copy = __tmp._M_val();
-
-       const size_type __elems_after = end() - __position;
-       pointer __old_finish(this->_M_impl._M_finish);
-       if (__elems_after > __n)
-  {
-    ;
-    std::__uninitialized_move_a(__old_finish - __n,
-           __old_finish,
-           __old_finish,
-           _M_get_Tp_allocator());
-    this->_M_impl._M_finish += __n;
-    ;
-    std::move_backward(__position.base(), __old_finish - __n, __old_finish)
-                                        ;
-    std::fill(__position.base(), __position.base() + __n,
-       __x_copy);
-  }
-       else
-  {
-    ;
-    this->_M_impl._M_finish =
-      std::__uninitialized_fill_n_a(__old_finish,
-        __n - __elems_after,
-        __x_copy,
-        _M_get_Tp_allocator());
-    ;
-    std::__uninitialized_move_a(__position.base(), __old_finish,
-           this->_M_impl._M_finish,
-           _M_get_Tp_allocator());
-    this->_M_impl._M_finish += __elems_after;
-    ;
-    std::fill(__position.base(), __old_finish, __x_copy);
-  }
-     }
-   else
-     {
-
-
-       pointer __old_start = this->_M_impl._M_start;
-       pointer __old_finish = this->_M_impl._M_finish;
-       const pointer __pos = __position.base();
-
-       const size_type __len =
-  _M_check_len(__n, "vector::_M_fill_insert");
-       const size_type __elems_before = __pos - __old_start;
-       pointer __new_start(this->_M_allocate(__len));
-       pointer __new_finish(__new_start);
-       try
-  {
-
-    std::__uninitialized_fill_n_a(__new_start + __elems_before,
-      __n, __x,
-      _M_get_Tp_allocator());
-    __new_finish = pointer();
-
-    __new_finish
-      = std::__uninitialized_move_if_noexcept_a
-      (__old_start, __pos, __new_start, _M_get_Tp_allocator());
-
-    __new_finish += __n;
-
-    __new_finish
-      = std::__uninitialized_move_if_noexcept_a
-      (__pos, __old_finish, __new_finish, _M_get_Tp_allocator());
-  }
-       catch(...)
-  {
-    if (!__new_finish)
-      std::_Destroy(__new_start + __elems_before,
-      __new_start + __elems_before + __n,
-      _M_get_Tp_allocator());
-    else
-      std::_Destroy(__new_start, __new_finish,
-      _M_get_Tp_allocator());
-    _M_deallocate(__new_start, __len);
-    throw;
-  }
-       std::_Destroy(__old_start, __old_finish, _M_get_Tp_allocator());
-       ;
-       _M_deallocate(__old_start,
-       this->_M_impl._M_end_of_storage - __old_start);
-       this->_M_impl._M_start = __new_start;
-       this->_M_impl._M_finish = __new_finish;
-       this->_M_impl._M_end_of_storage = __new_start + __len;
-     }
- }
-    }
-
-  template<typename _Tp, typename _Alloc>
-    constexpr
-    void
-    vector<_Tp, _Alloc>::
-    _M_fill_append(size_type __n, const value_type& __x)
-    {
-       if (size_type(this->_M_impl._M_end_of_storage
-       - this->_M_impl._M_finish) >= __n)
-  {
-    ;
-    this->_M_impl._M_finish =
-      std::__uninitialized_fill_n_a(this->_M_impl._M_finish, __n, __x,
-        _M_get_Tp_allocator());
-    ;
-  }
-       else
-  {
-
-
-    pointer __old_start = this->_M_impl._M_start;
-    pointer __old_finish = this->_M_impl._M_finish;
-    const size_type __old_size = __old_finish - __old_start;
-
-    const size_type __len =
-      _M_check_len(__n, "vector::_M_fill_append");
-    pointer __new_start(this->_M_allocate(__len));
-    pointer __new_finish(__new_start + __old_size);
-    try
-      {
-
-        __new_finish = std::__uninitialized_fill_n_a(
-    __new_finish, __n, __x,
-    _M_get_Tp_allocator());
-        std::__uninitialized_move_if_noexcept_a(
-   __old_start, __old_finish, __new_start,
-   _M_get_Tp_allocator());
-      }
-    catch(...)
-      {
-  std::_Destroy(__new_start + __old_size, __new_finish,
-         _M_get_Tp_allocator());
-  _M_deallocate(__new_start, __len);
-  throw;
-       }
-    std::_Destroy(__old_start, __old_finish, _M_get_Tp_allocator());
-    ;
-    _M_deallocate(__old_start,
-    this->_M_impl._M_end_of_storage - __old_start);
-    this->_M_impl._M_start = __new_start;
-    this->_M_impl._M_finish = __new_finish;
-    this->_M_impl._M_end_of_storage = __new_start + __len;
-  }
-    }
-
-
-  template<typename _Tp, typename _Alloc>
-    constexpr
-    void
-    vector<_Tp, _Alloc>::
-    _M_default_append(size_type __n)
-    {
-      if (__n != 0)
- {
-   const size_type __size = size();
-   size_type __navail = size_type(this->_M_impl._M_end_of_storage
-      - this->_M_impl._M_finish);
-
-   if (__size > max_size() || __navail > max_size() - __size)
-     __builtin_unreachable();
-
-   if (__navail >= __n)
-     {
-       if (!this->_M_impl._M_finish)
-  __builtin_unreachable();
-
-       ;
-       this->_M_impl._M_finish =
-  std::__uninitialized_default_n_a(this->_M_impl._M_finish,
-       __n, _M_get_Tp_allocator());
-       ;
-     }
-   else
-     {
-
-
-       pointer __old_start = this->_M_impl._M_start;
-       pointer __old_finish = this->_M_impl._M_finish;
-
-       const size_type __len =
-  _M_check_len(__n, "vector::_M_default_append");
-       pointer __new_start(this->_M_allocate(__len));
-
-       {
-  _Guard_alloc __guard(__new_start, __len, *this);
-
-  std::__uninitialized_default_n_a(__new_start + __size, __n,
-       _M_get_Tp_allocator());
-
-  if constexpr (_S_use_relocate())
-    {
-      _S_relocate(__old_start, __old_finish,
-    __new_start, _M_get_Tp_allocator());
-    }
-  else
-    {
-
-      struct _Guard_elts
-      {
-        pointer _M_first, _M_last;
-        _Tp_alloc_type& _M_alloc;
-
-        constexpr
-        _Guard_elts(pointer __first, size_type __n,
-      _Tp_alloc_type& __a)
-        : _M_first(__first), _M_last(__first + __n), _M_alloc(__a)
-        { }
-
-        constexpr
-        ~_Guard_elts()
-        { std::_Destroy(_M_first, _M_last, _M_alloc); }
-
-      private:
-        _Guard_elts(const _Guard_elts&);
-      };
-      _Guard_elts __guard_elts(__new_start + __size, __n, _M_impl);
-
-      std::__uninitialized_move_if_noexcept_a(
-        __old_start, __old_finish, __new_start,
-        _M_get_Tp_allocator());
-
-      __guard_elts._M_first = __old_start;
-      __guard_elts._M_last = __old_finish;
-    }
-  ;
-  __guard._M_storage = __old_start;
-  __guard._M_len = this->_M_impl._M_end_of_storage - __old_start;
-       }
-
-
-
-       this->_M_impl._M_start = __new_start;
-       this->_M_impl._M_finish = __new_start + __size + __n;
-       this->_M_impl._M_end_of_storage = __new_start + __len;
-     }
- }
-    }
-
-  template<typename _Tp, typename _Alloc>
-    constexpr
-    bool
-    vector<_Tp, _Alloc>::
-    _M_shrink_to_fit()
-    {
-      if (capacity() == size())
- return false;
-      ;
-      return std::__shrink_to_fit_aux<vector>::_S_do_it(*this);
-    }
-
-
-  template<typename _Tp, typename _Alloc>
-    template<typename _InputIterator>
-      constexpr
-      void
-      vector<_Tp, _Alloc>::
-      _M_range_insert(iterator __pos, _InputIterator __first,
-        _InputIterator __last, std::input_iterator_tag)
-      {
- if (__pos == end())
-   {
-     for (; __first != __last; ++__first)
-       insert(end(), *__first);
-   }
- else if (__first != __last)
-   {
-     vector __tmp(__first, __last, _M_get_Tp_allocator());
-     insert(__pos,
-     std::make_move_iterator(__tmp.begin()),
-     std::make_move_iterator(__tmp.end()));
-   }
-      }
-
-  template<typename _Tp, typename _Alloc>
-    template<typename _ForwardIterator>
-      constexpr
-      void
-      vector<_Tp, _Alloc>::
-      _M_range_insert(iterator __position, _ForwardIterator __first,
-        _ForwardIterator __last, std::forward_iterator_tag)
-      {
- if (__first != __last)
-   {
-     const size_type __n = std::distance(__first, __last);
-     if (size_type(this->_M_impl._M_end_of_storage
-     - this->_M_impl._M_finish) >= __n)
-       {
-  const size_type __elems_after = end() - __position;
-  pointer __old_finish(this->_M_impl._M_finish);
-  if (__elems_after > __n)
-    {
-      ;
-      std::__uninitialized_move_a(this->_M_impl._M_finish - __n,
-      this->_M_impl._M_finish,
-      this->_M_impl._M_finish,
-      _M_get_Tp_allocator());
-      this->_M_impl._M_finish += __n;
-      ;
-      std::move_backward(__position.base(), __old_finish - __n, __old_finish)
-                                          ;
-      std::copy(__first, __last, __position);
-    }
-  else
-    {
-      _ForwardIterator __mid = __first;
-      std::advance(__mid, __elems_after);
-      ;
-      std::__uninitialized_copy_a(__mid, __last,
-      this->_M_impl._M_finish,
-      _M_get_Tp_allocator());
-      this->_M_impl._M_finish += __n - __elems_after;
-      ;
-      std::__uninitialized_move_a(__position.base(),
-      __old_finish,
-      this->_M_impl._M_finish,
-      _M_get_Tp_allocator());
-      this->_M_impl._M_finish += __elems_after;
-      ;
-      std::copy(__first, __mid, __position);
-    }
-       }
+     using _Type = __remove_cvref_t<decltype(__t_mem)>;
+     if constexpr (!is_same_v<_Type,
+                __detail::__variant::__variant_cookie>)
+       __ret = std::hash<size_t>{}(__t.index())
+        + std::hash<_Type>{}(__t_mem);
      else
-       {
-
-
-
-  pointer __old_start = this->_M_impl._M_start;
-  pointer __old_finish = this->_M_impl._M_finish;
-
-  const size_type __len =
-    _M_check_len(__n, "vector::_M_range_insert");
-
-
-
-
-
-  pointer __new_start(this->_M_allocate(__len));
-  pointer __new_finish(__new_start);
-  try
-    {
-      __new_finish
-        = std::__uninitialized_move_if_noexcept_a
-        (__old_start, __position.base(),
-         __new_start, _M_get_Tp_allocator());
-      __new_finish
-        = std::__uninitialized_copy_a(__first, __last,
-          __new_finish,
-          _M_get_Tp_allocator());
-      __new_finish
-        = std::__uninitialized_move_if_noexcept_a
-        (__position.base(), __old_finish,
-         __new_finish, _M_get_Tp_allocator());
-    }
-  catch(...)
-    {
-      std::_Destroy(__new_start, __new_finish,
-      _M_get_Tp_allocator());
-      _M_deallocate(__new_start, __len);
-      throw;
-    }
-  std::_Destroy(__old_start, __old_finish,
-         _M_get_Tp_allocator());
-  ;
-  _M_deallocate(__old_start,
-         this->_M_impl._M_end_of_storage - __old_start);
-  this->_M_impl._M_start = __new_start;
-  this->_M_impl._M_finish = __new_finish;
-  this->_M_impl._M_end_of_storage = __new_start + __len;
-       }
-   }
+       __ret = std::hash<size_t>{}(__t.index());
+   }, __t);
+ return __ret;
       }
-
-
-  template<typename _Tp, typename _Alloc>
-    template<__detail::__container_compatible_range<_Tp> _Rg>
-      constexpr auto
-      vector<_Tp, _Alloc>::
-      insert_range(const_iterator __pos, _Rg&& __rg)
-      -> iterator
-      {
- if (__pos == cend())
-   {
-     const auto __ins_idx = size();
-     append_range(std::forward<_Rg>(__rg));
-     return begin() + __ins_idx;
-   }
-
- if constexpr (ranges::forward_range<_Rg>)
-   {
-     const auto __ins_idx = __pos - cbegin();
-
-     const auto __n = size_type(ranges::distance(__rg));
-     if (__n == 0)
-       return begin() + __ins_idx;
-
-
-     pointer __old_start = this->_M_impl._M_start;
-
-     pointer __old_finish = this->_M_impl._M_finish;
-
-     pointer __ins = __old_start + __ins_idx;
-
-     const auto __cap = this->_M_impl._M_end_of_storage - __old_finish;
-     if (__cap >= __n)
-       {
-
-  const size_type __elems_after = cend() - __pos;
-  if (__elems_after > __n)
-    {
-      ;
-      std::__uninitialized_move_a(__old_finish - __n,
-      __old_finish,
-      __old_finish,
-      _M_get_Tp_allocator());
-      this->_M_impl._M_finish += __n;
-      ;
-      std::move_backward(__ins, __old_finish - __n, __old_finish);
-      ranges::copy(__rg, __ins);
-    }
-  else
-    {
-      auto __first = ranges::begin(__rg);
-      const auto __last = ranges::end(__rg);
-      auto __mid = ranges::next(__first, __elems_after);
-      ;
-      _Base::_M_append_range(ranges::subrange(__mid, __last));
-      ;
-      std::__uninitialized_move_a(__ins, __old_finish,
-      this->_M_impl._M_finish,
-      _M_get_Tp_allocator());
-      this->_M_impl._M_finish += __elems_after;
-      ;
-      ranges::copy(__first, __mid, __ins);
-    }
-       }
-     else
-       {
-  const size_type __len
-    = _M_check_len(__n, "vector::insert_range");
-
-  struct _Guard : _Guard_alloc
-  {
-
-    pointer _M_finish = _Guard_alloc::_M_storage;
-
-    using _Guard_alloc::_Guard_alloc;
-
-    constexpr
-    ~_Guard()
-    {
-      std::_Destroy(this->_M_storage, _M_finish,
-      this->_M_vect._M_get_Tp_allocator());
-    }
-  };
-
-
-  pointer __new_start(this->_M_allocate(__len));
-  _Guard __guard(__new_start, __len, *this);
-
-  auto& __alloc = _M_get_Tp_allocator();
-
-
-
-
-
-
-  __guard._M_finish
-    = std::__uninitialized_move_if_noexcept_a(
-        __old_start, __ins, __new_start, __alloc);
-
-
-  _Base::_M_append_range_to(__rg, __guard._M_finish);
-
-
-  __guard._M_finish
-      = std::__uninitialized_move_if_noexcept_a(
-   __ins, __old_finish, __guard._M_finish, __alloc);
-
-  ;
-
-
-
-  this->_M_impl._M_start = __guard._M_storage;
-  this->_M_impl._M_finish = __guard._M_finish;
-  this->_M_impl._M_end_of_storage = __new_start + __len;
-  __guard._M_storage = __old_start;
-  __guard._M_finish = __old_finish;
-  __guard._M_len = (__old_finish - __old_start) + __cap;
-
-
-
-       }
-     return begin() + __ins_idx;
-   }
- else
-   return insert_range(__pos, vector(from_range, std::forward<_Rg>(__rg),
-         _M_get_Tp_allocator()));
-      }
-
-
-
-  template<typename _Alloc>
-    constexpr
-    void
-    vector<bool, _Alloc>::
-    _M_reallocate(size_type __n)
-    {
-      const iterator __begin = begin(), __end = end();
-      if (size_type(__end - __begin) > __n)
- __builtin_unreachable();
-      _Bit_pointer __q = this->_M_allocate(__n);
-      iterator __start(std::__addressof(*__q), 0);
-      iterator __finish(_M_copy_aligned(__begin, __end, __start));
-      this->_M_deallocate();
-      this->_M_impl._M_start = __start;
-      this->_M_impl._M_finish = __finish;
-      this->_M_impl._M_end_of_storage = __q + _S_nword(__n);
-    }
-
-  template<typename _Alloc>
-    constexpr
-    void
-    vector<bool, _Alloc>::
-    _M_fill_insert(iterator __position, size_type __n, bool __x)
-    {
-      if (__n == 0)
- return;
-      if (capacity() - size() >= __n)
- {
-   std::copy_backward(__position, end(),
-        this->_M_impl._M_finish + difference_type(__n));
-   std::fill(__position, __position + difference_type(__n), __x);
-   this->_M_impl._M_finish += difference_type(__n);
- }
-      else
- {
-   const size_type __len =
-     _M_check_len(__n, "vector<bool>::_M_fill_insert");
-   iterator __begin = begin(), __end = end();
-   _Bit_pointer __q = this->_M_allocate(__len);
-   iterator __start(std::__addressof(*__q), 0);
-   iterator __i = _M_copy_aligned(__begin, __position, __start);
-   std::fill(__i, __i + difference_type(__n), __x);
-   iterator __finish = std::copy(__position, __end,
-     __i + difference_type(__n));
-   this->_M_deallocate();
-   this->_M_impl._M_end_of_storage = __q + _S_nword(__len);
-   this->_M_impl._M_start = __start;
-   this->_M_impl._M_finish = __finish;
- }
-    }
-
-  template<typename _Alloc>
-    template<typename _ForwardIterator>
-      constexpr
-      void
-      vector<bool, _Alloc>::
-      _M_insert_range(iterator __position, _ForwardIterator __first,
-        _ForwardIterator __last, std::forward_iterator_tag)
-      {
- if (__first != __last)
-   {
-     size_type __n = std::distance(__first, __last);
-     if (capacity() - size() >= __n)
-       {
-  std::copy_backward(__position, end(),
-       this->_M_impl._M_finish
-       + difference_type(__n));
-  std::copy(__first, __last, __position);
-  this->_M_impl._M_finish += difference_type(__n);
-       }
-     else
-       {
-  const size_type __len =
-    _M_check_len(__n, "vector<bool>::_M_insert_range");
-  const iterator __begin = begin(), __end = end();
-  _Bit_pointer __q = this->_M_allocate(__len);
-  iterator __start(std::__addressof(*__q), 0);
-  iterator __i = _M_copy_aligned(__begin, __position, __start);
-  __i = std::copy(__first, __last, __i);
-  iterator __finish = std::copy(__position, __end, __i);
-  this->_M_deallocate();
-  this->_M_impl._M_end_of_storage = __q + _S_nword(__len);
-  this->_M_impl._M_start = __start;
-  this->_M_impl._M_finish = __finish;
-       }
-   }
-      }
-
-  template<typename _Alloc>
-    constexpr
-    void
-    vector<bool, _Alloc>::
-    _M_insert_aux(iterator __position, bool __x)
-    {
-      if (this->_M_impl._M_finish._M_p != this->_M_impl._M_end_addr())
- {
-   std::copy_backward(__position, this->_M_impl._M_finish,
-        this->_M_impl._M_finish + 1);
-   *__position = __x;
-   ++this->_M_impl._M_finish;
- }
-      else
- {
-   const size_type __len =
-     _M_check_len(size_type(1), "vector<bool>::_M_insert_aux");
-   _Bit_pointer __q = this->_M_allocate(__len);
-   iterator __start(std::__addressof(*__q), 0);
-   iterator __i = _M_copy_aligned(begin(), __position, __start);
-   *__i++ = __x;
-   iterator __finish = std::copy(__position, end(), __i);
-   this->_M_deallocate();
-   this->_M_impl._M_end_of_storage = __q + _S_nword(__len);
-   this->_M_impl._M_start = __start;
-   this->_M_impl._M_finish = __finish;
- }
-    }
-
-  template<typename _Alloc>
-    constexpr
-    typename vector<bool, _Alloc>::iterator
-    vector<bool, _Alloc>::
-    _M_erase(iterator __position)
-    {
-      if (__position + 1 != end())
-        std::copy(__position + 1, end(), __position);
-      --this->_M_impl._M_finish;
-      return __position;
-    }
-
-  template<typename _Alloc>
-    constexpr
-    typename vector<bool, _Alloc>::iterator
-    vector<bool, _Alloc>::
-    _M_erase(iterator __first, iterator __last)
-    {
-      if (__first != __last)
- _M_erase_at_end(std::copy(__last, end(), __first));
-      return __first;
-    }
-
-
-  template<typename _Alloc>
-    constexpr
-    bool
-    vector<bool, _Alloc>::
-    _M_shrink_to_fit()
-    {
-      if (capacity() - size() < int(_S_word_bit))
- return false;
-      try
- {
-   if (size_type __n = size())
-     _M_reallocate(__n);
-   else
-     {
-       this->_M_deallocate();
-       this->_M_impl._M_reset();
-     }
-   return true;
- }
-      catch(...)
- { return false; }
-    }
-
-
-
-
-}
-
-
-
-namespace std __attribute__ ((__visibility__ ("default")))
-{
-
-
-  template<typename _Alloc>
-    size_t
-    hash<std::vector<bool, _Alloc>>::
-    operator()(const std::vector<bool, _Alloc>& __b) const noexcept
-    {
-      size_t __hash = 0;
-      const size_t __words = __b.size() / _S_word_bit;
-      if (__words)
- {
-   const size_t __clength = __words * sizeof(_Bit_type);
-   __hash = std::_Hash_impl::hash(__b._M_impl._M_start._M_p, __clength);
- }
-
-      const size_t __extrabits = __b.size() % _S_word_bit;
-      if (__extrabits)
- {
-   _Bit_type __hiword = *__b._M_impl._M_finish._M_p;
-   __hiword &= ~((~static_cast<_Bit_type>(0)) << __extrabits);
-
-   const size_t __clength
-     = (__extrabits + 8 - 1) / 8;
-   if (__words)
-     __hash = std::_Hash_impl::hash(&__hiword, __clength, __hash);
-   else
-     __hash = std::_Hash_impl::hash(&__hiword, __clength);
- }
-
-      return __hash;
-    }
-
-
-}
-# 75 "/usr/include/c++/15.2.1/vector" 2 3
-# 88 "/usr/include/c++/15.2.1/vector" 3
-# 1 "/usr/include/c++/15.2.1/bits/version.h" 1 3
-# 89 "/usr/include/c++/15.2.1/vector" 2 3
-
-
-
-namespace std __attribute__ ((__visibility__ ("default")))
-{
-
-  namespace pmr {
-    template<typename _Tp>
-      using vector = std::vector<_Tp, polymorphic_allocator<_Tp>>;
-  }
-
-
-
-
-
-
-
-
-}
-
-
-
-namespace std __attribute__ ((__visibility__ ("default")))
-{
-
-
-  template<typename _Tp, typename _Alloc, typename _Predicate>
-    constexpr
-    inline typename vector<_Tp, _Alloc>::size_type
-    erase_if(vector<_Tp, _Alloc>& __cont, _Predicate __pred)
-    {
-      using namespace __gnu_cxx;
-      std::vector<_Tp, _Alloc>& __ucont = __cont;
-      const auto __osz = __cont.size();
-      const auto __end = __ucont.end();
-      auto __removed = std::__remove_if(__ucont.begin(), __end,
-     __ops::__pred_iter(std::ref(__pred)));
-      if (__removed != __end)
- {
-   __cont.erase(__niter_wrap(__cont.begin(), __removed),
-         __cont.end());
-   return __osz - __cont.size();
- }
-
-      return 0;
-    }
-
-  template<typename _Tp, typename _Alloc,
-    typename _Up = _Tp>
-    constexpr
-    inline typename vector<_Tp, _Alloc>::size_type
-    erase(vector<_Tp, _Alloc>& __cont, const _Up& __value)
-    {
-      using namespace __gnu_cxx;
-      std::vector<_Tp, _Alloc>& __ucont = __cont;
-      const auto __osz = __cont.size();
-      const auto __end = __ucont.end();
-      auto __removed = std::__remove_if(__ucont.begin(), __end,
-     __ops::__iter_equals_val(__value));
-      if (__removed != __end)
- {
-   __cont.erase(__niter_wrap(__cont.begin(), __removed),
-         __cont.end());
-   return __osz - __cont.size();
- }
-
-      return 0;
-    }
-
-}
-
-
-
-# 1 "/usr/include/c++/15.2.1/bits/formatfwd.h" 1 3
-# 46 "/usr/include/c++/15.2.1/bits/formatfwd.h" 3
-namespace std __attribute__ ((__visibility__ ("default")))
-{
-
-
-
-  template<typename _Out, typename _CharT> class basic_format_context;
-
-
-  template<typename _CharT> class basic_format_parse_context;
-
-
-  template<typename _Tp, typename _CharT = char> struct formatter;
-
-
-namespace __format
-{
-
-  template<typename _CharT>
-    concept __char = same_as<_CharT, char> || same_as<_CharT, wchar_t>;
-
-
-
-
-
-  template<typename _Tp, typename _Context,
-    typename _Formatter
-      = typename _Context::template formatter_type<remove_const_t<_Tp>>,
-    typename _ParseContext
-      = basic_format_parse_context<typename _Context::char_type>>
-    concept __parsable_with
-      = semiregular<_Formatter>
-   && requires (_Formatter __f, _ParseContext __pc)
-    {
-      { __f.parse(__pc) } -> same_as<typename _ParseContext::iterator>;
-    };
-
-  template<typename _Tp, typename _Context,
-    typename _Formatter
-      = typename _Context::template formatter_type<remove_const_t<_Tp>>,
-    typename _ParseContext
-      = basic_format_parse_context<typename _Context::char_type>>
-    concept __formattable_with
-      = semiregular<_Formatter>
-   && requires (const _Formatter __cf, _Tp&& __t, _Context __fc)
-    {
-      { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
     };
 
 
-  template<typename _CharT>
-    struct _Iter_for;
-  template<typename _CharT>
-    using _Iter_for_t = typename _Iter_for<_CharT>::type;
+  template<typename... _Types>
+    struct hash<variant<_Types...>>
+    : __conditional_t<(__is_hash_enabled_for<remove_const_t<_Types>> && ...),
+        __variant_hash<_Types...>,
+        __hash_not_enabled<variant<_Types...>>>
 
-  template<typename _Tp, typename _CharT,
-    typename _Context = basic_format_context<_Iter_for_t<_CharT>, _CharT>>
-    concept __formattable_impl
-      = __parsable_with<_Tp, _Context> && __formattable_with<_Tp, _Context>;
+      , __detail::__variant::_Variant_hash_base<variant<_Types...>,
+      index_sequence_for<_Types...>>
 
-  template<typename _Formatter>
-    concept __has_debug_format = requires(_Formatter __f)
-    {
-      __f.set_debug_format();
-    };
+    { };
 
-  template<__char _CharT>
-    struct __formatter_int;
-}
-
-
-
-
-  template<typename _Tp, typename _CharT>
-    concept formattable
-      = __format::__formattable_impl<remove_reference_t<_Tp>, _CharT>;
-
-   template<typename _Tp, __format::__char _CharT = char>
-     requires same_as<remove_cvref_t<_Tp>, _Tp> && formattable<_Tp, _CharT>
-     class range_formatter;
-
-
-namespace __format
-{
-  template<typename _Rg, typename _CharT>
-    concept __const_formattable_range
-      = ranges::input_range<const _Rg>
-   && formattable<ranges::range_reference_t<const _Rg>, _CharT>;
-
-  template<typename _Rg, typename _CharT>
-    using __maybe_const_range
-      = __conditional_t<__const_formattable_range<_Rg, _CharT>, const _Rg, _Rg>;
-
-  template<typename _Tp, typename _CharT>
-    using __maybe_const
-      = __conditional_t<formattable<const _Tp, _CharT>, const _Tp, _Tp>;
-}
-
-
+  template<typename... _Types>
+    struct __is_fast_hash<hash<variant<_Types...>>>
+    : bool_constant<(__is_fast_hash<_Types>::value && ...)>
+    { };
 
 
 }
-# 163 "/usr/include/c++/15.2.1/vector" 2 3
-
-namespace std __attribute__ ((__visibility__ ("default")))
-{
+# 9 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
 
 
 
-  template<__format::__char _CharT>
-    struct formatter<std::_Bit_reference, _CharT>
-    {
+# 11 "/home/arch/code/projects/Compiler/include/ast/node.h"
+struct ASTNode {
+  virtual ~ASTNode() = default;
+  virtual std::string generateCode() = 0;
+};
 
+struct Root final : ASTNode {
+  std::vector<std::shared_ptr<ASTNode>> nodes;
 
-      constexpr typename basic_format_parse_context<_CharT>::iterator
-      parse(basic_format_parse_context<_CharT>& __pc)
-      { return _M_f.template _M_parse<bool>(__pc); }
+  std::string generateCode() override;
+};
 
+struct IntegerLiteral final : ASTNode {
+  int value;
 
+  IntegerLiteral(const int value) : value(value) {}
 
-      template<typename _Out>
- typename basic_format_context<_Out, _CharT>::iterator
- format(const std::_Bit_reference& __u,
-        basic_format_context<_Out, _CharT>& __fc) const
- { return _M_f.format(static_cast<bool>(__u), __fc); }
+  std::string generateCode() override;
+};
 
-    private:
-      __format::__formatter_int<_CharT> _M_f;
-    };
+struct BinaryExpression final : ASTNode {
+  TokenType operatorType;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>> left;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>> right;
 
-}
-# 8 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
+  BinaryExpression(TokenType operatorType, std::variant<BinaryExpression, IntegerLiteral> left, std::variant<BinaryExpression, IntegerLiteral> right);
+
+  std::string generateCode() override;
+};
+
+struct VariableStatement final : ASTNode {
+  bool isPointer;
+  std::optional<std::string> pointerIdentifier;
+
+  std::string identifier;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>> value;
+
+  VariableStatement(const std::string &pointerIdentifier);
+  VariableStatement(const std::string &identifier, std::variant<BinaryExpression, IntegerLiteral> value);
+
+  std::string generateCode() override;
+};
+
+struct FunctionStatement final : ASTNode {
+  std::string identifier;
+  std::vector<std::string> parameters;
+  std::vector<std::shared_ptr<ASTNode>> body;
+
+  FunctionStatement(const std::string &identifier, const std::vector<std::shared_ptr<ASTNode>> &body, const std::vector<std::string> &parameters);
+
+  std::string generateCode() override;
+};
+
+struct IfStatementBlock {
+  std::optional<std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>>> condition;
+  std::vector<std::shared_ptr<ASTNode>> body;
+
+  IfStatementBlock(const std::optional<std::variant<BinaryExpression, IntegerLiteral>> condition, const std::vector<std::shared_ptr<ASTNode>> &body);
+};
+
+struct IfStatement final : ASTNode {
+  std::vector<IfStatementBlock> ifStatementBlocks;
+
+  IfStatement(const std::vector<IfStatementBlock> &ifStatementBlocks);
+
+  std::string generateCode() override;
+};
+
+struct LoopStatement final : ASTNode {
+  std::shared_ptr<BinaryExpression> condition;
+  std::vector<std::shared_ptr<ASTNode>> body;
+
+  LoopStatement(const BinaryExpression condition, const std::vector<std::shared_ptr<ASTNode>> &body);
+
+  std::string generateCode() override;
+};
+# 5 "/home/arch/code/projects/Compiler/include/codeGenerator.h" 2
 # 1 "/usr/include/c++/15.2.1/iostream" 1 3
 # 43 "/usr/include/c++/15.2.1/iostream" 3
 # 1 "/usr/include/c++/15.2.1/ostream" 1 3
@@ -79477,1282 +81048,7 @@ namespace __cxx11 {
 }
 # 48 "/usr/include/c++/15.2.1/locale" 2 3
 # 50 "/usr/include/c++/15.2.1/format" 2 3
-# 1 "/usr/include/c++/15.2.1/optional" 1 3
-# 40 "/usr/include/c++/15.2.1/optional" 3
-# 1 "/usr/include/c++/15.2.1/bits/version.h" 1 3
-# 41 "/usr/include/c++/15.2.1/optional" 2 3
-# 61 "/usr/include/c++/15.2.1/optional" 3
-namespace std __attribute__ ((__visibility__ ("default")))
-{
 
-
-
-
-
-
-
-  template<typename _Tp>
-    class optional;
-
-
-  struct nullopt_t
-  {
-
-
-
-
-
-    enum class _Construct { _Token };
-
-
-    explicit constexpr nullopt_t(_Construct) noexcept { }
-  };
-
-
-  inline constexpr nullopt_t nullopt { nullopt_t::_Construct::_Token };
-
-  template<typename _Fn> struct _Optional_func { _Fn& _M_f; };
-
-
-
-
-
-
-  class bad_optional_access : public exception
-  {
-  public:
-    bad_optional_access() = default;
-    virtual ~bad_optional_access() = default;
-
-    const char* what() const noexcept override
-    { return "bad optional access"; }
-  };
-
-
-  [[__noreturn__]] inline void
-  __throw_bad_optional_access()
-  { (throw (bad_optional_access())); }
-
-
-
-  template <typename _Tp>
-    struct _Optional_payload_base
-    {
-      using _Stored_type = remove_const_t<_Tp>;
-
-      _Optional_payload_base() = default;
-      ~_Optional_payload_base() = default;
-
-      template<typename... _Args>
- constexpr
- _Optional_payload_base(in_place_t __tag, _Args&&... __args)
- : _M_payload(__tag, std::forward<_Args>(__args)...),
-   _M_engaged(true)
- { }
-
-      template<typename _Up, typename... _Args>
- constexpr
- _Optional_payload_base(std::initializer_list<_Up> __il,
-          _Args&&... __args)
- : _M_payload(__il, std::forward<_Args>(__args)...),
-   _M_engaged(true)
- { }
-
-
-
-      constexpr
-      _Optional_payload_base(bool ,
-        const _Optional_payload_base& __other)
-      {
- if (__other._M_engaged)
-   this->_M_construct(__other._M_get());
-      }
-
-
-
-      constexpr
-      _Optional_payload_base(bool ,
-        _Optional_payload_base&& __other)
-      {
- if (__other._M_engaged)
-   this->_M_construct(std::move(__other._M_get()));
-      }
-
-
-
-      _Optional_payload_base(const _Optional_payload_base&) = default;
-
-
-
-      _Optional_payload_base(_Optional_payload_base&&) = default;
-
-      _Optional_payload_base&
-      operator=(const _Optional_payload_base&) = default;
-
-      _Optional_payload_base&
-      operator=(_Optional_payload_base&&) = default;
-
-
-      constexpr void
-      _M_copy_assign(const _Optional_payload_base& __other)
-      {
- if (this->_M_engaged && __other._M_engaged)
-   this->_M_get() = __other._M_get();
- else
-   {
-     if (__other._M_engaged)
-       this->_M_construct(__other._M_get());
-     else
-       this->_M_reset();
-   }
-      }
-
-
-      constexpr void
-      _M_move_assign(_Optional_payload_base&& __other)
-      noexcept(__and_v<is_nothrow_move_constructible<_Tp>,
-         is_nothrow_move_assignable<_Tp>>)
-      {
- if (this->_M_engaged && __other._M_engaged)
-   this->_M_get() = std::move(__other._M_get());
- else
-   {
-     if (__other._M_engaged)
-       this->_M_construct(std::move(__other._M_get()));
-     else
-       this->_M_reset();
-   }
-      }
-
-      struct _Empty_byte { };
-
-      template<typename _Up, bool = is_trivially_destructible_v<_Up>>
- union _Storage
- {
-   constexpr _Storage() noexcept : _M_empty() { }
-
-   template<typename... _Args>
-     constexpr
-     _Storage(in_place_t, _Args&&... __args)
-     : _M_value(std::forward<_Args>(__args)...)
-     { }
-
-   template<typename _Vp, typename... _Args>
-     constexpr
-     _Storage(std::initializer_list<_Vp> __il, _Args&&... __args)
-     : _M_value(__il, std::forward<_Args>(__args)...)
-     { }
-
-
-   template<typename _Fn, typename _Arg>
-     constexpr
-     _Storage(_Optional_func<_Fn> __f, _Arg&& __arg)
-     : _M_value(std::__invoke(std::forward<_Fn>(__f._M_f),
-         std::forward<_Arg>(__arg)))
-     { }
-
-
-
-   ~_Storage() = default;
-
-
-   constexpr
-   ~_Storage() requires (!is_trivially_destructible_v<_Up>)
-   { }
-
-   _Storage(const _Storage&) = default;
-   _Storage(_Storage&&) = default;
-   _Storage& operator=(const _Storage&) = default;
-   _Storage& operator=(_Storage&&) = default;
-
-
-   _Empty_byte _M_empty;
-   _Up _M_value;
- };
-# 289 "/usr/include/c++/15.2.1/optional" 3
-      _Storage<_Stored_type> _M_payload;
-
-      bool _M_engaged = false;
-
-      template<typename... _Args>
- constexpr void
- _M_construct(_Args&&... __args)
- noexcept(is_nothrow_constructible_v<_Stored_type, _Args...>)
- {
-   std::_Construct(std::__addressof(this->_M_payload._M_value),
-     std::forward<_Args>(__args)...);
-   this->_M_engaged = true;
- }
-
-      constexpr void
-      _M_destroy() noexcept
-      {
- _M_engaged = false;
- _M_payload._M_value.~_Stored_type();
-      }
-
-
-      template<typename _Fn, typename _Up>
- constexpr void
- _M_apply(_Optional_func<_Fn> __f, _Up&& __x)
- {
-   std::construct_at(std::__addressof(this->_M_payload),
-       __f, std::forward<_Up>(__x));
-   _M_engaged = true;
- }
-
-
-
-
-
-
-      constexpr _Tp&
-      _M_get() noexcept
-      { return this->_M_payload._M_value; }
-
-      constexpr const _Tp&
-      _M_get() const noexcept
-      { return this->_M_payload._M_value; }
-
-
-      constexpr void
-      _M_reset() noexcept
-      {
- if (this->_M_engaged)
-   _M_destroy();
- else
-   this->_M_engaged = false;
-      }
-    };
-
-
-  template <typename _Tp,
-     bool =
-       is_trivially_destructible_v<_Tp>,
-     bool =
-       is_trivially_copy_assignable_v<_Tp>
-       && is_trivially_copy_constructible_v<_Tp>,
-     bool =
-       is_trivially_move_assignable_v<_Tp>
-       && is_trivially_move_constructible_v<_Tp>>
-    struct _Optional_payload;
-
-
-  template <typename _Tp>
-    struct _Optional_payload<_Tp, true, true, true>
-    : _Optional_payload_base<_Tp>
-    {
-      using _Optional_payload_base<_Tp>::_Optional_payload_base;
-
-      _Optional_payload() = default;
-    };
-
-
-  template <typename _Tp>
-    struct _Optional_payload<_Tp, true, false, true>
-    : _Optional_payload_base<_Tp>
-    {
-      using _Optional_payload_base<_Tp>::_Optional_payload_base;
-
-      _Optional_payload() = default;
-      ~_Optional_payload() = default;
-      _Optional_payload(const _Optional_payload&) = default;
-      _Optional_payload(_Optional_payload&&) = default;
-      _Optional_payload& operator=(_Optional_payload&&) = default;
-
-
-      constexpr
-      _Optional_payload&
-      operator=(const _Optional_payload& __other)
-      {
- this->_M_copy_assign(__other);
- return *this;
-      }
-    };
-
-
-  template <typename _Tp>
-    struct _Optional_payload<_Tp, true, true, false>
-    : _Optional_payload_base<_Tp>
-    {
-      using _Optional_payload_base<_Tp>::_Optional_payload_base;
-
-      _Optional_payload() = default;
-      ~_Optional_payload() = default;
-      _Optional_payload(const _Optional_payload&) = default;
-      _Optional_payload(_Optional_payload&&) = default;
-      _Optional_payload& operator=(const _Optional_payload&) = default;
-
-
-      constexpr
-      _Optional_payload&
-      operator=(_Optional_payload&& __other)
-      noexcept(__and_v<is_nothrow_move_constructible<_Tp>,
-         is_nothrow_move_assignable<_Tp>>)
-      {
- this->_M_move_assign(std::move(__other));
- return *this;
-      }
-    };
-
-
-  template <typename _Tp>
-    struct _Optional_payload<_Tp, true, false, false>
-    : _Optional_payload_base<_Tp>
-    {
-      using _Optional_payload_base<_Tp>::_Optional_payload_base;
-
-      _Optional_payload() = default;
-      ~_Optional_payload() = default;
-      _Optional_payload(const _Optional_payload&) = default;
-      _Optional_payload(_Optional_payload&&) = default;
-
-
-      constexpr
-      _Optional_payload&
-      operator=(const _Optional_payload& __other)
-      {
- this->_M_copy_assign(__other);
- return *this;
-      }
-
-
-      constexpr
-      _Optional_payload&
-      operator=(_Optional_payload&& __other)
-      noexcept(__and_v<is_nothrow_move_constructible<_Tp>,
-         is_nothrow_move_assignable<_Tp>>)
-      {
- this->_M_move_assign(std::move(__other));
- return *this;
-      }
-    };
-
-
-  template <typename _Tp, bool _Copy, bool _Move>
-    struct _Optional_payload<_Tp, false, _Copy, _Move>
-    : _Optional_payload<_Tp, true, false, false>
-    {
-
-      using _Optional_payload<_Tp, true, false, false>::_Optional_payload;
-      _Optional_payload() = default;
-      _Optional_payload(const _Optional_payload&) = default;
-      _Optional_payload(_Optional_payload&&) = default;
-      _Optional_payload& operator=(const _Optional_payload&) = default;
-      _Optional_payload& operator=(_Optional_payload&&) = default;
-
-
-      constexpr ~_Optional_payload() { this->_M_reset(); }
-    };
-# 482 "/usr/include/c++/15.2.1/optional" 3
-  template<typename _Tp,
-    bool = is_trivially_copy_constructible_v<_Tp>,
-    bool = is_trivially_move_constructible_v<_Tp>>
-    struct _Optional_base
-    {
-
-      constexpr _Optional_base() = default;
-
-
-      template<typename... _Args,
-        enable_if_t<is_constructible_v<_Tp, _Args...>, bool> = false>
- constexpr explicit
- _Optional_base(in_place_t, _Args&&... __args)
- : _M_payload(in_place, std::forward<_Args>(__args)...)
- { }
-
-      template<typename _Up, typename... _Args,
-        enable_if_t<is_constructible_v<_Tp,
-           initializer_list<_Up>&,
-           _Args...>, bool> = false>
- constexpr explicit
- _Optional_base(in_place_t,
-         initializer_list<_Up> __il,
-         _Args&&... __args)
- : _M_payload(in_place, __il, std::forward<_Args>(__args)...)
- { }
-
-
-      constexpr
-      _Optional_base(const _Optional_base& __other)
-      noexcept(is_nothrow_copy_constructible_v<_Tp>)
-      : _M_payload(__other._M_payload._M_engaged, __other._M_payload)
-      { }
-
-      constexpr
-      _Optional_base(_Optional_base&& __other)
-      noexcept(is_nothrow_move_constructible_v<_Tp>)
-      : _M_payload(__other._M_payload._M_engaged,
-     std::move(__other._M_payload))
-      { }
-
-
-
-
-      constexpr _Optional_base(const _Optional_base&)
- requires is_trivially_copy_constructible_v<_Tp> = default;
-
-      constexpr _Optional_base(_Optional_base&&)
- requires is_trivially_move_constructible_v<_Tp> = default;
-
-
-
-      _Optional_base& operator=(const _Optional_base&) = default;
-      _Optional_base& operator=(_Optional_base&&) = default;
-
-      _Optional_payload<_Tp> _M_payload;
-
-    protected:
-
-      using _Stored_type = remove_const_t<_Tp>;
-
-
-
-      template<typename... _Args>
- constexpr void
- _M_construct(_Args&&... __args)
- noexcept(is_nothrow_constructible_v<_Stored_type, _Args...>)
- {
-   _M_payload._M_construct(std::forward<_Args>(__args)...);
- }
-
-      constexpr void
-      _M_destruct() noexcept
-      { _M_payload._M_destroy(); }
-
-
-      constexpr void
-      _M_reset() noexcept
-      { _M_payload._M_reset(); }
-
-      constexpr bool _M_is_engaged() const noexcept
-      { return _M_payload._M_engaged; }
-
-
-      constexpr _Tp&
-      _M_get() noexcept
-      { return _M_payload._M_get(); }
-
-      constexpr const _Tp&
-      _M_get() const noexcept
-      { return _M_payload._M_get(); }
-    };
-# 746 "/usr/include/c++/15.2.1/optional" 3
-  template<typename _Tp>
-    inline constexpr bool __is_optional_v = false;
-  template<typename _Tp>
-    inline constexpr bool __is_optional_v<optional<_Tp>> = true;
-
-  template<typename _Tp, typename _Wp>
-    using __converts_from_any_cvref = __or_<
- is_constructible<_Tp, _Wp&>, is_convertible<_Wp&, _Tp>,
- is_constructible<_Tp, _Wp>, is_convertible<_Wp, _Tp>,
- is_constructible<_Tp, const _Wp&>, is_convertible<const _Wp&, _Tp>,
- is_constructible<_Tp, const _Wp>, is_convertible<const _Wp, _Tp>
-      >;
-
-  template<typename _Tp, typename _Up>
-    using __converts_from_optional
-      = __converts_from_any_cvref<_Tp, optional<_Up>>;
-
-  template<typename _Tp, typename _Up>
-    using __assigns_from_optional =
-      __or_<is_assignable<_Tp&, const optional<_Up>&>,
-     is_assignable<_Tp&, optional<_Up>&>,
-     is_assignable<_Tp&, const optional<_Up>&&>,
-     is_assignable<_Tp&, optional<_Up>&&>>;
-# 777 "/usr/include/c++/15.2.1/optional" 3
-  template<typename _Tp>
-    class optional
-    : private _Optional_base<_Tp>,
-      private _Enable_copy_move<
-
- is_copy_constructible_v<_Tp>,
-
- __and_v<is_copy_constructible<_Tp>, is_copy_assignable<_Tp>>,
-
- is_move_constructible_v<_Tp>,
-
- __and_v<is_move_constructible<_Tp>, is_move_assignable<_Tp>>,
-
- optional<_Tp>>
-    {
-      static_assert(!is_same_v<remove_cv_t<_Tp>, nullopt_t>);
-      static_assert(!is_same_v<remove_cv_t<_Tp>, in_place_t>);
-      static_assert(is_object_v<_Tp> && !is_array_v<_Tp>);
-
-    private:
-      using _Base = _Optional_base<_Tp>;
-# 806 "/usr/include/c++/15.2.1/optional" 3
-      template<typename _From, typename = remove_cv_t<_Tp>>
- static constexpr bool __not_constructing_bool_from_optional
-   = true;
-
-
-
-      template<typename _From>
- static constexpr bool
- __not_constructing_bool_from_optional<_From, bool>
-   = !__is_optional_v<remove_cvref_t<_From>>;
-
-
-
-
-
-      template<typename _From, typename = remove_cv_t<_Tp>>
- static constexpr bool __construct_from_contained_value
-   = !__converts_from_optional<_Tp, _From>::value;
-
-
-
-      template<typename _From>
- static constexpr bool __construct_from_contained_value<_From, bool>
-   = true;
-# 859 "/usr/include/c++/15.2.1/optional" 3
-    public:
-      using value_type = _Tp;
-
-      constexpr optional() noexcept { }
-
-      constexpr optional(nullopt_t) noexcept { }
-
-
-
-      template<typename _Up = remove_cv_t<_Tp>>
- requires (!is_same_v<optional, remove_cvref_t<_Up>>)
-   && (!is_same_v<in_place_t, remove_cvref_t<_Up>>)
-   && is_constructible_v<_Tp, _Up>
-   && __not_constructing_bool_from_optional<_Up>
- constexpr explicit(!is_convertible_v<_Up, _Tp>)
- optional(_Up&& __t)
- noexcept(is_nothrow_constructible_v<_Tp, _Up>)
- : _Base(std::in_place, std::forward<_Up>(__t)) { }
-
-      template<typename _Up>
- requires (!is_same_v<_Tp, _Up>)
-   && is_constructible_v<_Tp, const _Up&>
-   && __construct_from_contained_value<_Up>
- constexpr explicit(!is_convertible_v<const _Up&, _Tp>)
- optional(const optional<_Up>& __t)
- noexcept(is_nothrow_constructible_v<_Tp, const _Up&>)
- {
-   if (__t)
-     emplace(__t._M_get());
- }
-
-      template<typename _Up>
- requires (!is_same_v<_Tp, _Up>)
-   && is_constructible_v<_Tp, _Up>
-   && __construct_from_contained_value<_Up>
- constexpr explicit(!is_convertible_v<_Up, _Tp>)
- optional(optional<_Up>&& __t)
- noexcept(is_nothrow_constructible_v<_Tp, _Up>)
- {
-   if (__t)
-     emplace(std::move(__t._M_get()));
- }
-
-      template<typename... _Args>
- requires is_constructible_v<_Tp, _Args...>
- explicit constexpr
- optional(in_place_t, _Args&&... __args)
- noexcept(is_nothrow_constructible_v<_Tp, _Args...>)
- : _Base(std::in_place, std::forward<_Args>(__args)...)
- { }
-
-      template<typename _Up, typename... _Args>
- requires is_constructible_v<_Tp, initializer_list<_Up>&, _Args...>
- explicit constexpr
- optional(in_place_t, initializer_list<_Up> __il, _Args&&... __args)
- noexcept(is_nothrow_constructible_v<_Tp, initializer_list<_Up>&,
-         _Args...>)
- : _Base(std::in_place, __il, std::forward<_Args>(__args)...)
- { }
-# 1010 "/usr/include/c++/15.2.1/optional" 3
-      constexpr optional&
-      operator=(nullopt_t) noexcept
-      {
- this->_M_reset();
- return *this;
-      }
-
-      template<typename _Up = remove_cv_t<_Tp>>
-
- requires (!is_same_v<optional, remove_cvref_t<_Up>>)
-   && (!(is_scalar_v<_Tp> && is_same_v<_Tp, decay_t<_Up>>))
-   && is_constructible_v<_Tp, _Up>
-   && is_assignable_v<_Tp&, _Up>
- constexpr optional&
-# 1032 "/usr/include/c++/15.2.1/optional" 3
- operator=(_Up&& __u)
- noexcept(__and_v<is_nothrow_constructible<_Tp, _Up>,
-    is_nothrow_assignable<_Tp&, _Up>>)
- {
-   if (this->_M_is_engaged())
-     this->_M_get() = std::forward<_Up>(__u);
-   else
-     this->_M_construct(std::forward<_Up>(__u));
-
-   return *this;
- }
-
-      template<typename _Up>
-
- requires (!is_same_v<_Tp, _Up>)
-   && is_constructible_v<_Tp, const _Up&>
-   && is_assignable_v<_Tp&, const _Up&>
-   && (!__converts_from_optional<_Tp, _Up>::value)
-   && (!__assigns_from_optional<_Tp, _Up>::value)
- constexpr optional&
-# 1060 "/usr/include/c++/15.2.1/optional" 3
- operator=(const optional<_Up>& __u)
- noexcept(__and_v<is_nothrow_constructible<_Tp, const _Up&>,
-    is_nothrow_assignable<_Tp&, const _Up&>>)
- {
-   if (__u)
-     {
-       if (this->_M_is_engaged())
-  this->_M_get() = __u._M_get();
-       else
-  this->_M_construct(__u._M_get());
-     }
-   else
-     {
-       this->_M_reset();
-     }
-   return *this;
- }
-
-      template<typename _Up>
-
- requires (!is_same_v<_Tp, _Up>)
-   && is_constructible_v<_Tp, _Up>
-   && is_assignable_v<_Tp&, _Up>
-   && (!__converts_from_optional<_Tp, _Up>::value)
-   && (!__assigns_from_optional<_Tp, _Up>::value)
- constexpr optional&
-# 1094 "/usr/include/c++/15.2.1/optional" 3
- operator=(optional<_Up>&& __u)
- noexcept(__and_v<is_nothrow_constructible<_Tp, _Up>,
-    is_nothrow_assignable<_Tp&, _Up>>)
- {
-   if (__u)
-     {
-       if (this->_M_is_engaged())
-  this->_M_get() = std::move(__u._M_get());
-       else
-  this->_M_construct(std::move(__u._M_get()));
-     }
-   else
-     {
-       this->_M_reset();
-     }
-
-   return *this;
- }
-
-      template<typename... _Args>
- constexpr
- enable_if_t<is_constructible_v<_Tp, _Args...>, _Tp&>
- emplace(_Args&&... __args)
- noexcept(is_nothrow_constructible_v<_Tp, _Args...>)
- {
-   this->_M_reset();
-   this->_M_construct(std::forward<_Args>(__args)...);
-   return this->_M_get();
- }
-
-      template<typename _Up, typename... _Args>
- constexpr
- enable_if_t<is_constructible_v<_Tp, initializer_list<_Up>&, _Args...>,
-      _Tp&>
- emplace(initializer_list<_Up> __il, _Args&&... __args)
- noexcept(is_nothrow_constructible_v<_Tp, initializer_list<_Up>&,
-         _Args...>)
- {
-   this->_M_reset();
-   this->_M_construct(__il, std::forward<_Args>(__args)...);
-   return this->_M_get();
- }
-
-
-
-
-      constexpr void
-      swap(optional& __other)
-      noexcept(is_nothrow_move_constructible_v<_Tp>
-        && is_nothrow_swappable_v<_Tp>)
-      {
- using std::swap;
-
- if (this->_M_is_engaged() && __other._M_is_engaged())
-   swap(this->_M_get(), __other._M_get());
- else if (this->_M_is_engaged())
-   {
-     __other._M_construct(std::move(this->_M_get()));
-     this->_M_destruct();
-   }
- else if (__other._M_is_engaged())
-   {
-     this->_M_construct(std::move(__other._M_get()));
-     __other._M_destruct();
-   }
-      }
-
-
-      constexpr const _Tp*
-      operator->() const noexcept
-      {
- do { if (__builtin_expect(!bool(this->_M_is_engaged()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/optional", 1165, __PRETTY_FUNCTION__, "this->_M_is_engaged()"); } while (false);
- return std::__addressof(this->_M_get());
-      }
-
-      constexpr _Tp*
-      operator->() noexcept
-      {
- do { if (__builtin_expect(!bool(this->_M_is_engaged()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/optional", 1172, __PRETTY_FUNCTION__, "this->_M_is_engaged()"); } while (false);
- return std::__addressof(this->_M_get());
-      }
-
-      constexpr const _Tp&
-      operator*() const& noexcept
-      {
- do { if (__builtin_expect(!bool(this->_M_is_engaged()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/optional", 1179, __PRETTY_FUNCTION__, "this->_M_is_engaged()"); } while (false);
- return this->_M_get();
-      }
-
-      constexpr _Tp&
-      operator*()& noexcept
-      {
- do { if (__builtin_expect(!bool(this->_M_is_engaged()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/optional", 1186, __PRETTY_FUNCTION__, "this->_M_is_engaged()"); } while (false);
- return this->_M_get();
-      }
-
-      constexpr _Tp&&
-      operator*()&& noexcept
-      {
- do { if (__builtin_expect(!bool(this->_M_is_engaged()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/optional", 1193, __PRETTY_FUNCTION__, "this->_M_is_engaged()"); } while (false);
- return std::move(this->_M_get());
-      }
-
-      constexpr const _Tp&&
-      operator*() const&& noexcept
-      {
- do { if (__builtin_expect(!bool(this->_M_is_engaged()), false)) std::__glibcxx_assert_fail("/usr/include/c++/15.2.1/optional", 1200, __PRETTY_FUNCTION__, "this->_M_is_engaged()"); } while (false);
- return std::move(this->_M_get());
-      }
-
-      constexpr explicit operator bool() const noexcept
-      { return this->_M_is_engaged(); }
-
-      constexpr bool has_value() const noexcept
-      { return this->_M_is_engaged(); }
-
-      constexpr const _Tp&
-      value() const&
-      {
- if (this->_M_is_engaged())
-   return this->_M_get();
- __throw_bad_optional_access();
-      }
-
-      constexpr _Tp&
-      value()&
-      {
- if (this->_M_is_engaged())
-   return this->_M_get();
- __throw_bad_optional_access();
-      }
-
-      constexpr _Tp&&
-      value()&&
-      {
- if (this->_M_is_engaged())
-   return std::move(this->_M_get());
- __throw_bad_optional_access();
-      }
-
-      constexpr const _Tp&&
-      value() const&&
-      {
- if (this->_M_is_engaged())
-   return std::move(this->_M_get());
- __throw_bad_optional_access();
-      }
-
-      template<typename _Up = remove_cv_t<_Tp>>
- constexpr _Tp
- value_or(_Up&& __u) const&
- {
-   static_assert(is_copy_constructible_v<_Tp>);
-   static_assert(is_convertible_v<_Up&&, _Tp>);
-
-   if (this->_M_is_engaged())
-     return this->_M_get();
-   else
-     return static_cast<_Tp>(std::forward<_Up>(__u));
- }
-
-      template<typename _Up = remove_cv_t<_Tp>>
- constexpr _Tp
- value_or(_Up&& __u) &&
- {
-   static_assert(is_move_constructible_v<_Tp>);
-   static_assert(is_convertible_v<_Up&&, _Tp>);
-
-   if (this->_M_is_engaged())
-     return std::move(this->_M_get());
-   else
-     return static_cast<_Tp>(std::forward<_Up>(__u));
- }
-
-
-
-
-      template<typename _Fn>
- constexpr auto
- and_then(_Fn&& __f) &
- {
-   using _Up = remove_cvref_t<invoke_result_t<_Fn, _Tp&>>;
-   static_assert(__is_optional_v<remove_cvref_t<_Up>>,
-   "the function passed to std::optional<T>::and_then "
-   "must return a std::optional");
-   if (has_value())
-     return std::__invoke(std::forward<_Fn>(__f), _M_get());
-   else
-     return _Up();
- }
-
-      template<typename _Fn>
- constexpr auto
- and_then(_Fn&& __f) const &
- {
-   using _Up = remove_cvref_t<invoke_result_t<_Fn, const _Tp&>>;
-   static_assert(__is_optional_v<_Up>,
-   "the function passed to std::optional<T>::and_then "
-   "must return a std::optional");
-   if (has_value())
-     return std::__invoke(std::forward<_Fn>(__f), _M_get());
-   else
-     return _Up();
- }
-
-      template<typename _Fn>
- constexpr auto
- and_then(_Fn&& __f) &&
- {
-   using _Up = remove_cvref_t<invoke_result_t<_Fn, _Tp>>;
-   static_assert(__is_optional_v<remove_cvref_t<_Up>>,
-   "the function passed to std::optional<T>::and_then "
-   "must return a std::optional");
-   if (has_value())
-     return std::__invoke(std::forward<_Fn>(__f), std::move(_M_get()));
-   else
-     return _Up();
- }
-
-      template<typename _Fn>
- constexpr auto
- and_then(_Fn&& __f) const &&
- {
-   using _Up = remove_cvref_t<invoke_result_t<_Fn, const _Tp>>;
-   static_assert(__is_optional_v<remove_cvref_t<_Up>>,
-   "the function passed to std::optional<T>::and_then "
-   "must return a std::optional");
-   if (has_value())
-     return std::__invoke(std::forward<_Fn>(__f), std::move(_M_get()));
-   else
-     return _Up();
- }
-
-      template<typename _Fn>
- constexpr auto
- transform(_Fn&& __f) &
- {
-   using _Up = remove_cv_t<invoke_result_t<_Fn, _Tp&>>;
-   if (has_value())
-     return optional<_Up>(_Optional_func<_Fn>{__f}, _M_get());
-   else
-     return optional<_Up>();
- }
-
-      template<typename _Fn>
- constexpr auto
- transform(_Fn&& __f) const &
- {
-   using _Up = remove_cv_t<invoke_result_t<_Fn, const _Tp&>>;
-   if (has_value())
-     return optional<_Up>(_Optional_func<_Fn>{__f}, _M_get());
-   else
-     return optional<_Up>();
- }
-
-      template<typename _Fn>
- constexpr auto
- transform(_Fn&& __f) &&
- {
-   using _Up = remove_cv_t<invoke_result_t<_Fn, _Tp>>;
-   if (has_value())
-     return optional<_Up>(_Optional_func<_Fn>{__f}, std::move(_M_get()));
-   else
-     return optional<_Up>();
- }
-
-      template<typename _Fn>
- constexpr auto
- transform(_Fn&& __f) const &&
- {
-   using _Up = remove_cv_t<invoke_result_t<_Fn, const _Tp>>;
-   if (has_value())
-     return optional<_Up>(_Optional_func<_Fn>{__f}, std::move(_M_get()));
-   else
-     return optional<_Up>();
- }
-
-      template<typename _Fn> requires invocable<_Fn> && copy_constructible<_Tp>
- constexpr optional
- or_else(_Fn&& __f) const&
- {
-   using _Up = invoke_result_t<_Fn>;
-   static_assert(is_same_v<remove_cvref_t<_Up>, optional>,
-   "the function passed to std::optional<T>::or_else "
-   "must return a std::optional<T>");
-
-   if (has_value())
-     return *this;
-   else
-     return std::forward<_Fn>(__f)();
- }
-
-      template<typename _Fn> requires invocable<_Fn> && move_constructible<_Tp>
- constexpr optional
- or_else(_Fn&& __f) &&
- {
-   using _Up = invoke_result_t<_Fn>;
-   static_assert(is_same_v<remove_cvref_t<_Up>, optional>,
-   "the function passed to std::optional<T>::or_else "
-   "must return a std::optional<T>");
-
-   if (has_value())
-     return std::move(*this);
-   else
-     return std::forward<_Fn>(__f)();
- }
-
-
-      constexpr void reset() noexcept { this->_M_reset(); }
-
-    private:
-      using _Base::_M_get;
-
-      template<typename _Up> friend class optional;
-
-
-      template<typename _Fn, typename _Value>
- explicit constexpr
- optional(_Optional_func<_Fn> __f, _Value&& __v)
- {
-   this->_M_payload._M_apply(__f, std::forward<_Value>(__v));
- }
-
-    };
-
-  template<typename _Tp>
-    using __optional_relop_t =
-      enable_if_t<is_convertible_v<_Tp, bool>, bool>;
-
-  template<typename _Tp, typename _Up>
-    using __optional_eq_t = __optional_relop_t<
-      decltype(std::declval<const _Tp&>() == std::declval<const _Up&>())
-      >;
-
-  template<typename _Tp, typename _Up>
-    using __optional_ne_t = __optional_relop_t<
-      decltype(std::declval<const _Tp&>() != std::declval<const _Up&>())
-      >;
-
-  template<typename _Tp, typename _Up>
-    using __optional_lt_t = __optional_relop_t<
-      decltype(std::declval<const _Tp&>() < std::declval<const _Up&>())
-      >;
-
-  template<typename _Tp, typename _Up>
-    using __optional_gt_t = __optional_relop_t<
-      decltype(std::declval<const _Tp&>() > std::declval<const _Up&>())
-      >;
-
-  template<typename _Tp, typename _Up>
-    using __optional_le_t = __optional_relop_t<
-      decltype(std::declval<const _Tp&>() <= std::declval<const _Up&>())
-      >;
-
-  template<typename _Tp, typename _Up>
-    using __optional_ge_t = __optional_relop_t<
-      decltype(std::declval<const _Tp&>() >= std::declval<const _Up&>())
-      >;
-
-
-  template<typename _Tp, typename _Up>
-    constexpr auto
-    operator==(const optional<_Tp>& __lhs, const optional<_Up>& __rhs)
-    -> __optional_eq_t<_Tp, _Up>
-    {
-      return static_cast<bool>(__lhs) == static_cast<bool>(__rhs)
-      && (!__lhs || *__lhs == *__rhs);
-    }
-
-  template<typename _Tp, typename _Up>
-    constexpr auto
-    operator!=(const optional<_Tp>& __lhs, const optional<_Up>& __rhs)
-    -> __optional_ne_t<_Tp, _Up>
-    {
-      return static_cast<bool>(__lhs) != static_cast<bool>(__rhs)
- || (static_cast<bool>(__lhs) && *__lhs != *__rhs);
-    }
-
-  template<typename _Tp, typename _Up>
-    constexpr auto
-    operator<(const optional<_Tp>& __lhs, const optional<_Up>& __rhs)
-    -> __optional_lt_t<_Tp, _Up>
-    {
-      return static_cast<bool>(__rhs) && (!__lhs || *__lhs < *__rhs);
-    }
-
-  template<typename _Tp, typename _Up>
-    constexpr auto
-    operator>(const optional<_Tp>& __lhs, const optional<_Up>& __rhs)
-    -> __optional_gt_t<_Tp, _Up>
-    {
-      return static_cast<bool>(__lhs) && (!__rhs || *__lhs > *__rhs);
-    }
-
-  template<typename _Tp, typename _Up>
-    constexpr auto
-    operator<=(const optional<_Tp>& __lhs, const optional<_Up>& __rhs)
-    -> __optional_le_t<_Tp, _Up>
-    {
-      return !__lhs || (static_cast<bool>(__rhs) && *__lhs <= *__rhs);
-    }
-
-  template<typename _Tp, typename _Up>
-    constexpr auto
-    operator>=(const optional<_Tp>& __lhs, const optional<_Up>& __rhs)
-    -> __optional_ge_t<_Tp, _Up>
-    {
-      return !__rhs || (static_cast<bool>(__lhs) && *__lhs >= *__rhs);
-    }
-
-
-  template<typename _Tp, three_way_comparable_with<_Tp> _Up>
-    [[nodiscard]]
-    constexpr compare_three_way_result_t<_Tp, _Up>
-    operator<=>(const optional<_Tp>& __x, const optional<_Up>& __y)
-    {
-      return __x && __y ? *__x <=> *__y : bool(__x) <=> bool(__y);
-    }
-
-
-
-  template<typename _Tp>
-    [[nodiscard]]
-    constexpr bool
-    operator==(const optional<_Tp>& __lhs, nullopt_t) noexcept
-    { return !__lhs; }
-
-
-  template<typename _Tp>
-    [[nodiscard]]
-    constexpr strong_ordering
-    operator<=>(const optional<_Tp>& __x, nullopt_t) noexcept
-    { return bool(__x) <=> false; }
-# 1593 "/usr/include/c++/15.2.1/optional" 3
-  template<typename _Tp, typename _Up>
-    requires (!__is_optional_v<_Up>)
-    constexpr auto
-    operator== [[nodiscard]] (const optional<_Tp>& __lhs, const _Up& __rhs)
-    -> __optional_eq_t<_Tp, _Up>
-    { return __lhs && *__lhs == __rhs; }
-
-  template<typename _Tp, typename _Up>
-    requires (!__is_optional_v<_Tp>)
-    constexpr auto
-    operator== [[nodiscard]] (const _Tp& __lhs, const optional<_Up>& __rhs)
-    -> __optional_eq_t<_Tp, _Up>
-    { return __rhs && __lhs == *__rhs; }
-
-  template<typename _Tp, typename _Up>
-    requires (!__is_optional_v<_Up>)
-    constexpr auto
-    operator!= [[nodiscard]] (const optional<_Tp>& __lhs, const _Up& __rhs)
-    -> __optional_ne_t<_Tp, _Up>
-    { return !__lhs || *__lhs != __rhs; }
-
-  template<typename _Tp, typename _Up>
-    requires (!__is_optional_v<_Tp>)
-    constexpr auto
-    operator!= [[nodiscard]] (const _Tp& __lhs, const optional<_Up>& __rhs)
-    -> __optional_ne_t<_Tp, _Up>
-    { return !__rhs || __lhs != *__rhs; }
-
-  template<typename _Tp, typename _Up>
-    requires (!__is_optional_v<_Up>)
-    constexpr auto
-    operator< [[nodiscard]] (const optional<_Tp>& __lhs, const _Up& __rhs)
-    -> __optional_lt_t<_Tp, _Up>
-    { return !__lhs || *__lhs < __rhs; }
-
-  template<typename _Tp, typename _Up>
-    requires (!__is_optional_v<_Tp>)
-    constexpr auto
-    operator< [[nodiscard]] (const _Tp& __lhs, const optional<_Up>& __rhs)
-    -> __optional_lt_t<_Tp, _Up>
-    { return __rhs && __lhs < *__rhs; }
-
-  template<typename _Tp, typename _Up>
-    requires (!__is_optional_v<_Up>)
-    constexpr auto
-    operator> [[nodiscard]] (const optional<_Tp>& __lhs, const _Up& __rhs)
-    -> __optional_gt_t<_Tp, _Up>
-    { return __lhs && *__lhs > __rhs; }
-
-  template<typename _Tp, typename _Up>
-    requires (!__is_optional_v<_Tp>)
-    constexpr auto
-    operator> [[nodiscard]] (const _Tp& __lhs, const optional<_Up>& __rhs)
-    -> __optional_gt_t<_Tp, _Up>
-    { return !__rhs || __lhs > *__rhs; }
-
-  template<typename _Tp, typename _Up>
-    requires (!__is_optional_v<_Up>)
-    constexpr auto
-    operator<= [[nodiscard]] (const optional<_Tp>& __lhs, const _Up& __rhs)
-    -> __optional_le_t<_Tp, _Up>
-    { return !__lhs || *__lhs <= __rhs; }
-
-  template<typename _Tp, typename _Up>
-    requires (!__is_optional_v<_Tp>)
-    constexpr auto
-    operator<= [[nodiscard]] (const _Tp& __lhs, const optional<_Up>& __rhs)
-    -> __optional_le_t<_Tp, _Up>
-    { return __rhs && __lhs <= *__rhs; }
-
-  template<typename _Tp, typename _Up>
-    requires (!__is_optional_v<_Up>)
-    constexpr auto
-    operator>= [[nodiscard]] (const optional<_Tp>& __lhs, const _Up& __rhs)
-    -> __optional_ge_t<_Tp, _Up>
-    { return __lhs && *__lhs >= __rhs; }
-
-  template<typename _Tp, typename _Up>
-    requires (!__is_optional_v<_Tp>)
-    constexpr auto
-    operator>= [[nodiscard]] (const _Tp& __lhs, const optional<_Up>& __rhs)
-    -> __optional_ge_t<_Tp, _Up>
-    { return !__rhs || __lhs >= *__rhs; }
-
-
-
-
-
-  template<typename _Tp>
-    concept __is_derived_from_optional = requires (const _Tp& __t) {
-      []<typename _Up>(const optional<_Up>&){ }(__t);
-    };
-
-  template<typename _Tp, typename _Up>
-    requires (!__is_derived_from_optional<_Up>)
-      && requires { typename compare_three_way_result_t<_Tp, _Up>; }
-      && three_way_comparable_with<_Tp, _Up>
-    constexpr compare_three_way_result_t<_Tp, _Up>
-    operator<=> [[nodiscard]] (const optional<_Tp>& __x, const _Up& __v)
-    { return bool(__x) ? *__x <=> __v : strong_ordering::less; }
-
-
-
-
-
-
-  template<typename _Tp>
-    constexpr
-    inline enable_if_t<is_move_constructible_v<_Tp> && is_swappable_v<_Tp>>
-    swap(optional<_Tp>& __lhs, optional<_Tp>& __rhs)
-    noexcept(noexcept(__lhs.swap(__rhs)))
-    { __lhs.swap(__rhs); }
-
-  template<typename _Tp>
-    enable_if_t<!(is_move_constructible_v<_Tp> && is_swappable_v<_Tp>)>
-    swap(optional<_Tp>&, optional<_Tp>&) = delete;
-
-  template<typename _Tp>
-    constexpr
-    enable_if_t<is_constructible_v<decay_t<_Tp>, _Tp>,
-  optional<decay_t<_Tp>>>
-    make_optional(_Tp&& __t)
-    noexcept(is_nothrow_constructible_v<optional<decay_t<_Tp>>, _Tp>)
-    { return optional<decay_t<_Tp>>{ std::forward<_Tp>(__t) }; }
-
-  template<typename _Tp, typename... _Args>
-    constexpr
-    enable_if_t<is_constructible_v<_Tp, _Args...>,
-  optional<_Tp>>
-    make_optional(_Args&&... __args)
-    noexcept(is_nothrow_constructible_v<_Tp, _Args...>)
-    { return optional<_Tp>{ in_place, std::forward<_Args>(__args)... }; }
-
-  template<typename _Tp, typename _Up, typename... _Args>
-    constexpr
-    enable_if_t<is_constructible_v<_Tp, initializer_list<_Up>&, _Args...>,
-  optional<_Tp>>
-    make_optional(initializer_list<_Up> __il, _Args&&... __args)
-    noexcept(is_nothrow_constructible_v<_Tp, initializer_list<_Up>&, _Args...>)
-    { return optional<_Tp>{ in_place, __il, std::forward<_Args>(__args)... }; }
-
-
-
-  template<typename _Tp, typename _Up = remove_const_t<_Tp>>
-    struct __optional_hash
-
-    : public __hash_empty_base<_Up>
-
-    {
-
-
-
-
-
-      size_t
-      operator()(const optional<_Tp>& __t) const
-      noexcept(noexcept(hash<_Up>{}(*__t)))
-      {
-
-
- constexpr size_t __magic_disengaged_hash = static_cast<size_t>(-3333);
- return __t ? hash<_Up>{}(*__t) : __magic_disengaged_hash;
-      }
-    };
-
-  template<typename _Tp>
-    struct hash<optional<_Tp>>
-    : public __conditional_t<__is_hash_enabled_for<remove_const_t<_Tp>>,
-        __optional_hash<_Tp>,
-        __hash_not_enabled<_Tp>>
-    { };
-
-  template<typename _Tp>
-    struct __is_fast_hash<hash<optional<_Tp>>> : __is_fast_hash<hash<_Tp>>
-    { };
-
-
-
-
-  template <typename _Tp> optional(_Tp) -> optional<_Tp>;
-
-
-
-
-
-}
-# 51 "/usr/include/c++/15.2.1/format" 2 3
 # 1 "/usr/include/c++/15.2.1/span" 1 3
 # 43 "/usr/include/c++/15.2.1/span" 3
 # 1 "/usr/include/c++/15.2.1/bits/version.h" 1 3
@@ -88924,311 +89220,7 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 
 }
-# 9 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
-# 1 "/home/arch/code/projects/Compiler/include/token.h" 1
-
-
-
-
-# 1 "/usr/include/c++/15.2.1/utility" 1 3
-# 70 "/usr/include/c++/15.2.1/utility" 3
-# 1 "/usr/include/c++/15.2.1/bits/stl_relops.h" 1 3
-# 62 "/usr/include/c++/15.2.1/bits/stl_relops.h" 3
-namespace std __attribute__ ((__visibility__ ("default")))
-{
-
-
-  namespace rel_ops __attribute__ ((__deprecated__ ("use '" "<=>" "' instead")))
-  {
-# 86 "/usr/include/c++/15.2.1/bits/stl_relops.h" 3
-    template <class _Tp>
-      inline bool
-      operator!=(const _Tp& __x, const _Tp& __y)
-      { return !(__x == __y); }
-# 99 "/usr/include/c++/15.2.1/bits/stl_relops.h" 3
-    template <class _Tp>
-      inline bool
-      operator>(const _Tp& __x, const _Tp& __y)
-      { return __y < __x; }
-# 112 "/usr/include/c++/15.2.1/bits/stl_relops.h" 3
-    template <class _Tp>
-      inline bool
-      operator<=(const _Tp& __x, const _Tp& __y)
-      { return !(__y < __x); }
-# 125 "/usr/include/c++/15.2.1/bits/stl_relops.h" 3
-    template <class _Tp>
-      inline bool
-      operator>=(const _Tp& __x, const _Tp& __y)
-      { return !(__x < __y); }
-  }
-
-
-}
-# 71 "/usr/include/c++/15.2.1/utility" 2 3
-# 103 "/usr/include/c++/15.2.1/utility" 3
-# 1 "/usr/include/c++/15.2.1/bits/version.h" 1 3
-# 104 "/usr/include/c++/15.2.1/utility" 2 3
-
-namespace std __attribute__ ((__visibility__ ("default")))
-{
-
-
-
-
-  template <typename _Tp, typename _Up = _Tp>
-    constexpr
-    inline _Tp
-    exchange(_Tp& __obj, _Up&& __new_val)
-    noexcept(__and_<is_nothrow_move_constructible<_Tp>,
-      is_nothrow_assignable<_Tp&, _Up>>::value)
-    { return std::__exchange(__obj, std::forward<_Up>(__new_val)); }
-
-
-
-  template<typename _Tp>
-    [[nodiscard]]
-    constexpr add_const_t<_Tp>&
-    as_const(_Tp& __t) noexcept
-    { return __t; }
-
-  template<typename _Tp>
-    void as_const(const _Tp&&) = delete;
-
-
-
-  template<typename _Tp, typename _Up>
-    constexpr bool
-    cmp_equal(_Tp __t, _Up __u) noexcept
-    {
-      static_assert(__is_standard_integer<_Tp>::value);
-      static_assert(__is_standard_integer<_Up>::value);
-
-      if constexpr (is_signed_v<_Tp> == is_signed_v<_Up>)
- return __t == __u;
-      else if constexpr (is_signed_v<_Tp>)
- return __t >= 0 && make_unsigned_t<_Tp>(__t) == __u;
-      else
- return __u >= 0 && __t == make_unsigned_t<_Up>(__u);
-    }
-
-  template<typename _Tp, typename _Up>
-    constexpr bool
-    cmp_not_equal(_Tp __t, _Up __u) noexcept
-    { return !std::cmp_equal(__t, __u); }
-
-  template<typename _Tp, typename _Up>
-    constexpr bool
-    cmp_less(_Tp __t, _Up __u) noexcept
-    {
-      static_assert(__is_standard_integer<_Tp>::value);
-      static_assert(__is_standard_integer<_Up>::value);
-
-      if constexpr (is_signed_v<_Tp> == is_signed_v<_Up>)
- return __t < __u;
-      else if constexpr (is_signed_v<_Tp>)
- return __t < 0 || make_unsigned_t<_Tp>(__t) < __u;
-      else
- return __u >= 0 && __t < make_unsigned_t<_Up>(__u);
-    }
-
-  template<typename _Tp, typename _Up>
-    constexpr bool
-    cmp_greater(_Tp __t, _Up __u) noexcept
-    { return std::cmp_less(__u, __t); }
-
-  template<typename _Tp, typename _Up>
-    constexpr bool
-    cmp_less_equal(_Tp __t, _Up __u) noexcept
-    { return !std::cmp_less(__u, __t); }
-
-  template<typename _Tp, typename _Up>
-    constexpr bool
-    cmp_greater_equal(_Tp __t, _Up __u) noexcept
-    { return !std::cmp_less(__t, __u); }
-
-  template<typename _Res, typename _Tp>
-    constexpr bool
-    in_range(_Tp __t) noexcept
-    {
-      static_assert(__is_standard_integer<_Res>::value);
-      static_assert(__is_standard_integer<_Tp>::value);
-      using __gnu_cxx::__int_traits;
-
-      if constexpr (is_signed_v<_Tp> == is_signed_v<_Res>)
- return __int_traits<_Res>::__min <= __t
-   && __t <= __int_traits<_Res>::__max;
-      else if constexpr (is_signed_v<_Tp>)
- return __t >= 0
-   && make_unsigned_t<_Tp>(__t) <= __int_traits<_Res>::__max;
-      else
- return __t <= make_unsigned_t<_Res>(__int_traits<_Res>::__max);
-    }
-
-
-
-
-  template<typename _Tp>
-    [[nodiscard]]
-    constexpr underlying_type_t<_Tp>
-    to_underlying(_Tp __value) noexcept
-    { return static_cast<underlying_type_t<_Tp>>(__value); }
-# 223 "/usr/include/c++/15.2.1/utility" 3
-  [[noreturn,__gnu__::__always_inline__]]
-  inline void
-  unreachable()
-  {
-
-
-
-    __builtin_trap();
-
-
-
-  }
-
-
-
-}
-# 6 "/home/arch/code/projects/Compiler/include/token.h" 2
-
-
-
-# 8 "/home/arch/code/projects/Compiler/include/token.h"
-enum class TokenType {
-  PLUS,
-  MINUS,
-  TIMES,
-  DIVIDE,
-
-  LET,
-  BE,
-  POINTER,
-  TO,
-  STOP,
-  DEFINE,
-  AS,
-  END,
-  WITH,
-  IF,
-  GREATER_THAN,
-  GREATER_THAN_OR_EQUALS_TO,
-  LESS_THAN,
-  LESS_THAN_OR_EQUALS_TO,
-  THEN,
-  OR,
-  EQUALS,
-  OTHERWISE,
-  FOR,
-  REPEAT,
-  JUST,
-
-  IDENTIFIER,
-  INTEGER_LITERAL
-};
-
-extern std::vector<TokenType> inequalitySymbols;
-
-class Token {
-public:
-  TokenType tokenType;
-  std::string tokenString;
-
-  Token(const TokenType tokenType, std::string tokenString) : tokenType(tokenType), tokenString(std::move(tokenString)) {}
-};
-# 10 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
-
-struct ASTNode
-{
-  virtual ~ASTNode() = default;
-  virtual std::string generateCode() = 0;
-};
-
-struct Root final : ASTNode
-{
-  std::vector<std::shared_ptr<ASTNode>> nodes;
-
-  std::string generateCode() override;
-};
-
-struct IntegerLiteral final : ASTNode
-{
-  int value;
-
-  IntegerLiteral(const int value) : value(value)
-  {
-  }
-
-  std::string generateCode() override;
-};
-
-struct BinaryExpression final : ASTNode
-{
-  TokenType operatorType;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>> left;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>> right;
-
-  BinaryExpression(TokenType operatorType, std::variant<BinaryExpression, IntegerLiteral> left,
-                   std::variant<BinaryExpression,
-                                IntegerLiteral>
-                       right);
-
-  std::string generateCode() override;
-};
-
-struct VariableStatement final : ASTNode
-{
-  bool isPointer;
-  std::optional<std::string> pointerIdentifier;
-
-  std::string identifier;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>> value;
-
-  VariableStatement(const std::string &pointerIdentifier);
-  VariableStatement(const std::string &identifier, std::variant<BinaryExpression, IntegerLiteral> value);
-
-  std::string generateCode() override;
-};
-
-struct FunctionStatement final : ASTNode
-{
-  std::string identifier;
-  std::vector<std::string> parameters;
-  std::vector<std::shared_ptr<ASTNode>> body;
-
-  FunctionStatement(const std::string &identifier, const std::vector<std::shared_ptr<ASTNode>> &body,
-                    const std::vector<std::string> &parameters);
-
-  std::string generateCode() override;
-};
-
-struct IfStatementBlock
-{
-  std::optional<std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>>> condition;
-  std::vector<std::shared_ptr<ASTNode>> body;
-
-  IfStatementBlock(const std::optional<std::variant<BinaryExpression, IntegerLiteral>> condition, const std::vector<std::shared_ptr<ASTNode>> &body);
-};
-
-struct IfStatement final : ASTNode
-{
-  std::vector<IfStatementBlock> ifStatementBlocks;
-
-  IfStatement(const std::vector<IfStatementBlock> &ifStatementBlocks);
-
-  std::string generateCode() override;
-};
-
-struct LoopStatement final : ASTNode
-{
-  std::shared_ptr<BinaryExpression> condition;
-  std::vector<std::shared_ptr<ASTNode>> body;
-
-  LoopStatement(const BinaryExpression condition, const std::vector<std::shared_ptr<ASTNode>> &body);
-
-  std::string generateCode() override;
-};
-# 5 "/home/arch/code/projects/Compiler/include/codeGenerator.h" 2
-
+# 6 "/home/arch/code/projects/Compiler/include/codeGenerator.h" 2
 
 # 1 "/usr/include/c++/15.2.1/fstream" 1 3
 # 46 "/usr/include/c++/15.2.1/fstream" 3
@@ -89239,8 +89231,6 @@ struct LoopStatement final : ASTNode
 
 
 # 1 "/usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++io.h" 1 3
-# 38 "/usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++io.h" 3
-
 # 38 "/usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++io.h" 3
 namespace std __attribute__ ((__visibility__ ("default")))
 {

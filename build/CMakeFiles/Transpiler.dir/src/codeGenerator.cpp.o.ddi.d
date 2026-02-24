@@ -3,6 +3,7 @@ CMakeFiles/Transpiler.dir/src/codeGenerator.cpp.o.ddi: \
  /usr/include/stdc-predef.h \
  /home/arch/code/projects/Compiler/include/codeGenerator.h \
  /home/arch/code/projects/Compiler/include/ast/node.h \
+ /home/arch/code/projects/Compiler/include/token.h \
  /usr/include/c++/15.2.1/string \
  /usr/include/c++/15.2.1/bits/requires_hosted.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
@@ -113,13 +114,15 @@ CMakeFiles/Transpiler.dir/src/codeGenerator.cpp.o.ddi: \
  /usr/include/c++/15.2.1/cstddef \
  /usr/include/c++/15.2.1/bits/uses_allocator.h \
  /usr/include/c++/15.2.1/bits/uses_allocator_args.h \
- /usr/include/c++/15.2.1/tuple /usr/include/c++/15.2.1/variant \
- /usr/include/c++/15.2.1/bits/enable_special_members.h \
- /usr/include/c++/15.2.1/bits/monostate.h \
- /usr/include/c++/15.2.1/bits/parse_numbers.h \
- /usr/include/c++/15.2.1/memory \
- /usr/include/c++/15.2.1/bits/stl_tempbuf.h \
+ /usr/include/c++/15.2.1/tuple /usr/include/c++/15.2.1/utility \
+ /usr/include/c++/15.2.1/bits/stl_relops.h \
+ /usr/include/c++/15.2.1/bits/monostate.h /usr/include/c++/15.2.1/vector \
  /usr/include/c++/15.2.1/bits/stl_uninitialized.h \
+ /usr/include/c++/15.2.1/bits/stl_vector.h \
+ /usr/include/c++/15.2.1/bits/stl_bvector.h \
+ /usr/include/c++/15.2.1/bits/vector.tcc \
+ /usr/include/c++/15.2.1/bits/formatfwd.h /usr/include/c++/15.2.1/memory \
+ /usr/include/c++/15.2.1/bits/stl_tempbuf.h \
  /usr/include/c++/15.2.1/bits/stl_raw_storage_iter.h \
  /usr/include/c++/15.2.1/bits/align.h \
  /usr/include/c++/15.2.1/bits/unique_ptr.h \
@@ -201,10 +204,10 @@ CMakeFiles/Transpiler.dir/src/codeGenerator.cpp.o.ddi: \
  /usr/include/c++/15.2.1/bits/out_ptr.h \
  /usr/include/c++/15.2.1/pstl/glue_memory_defs.h \
  /usr/include/c++/15.2.1/pstl/execution_defs.h \
- /usr/include/c++/15.2.1/vector /usr/include/c++/15.2.1/bits/stl_vector.h \
- /usr/include/c++/15.2.1/bits/stl_bvector.h \
- /usr/include/c++/15.2.1/bits/vector.tcc \
- /usr/include/c++/15.2.1/bits/formatfwd.h \
+ /usr/include/c++/15.2.1/optional \
+ /usr/include/c++/15.2.1/bits/enable_special_members.h \
+ /usr/include/c++/15.2.1/variant \
+ /usr/include/c++/15.2.1/bits/parse_numbers.h \
  /usr/include/c++/15.2.1/iostream /usr/include/c++/15.2.1/ostream \
  /usr/include/c++/15.2.1/format /usr/include/c++/15.2.1/limits \
  /usr/include/c++/15.2.1/locale \
@@ -214,14 +217,9 @@ CMakeFiles/Transpiler.dir/src/codeGenerator.cpp.o.ddi: \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/messages_members.h \
  /usr/include/libintl.h /usr/include/c++/15.2.1/bits/codecvt.h \
  /usr/include/c++/15.2.1/bits/locale_facets_nonio.tcc \
- /usr/include/c++/15.2.1/bits/locale_conv.h \
- /usr/include/c++/15.2.1/optional /usr/include/c++/15.2.1/span \
+ /usr/include/c++/15.2.1/bits/locale_conv.h /usr/include/c++/15.2.1/span \
  /usr/include/c++/15.2.1/bits/ostream.tcc /usr/include/c++/15.2.1/istream \
- /usr/include/c++/15.2.1/bits/istream.tcc \
- /home/arch/code/projects/Compiler/include/token.h \
- /usr/include/c++/15.2.1/utility \
- /usr/include/c++/15.2.1/bits/stl_relops.h \
- /usr/include/c++/15.2.1/fstream \
+ /usr/include/c++/15.2.1/bits/istream.tcc /usr/include/c++/15.2.1/fstream \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/basic_file.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++io.h \
  /usr/include/c++/15.2.1/bits/fstream.tcc

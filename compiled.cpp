@@ -2,6 +2,6 @@
 using namespace std;
 int main() {
 auto a = 10;
-for
+auto b = 5 * 10;
 return 0;
 }

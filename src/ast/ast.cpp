@@ -1,15 +1,17 @@
 #include "ast/ast.h"
 #include "ast/node.h"
 #include "token.h"
+#include <cstddef>
+#include <memory>
 #include <optional>
 
 using namespace std;
 
-pair<double, double> AST::getBindingPower(TokenType op) {
+BindingPower AST::getBindingPower(TokenType op) {
   if (op == TokenType::PLUS || op == TokenType::MINUS)
-    return pair<int, int>(1, 1.5);
+    return BindingPower(1, 1.5);
   if (op == TokenType::TIMES || op == TokenType::DIVIDE)
-    return pair<int, int>(2, 2.5);
+    return BindingPower(2, 2.5);
   throw "What is this token";
 }
 
@@ -55,28 +57,48 @@ optional<int> AST::isInequality(const vector<Token> &statement) {
   return nullopt;
 }
 
-variant<BinaryExpression, IntegerLiteral> AST::evaluateExpression(const vector<Token> &statement) {
+variant<BinaryExpression, IntegerLiteral> AST::evaluateExpression(const vector<Token> &statement, int &i, int minimumBindingPower) {
   // The statement is something like let x be 5;
-  if (statement.size() == 1)
-    return IntegerLiteral(stoi(statement[0].tokenString));
+  if (statement.size() == 1 || i == statement.size() - 1)
+    return IntegerLiteral(stoi(statement[i].tokenString));
 
   optional<int> inequalityIndex = isInequality(statement);
   if (inequalityIndex.has_value()) {
     vector<Token> leftArray = vector<Token>(statement.begin(), statement.begin() + inequalityIndex.value() - 1);
     vector<Token> rightArray = vector<Token>(statement.begin() + inequalityIndex.value() + 1, statement.end());
 
-    variant<BinaryExpression, IntegerLiteral> left = evaluateExpression(leftArray);
-    variant<BinaryExpression, IntegerLiteral> right = evaluateExpression(rightArray);
+    variant<BinaryExpression, IntegerLiteral> left = evaluateExpression(leftArray, i, 0);
+    variant<BinaryExpression, IntegerLiteral> right = evaluateExpression(rightArray, i, 0);
   }
 
   // We will assume it contains an operator otherwise
   unique_ptr<BinaryExpression> binaryExpression = nullptr;
-  IntegerLiteral leftHandSide(stoi(statement[0].tokenString));
-  for (int i = 1; i < statement.size(); ++i) {
-    TokenType op = statement[i].tokenType;
-    pair<double, double> bindingPower = getBindingPower(op);
+  IntegerLiteral leftHandSide(stoi(statement[i].tokenString));
+  for (; i < statement.size() - 1;) {
+    TokenType op = statement[i + 1].tokenType;
+    BindingPower bindingPower = getBindingPower(op);
+
+    if (bindingPower.left < minimumBindingPower)
+      break;
+
+    i += 2;
+    variant<BinaryExpression, IntegerLiteral> rightHandSide = evaluateExpression(statement, i, bindingPower.right);
+    if (binaryExpression == nullptr)
+      binaryExpression = make_unique<BinaryExpression>(op, leftHandSide, rightHandSide);
+    else {
+      visit(
+          [&]<typename T>(const T &var) {
+            if constexpr (is_same_v<decay_t<T>, BinaryExpression>)
+              binaryExpression = make_unique<BinaryExpression>(op, get<BinaryExpression>(var), rightHandSide);
+            if constexpr (is_same_v<decay_t<T>, IntegerLiteral>)
+              binaryExpression = make_unique<BinaryExpression>(op, get<IntegerLiteral>(var), rightHandSide);
+          },
+          binaryExpression->left);
+    }
   }
 
+  if (binaryExpression == nullptr)
+    return leftHandSide;
   return *binaryExpression;
 }
 
@@ -90,7 +112,8 @@ shared_ptr<VariableStatement> AST::evaluateVariableStatement(const vector<Token>
   for (int i = 3; i < statement.size() - 1; ++i)
     expressionTokens.push_back(statement[i]);
 
-  variant<BinaryExpression, IntegerLiteral> expression = evaluateExpression(expressionTokens);
+  int i = 0;
+  variant<BinaryExpression, IntegerLiteral> expression = evaluateExpression(expressionTokens, i, 0);
   return make_shared<VariableStatement>(identifier, expression);
 }
 
@@ -167,8 +190,10 @@ shared_ptr<IfStatement> AST::evaluateIfStatement(const vector<Token> &body) {
     vector<shared_ptr<ASTNode>> bodyTokensAST = constructAST(currentBlockTokens).get()->nodes;
     IfStatementBlock newBlock(nullopt, bodyTokensAST);
 
-    if (!isLastElseBlock) // This means there is a statement to evaluate
-      newBlock = IfStatementBlock(evaluateExpression(currentBlockStatement), bodyTokensAST);
+    if (!isLastElseBlock) { // This means there is a statement to evaluate
+      int i = 0;
+      newBlock = IfStatementBlock(evaluateExpression(currentBlockStatement, i, 0), bodyTokensAST);
+    }
 
     ifStatementBlocks.push_back(newBlock);
   }
@@ -182,7 +207,8 @@ shared_ptr<LoopStatement> AST::evaluateLoopStatement(const CodeBlock &loopBlock)
   for (int i = 1; i < loopBlock.statement.size() - 1; ++i)
     expressionTokens.push_back(loopBlock.statement[i]);
 
-  BinaryExpression evaluatedExpression = get<BinaryExpression>(evaluateExpression(expressionTokens));
+  int i = 0;
+  BinaryExpression evaluatedExpression = get<BinaryExpression>(evaluateExpression(expressionTokens, i, 0));
 
   vector<shared_ptr<ASTNode>> loopStatementBody = constructAST(loopBlock.bodyTokens).get()->nodes;
 

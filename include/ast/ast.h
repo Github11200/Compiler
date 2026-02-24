@@ -9,24 +9,29 @@
 #include <optional>
 #include <set>
 #include <stack>
-#include <utility>
 
 struct CodeBlock {
   std::vector<Token> statement;
   std::vector<Token> bodyTokens;
 };
 
+struct BindingPower {
+  double left, right;
+
+  BindingPower(double left, double right) : left(left), right(right) {}
+};
+
 class AST {
 private:
   std::vector<std::set<std::string>> scopes; // Stores the identifiers
 
-  static std::pair<double, double> getBindingPower(TokenType op);
+  static BindingPower getBindingPower(TokenType op);
 
   static bool keywordIsStartOfNewCodeBlock(TokenType keyword);
 
   static std::optional<int> isInequality(const std::vector<Token> &statement);
 
-  static std::variant<BinaryExpression, IntegerLiteral> evaluateExpression(const std::vector<Token> &statement);
+  static std::variant<BinaryExpression, IntegerLiteral> evaluateExpression(const std::vector<Token> &statement, int &i, int minimumBindingPower = 0);
 
   static std::shared_ptr<VariableStatement> evaluateVariableStatement(const std::vector<Token> &statement);
 
