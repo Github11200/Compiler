@@ -74916,16 +74916,14 @@ struct LoopStatement final : ASTNode {
 # 2 "/home/arch/code/projects/Compiler/src/ast/node.cpp" 2
 
 
+
 using namespace std;
 
 string Root::generateCode() { return "Generating..."; }
 
 string IntegerLiteral::generateCode() { return to_string(this->value); }
 
-BinaryExpression::BinaryExpression(
-    const TokenType operatorType,
-    variant<BinaryExpression, IntegerLiteral> left,
-    variant<BinaryExpression, IntegerLiteral> right) {
+BinaryExpression::BinaryExpression(const TokenType operatorType, variant<BinaryExpression, IntegerLiteral> left, variant<BinaryExpression, IntegerLiteral> right) {
   this->operatorType = operatorType;
   visit(
       [&]<typename T>(const T &var) {
@@ -74966,6 +74964,18 @@ string BinaryExpression::generateCode() {
   case TokenType::DIVIDE:
     outputCode += " / ";
     break;
+  case TokenType::GREATER_THAN:
+    outputCode += " > ";
+    break;
+  case TokenType::LESS_THAN:
+    outputCode += " < ";
+    break;
+  case TokenType::GREATER_THAN_OR_EQUALS_TO:
+    outputCode += " >= ";
+    break;
+  case TokenType::LESS_THAN_OR_EQUALS_TO:
+    outputCode += " <= ";
+    break;
   default:
     break;
   }
@@ -74978,8 +74988,7 @@ string BinaryExpression::generateCode() {
   return outputCode;
 }
 
-VariableStatement::VariableStatement(
-    const string &identifier, variant<BinaryExpression, IntegerLiteral> value) {
+VariableStatement::VariableStatement(const string &identifier, variant<BinaryExpression, IntegerLiteral> value) {
   this->isPointer = false;
   this->identifier = identifier;
   visit(
@@ -75010,9 +75019,7 @@ string VariableStatement::generateCode() {
   return outputCode;
 }
 
-FunctionStatement::FunctionStatement(const string &identifier,
-                                     const vector<shared_ptr<ASTNode>> &body,
-                                     const vector<string> &parameters) {
+FunctionStatement::FunctionStatement(const string &identifier, const vector<shared_ptr<ASTNode>> &body, const vector<string> &parameters) {
   this->identifier = identifier;
   if (!parameters.empty())
     this->parameters = parameters;
@@ -75031,9 +75038,7 @@ string FunctionStatement::generateCode() {
   return outputCode;
 }
 
-IfStatementBlock::IfStatementBlock(
-    const optional<variant<BinaryExpression, IntegerLiteral>> condition,
-    const vector<shared_ptr<ASTNode>> &body) {
+IfStatementBlock::IfStatementBlock(const optional<variant<BinaryExpression, IntegerLiteral>> condition, const vector<shared_ptr<ASTNode>> &body) {
   if (condition.has_value()) {
     visit(
         [&]<typename T>(const T &var) {
@@ -75048,10 +75053,7 @@ IfStatementBlock::IfStatementBlock(
   this->body = body;
 }
 
-IfStatement::IfStatement(
-    const std::vector<IfStatementBlock> &ifStatementBlocks) {
-  this->ifStatementBlocks = ifStatementBlocks;
-}
+IfStatement::IfStatement(const std::vector<IfStatementBlock> &ifStatementBlocks) { this->ifStatementBlocks = ifStatementBlocks; }
 
 string IfStatement::generateCode() {
   string outputCode = "";
@@ -75067,18 +75069,10 @@ string IfStatement::generateCode() {
       outputCode += "else if (";
 
     if (ifStatementBlock.condition.has_value()) {
-      if (holds_alternative<shared_ptr<BinaryExpression>>(
-              ifStatementBlock.condition.value()))
-        outputCode += get<shared_ptr<BinaryExpression>>(
-                          ifStatementBlock.condition.value())
-                          ->generateCode() +
-                      ") {";
-      if (holds_alternative<shared_ptr<IntegerLiteral>>(
-              ifStatementBlock.condition.value()))
-        outputCode +=
-            get<shared_ptr<IntegerLiteral>>(ifStatementBlock.condition.value())
-                ->generateCode() +
-            ") {";
+      if (holds_alternative<shared_ptr<BinaryExpression>>(ifStatementBlock.condition.value()))
+        outputCode += get<shared_ptr<BinaryExpression>>(ifStatementBlock.condition.value())->generateCode() + ") {";
+      if (holds_alternative<shared_ptr<IntegerLiteral>>(ifStatementBlock.condition.value()))
+        outputCode += get<shared_ptr<IntegerLiteral>>(ifStatementBlock.condition.value())->generateCode() + ") {";
     }
 
     for (const auto &bodyStatement : ifStatementBlock.body)
@@ -75088,9 +75082,7 @@ string IfStatement::generateCode() {
   return outputCode;
 }
 
-LoopStatement::LoopStatement(
-    const BinaryExpression condition,
-    const std::vector<std::shared_ptr<ASTNode>> &body) {
+LoopStatement::LoopStatement(const BinaryExpression condition, const std::vector<std::shared_ptr<ASTNode>> &body) {
   this->condition = make_shared<BinaryExpression>(condition);
   this->body = body;
 }

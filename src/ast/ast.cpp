@@ -12,7 +12,7 @@ BindingPower AST::getBindingPower(TokenType op) {
     return BindingPower(1, 1.5);
   if (op == TokenType::TIMES || op == TokenType::DIVIDE)
     return BindingPower(2, 2.5);
-  throw "What is this token";
+  throw new string("What is this token");
 }
 
 bool AST::keywordIsStartOfNewCodeBlock(TokenType keyword) {
@@ -64,11 +64,16 @@ variant<BinaryExpression, IntegerLiteral> AST::evaluateExpression(const vector<T
 
   optional<int> inequalityIndex = isInequality(statement);
   if (inequalityIndex.has_value()) {
-    vector<Token> leftArray = vector<Token>(statement.begin(), statement.begin() + inequalityIndex.value() - 1);
-    vector<Token> rightArray = vector<Token>(statement.begin() + inequalityIndex.value() + 1, statement.end());
+    vector<Token> leftArray, rightArray;
+    for (int j = 0; j < inequalityIndex.value(); ++j)
+      leftArray.push_back(statement[j]);
+    for (int j = inequalityIndex.value() + 1; j < statement.size(); ++j)
+      rightArray.push_back(statement[j]);
 
     variant<BinaryExpression, IntegerLiteral> left = evaluateExpression(leftArray, i, 0);
     variant<BinaryExpression, IntegerLiteral> right = evaluateExpression(rightArray, i, 0);
+
+    return BinaryExpression(statement[inequalityIndex.value()].tokenType, left, right);
   }
 
   // We will assume it contains an operator otherwise

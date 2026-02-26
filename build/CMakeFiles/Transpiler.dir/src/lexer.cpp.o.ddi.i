@@ -85969,10 +85969,12 @@ vector<Token> Lexer::getTokens() {
 
         if (splitSourceCode[index + 2] == "or") {
           token.tokenType = currentToken == "greater" ? TokenType::GREATER_THAN_OR_EQUALS_TO : TokenType::LESS_THAN_OR_EQUALS_TO;
+          currentToken += " than or equals to";
           index += 4;
         } else {
           token.tokenType = currentToken == "greater" ? TokenType::GREATER_THAN : TokenType::LESS_THAN;
-          index += 1;
+          currentToken += " than";
+          index += 2;
         }
       }
     }
@@ -85988,7 +85990,7 @@ vector<Token> Lexer::getTokens() {
     else if (!keywords.contains(currentToken))
       token.tokenType = TokenType::IDENTIFIER;
     else
-      throw "What are you doing.";
+      throw new string("What are you doing.");
 
     token.tokenString = currentToken;
     tokens.push_back(token);
