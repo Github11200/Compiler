@@ -112659,10 +112659,10 @@ variant<BinaryExpression, IntegerLiteral> AST::evaluateExpression(const vector<T
     for (int j = inequalityIndex.value() + 1; j < statement.size(); ++j)
       rightArray.push_back(statement[j]);
 
-    variant<BinaryExpression, IntegerLiteral> left = evaluateExpression(leftArray, i, 0);
-
-    cout << inequalityIndex.value() << endl;
-    variant<BinaryExpression, IntegerLiteral> right = evaluateExpression(rightArray, i, 0);
+    int iCopy = i;
+    variant<BinaryExpression, IntegerLiteral> left = evaluateExpression(leftArray, iCopy, 0);
+    iCopy = i;
+    variant<BinaryExpression, IntegerLiteral> right = evaluateExpression(rightArray, iCopy, 0);
 
     return BinaryExpression(statement[inequalityIndex.value()].tokenType, left, right);
   }

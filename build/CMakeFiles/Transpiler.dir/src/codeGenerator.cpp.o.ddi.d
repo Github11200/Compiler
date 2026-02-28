@@ -222,4 +222,5 @@ CMakeFiles/Transpiler.dir/src/codeGenerator.cpp.o.ddi: \
  /usr/include/c++/15.2.1/bits/istream.tcc /usr/include/c++/15.2.1/fstream \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/basic_file.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++io.h \
- /usr/include/c++/15.2.1/bits/fstream.tcc
+ /usr/include/c++/15.2.1/bits/fstream.tcc \
+ /home/arch/code/projects/Compiler/include/ast/node.h
