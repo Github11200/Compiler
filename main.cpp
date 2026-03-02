@@ -8,13 +8,6 @@
 
 using namespace std;
 
-/*
-Finish the expression parsing to support
- - Inequalities
- - Order of operations
- - Brackets???
-*/
-
 int main() {
   string filePath = "code.txt";
   ifstream file(filePath);

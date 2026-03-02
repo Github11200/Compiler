@@ -31,7 +31,7 @@ private:
 
   static std::optional<int> isInequality(const std::vector<Token> &statement);
 
-  static std::variant<BinaryExpression, IntegerLiteral> evaluateExpression(const std::vector<Token> &statement, int &i, int minimumBindingPower = 0);
+  static std::variant<BinaryExpression, IntegerLiteral, Identifier> evaluateExpression(const std::vector<Token> &statement, int &i, int minimumBindingPower = 0);
 
   static std::shared_ptr<VariableStatement> evaluateVariableStatement(const std::vector<Token> &statement);
 

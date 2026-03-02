@@ -88,14 +88,16 @@ vector<Token> Lexer::getTokens() {
         token.tokenType = TokenType::JUST;
       else if (currentToken == "greater" || currentToken == "less") {
         // This is if the tokens are "5 greater/less than or equals to 4"
-        if (splitSourceCode[index + 2] == "or") {
+        if (splitSourceCode[index + 4] == "or") {
           token.tokenType = currentToken == "greater" ? TokenType::GREATER_THAN_OR_EQUALS_TO : TokenType::LESS_THAN_OR_EQUALS_TO;
           currentToken += " than or equals to";
-          index += 4;
+          for (; index < splitSourceCode.size() && splitSourceCode[index] != "to"; ++index) {
+          }
         } else {
           token.tokenType = currentToken == "greater" ? TokenType::GREATER_THAN : TokenType::LESS_THAN;
           currentToken += " than";
-          index += 2;
+          for (; index < splitSourceCode.size() && splitSourceCode[index] != "than"; ++index) {
+          }
         }
       }
     }

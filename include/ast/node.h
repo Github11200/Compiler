@@ -19,6 +19,14 @@ struct Root final : ASTNode {
   std::string generateCode() override;
 };
 
+struct Identifier final : ASTNode {
+  std::string name;
+
+  Identifier(const std::string name) : name(name) {}
+
+  std::string generateCode() override;
+};
+
 struct IntegerLiteral final : ASTNode {
   int value;
 
@@ -29,42 +37,42 @@ struct IntegerLiteral final : ASTNode {
 
 struct BinaryExpression final : ASTNode {
   TokenType operatorType;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>> left;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>> right;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<Identifier>> left;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<Identifier>> right;
 
-  BinaryExpression(TokenType operatorType, std::variant<BinaryExpression, IntegerLiteral> left, std::variant<BinaryExpression, IntegerLiteral> right);
+  BinaryExpression(TokenType operatorType, std::variant<BinaryExpression, IntegerLiteral, Identifier> left, std::variant<BinaryExpression, IntegerLiteral, Identifier> right);
 
   std::string generateCode() override;
 };
 
 struct VariableStatement final : ASTNode {
   bool isPointer;
-  std::optional<std::string> pointerIdentifier;
+  std::optional<std::shared_ptr<Identifier>> pointerIdentifier;
 
-  std::string identifier;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>> value;
+  std::shared_ptr<Identifier> identifier;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<Identifier>> value;
 
-  VariableStatement(const std::string &pointerIdentifier);
-  VariableStatement(const std::string &identifier, std::variant<BinaryExpression, IntegerLiteral> value);
+  VariableStatement(const Identifier &pointerIdentifier);
+  VariableStatement(const Identifier &identifier, std::variant<BinaryExpression, IntegerLiteral, Identifier> value);
 
   std::string generateCode() override;
 };
 
 struct FunctionStatement final : ASTNode {
-  std::string identifier;
+  std::shared_ptr<Identifier> identifier;
   std::vector<std::string> parameters;
   std::vector<std::shared_ptr<ASTNode>> body;
 
-  FunctionStatement(const std::string &identifier, const std::vector<std::shared_ptr<ASTNode>> &body, const std::vector<std::string> &parameters);
+  FunctionStatement(const Identifier &identifier, const std::vector<std::shared_ptr<ASTNode>> &body, const std::vector<std::string> &parameters);
 
   std::string generateCode() override;
 };
 
 struct IfStatementBlock {
-  std::optional<std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>>> condition;
+  std::optional<std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<Identifier>>> condition;
   std::vector<std::shared_ptr<ASTNode>> body;
 
-  IfStatementBlock(const std::optional<std::variant<BinaryExpression, IntegerLiteral>> condition, const std::vector<std::shared_ptr<ASTNode>> &body);
+  IfStatementBlock(const std::optional<std::variant<BinaryExpression, IntegerLiteral, Identifier>> condition, const std::vector<std::shared_ptr<ASTNode>> &body);
 };
 
 struct IfStatement final : ASTNode {
@@ -76,10 +84,11 @@ struct IfStatement final : ASTNode {
 };
 
 struct LoopStatement final : ASTNode {
+  std::shared_ptr<Identifier> identifier;
   std::shared_ptr<BinaryExpression> condition;
   std::vector<std::shared_ptr<ASTNode>> body;
 
-  LoopStatement(const BinaryExpression condition, const std::vector<std::shared_ptr<ASTNode>> &body);
+  LoopStatement(const BinaryExpression condition, const Identifier identifier, const std::vector<std::shared_ptr<ASTNode>> &body);
 
   std::string generateCode() override;
 };

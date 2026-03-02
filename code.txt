@@ -1,3 +1,7 @@
-define doSomething as
-  let a be 20 stop
+for i less than 10 repeat
+  if 10 less than 20 then
+    let a be 20 stop
+  otherwise just
+    let b be 30 stop
+  end
 end

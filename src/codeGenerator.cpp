@@ -12,14 +12,14 @@ void CodeGenerator::generate(string fileName) {
   string currentCode = "";
 
   outputFile.open(fileName, fstream::out);
-  currentCode += "\n#include <iostream>\n";
-  currentCode += "using namespace std;\n";
+  outputFile << "#include <iostream>\n";
+  outputFile << "using namespace std;\n";
   currentCode += "int main() {\n";
   for (Root *pointer = rootNode.get(); const auto &node : pointer->nodes) {
     if (FunctionStatement *functionStatement = dynamic_cast<FunctionStatement *>(node.get()))
       functionCode += node->generateCode();
     else
-      outputFile << node->generateCode() << endl;
+      currentCode += node->generateCode();
   }
   currentCode += "return 0;\n";
   currentCode += "}\n";
