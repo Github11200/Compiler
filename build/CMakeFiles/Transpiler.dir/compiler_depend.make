@@ -218,6 +218,7 @@ CMakeFiles/Transpiler.dir/main.cpp.o: /home/arch/code/projects/Compiler/main.cpp
   /usr/include/c++/15.2.1/cctype \
   /usr/include/c++/15.2.1/cerrno \
   /usr/include/c++/15.2.1/charconv \
+  /usr/include/c++/15.2.1/cinttypes \
   /usr/include/c++/15.2.1/climits \
   /usr/include/c++/15.2.1/clocale \
   /usr/include/c++/15.2.1/codecvt \
@@ -302,6 +303,7 @@ CMakeFiles/Transpiler.dir/main.cpp.o: /home/arch/code/projects/Compiler/main.cpp
   /usr/include/features.h \
   /usr/include/gnu/stubs-64.h \
   /usr/include/gnu/stubs.h \
+  /usr/include/inttypes.h \
   /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
@@ -541,6 +543,7 @@ CMakeFiles/Transpiler.dir/src/ast/ast.cpp.o: /home/arch/code/projects/Compiler/s
   /usr/include/c++/15.2.1/cctype \
   /usr/include/c++/15.2.1/cerrno \
   /usr/include/c++/15.2.1/charconv \
+  /usr/include/c++/15.2.1/cinttypes \
   /usr/include/c++/15.2.1/climits \
   /usr/include/c++/15.2.1/clocale \
   /usr/include/c++/15.2.1/compare \
@@ -617,6 +620,7 @@ CMakeFiles/Transpiler.dir/src/ast/ast.cpp.o: /home/arch/code/projects/Compiler/s
   /usr/include/features.h \
   /usr/include/gnu/stubs-64.h \
   /usr/include/gnu/stubs.h \
+  /usr/include/inttypes.h \
   /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
@@ -842,6 +846,7 @@ CMakeFiles/Transpiler.dir/src/ast/node.cpp.o: /home/arch/code/projects/Compiler/
   /usr/include/c++/15.2.1/cctype \
   /usr/include/c++/15.2.1/cerrno \
   /usr/include/c++/15.2.1/charconv \
+  /usr/include/c++/15.2.1/cinttypes \
   /usr/include/c++/15.2.1/climits \
   /usr/include/c++/15.2.1/clocale \
   /usr/include/c++/15.2.1/compare \
@@ -912,6 +917,7 @@ CMakeFiles/Transpiler.dir/src/ast/node.cpp.o: /home/arch/code/projects/Compiler/
   /usr/include/features.h \
   /usr/include/gnu/stubs-64.h \
   /usr/include/gnu/stubs.h \
+  /usr/include/inttypes.h \
   /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
@@ -1139,6 +1145,7 @@ CMakeFiles/Transpiler.dir/src/codeGenerator.cpp.o: /home/arch/code/projects/Comp
   /usr/include/c++/15.2.1/cctype \
   /usr/include/c++/15.2.1/cerrno \
   /usr/include/c++/15.2.1/charconv \
+  /usr/include/c++/15.2.1/cinttypes \
   /usr/include/c++/15.2.1/climits \
   /usr/include/c++/15.2.1/clocale \
   /usr/include/c++/15.2.1/compare \
@@ -1212,6 +1219,7 @@ CMakeFiles/Transpiler.dir/src/codeGenerator.cpp.o: /home/arch/code/projects/Comp
   /usr/include/features.h \
   /usr/include/gnu/stubs-64.h \
   /usr/include/gnu/stubs.h \
+  /usr/include/inttypes.h \
   /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
@@ -2028,6 +2036,8 @@ CMakeFiles/Transpiler.dir/src/ast/node.cpp.o:
 
 /usr/include/limits.h:
 
+/usr/include/inttypes.h:
+
 /usr/include/gnu/stubs.h:
 
 /usr/include/gnu/stubs-64.h:
@@ -2091,6 +2101,8 @@ CMakeFiles/Transpiler.dir/src/token.cpp.o:
 /usr/include/c++/15.2.1/pstl/glue_memory_defs.h:
 
 /usr/include/c++/15.2.1/pstl/execution_defs.h:
+
+/usr/include/c++/15.2.1/ostream:
 
 /usr/include/c++/15.2.1/bits/exception_ptr.h:
 
@@ -2366,8 +2378,6 @@ CMakeFiles/Transpiler.dir/src/ast/ast.cpp.o:
 
 /usr/include/bits/libc-header-start.h:
 
-/usr/include/c++/15.2.1/ostream:
-
 /usr/include/bits/locale.h:
 
 /usr/include/bits/syscall.h:
@@ -2639,6 +2649,8 @@ CMakeFiles/Transpiler.dir/src/codeGenerator.cpp.o:
 /usr/include/c++/15.2.1/cstdint:
 
 /usr/include/bits/timex.h:
+
+/usr/include/c++/15.2.1/cinttypes:
 
 /usr/include/c++/15.2.1/ctime:
 

@@ -5,6 +5,33 @@
 
 using namespace std;
 
+void visitor(variant<SHARED_POINTER_TYPES> &value, variant<TYPES> &inputVariant) {
+  visit(
+      [&]<typename T>(const T &var) {
+        if constexpr (is_same_v<decay_t<T>, BinaryExpression>)
+          value = make_shared<BinaryExpression>(var);
+        if constexpr (is_same_v<decay_t<T>, IntegerLiteral>)
+          value = make_shared<IntegerLiteral>(var);
+        if constexpr (is_same_v<decay_t<T>, StringLiteral>)
+          value = make_shared<StringLiteral>(var);
+        if constexpr (is_same_v<decay_t<T>, Identifier>)
+          value = make_shared<Identifier>(var);
+      },
+      inputVariant);
+}
+
+string generatedCode(variant<SHARED_POINTER_TYPES> &value) {
+  if (holds_alternative<shared_ptr<IntegerLiteral>>(value))
+    return get<shared_ptr<IntegerLiteral>>(value)->generateCode();
+  if (holds_alternative<shared_ptr<StringLiteral>>(value))
+    return get<shared_ptr<StringLiteral>>(value)->generateCode();
+  else if (holds_alternative<shared_ptr<BinaryExpression>>(value))
+    return get<shared_ptr<BinaryExpression>>(value)->generateCode();
+  else if (holds_alternative<shared_ptr<Identifier>>(value))
+    return get<shared_ptr<Identifier>>(value)->generateCode();
+  return "";
+}
+
 string Root::generateCode() { return "Generating..."; }
 
 string Identifier::generateCode() { return this->name; }
@@ -13,43 +40,14 @@ string StringLiteral::generateCode() { return this->value; }
 
 BinaryExpression::BinaryExpression(const TokenType operatorType, variant<TYPES> left, variant<TYPES> right) {
   this->operatorType = operatorType;
-  visit(
-      [&]<typename T>(const T &var) {
-        if constexpr (is_same_v<decay_t<T>, BinaryExpression>)
-          this->left = make_shared<BinaryExpression>(var);
-        if constexpr (is_same_v<decay_t<T>, IntegerLiteral>)
-          this->left = make_shared<IntegerLiteral>(var);
-        if constexpr (is_same_v<decay_t<T>, StringLiteral>)
-          this->left = make_shared<StringLiteral>(var);
-        if constexpr (is_same_v<decay_t<T>, Identifier>)
-          this->left = make_shared<Identifier>(var);
-      },
-      left);
-
-  visit(
-      [&]<typename T>(const T &var) {
-        if constexpr (is_same_v<decay_t<T>, BinaryExpression>)
-          this->right = make_shared<BinaryExpression>(var);
-        if constexpr (is_same_v<decay_t<T>, IntegerLiteral>)
-          this->right = make_shared<IntegerLiteral>(var);
-        if constexpr (is_same_v<decay_t<T>, StringLiteral>)
-          this->left = make_shared<StringLiteral>(var);
-        if constexpr (is_same_v<decay_t<T>, Identifier>)
-          this->right = make_shared<Identifier>(var);
-      },
-      right);
+  visitor(this->left, left);
+  visitor(this->right, right);
 }
 
 string BinaryExpression::generateCode() {
   string outputCode;
-  if (holds_alternative<shared_ptr<IntegerLiteral>>(left))
-    outputCode += get<shared_ptr<IntegerLiteral>>(left)->generateCode();
-  if (holds_alternative<shared_ptr<StringLiteral>>(left))
-    outputCode += get<shared_ptr<StringLiteral>>(left)->generateCode();
-  else if (holds_alternative<shared_ptr<BinaryExpression>>(left))
-    outputCode += get<shared_ptr<BinaryExpression>>(left)->generateCode();
-  else if (holds_alternative<shared_ptr<Identifier>>(left))
-    outputCode += get<shared_ptr<Identifier>>(left)->generateCode();
+
+  outputCode += generatedCode(left);
 
   switch (operatorType) {
   case TokenType::PLUS:
@@ -80,14 +78,7 @@ string BinaryExpression::generateCode() {
     break;
   }
 
-  if (holds_alternative<shared_ptr<IntegerLiteral>>(right))
-    outputCode += get<shared_ptr<IntegerLiteral>>(right)->generateCode();
-  if (holds_alternative<shared_ptr<StringLiteral>>(right))
-    outputCode += get<shared_ptr<StringLiteral>>(right)->generateCode();
-  else if (holds_alternative<shared_ptr<BinaryExpression>>(right))
-    outputCode += get<shared_ptr<BinaryExpression>>(right)->generateCode();
-  else if (holds_alternative<shared_ptr<Identifier>>(right))
-    outputCode += get<shared_ptr<Identifier>>(right)->generateCode();
+  outputCode += generatedCode(right);
 
   return outputCode;
 }
@@ -95,18 +86,7 @@ string BinaryExpression::generateCode() {
 VariableStatement::VariableStatement(const Identifier &identifier, variant<TYPES> value) {
   this->isPointer = false;
   this->identifier = make_shared<Identifier>(identifier);
-  visit(
-      [&]<typename T>(const T &var) {
-        if constexpr (is_same_v<decay_t<T>, BinaryExpression>)
-          this->value = make_shared<BinaryExpression>(var);
-        if constexpr (is_same_v<decay_t<T>, IntegerLiteral>)
-          this->value = make_shared<IntegerLiteral>(var);
-        if constexpr (is_same_v<decay_t<T>, StringLiteral>)
-          this->value = make_shared<StringLiteral>(var);
-        if constexpr (is_same_v<decay_t<T>, Identifier>)
-          this->value = make_shared<Identifier>(var);
-      },
-      value);
+  visitor(this->value, value);
 }
 
 VariableStatement::VariableStatement(const Identifier &pointerIdentifier) {
@@ -117,12 +97,7 @@ VariableStatement::VariableStatement(const Identifier &pointerIdentifier) {
 string VariableStatement::generateCode() {
   string outputCode = "auto ";
   outputCode += " " + this->identifier->generateCode() + " = ";
-  if (holds_alternative<shared_ptr<IntegerLiteral>>(value))
-    outputCode += get<shared_ptr<IntegerLiteral>>(value)->generateCode();
-  else if (holds_alternative<shared_ptr<BinaryExpression>>(value))
-    outputCode += get<shared_ptr<BinaryExpression>>(value)->generateCode();
-  else if (holds_alternative<shared_ptr<Identifier>>(value))
-    outputCode += get<shared_ptr<Identifier>>(value)->generateCode();
+  outputCode += generatedCode(value);
 
   outputCode += ";";
 
@@ -151,21 +126,10 @@ string FunctionStatement::generateCode() {
   return outputCode;
 }
 
-IfStatementBlock::IfStatementBlock(const optional<variant<TYPES>> condition, const vector<shared_ptr<ASTNode>> &body) {
-  if (condition.has_value()) {
-    visit(
-        [&]<typename T>(const T &var) {
-          if constexpr (is_same_v<decay_t<T>, BinaryExpression>)
-            this->condition = make_shared<BinaryExpression>(var);
-          if constexpr (is_same_v<decay_t<T>, IntegerLiteral>)
-            this->condition = make_shared<IntegerLiteral>(var);
-          if constexpr (is_same_v<decay_t<T>, StringLiteral>)
-            this->condition = make_shared<StringLiteral>(var);
-          if constexpr (is_same_v<decay_t<T>, Identifier>)
-            this->condition = make_shared<Identifier>(var);
-        },
-        condition.value());
-  } else
+IfStatementBlock::IfStatementBlock(optional<variant<TYPES>> condition, const vector<shared_ptr<ASTNode>> &body) {
+  if (condition.has_value())
+    visitor(this->condition.value(), condition.value());
+  else
     this->condition = nullopt;
   this->body = body;
 }
@@ -217,3 +181,9 @@ string LoopStatement::generateCode() {
   outputCode += "}";
   return outputCode;
 }
+
+PrintStatement::PrintStatement(variant<TYPES> &value) { visitor(this->value, value); }
+
+string PrintStatement::generateCode() { return "cout << " + generatedCode(this->value) + " << endl"; }
+
+string FunctionCallStatement::generateCode() { return name + "();"; }

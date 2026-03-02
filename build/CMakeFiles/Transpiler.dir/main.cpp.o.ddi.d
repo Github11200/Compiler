@@ -210,11 +210,7 @@ CMakeFiles/Transpiler.dir/main.cpp.o.ddi: \
  /usr/include/c++/15.2.1/variant \
  /usr/include/c++/15.2.1/bits/parse_numbers.h \
  /home/arch/code/projects/Compiler/include/utils.h \
- /usr/include/c++/15.2.1/set /usr/include/c++/15.2.1/bits/stl_tree.h \
- /usr/include/c++/15.2.1/bits/node_handle.h \
- /usr/include/c++/15.2.1/bits/stl_set.h \
- /usr/include/c++/15.2.1/bits/stl_multiset.h \
- /usr/include/c++/15.2.1/bits/erase_if.h \
+ /home/arch/code/projects/Compiler/include/token.h \
  /usr/include/c++/15.2.1/algorithm \
  /usr/include/c++/15.2.1/bits/ranges_algo.h \
  /usr/include/c++/15.2.1/pstl/glue_algorithm_defs.h \
@@ -229,10 +225,13 @@ CMakeFiles/Transpiler.dir/main.cpp.o.ddi: \
  /usr/include/c++/15.2.1/bits/locale_facets_nonio.tcc \
  /usr/include/c++/15.2.1/bits/locale_conv.h /usr/include/c++/15.2.1/span \
  /usr/include/c++/15.2.1/bits/ostream.tcc /usr/include/c++/15.2.1/istream \
- /usr/include/c++/15.2.1/bits/istream.tcc \
- /home/arch/code/projects/Compiler/include/token.h \
- /usr/include/c++/15.2.1/stack /usr/include/c++/15.2.1/deque \
- /usr/include/c++/15.2.1/bits/stl_deque.h \
+ /usr/include/c++/15.2.1/bits/istream.tcc /usr/include/c++/15.2.1/set \
+ /usr/include/c++/15.2.1/bits/stl_tree.h \
+ /usr/include/c++/15.2.1/bits/node_handle.h \
+ /usr/include/c++/15.2.1/bits/stl_set.h \
+ /usr/include/c++/15.2.1/bits/stl_multiset.h \
+ /usr/include/c++/15.2.1/bits/erase_if.h /usr/include/c++/15.2.1/stack \
+ /usr/include/c++/15.2.1/deque /usr/include/c++/15.2.1/bits/stl_deque.h \
  /usr/include/c++/15.2.1/bits/deque.tcc \
  /usr/include/c++/15.2.1/bits/stl_stack.h /usr/include/c++/15.2.1/ranges \
  /usr/include/c++/15.2.1/iterator \

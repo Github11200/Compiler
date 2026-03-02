@@ -9,6 +9,7 @@
 #include <optional>
 #include <set>
 #include <stack>
+#include <vector>
 
 struct CodeBlock {
   std::vector<Token> statement;
@@ -40,6 +41,10 @@ private:
   std::shared_ptr<IfStatement> evaluateIfStatement(const std::vector<Token> &body);
 
   std::shared_ptr<LoopStatement> evaluateLoopStatement(const CodeBlock &loopBlock);
+
+  std::shared_ptr<PrintStatement> evaluatePrintStatement(const std::vector<Token> &statement);
+
+  std::shared_ptr<FunctionCallStatement> evaluateFunctionCallStatement(const std::vector<Token> &statement);
 
   static std::vector<Token> extractBody(int &i, const std::vector<Token> &tokens, TokenType keyword = TokenType::END);
 

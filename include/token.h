@@ -34,6 +34,7 @@ enum class TokenType {
   JUST,
   SAY,
   QUOTE,
+  CALL,
 
   IDENTIFIER,
   INTEGER_LITERAL

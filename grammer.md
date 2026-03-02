@@ -13,6 +13,8 @@ end
 define doSomething with x y z as
 end
 
+call doSomething stop
+
 Conditionals:
 
 if x greater than y then
@@ -30,6 +32,10 @@ Loops:
 
 for i less than 10 repeat
 end
+
+Print:
+
+say quote hello world quote stop
 
 Keywords:
 

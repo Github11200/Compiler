@@ -41177,6 +41177,7 @@ enum class TokenType {
   JUST,
   SAY,
   QUOTE,
+  CALL,
 
   IDENTIFIER,
   INTEGER_LITERAL
@@ -75037,10 +75038,21 @@ struct LoopStatement final : ASTNode {
 struct PrintStatement final : ASTNode {
   std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > value;
 
-  PrintStatement(std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> value);
+  PrintStatement(std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> &value);
 
   std::string generateCode() override;
 };
+
+struct FunctionCallStatement final : ASTNode {
+  std::string name;
+
+  FunctionCallStatement(const std::string &name) : name(name) {}
+
+  std::string generateCode() override;
+};
+
+void visitor(std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > &value, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> &inputVariant);
+std::string generatedCode(std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > &value);
 # 5 "/home/arch/code/projects/Compiler/include/codeGenerator.h" 2
 # 1 "/usr/include/c++/15.2.1/iostream" 1 3
 # 43 "/usr/include/c++/15.2.1/iostream" 3

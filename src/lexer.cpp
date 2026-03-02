@@ -28,6 +28,9 @@ Lexer::Lexer(string sourceCode) {
   keywords.insert("divide");
   keywords.insert("minus");
   keywords.insert("just");
+  keywords.insert("quote");
+  keywords.insert("say");
+  keywords.insert("call");
 
   set<string> delimeters = {" ", "stop", "then", "as", "end", "otherwise", "repeat"};
   this->splitSourceCode = splitString(sourceCode, delimeters);
@@ -35,7 +38,7 @@ Lexer::Lexer(string sourceCode) {
 }
 
 vector<Token> Lexer::getTokens() {
-  vector<Token> tokens;
+  00 vector<Token> tokens;
   for (; index < splitSourceCode.size(); ++index) {
     string currentToken = splitSourceCode[index];
     if (currentToken == " ")
@@ -90,6 +93,8 @@ vector<Token> Lexer::getTokens() {
         token.tokenType = TokenType::SAY;
       else if (currentToken == "quote")
         token.tokenType = TokenType::QUOTE;
+      else if (currentToken == "call")
+        token.tokenType = TokenType::CALL;
       else if (currentToken == "greater" || currentToken == "less") {
         // This is if the tokens are "5 greater/less than or equals to 4"
         if (splitSourceCode[index + 4] == "or") {

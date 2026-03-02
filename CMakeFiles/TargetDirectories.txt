@@ -1,3 +1,0 @@
-/home/arch/code/projects/Compiler/CMakeFiles/Transpiler.dir
-/home/arch/code/projects/Compiler/CMakeFiles/edit_cache.dir
-/home/arch/code/projects/Compiler/CMakeFiles/rebuild_cache.dir

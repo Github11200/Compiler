@@ -2,6 +2,7 @@ CMakeFiles/Transpiler.dir/src/utils.cpp.o.ddi: \
  /home/arch/code/projects/Compiler/src/utils.cpp \
  /usr/include/stdc-predef.h \
  /home/arch/code/projects/Compiler/include/utils.h \
+ /home/arch/code/projects/Compiler/include/token.h \
  /usr/include/c++/15.2.1/string \
  /usr/include/c++/15.2.1/bits/requires_hosted.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
@@ -112,18 +113,14 @@ CMakeFiles/Transpiler.dir/src/utils.cpp.o.ddi: \
  /usr/include/c++/15.2.1/cstddef \
  /usr/include/c++/15.2.1/bits/uses_allocator.h \
  /usr/include/c++/15.2.1/bits/uses_allocator_args.h \
- /usr/include/c++/15.2.1/tuple /usr/include/c++/15.2.1/vector \
+ /usr/include/c++/15.2.1/tuple /usr/include/c++/15.2.1/utility \
+ /usr/include/c++/15.2.1/bits/stl_relops.h \
+ /usr/include/c++/15.2.1/bits/monostate.h /usr/include/c++/15.2.1/vector \
  /usr/include/c++/15.2.1/bits/stl_uninitialized.h \
  /usr/include/c++/15.2.1/bits/stl_vector.h \
  /usr/include/c++/15.2.1/bits/stl_bvector.h \
  /usr/include/c++/15.2.1/bits/vector.tcc \
- /usr/include/c++/15.2.1/bits/formatfwd.h /usr/include/c++/15.2.1/set \
- /usr/include/c++/15.2.1/bits/stl_tree.h \
- /usr/include/c++/15.2.1/ext/aligned_buffer.h \
- /usr/include/c++/15.2.1/bits/node_handle.h \
- /usr/include/c++/15.2.1/bits/stl_set.h \
- /usr/include/c++/15.2.1/bits/stl_multiset.h \
- /usr/include/c++/15.2.1/bits/erase_if.h \
+ /usr/include/c++/15.2.1/bits/formatfwd.h \
  /usr/include/c++/15.2.1/algorithm \
  /usr/include/c++/15.2.1/bits/stl_algo.h \
  /usr/include/c++/15.2.1/bits/algorithmfwd.h \
@@ -191,9 +188,11 @@ CMakeFiles/Transpiler.dir/src/utils.cpp.o.ddi: \
  /usr/include/libintl.h /usr/include/c++/15.2.1/bits/codecvt.h \
  /usr/include/c++/15.2.1/bits/locale_facets_nonio.tcc \
  /usr/include/c++/15.2.1/bits/locale_conv.h /usr/include/c++/15.2.1/span \
- /usr/include/c++/15.2.1/bits/monostate.h \
  /usr/include/c++/15.2.1/bits/ostream.tcc /usr/include/c++/15.2.1/istream \
- /usr/include/c++/15.2.1/bits/istream.tcc \
- /home/arch/code/projects/Compiler/include/token.h \
- /usr/include/c++/15.2.1/utility \
- /usr/include/c++/15.2.1/bits/stl_relops.h
+ /usr/include/c++/15.2.1/bits/istream.tcc /usr/include/c++/15.2.1/set \
+ /usr/include/c++/15.2.1/bits/stl_tree.h \
+ /usr/include/c++/15.2.1/ext/aligned_buffer.h \
+ /usr/include/c++/15.2.1/bits/node_handle.h \
+ /usr/include/c++/15.2.1/bits/stl_set.h \
+ /usr/include/c++/15.2.1/bits/stl_multiset.h \
+ /usr/include/c++/15.2.1/bits/erase_if.h

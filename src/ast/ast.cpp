@@ -233,6 +233,20 @@ shared_ptr<LoopStatement> AST::evaluateLoopStatement(const CodeBlock &loopBlock)
   return make_shared<LoopStatement>(evaluatedExpression, Identifier(loopBlock.statement[1].tokenString), loopStatementBody);
 }
 
+shared_ptr<PrintStatement> AST::evaluatePrintStatement(const vector<Token> &statement) {
+  vector<Token> expression;
+  for (int i = 1; i < statement.size() - 1; ++i)
+    expression.push_back(statement[i]);
+  int i = 0;
+  variant<TYPES> evaluatedExpression = evaluateExpression(expression, i);
+  return make_shared<PrintStatement>(evaluatedExpression);
+}
+
+shared_ptr<FunctionCallStatement> AST::evaluateFunctionCallStatement(const vector<Token> &statement) {
+  string functionName = statement[1].tokenString;
+  return make_shared<FunctionCallStatement>(functionName);
+}
+
 shared_ptr<Root> AST::constructAST(const vector<Token> &tokens) {
   Root rootNode;
 
@@ -242,7 +256,11 @@ shared_ptr<Root> AST::constructAST(const vector<Token> &tokens) {
     std::shared_ptr<ASTNode> newNode = nullptr;
 
     if (tokens[i].tokenType == TokenType::SAY) {
-
+      incrementToKeyword(++i, tokens, currentNodes, TokenType::STOP);
+      newNode = evaluatePrintStatement(currentNodes);
+    } else if (tokens[i].tokenType == TokenType::CALL) {
+      incrementToKeyword(++i, tokens, currentNodes, TokenType::STOP);
+      newNode = evaluateFunctionCallStatement(currentNodes);
     } else if (tokens[i].tokenType == TokenType::STOP) {
       newNode = evaluateVariableStatement(currentNodes);
     } else if (tokens[i].tokenType == TokenType::IF) {

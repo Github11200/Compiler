@@ -108,9 +108,20 @@ struct LoopStatement final : ASTNode {
 struct PrintStatement final : ASTNode {
   std::variant<SHARED_POINTER_TYPES> value;
 
-  PrintStatement(std::variant<TYPES> value);
+  PrintStatement(std::variant<TYPES> &value);
 
   std::string generateCode() override;
 };
+
+struct FunctionCallStatement final : ASTNode {
+  std::string name;
+
+  FunctionCallStatement(const std::string &name) : name(name) {}
+
+  std::string generateCode() override;
+};
+
+void visitor(std::variant<SHARED_POINTER_TYPES> &value, std::variant<TYPES> &inputVariant);
+std::string generatedCode(std::variant<SHARED_POINTER_TYPES> &value);
 
 #endif

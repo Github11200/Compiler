@@ -58625,6 +58625,7 @@ enum class TokenType {
   JUST,
   SAY,
   QUOTE,
+  CALL,
 
   IDENTIFIER,
   INTEGER_LITERAL
@@ -58641,7 +58642,12 @@ public:
 };
 # 9 "/home/arch/code/projects/Compiler/include/lexer.h" 2
 # 1 "/home/arch/code/projects/Compiler/include/utils.h" 1
-# 9 "/home/arch/code/projects/Compiler/include/utils.h"
+
+
+
+
+
+
 # 1 "/usr/include/c++/15.2.1/iostream" 1 3
 # 43 "/usr/include/c++/15.2.1/iostream" 3
 # 1 "/usr/include/c++/15.2.1/ostream" 1 3
@@ -85851,7 +85857,9 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 
 }
-# 10 "/home/arch/code/projects/Compiler/include/utils.h" 2
+# 8 "/home/arch/code/projects/Compiler/include/utils.h" 2
+
+
 
 
 
@@ -85861,8 +85869,7 @@ bool isInteger(std::string &input);
 bool isDouble(std::string &input);
 bool isOperator(TokenType tokenType);
 
-template <class T>
-void printVector(const std::vector<T> &inputVector);
+template <class T> void printVector(const std::vector<T> &inputVector);
 # 10 "/home/arch/code/projects/Compiler/include/lexer.h" 2
 
 class Lexer
@@ -85909,6 +85916,8 @@ Lexer::Lexer(string sourceCode) {
   keywords.insert("divide");
   keywords.insert("minus");
   keywords.insert("just");
+  keywords.insert("say");
+  keywords.insert("call");
 
   set<string> delimeters = {" ", "stop", "then", "as", "end", "otherwise", "repeat"};
   this->splitSourceCode = splitString(sourceCode, delimeters);
@@ -85971,6 +85980,8 @@ vector<Token> Lexer::getTokens() {
         token.tokenType = TokenType::SAY;
       else if (currentToken == "quote")
         token.tokenType = TokenType::QUOTE;
+      else if (currentToken == "call")
+        token.tokenType = TokenType::CALL;
       else if (currentToken == "greater" || currentToken == "less") {
 
         if (splitSourceCode[index + 4] == "or") {
