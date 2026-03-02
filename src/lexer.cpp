@@ -86,6 +86,10 @@ vector<Token> Lexer::getTokens() {
         token.tokenType = TokenType::DIVIDE;
       else if (currentToken == "just")
         token.tokenType = TokenType::JUST;
+      else if (currentToken == "say")
+        token.tokenType = TokenType::SAY;
+      else if (currentToken == "quote")
+        token.tokenType = TokenType::QUOTE;
       else if (currentToken == "greater" || currentToken == "less") {
         // This is if the tokens are "5 greater/less than or equals to 4"
         if (splitSourceCode[index + 4] == "or") {

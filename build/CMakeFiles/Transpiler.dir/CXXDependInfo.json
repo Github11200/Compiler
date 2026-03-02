@@ -1,0 +1,60 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "GNU",
+	"compiler-id" : "GNU",
+	"compiler-simulate-id" : "",
+	"config" : "Debug",
+	"cxx-modules" : {},
+	"database-info" : null,
+	"dir-cur-bld" : "/home/arch/code/projects/Compiler/build",
+	"dir-cur-src" : "/home/arch/code/projects/Compiler",
+	"dir-top-bld" : "/home/arch/code/projects/Compiler/build",
+	"dir-top-src" : "/home/arch/code/projects/Compiler",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : 
+	[
+		"/home/arch/code/projects/Compiler/include"
+	],
+	"language" : "CXX",
+	"linked-target-dirs" : [],
+	"module-dir" : "/home/arch/code/projects/Compiler/build/CMakeFiles/Transpiler.dir",
+	"sources" : 
+	{
+		"CMakeFiles/Transpiler.dir/main.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/arch/code/projects/Compiler/main.cpp"
+		},
+		"CMakeFiles/Transpiler.dir/src/ast/ast.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/arch/code/projects/Compiler/src/ast/ast.cpp"
+		},
+		"CMakeFiles/Transpiler.dir/src/ast/node.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/arch/code/projects/Compiler/src/ast/node.cpp"
+		},
+		"CMakeFiles/Transpiler.dir/src/codeGenerator.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/arch/code/projects/Compiler/src/codeGenerator.cpp"
+		},
+		"CMakeFiles/Transpiler.dir/src/lexer.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/arch/code/projects/Compiler/src/lexer.cpp"
+		},
+		"CMakeFiles/Transpiler.dir/src/token.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/arch/code/projects/Compiler/src/token.cpp"
+		},
+		"CMakeFiles/Transpiler.dir/src/utils.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/arch/code/projects/Compiler/src/utils.cpp"
+		}
+	}
+}

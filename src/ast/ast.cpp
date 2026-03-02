@@ -57,7 +57,14 @@ optional<int> AST::isInequality(const vector<Token> &statement) {
   return nullopt;
 }
 
-variant<BinaryExpression, IntegerLiteral, Identifier> AST::evaluateExpression(const vector<Token> &statement, int &i, int minimumBindingPower) {
+variant<TYPES> AST::evaluateExpression(const vector<Token> &statement, int &i, int minimumBindingPower) {
+  if (statement[0].tokenType == TokenType::QUOTE) {
+    string stringLiteralValue;
+    for (int i = 1; i < statement.size() - 1; ++i)
+      stringLiteralValue += statement[i].tokenString;
+    return StringLiteral(stringLiteralValue);
+  }
+
   // The statement is something like let x be 5;
   if (statement.size() == 1 || i == statement.size() - 1) {
     if (statement[i].tokenType == TokenType::INTEGER_LITERAL)
@@ -75,9 +82,9 @@ variant<BinaryExpression, IntegerLiteral, Identifier> AST::evaluateExpression(co
       rightArray.push_back(statement[j]);
 
     int iCopy = i;
-    variant<BinaryExpression, IntegerLiteral, Identifier> left = evaluateExpression(leftArray, iCopy, 0);
+    variant<TYPES> left = evaluateExpression(leftArray, iCopy, 0);
     iCopy = i;
-    variant<BinaryExpression, IntegerLiteral, Identifier> right = evaluateExpression(rightArray, iCopy, 0);
+    variant<TYPES> right = evaluateExpression(rightArray, iCopy, 0);
 
     return BinaryExpression(statement[inequalityIndex.value()].tokenType, left, right);
   }
@@ -98,7 +105,7 @@ variant<BinaryExpression, IntegerLiteral, Identifier> AST::evaluateExpression(co
       i += 2;
     }
 
-    variant<BinaryExpression, IntegerLiteral, Identifier> rightHandSide = evaluateExpression(statement, i, bindingPower.right);
+    variant<TYPES> rightHandSide = evaluateExpression(statement, i, bindingPower.right);
     if (binaryExpression == nullptr)
       binaryExpression = make_unique<BinaryExpression>(op, leftHandSide, rightHandSide);
     else
@@ -124,7 +131,7 @@ shared_ptr<VariableStatement> AST::evaluateVariableStatement(const vector<Token>
     expressionTokens.push_back(statement[i]);
 
   int i = 0;
-  variant<BinaryExpression, IntegerLiteral, Identifier> expression = evaluateExpression(expressionTokens, i, 0);
+  variant<TYPES> expression = evaluateExpression(expressionTokens, i, 0);
   return make_shared<VariableStatement>(identifier, expression);
 }
 
@@ -234,7 +241,9 @@ shared_ptr<Root> AST::constructAST(const vector<Token> &tokens) {
     currentNodes.push_back(tokens[i]);
     std::shared_ptr<ASTNode> newNode = nullptr;
 
-    if (tokens[i].tokenType == TokenType::STOP) {
+    if (tokens[i].tokenType == TokenType::SAY) {
+
+    } else if (tokens[i].tokenType == TokenType::STOP) {
       newNode = evaluateVariableStatement(currentNodes);
     } else if (tokens[i].tokenType == TokenType::IF) {
       incrementToKeyword(++i, tokens, currentNodes, TokenType::THEN);

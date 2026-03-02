@@ -1,0 +1,11 @@
+{
+"rules": [
+{
+"primary-output": "CMakeFiles/Transpiler.dir/src/ast/ast.cpp.o",
+"requires": [
+]
+}
+],
+"version": 0,
+"revision": 0
+}

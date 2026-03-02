@@ -1,0 +1,15 @@
+ninja_dyndep_version = 1.0
+build CMakeFiles/Transpiler.dir/main.cpp.o: dyndep
+
+build CMakeFiles/Transpiler.dir/src/lexer.cpp.o: dyndep
+
+build CMakeFiles/Transpiler.dir/src/token.cpp.o: dyndep
+
+build CMakeFiles/Transpiler.dir/src/utils.cpp.o: dyndep
+
+build CMakeFiles/Transpiler.dir/src/ast/ast.cpp.o: dyndep
+
+build CMakeFiles/Transpiler.dir/src/ast/node.cpp.o: dyndep
+
+build CMakeFiles/Transpiler.dir/src/codeGenerator.cpp.o: dyndep
+

@@ -2,11 +2,15 @@
 #define NODE_H
 
 #include "token.h"
+#include <cinttypes>
 #include <memory>
 #include <optional>
 #include <string>
 #include <variant>
 #include <vector>
+
+#define SHARED_POINTER_TYPES std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>
+#define TYPES BinaryExpression, IntegerLiteral, StringLiteral, Identifier
 
 struct ASTNode {
   virtual ~ASTNode() = default;
@@ -22,7 +26,15 @@ struct Root final : ASTNode {
 struct Identifier final : ASTNode {
   std::string name;
 
-  Identifier(const std::string name) : name(name) {}
+  Identifier(const std::string &name) : name(name) {}
+
+  std::string generateCode() override;
+};
+
+struct StringLiteral final : ASTNode {
+  std::string value;
+
+  StringLiteral(const std::string &value) : value(value) {}
 
   std::string generateCode() override;
 };
@@ -37,10 +49,10 @@ struct IntegerLiteral final : ASTNode {
 
 struct BinaryExpression final : ASTNode {
   TokenType operatorType;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<Identifier>> left;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<Identifier>> right;
+  std::variant<SHARED_POINTER_TYPES> left;
+  std::variant<SHARED_POINTER_TYPES> right;
 
-  BinaryExpression(TokenType operatorType, std::variant<BinaryExpression, IntegerLiteral, Identifier> left, std::variant<BinaryExpression, IntegerLiteral, Identifier> right);
+  BinaryExpression(TokenType operatorType, std::variant<TYPES> left, std::variant<TYPES> right);
 
   std::string generateCode() override;
 };
@@ -50,10 +62,10 @@ struct VariableStatement final : ASTNode {
   std::optional<std::shared_ptr<Identifier>> pointerIdentifier;
 
   std::shared_ptr<Identifier> identifier;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<Identifier>> value;
+  std::variant<SHARED_POINTER_TYPES> value;
 
   VariableStatement(const Identifier &pointerIdentifier);
-  VariableStatement(const Identifier &identifier, std::variant<BinaryExpression, IntegerLiteral, Identifier> value);
+  VariableStatement(const Identifier &identifier, std::variant<TYPES> value);
 
   std::string generateCode() override;
 };
@@ -69,10 +81,10 @@ struct FunctionStatement final : ASTNode {
 };
 
 struct IfStatementBlock {
-  std::optional<std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<Identifier>>> condition;
+  std::optional<std::variant<SHARED_POINTER_TYPES>> condition;
   std::vector<std::shared_ptr<ASTNode>> body;
 
-  IfStatementBlock(const std::optional<std::variant<BinaryExpression, IntegerLiteral, Identifier>> condition, const std::vector<std::shared_ptr<ASTNode>> &body);
+  IfStatementBlock(const std::optional<std::variant<TYPES>> condition, const std::vector<std::shared_ptr<ASTNode>> &body);
 };
 
 struct IfStatement final : ASTNode {
@@ -89,6 +101,14 @@ struct LoopStatement final : ASTNode {
   std::vector<std::shared_ptr<ASTNode>> body;
 
   LoopStatement(const BinaryExpression condition, const Identifier identifier, const std::vector<std::shared_ptr<ASTNode>> &body);
+
+  std::string generateCode() override;
+};
+
+struct PrintStatement final : ASTNode {
+  std::variant<SHARED_POINTER_TYPES> value;
+
+  PrintStatement(std::variant<TYPES> value);
 
   std::string generateCode() override;
 };

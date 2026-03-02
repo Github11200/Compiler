@@ -32,6 +32,8 @@ enum class TokenType {
   FOR,
   REPEAT,
   JUST,
+  SAY,
+  QUOTE,
 
   IDENTIFIER,
   INTEGER_LITERAL

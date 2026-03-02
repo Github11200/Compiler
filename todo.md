@@ -1,4 +1,0 @@
-- Replace punctation with keywords
-- Finish binary expressions such as 1 + 1
-- Add in loops
-- Code generation
