@@ -82,10 +82,9 @@ struct VariableStatement final : ASTNode {
 
   std::shared_ptr<Identifier> identifier;
   std::variant<SHARED_POINTER_TYPES> value;
-  Type variableType;
+  std::shared_ptr<Type> variableType;
 
-  VariableStatement(const Identifier &pointerIdentifier);
-  VariableStatement(const Identifier &identifier, std::variant<TYPES> value);
+  VariableStatement(const Identifier &identifier, Type variableType, std::variant<TYPES> value);
 
   std::string generateCode() override;
 };
@@ -95,7 +94,7 @@ struct FunctionStatement final : ASTNode {
   std::vector<std::string> parameters;
   std::vector<std::shared_ptr<ASTNode>> body;
 
-  Type functionType;
+  std::shared_ptr<Type> functionType;
 
   FunctionStatement(const Identifier &identifier, const std::vector<std::shared_ptr<ASTNode>> &body, const std::vector<std::string> &parameters);
 

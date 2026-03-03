@@ -58604,7 +58604,6 @@ enum class TokenType {
 
   LET,
   BE,
-  POINTER,
   TO,
   STOP,
   DEFINE,
@@ -58628,6 +58627,13 @@ enum class TokenType {
   CALL,
   GIVE,
   BACK,
+  OF_TYPE,
+
+  INTEGER,
+  STRING,
+  FLOAT,
+  POINTER,
+  VOID,
 
   IDENTIFIER,
   INTEGER_LITERAL,
@@ -85924,6 +85930,12 @@ Lexer::Lexer(string sourceCode) {
   keywords.insert("call");
   keywords.insert("give");
   keywords.insert("back");
+  keywords.insert("of");
+  keywords.insert("type");
+  keywords.insert("integer");
+  keywords.insert("string");
+  keywords.insert("float");
+  keywords.insert("void");
 
   set<string> delimeters = {" ", "stop", "then", "as", "end", "otherwise", "repeat", "back"};
   this->splitSourceCode = splitString(sourceCode, delimeters);
@@ -85992,6 +86004,14 @@ vector<Token> Lexer::getTokens() {
         token.tokenType = TokenType::GIVE;
       else if (currentToken == "back")
         token.tokenType = TokenType::BACK;
+      else if (currentToken == "integer")
+        token.tokenType = TokenType::INTEGER;
+      else if (currentToken == "string")
+        token.tokenType = TokenType::STRING;
+      else if (currentToken == "float")
+        token.tokenType = TokenType::FLOAT;
+      else if (currentToken == "void")
+        token.tokenType = TokenType::VOID;
       else if (currentToken == "quote") {
         token.tokenType = TokenType::QUOTE;
         if (!isCurrentlyString)
@@ -86001,7 +86021,15 @@ vector<Token> Lexer::getTokens() {
         isCurrentlyString = !isCurrentlyString;
       } else if (currentToken == "call")
         token.tokenType = TokenType::CALL;
-      else if (currentToken == "greater" || currentToken == "less") {
+      else if (currentToken == "of") {
+        currentToken += " type";
+        token.tokenType = TokenType::OF_TYPE;
+        ++index;
+        while (index < splitSourceCode.size() && splitSourceCode[index] == " ")
+          ++index;
+        if (splitSourceCode[index] != "type")
+          throw new string("You need the keyword type.");
+      } else if (currentToken == "greater" || currentToken == "less") {
 
         if (splitSourceCode[index + 4] == "or") {
           token.tokenType = currentToken == "greater" ? TokenType::GREATER_THAN_OR_EQUALS_TO : TokenType::LESS_THAN_OR_EQUALS_TO;

@@ -124,26 +124,33 @@ variant<TYPES> AST::evaluateExpression(const vector<Token> &statement, int &i, i
 shared_ptr<VariableStatement> AST::evaluateVariableStatement(const vector<Token> &statement) {
   string identifier = statement[1].tokenString;
 
-  if (statement[3].tokenType == TokenType::POINTER)
-    return make_shared<VariableStatement>(statement[5].tokenString);
+  // Get the variable type
+  bool isPointer = statement[4].tokenType == TokenType::POINTER;
+  Type variableType(statement[3].tokenType, isPointer);
 
   vector<Token> expressionTokens;
-  for (int i = 3; i < statement.size() && statement[i].tokenType != TokenType::OF_TYPE; ++i)
+  int i = isPointer ? 6 : 5; // If it isn't a pointer then we should start an index earlier
+  for (; i < statement.size() - 1; ++i)
     expressionTokens.push_back(statement[i]);
 
-  int i = 0;
+  i = 0;
   variant<TYPES> expression = evaluateExpression(expressionTokens, i, 0);
-  return make_shared<VariableStatement>(identifier, expression);
+  return make_shared<VariableStatement>(identifier, variableType, expression);
 }
 
 shared_ptr<FunctionStatement> AST::evaluateFunctionStatement(const CodeBlock &functionBlock) {
   string identifier = functionBlock.statement[1].tokenString;
-  vector<string> parameters;
+  vector<VariableStatement> parameters;
 
   // The function has parameters
-  if (functionBlock.statement[2].tokenType == TokenType::WITH)
-    for (int i = 3; functionBlock.statement[i].tokenType != TokenType::AS; ++i)
-      parameters.push_back(functionBlock.statement[i].tokenString);
+  if (functionBlock.statement[2].tokenType == TokenType::WITH) {
+    for (int i = 3; functionBlock.statement[i].tokenType != TokenType::AS; ++i) {
+      string variableName = functionBlock.bodyTokens[i].tokenString;
+
+      bool isParameterPointer = functionBlock.bodyTokens[i + 3].tokenType == TokenType::POINTER;
+      Type parameterType(functionBlock.bodyTokens[i + 2].tokenType, isParameterPointer);
+    }
+  }
 
   vector<shared_ptr<ASTNode>> functionBody = constructAST(functionBlock.bodyTokens).get()->nodes;
   return make_shared<FunctionStatement>(identifier, functionBody, parameters);

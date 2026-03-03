@@ -35,6 +35,11 @@ Lexer::Lexer(string sourceCode) {
   keywords.insert("back");
   keywords.insert("of");
   keywords.insert("type");
+  keywords.insert("integer");
+  keywords.insert("string");
+  keywords.insert("float");
+  keywords.insert("void");
+  keywords.insert("gives");
 
   set<string> delimeters = {" ", "stop", "then", "as", "end", "otherwise", "repeat", "back"};
   this->splitSourceCode = splitString(sourceCode, delimeters);
@@ -101,8 +106,18 @@ vector<Token> Lexer::getTokens() {
         token.tokenType = TokenType::SAY;
       else if (currentToken == "give")
         token.tokenType = TokenType::GIVE;
+      else if (currentToken == "gives")
+        token.tokenType = TokenType::GIVES;
       else if (currentToken == "back")
         token.tokenType = TokenType::BACK;
+      else if (currentToken == "integer")
+        token.tokenType = TokenType::INTEGER;
+      else if (currentToken == "string")
+        token.tokenType = TokenType::STRING;
+      else if (currentToken == "float")
+        token.tokenType = TokenType::FLOAT;
+      else if (currentToken == "void")
+        token.tokenType = TokenType::VOID;
       else if (currentToken == "quote") {
         token.tokenType = TokenType::QUOTE;
         if (!isCurrentlyString)
@@ -113,11 +128,13 @@ vector<Token> Lexer::getTokens() {
       } else if (currentToken == "call")
         token.tokenType = TokenType::CALL;
       else if (currentToken == "of") {
-        token.tokenString = "of type";
+        currentToken += " type";
         token.tokenType = TokenType::OF_TYPE;
-        if (index + 1 == splitSourceCode.size() - 1 || splitSourceCode[index + 1] != "type")
-          throw new string("You need the keyword type.");
         ++index;
+        while (index < splitSourceCode.size() && splitSourceCode[index] == " ")
+          ++index;
+        if (splitSourceCode[index] != "type")
+          throw new string("You need the keyword type.");
       } else if (currentToken == "greater" || currentToken == "less") {
         // This is if the tokens are "5 greater/less than or equals to 4"
         if (splitSourceCode[index + 4] == "or") {

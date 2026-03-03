@@ -41156,7 +41156,6 @@ enum class TokenType {
 
   LET,
   BE,
-  POINTER,
   TO,
   STOP,
   DEFINE,
@@ -41180,6 +41179,13 @@ enum class TokenType {
   CALL,
   GIVE,
   BACK,
+  OF_TYPE,
+
+  INTEGER,
+  STRING,
+  FLOAT,
+  POINTER,
+  VOID,
 
   IDENTIFIER,
   INTEGER_LITERAL,
@@ -41399,6 +41405,262 @@ namespace std
 
 }
 # 6 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
+# 1 "/usr/include/c++/15.2.1/cwctype" 1 3
+# 55 "/usr/include/c++/15.2.1/cwctype" 3
+# 1 "/usr/include/wctype.h" 1 3 4
+# 38 "/usr/include/wctype.h" 3 4
+# 1 "/usr/include/bits/wctype-wchar.h" 1 3 4
+# 38 "/usr/include/bits/wctype-wchar.h" 3 4
+typedef unsigned long int wctype_t;
+# 56 "/usr/include/bits/wctype-wchar.h" 3 4
+enum
+{
+  __ISwupper = 0,
+  __ISwlower = 1,
+  __ISwalpha = 2,
+  __ISwdigit = 3,
+  __ISwxdigit = 4,
+  __ISwspace = 5,
+  __ISwprint = 6,
+  __ISwgraph = 7,
+  __ISwblank = 8,
+  __ISwcntrl = 9,
+  __ISwpunct = 10,
+  __ISwalnum = 11,
+
+  _ISwupper = ((__ISwupper) < 8 ? (int) ((1UL << (__ISwupper)) << 24) : ((__ISwupper) < 16 ? (int) ((1UL << (__ISwupper)) << 8) : ((__ISwupper) < 24 ? (int) ((1UL << (__ISwupper)) >> 8) : (int) ((1UL << (__ISwupper)) >> 24)))),
+  _ISwlower = ((__ISwlower) < 8 ? (int) ((1UL << (__ISwlower)) << 24) : ((__ISwlower) < 16 ? (int) ((1UL << (__ISwlower)) << 8) : ((__ISwlower) < 24 ? (int) ((1UL << (__ISwlower)) >> 8) : (int) ((1UL << (__ISwlower)) >> 24)))),
+  _ISwalpha = ((__ISwalpha) < 8 ? (int) ((1UL << (__ISwalpha)) << 24) : ((__ISwalpha) < 16 ? (int) ((1UL << (__ISwalpha)) << 8) : ((__ISwalpha) < 24 ? (int) ((1UL << (__ISwalpha)) >> 8) : (int) ((1UL << (__ISwalpha)) >> 24)))),
+  _ISwdigit = ((__ISwdigit) < 8 ? (int) ((1UL << (__ISwdigit)) << 24) : ((__ISwdigit) < 16 ? (int) ((1UL << (__ISwdigit)) << 8) : ((__ISwdigit) < 24 ? (int) ((1UL << (__ISwdigit)) >> 8) : (int) ((1UL << (__ISwdigit)) >> 24)))),
+  _ISwxdigit = ((__ISwxdigit) < 8 ? (int) ((1UL << (__ISwxdigit)) << 24) : ((__ISwxdigit) < 16 ? (int) ((1UL << (__ISwxdigit)) << 8) : ((__ISwxdigit) < 24 ? (int) ((1UL << (__ISwxdigit)) >> 8) : (int) ((1UL << (__ISwxdigit)) >> 24)))),
+  _ISwspace = ((__ISwspace) < 8 ? (int) ((1UL << (__ISwspace)) << 24) : ((__ISwspace) < 16 ? (int) ((1UL << (__ISwspace)) << 8) : ((__ISwspace) < 24 ? (int) ((1UL << (__ISwspace)) >> 8) : (int) ((1UL << (__ISwspace)) >> 24)))),
+  _ISwprint = ((__ISwprint) < 8 ? (int) ((1UL << (__ISwprint)) << 24) : ((__ISwprint) < 16 ? (int) ((1UL << (__ISwprint)) << 8) : ((__ISwprint) < 24 ? (int) ((1UL << (__ISwprint)) >> 8) : (int) ((1UL << (__ISwprint)) >> 24)))),
+  _ISwgraph = ((__ISwgraph) < 8 ? (int) ((1UL << (__ISwgraph)) << 24) : ((__ISwgraph) < 16 ? (int) ((1UL << (__ISwgraph)) << 8) : ((__ISwgraph) < 24 ? (int) ((1UL << (__ISwgraph)) >> 8) : (int) ((1UL << (__ISwgraph)) >> 24)))),
+  _ISwblank = ((__ISwblank) < 8 ? (int) ((1UL << (__ISwblank)) << 24) : ((__ISwblank) < 16 ? (int) ((1UL << (__ISwblank)) << 8) : ((__ISwblank) < 24 ? (int) ((1UL << (__ISwblank)) >> 8) : (int) ((1UL << (__ISwblank)) >> 24)))),
+  _ISwcntrl = ((__ISwcntrl) < 8 ? (int) ((1UL << (__ISwcntrl)) << 24) : ((__ISwcntrl) < 16 ? (int) ((1UL << (__ISwcntrl)) << 8) : ((__ISwcntrl) < 24 ? (int) ((1UL << (__ISwcntrl)) >> 8) : (int) ((1UL << (__ISwcntrl)) >> 24)))),
+  _ISwpunct = ((__ISwpunct) < 8 ? (int) ((1UL << (__ISwpunct)) << 24) : ((__ISwpunct) < 16 ? (int) ((1UL << (__ISwpunct)) << 8) : ((__ISwpunct) < 24 ? (int) ((1UL << (__ISwpunct)) >> 8) : (int) ((1UL << (__ISwpunct)) >> 24)))),
+  _ISwalnum = ((__ISwalnum) < 8 ? (int) ((1UL << (__ISwalnum)) << 24) : ((__ISwalnum) < 16 ? (int) ((1UL << (__ISwalnum)) << 8) : ((__ISwalnum) < 24 ? (int) ((1UL << (__ISwalnum)) >> 8) : (int) ((1UL << (__ISwalnum)) >> 24))))
+};
+
+
+
+extern "C" {
+
+
+
+
+
+
+
+extern int iswalnum (wint_t __wc) noexcept (true);
+
+
+
+
+
+extern int iswalpha (wint_t __wc) noexcept (true);
+
+
+extern int iswcntrl (wint_t __wc) noexcept (true);
+
+
+
+extern int iswdigit (wint_t __wc) noexcept (true);
+
+
+
+extern int iswgraph (wint_t __wc) noexcept (true);
+
+
+
+
+extern int iswlower (wint_t __wc) noexcept (true);
+
+
+extern int iswprint (wint_t __wc) noexcept (true);
+
+
+
+
+extern int iswpunct (wint_t __wc) noexcept (true);
+
+
+
+
+extern int iswspace (wint_t __wc) noexcept (true);
+
+
+
+
+extern int iswupper (wint_t __wc) noexcept (true);
+
+
+
+
+extern int iswxdigit (wint_t __wc) noexcept (true);
+
+
+
+
+
+extern int iswblank (wint_t __wc) noexcept (true);
+# 155 "/usr/include/bits/wctype-wchar.h" 3 4
+extern wctype_t wctype (const char *__property) noexcept (true);
+
+
+
+extern int iswctype (wint_t __wc, wctype_t __desc) noexcept (true);
+
+
+
+
+
+
+extern wint_t towlower (wint_t __wc) noexcept (true);
+
+
+extern wint_t towupper (wint_t __wc) noexcept (true);
+
+}
+# 39 "/usr/include/wctype.h" 2 3 4
+
+
+
+
+
+extern "C" {
+
+
+
+typedef const __int32_t *wctrans_t;
+
+
+
+extern wctrans_t wctrans (const char *__property) noexcept (true);
+
+
+extern wint_t towctrans (wint_t __wc, wctrans_t __desc) noexcept (true);
+
+
+
+
+
+
+
+extern int iswalnum_l (wint_t __wc, locale_t __locale) noexcept (true);
+
+
+
+
+
+extern int iswalpha_l (wint_t __wc, locale_t __locale) noexcept (true);
+
+
+extern int iswcntrl_l (wint_t __wc, locale_t __locale) noexcept (true);
+
+
+
+extern int iswdigit_l (wint_t __wc, locale_t __locale) noexcept (true);
+
+
+
+extern int iswgraph_l (wint_t __wc, locale_t __locale) noexcept (true);
+
+
+
+
+extern int iswlower_l (wint_t __wc, locale_t __locale) noexcept (true);
+
+
+extern int iswprint_l (wint_t __wc, locale_t __locale) noexcept (true);
+
+
+
+
+extern int iswpunct_l (wint_t __wc, locale_t __locale) noexcept (true);
+
+
+
+
+extern int iswspace_l (wint_t __wc, locale_t __locale) noexcept (true);
+
+
+
+
+extern int iswupper_l (wint_t __wc, locale_t __locale) noexcept (true);
+
+
+
+
+extern int iswxdigit_l (wint_t __wc, locale_t __locale) noexcept (true);
+
+
+
+
+extern int iswblank_l (wint_t __wc, locale_t __locale) noexcept (true);
+
+
+
+extern wctype_t wctype_l (const char *__property, locale_t __locale)
+     noexcept (true);
+
+
+
+extern int iswctype_l (wint_t __wc, wctype_t __desc, locale_t __locale)
+     noexcept (true);
+
+
+
+
+
+
+extern wint_t towlower_l (wint_t __wc, locale_t __locale) noexcept (true);
+
+
+extern wint_t towupper_l (wint_t __wc, locale_t __locale) noexcept (true);
+
+
+
+extern wctrans_t wctrans_l (const char *__property, locale_t __locale)
+     noexcept (true);
+
+
+extern wint_t towctrans_l (wint_t __wc, wctrans_t __desc,
+      locale_t __locale) noexcept (true);
+
+
+
+}
+# 56 "/usr/include/c++/15.2.1/cwctype" 2 3
+# 82 "/usr/include/c++/15.2.1/cwctype" 3
+namespace std
+{
+  using ::wctrans_t;
+  using ::wctype_t;
+  using ::wint_t;
+
+  using ::iswalnum;
+  using ::iswalpha;
+
+  using ::iswblank;
+
+  using ::iswcntrl;
+  using ::iswctype;
+  using ::iswdigit;
+  using ::iswgraph;
+  using ::iswlower;
+  using ::iswprint;
+  using ::iswpunct;
+  using ::iswspace;
+  using ::iswupper;
+  using ::iswxdigit;
+  using ::towctrans;
+  using ::towlower;
+  using ::towupper;
+  using ::wctrans;
+  using ::wctype;
+}
+# 7 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
 # 1 "/usr/include/c++/15.2.1/memory" 1 3
 # 68 "/usr/include/c++/15.2.1/memory" 3
 # 1 "/usr/include/c++/15.2.1/bits/stl_tempbuf.h" 1 3
@@ -56574,264 +56836,7 @@ namespace std __attribute__ ((__visibility__ ("default")))
 # 1 "/usr/include/c++/15.2.1/bits/basic_ios.h" 1 3
 # 39 "/usr/include/c++/15.2.1/bits/basic_ios.h" 3
 # 1 "/usr/include/c++/15.2.1/bits/locale_facets.h" 1 3
-# 41 "/usr/include/c++/15.2.1/bits/locale_facets.h" 3
-# 1 "/usr/include/c++/15.2.1/cwctype" 1 3
-# 55 "/usr/include/c++/15.2.1/cwctype" 3
-# 1 "/usr/include/wctype.h" 1 3 4
-# 38 "/usr/include/wctype.h" 3 4
-# 1 "/usr/include/bits/wctype-wchar.h" 1 3 4
-# 38 "/usr/include/bits/wctype-wchar.h" 3 4
-typedef unsigned long int wctype_t;
-# 56 "/usr/include/bits/wctype-wchar.h" 3 4
-enum
-{
-  __ISwupper = 0,
-  __ISwlower = 1,
-  __ISwalpha = 2,
-  __ISwdigit = 3,
-  __ISwxdigit = 4,
-  __ISwspace = 5,
-  __ISwprint = 6,
-  __ISwgraph = 7,
-  __ISwblank = 8,
-  __ISwcntrl = 9,
-  __ISwpunct = 10,
-  __ISwalnum = 11,
-
-  _ISwupper = ((__ISwupper) < 8 ? (int) ((1UL << (__ISwupper)) << 24) : ((__ISwupper) < 16 ? (int) ((1UL << (__ISwupper)) << 8) : ((__ISwupper) < 24 ? (int) ((1UL << (__ISwupper)) >> 8) : (int) ((1UL << (__ISwupper)) >> 24)))),
-  _ISwlower = ((__ISwlower) < 8 ? (int) ((1UL << (__ISwlower)) << 24) : ((__ISwlower) < 16 ? (int) ((1UL << (__ISwlower)) << 8) : ((__ISwlower) < 24 ? (int) ((1UL << (__ISwlower)) >> 8) : (int) ((1UL << (__ISwlower)) >> 24)))),
-  _ISwalpha = ((__ISwalpha) < 8 ? (int) ((1UL << (__ISwalpha)) << 24) : ((__ISwalpha) < 16 ? (int) ((1UL << (__ISwalpha)) << 8) : ((__ISwalpha) < 24 ? (int) ((1UL << (__ISwalpha)) >> 8) : (int) ((1UL << (__ISwalpha)) >> 24)))),
-  _ISwdigit = ((__ISwdigit) < 8 ? (int) ((1UL << (__ISwdigit)) << 24) : ((__ISwdigit) < 16 ? (int) ((1UL << (__ISwdigit)) << 8) : ((__ISwdigit) < 24 ? (int) ((1UL << (__ISwdigit)) >> 8) : (int) ((1UL << (__ISwdigit)) >> 24)))),
-  _ISwxdigit = ((__ISwxdigit) < 8 ? (int) ((1UL << (__ISwxdigit)) << 24) : ((__ISwxdigit) < 16 ? (int) ((1UL << (__ISwxdigit)) << 8) : ((__ISwxdigit) < 24 ? (int) ((1UL << (__ISwxdigit)) >> 8) : (int) ((1UL << (__ISwxdigit)) >> 24)))),
-  _ISwspace = ((__ISwspace) < 8 ? (int) ((1UL << (__ISwspace)) << 24) : ((__ISwspace) < 16 ? (int) ((1UL << (__ISwspace)) << 8) : ((__ISwspace) < 24 ? (int) ((1UL << (__ISwspace)) >> 8) : (int) ((1UL << (__ISwspace)) >> 24)))),
-  _ISwprint = ((__ISwprint) < 8 ? (int) ((1UL << (__ISwprint)) << 24) : ((__ISwprint) < 16 ? (int) ((1UL << (__ISwprint)) << 8) : ((__ISwprint) < 24 ? (int) ((1UL << (__ISwprint)) >> 8) : (int) ((1UL << (__ISwprint)) >> 24)))),
-  _ISwgraph = ((__ISwgraph) < 8 ? (int) ((1UL << (__ISwgraph)) << 24) : ((__ISwgraph) < 16 ? (int) ((1UL << (__ISwgraph)) << 8) : ((__ISwgraph) < 24 ? (int) ((1UL << (__ISwgraph)) >> 8) : (int) ((1UL << (__ISwgraph)) >> 24)))),
-  _ISwblank = ((__ISwblank) < 8 ? (int) ((1UL << (__ISwblank)) << 24) : ((__ISwblank) < 16 ? (int) ((1UL << (__ISwblank)) << 8) : ((__ISwblank) < 24 ? (int) ((1UL << (__ISwblank)) >> 8) : (int) ((1UL << (__ISwblank)) >> 24)))),
-  _ISwcntrl = ((__ISwcntrl) < 8 ? (int) ((1UL << (__ISwcntrl)) << 24) : ((__ISwcntrl) < 16 ? (int) ((1UL << (__ISwcntrl)) << 8) : ((__ISwcntrl) < 24 ? (int) ((1UL << (__ISwcntrl)) >> 8) : (int) ((1UL << (__ISwcntrl)) >> 24)))),
-  _ISwpunct = ((__ISwpunct) < 8 ? (int) ((1UL << (__ISwpunct)) << 24) : ((__ISwpunct) < 16 ? (int) ((1UL << (__ISwpunct)) << 8) : ((__ISwpunct) < 24 ? (int) ((1UL << (__ISwpunct)) >> 8) : (int) ((1UL << (__ISwpunct)) >> 24)))),
-  _ISwalnum = ((__ISwalnum) < 8 ? (int) ((1UL << (__ISwalnum)) << 24) : ((__ISwalnum) < 16 ? (int) ((1UL << (__ISwalnum)) << 8) : ((__ISwalnum) < 24 ? (int) ((1UL << (__ISwalnum)) >> 8) : (int) ((1UL << (__ISwalnum)) >> 24))))
-};
-
-
-
-extern "C" {
-
-
-
-
-
-
-
-extern int iswalnum (wint_t __wc) noexcept (true);
-
-
-
-
-
-extern int iswalpha (wint_t __wc) noexcept (true);
-
-
-extern int iswcntrl (wint_t __wc) noexcept (true);
-
-
-
-extern int iswdigit (wint_t __wc) noexcept (true);
-
-
-
-extern int iswgraph (wint_t __wc) noexcept (true);
-
-
-
-
-extern int iswlower (wint_t __wc) noexcept (true);
-
-
-extern int iswprint (wint_t __wc) noexcept (true);
-
-
-
-
-extern int iswpunct (wint_t __wc) noexcept (true);
-
-
-
-
-extern int iswspace (wint_t __wc) noexcept (true);
-
-
-
-
-extern int iswupper (wint_t __wc) noexcept (true);
-
-
-
-
-extern int iswxdigit (wint_t __wc) noexcept (true);
-
-
-
-
-
-extern int iswblank (wint_t __wc) noexcept (true);
-# 155 "/usr/include/bits/wctype-wchar.h" 3 4
-extern wctype_t wctype (const char *__property) noexcept (true);
-
-
-
-extern int iswctype (wint_t __wc, wctype_t __desc) noexcept (true);
-
-
-
-
-
-
-extern wint_t towlower (wint_t __wc) noexcept (true);
-
-
-extern wint_t towupper (wint_t __wc) noexcept (true);
-
-}
-# 39 "/usr/include/wctype.h" 2 3 4
-
-
-
-
-
-extern "C" {
-
-
-
-typedef const __int32_t *wctrans_t;
-
-
-
-extern wctrans_t wctrans (const char *__property) noexcept (true);
-
-
-extern wint_t towctrans (wint_t __wc, wctrans_t __desc) noexcept (true);
-
-
-
-
-
-
-
-extern int iswalnum_l (wint_t __wc, locale_t __locale) noexcept (true);
-
-
-
-
-
-extern int iswalpha_l (wint_t __wc, locale_t __locale) noexcept (true);
-
-
-extern int iswcntrl_l (wint_t __wc, locale_t __locale) noexcept (true);
-
-
-
-extern int iswdigit_l (wint_t __wc, locale_t __locale) noexcept (true);
-
-
-
-extern int iswgraph_l (wint_t __wc, locale_t __locale) noexcept (true);
-
-
-
-
-extern int iswlower_l (wint_t __wc, locale_t __locale) noexcept (true);
-
-
-extern int iswprint_l (wint_t __wc, locale_t __locale) noexcept (true);
-
-
-
-
-extern int iswpunct_l (wint_t __wc, locale_t __locale) noexcept (true);
-
-
-
-
-extern int iswspace_l (wint_t __wc, locale_t __locale) noexcept (true);
-
-
-
-
-extern int iswupper_l (wint_t __wc, locale_t __locale) noexcept (true);
-
-
-
-
-extern int iswxdigit_l (wint_t __wc, locale_t __locale) noexcept (true);
-
-
-
-
-extern int iswblank_l (wint_t __wc, locale_t __locale) noexcept (true);
-
-
-
-extern wctype_t wctype_l (const char *__property, locale_t __locale)
-     noexcept (true);
-
-
-
-extern int iswctype_l (wint_t __wc, wctype_t __desc, locale_t __locale)
-     noexcept (true);
-
-
-
-
-
-
-extern wint_t towlower_l (wint_t __wc, locale_t __locale) noexcept (true);
-
-
-extern wint_t towupper_l (wint_t __wc, locale_t __locale) noexcept (true);
-
-
-
-extern wctrans_t wctrans_l (const char *__property, locale_t __locale)
-     noexcept (true);
-
-
-extern wint_t towctrans_l (wint_t __wc, wctrans_t __desc,
-      locale_t __locale) noexcept (true);
-
-
-
-}
-# 56 "/usr/include/c++/15.2.1/cwctype" 2 3
-# 82 "/usr/include/c++/15.2.1/cwctype" 3
-namespace std
-{
-  using ::wctrans_t;
-  using ::wctype_t;
-  using ::wint_t;
-
-  using ::iswalnum;
-  using ::iswalpha;
-
-  using ::iswblank;
-
-  using ::iswcntrl;
-  using ::iswctype;
-  using ::iswdigit;
-  using ::iswgraph;
-  using ::iswlower;
-  using ::iswprint;
-  using ::iswpunct;
-  using ::iswspace;
-  using ::iswupper;
-  using ::iswxdigit;
-  using ::towctrans;
-  using ::towlower;
-  using ::towupper;
-  using ::wctrans;
-  using ::wctype;
-}
-# 42 "/usr/include/c++/15.2.1/bits/locale_facets.h" 2 3
-
+# 43 "/usr/include/c++/15.2.1/bits/locale_facets.h" 3
 # 1 "/usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/ctype_base.h" 1 3
 # 36 "/usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/ctype_base.h" 3
 namespace std __attribute__ ((__visibility__ ("default")))
@@ -71300,7 +71305,7 @@ uninitialized_value_construct_n(_ExecutionPolicy&& __exec, _ForwardIterator __fi
 
 }
 # 175 "/usr/include/c++/15.2.1/memory" 2 3
-# 7 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
+# 8 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
 # 1 "/usr/include/c++/15.2.1/optional" 1 3
 # 40 "/usr/include/c++/15.2.1/optional" 3
 # 1 "/usr/include/c++/15.2.1/bits/version.h" 1 3
@@ -72857,7 +72862,7 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 
 }
-# 8 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
+# 9 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
 
 # 1 "/usr/include/c++/15.2.1/variant" 1 3
 # 39 "/usr/include/c++/15.2.1/variant" 3
@@ -74937,14 +74942,14 @@ namespace __detail::__variant
 
 
 }
-# 10 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
+# 11 "/home/arch/code/projects/Compiler/include/ast/node.h" 2
 
 
 
 
 
 
-# 15 "/home/arch/code/projects/Compiler/include/ast/node.h"
+# 16 "/home/arch/code/projects/Compiler/include/ast/node.h"
 struct ASTNode {
   virtual ~ASTNode() = default;
   virtual std::string generateCode() = 0;
@@ -74952,6 +74957,15 @@ struct ASTNode {
 
 struct Root final : ASTNode {
   std::vector<std::shared_ptr<ASTNode>> nodes;
+
+  std::string generateCode() override;
+};
+
+struct Type final : ASTNode {
+  TokenType type;
+  bool isPointer;
+
+  Type(TokenType type, bool isPointer) : type(type), isPointer(isPointer) {}
 
   std::string generateCode() override;
 };
@@ -75005,9 +75019,9 @@ struct VariableStatement final : ASTNode {
 
   std::shared_ptr<Identifier> identifier;
   std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > value;
+  std::shared_ptr<Type> variableType;
 
-  VariableStatement(const Identifier &pointerIdentifier);
-  VariableStatement(const Identifier &identifier, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> value);
+  VariableStatement(const Identifier &identifier, Type variableType, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> value);
 
   std::string generateCode() override;
 };
@@ -75016,6 +75030,8 @@ struct FunctionStatement final : ASTNode {
   std::shared_ptr<Identifier> identifier;
   std::vector<std::string> parameters;
   std::vector<std::shared_ptr<ASTNode>> body;
+
+  std::shared_ptr<Type> functionType;
 
   FunctionStatement(const Identifier &identifier, const std::vector<std::shared_ptr<ASTNode>> &body, const std::vector<std::string> &parameters);
 

@@ -106,19 +106,15 @@ string BinaryExpression::generateCode() {
   return outputCode;
 }
 
-VariableStatement::VariableStatement(const Identifier &identifier, variant<TYPES> value) {
+VariableStatement::VariableStatement(const Identifier &identifier, Type variableType, variant<TYPES> value) {
   this->isPointer = false;
+  this->variableType = make_shared<Type>(variableType);
   this->identifier = make_shared<Identifier>(identifier);
   visitor(this->value, value);
 }
 
-VariableStatement::VariableStatement(const Identifier &pointerIdentifier) {
-  this->isPointer = true;
-  this->pointerIdentifier = make_shared<Identifier>(pointerIdentifier);
-}
-
 string VariableStatement::generateCode() {
-  string outputCode = "auto ";
+  string outputCode = this->variableType->generateCode() + " ";
   outputCode += " " + this->identifier->generateCode() + " = ";
   outputCode += generatedCode(value);
 

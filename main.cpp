@@ -6,6 +6,10 @@
 #include <iostream>
 #include <memory>
 
+/*
+- Finish function parameter types and return types
+ */
+
 using namespace std;
 
 ifstream getFile() {

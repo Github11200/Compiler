@@ -1,17 +1,17 @@
 Variables:
 
-let x be 5 of type integer stop
-let y be pointer to x of type integer stop
-let a be 5 plus 5 of type integer stop
-let b be 1 minus 1 of type integer stop
-let c be quote hello quote of type string stop
+let x of type integer be 5 stop
+let y of type integer be pointer to x stop
+let a of type integer be 5 plus 5 stop
+let b of type integer be 1 minus 1 stop
+let c of type string be quote hello quote stop
 
 Functions:
 
 define doSomething of type void as
 end
 
-define doSomething with x y z of type integer as
+define doSomething with x of type integer y of type string gives back integer as
 end
 
 call doSomething stop

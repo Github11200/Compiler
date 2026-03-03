@@ -41152,7 +41152,6 @@ enum class TokenType {
 
   LET,
   BE,
-  POINTER,
   TO,
   STOP,
   DEFINE,
@@ -41176,6 +41175,13 @@ enum class TokenType {
   CALL,
   GIVE,
   BACK,
+  OF_TYPE,
+
+  INTEGER,
+  STRING,
+  FLOAT,
+  POINTER,
+  VOID,
 
   IDENTIFIER,
   INTEGER_LITERAL,

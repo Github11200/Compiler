@@ -126,7 +126,8 @@ CMakeFiles/Transpiler.dir/src/ast/ast.cpp.o.ddi: \
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/stdint-uintn.h \
  /usr/include/bits/stdint-least.h /usr/include/inttypes.h \
- /usr/include/c++/15.2.1/memory \
+ /usr/include/c++/15.2.1/cwctype /usr/include/wctype.h \
+ /usr/include/bits/wctype-wchar.h /usr/include/c++/15.2.1/memory \
  /usr/include/c++/15.2.1/bits/stl_tempbuf.h \
  /usr/include/c++/15.2.1/bits/stl_raw_storage_iter.h \
  /usr/include/c++/15.2.1/bits/align.h \
@@ -171,8 +172,6 @@ CMakeFiles/Transpiler.dir/src/ast/ast.cpp.o.ddi: \
  /usr/include/c++/15.2.1/bits/streambuf.tcc \
  /usr/include/c++/15.2.1/bits/basic_ios.h \
  /usr/include/c++/15.2.1/bits/locale_facets.h \
- /usr/include/c++/15.2.1/cwctype /usr/include/wctype.h \
- /usr/include/bits/wctype-wchar.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/ctype_base.h \
  /usr/include/c++/15.2.1/bits/streambuf_iterator.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/ctype_inline.h \

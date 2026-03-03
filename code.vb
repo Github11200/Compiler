@@ -1,1 +1,1 @@
-let a be quote hello world quote stop
+let a of type string be quote hello world quote stop
