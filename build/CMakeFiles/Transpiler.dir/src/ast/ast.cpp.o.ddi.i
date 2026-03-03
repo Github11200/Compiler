@@ -41178,9 +41178,12 @@ enum class TokenType {
   SAY,
   QUOTE,
   CALL,
+  GIVE,
+  BACK,
 
   IDENTIFIER,
-  INTEGER_LITERAL
+  INTEGER_LITERAL,
+  SPACE
 };
 
 extern std::vector<TokenType> inequalitySymbols;
@@ -74953,6 +74956,15 @@ struct Root final : ASTNode {
   std::string generateCode() override;
 };
 
+struct FunctionCallStatement final : ASTNode {
+  std::string name;
+  bool semicolon;
+
+  FunctionCallStatement(const std::string &name, bool semicolon) : name(name), semicolon(semicolon) {}
+
+  std::string generateCode() override;
+};
+
 struct Identifier final : ASTNode {
   std::string name;
 
@@ -74979,10 +74991,10 @@ struct IntegerLiteral final : ASTNode {
 
 struct BinaryExpression final : ASTNode {
   TokenType operatorType;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > left;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > right;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > left;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > right;
 
-  BinaryExpression(TokenType operatorType, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> left, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> right);
+  BinaryExpression(TokenType operatorType, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> left, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> right);
 
   std::string generateCode() override;
 };
@@ -74992,10 +75004,10 @@ struct VariableStatement final : ASTNode {
   std::optional<std::shared_ptr<Identifier>> pointerIdentifier;
 
   std::shared_ptr<Identifier> identifier;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > value;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > value;
 
   VariableStatement(const Identifier &pointerIdentifier);
-  VariableStatement(const Identifier &identifier, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> value);
+  VariableStatement(const Identifier &identifier, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> value);
 
   std::string generateCode() override;
 };
@@ -75011,10 +75023,10 @@ struct FunctionStatement final : ASTNode {
 };
 
 struct IfStatementBlock {
-  std::optional<std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> >> condition;
+  std::optional<std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> >> condition;
   std::vector<std::shared_ptr<ASTNode>> body;
 
-  IfStatementBlock(const std::optional<std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier>> condition, const std::vector<std::shared_ptr<ASTNode>> &body);
+  IfStatementBlock(const std::optional<std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement>> condition, const std::vector<std::shared_ptr<ASTNode>> &body);
 };
 
 struct IfStatement final : ASTNode {
@@ -75036,23 +75048,23 @@ struct LoopStatement final : ASTNode {
 };
 
 struct PrintStatement final : ASTNode {
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > value;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > value;
 
-  PrintStatement(std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> &value);
-
-  std::string generateCode() override;
-};
-
-struct FunctionCallStatement final : ASTNode {
-  std::string name;
-
-  FunctionCallStatement(const std::string &name) : name(name) {}
+  PrintStatement(std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> &value);
 
   std::string generateCode() override;
 };
 
-void visitor(std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > &value, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> &inputVariant);
-std::string generatedCode(std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > &value);
+struct ReturnStatement final : ASTNode {
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > value;
+
+  ReturnStatement(std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> &value);
+
+  std::string generateCode() override;
+};
+
+void visitor(std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > &value, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> &inputVariant);
+std::string generatedCode(std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > &value);
 # 5 "/home/arch/code/projects/Compiler/include/ast/ast.h" 2
 
 # 1 "/home/arch/code/projects/Compiler/include/utils.h" 1
@@ -112704,7 +112716,7 @@ private:
 
   static std::optional<int> isInequality(const std::vector<Token> &statement);
 
-  static std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> evaluateExpression(const std::vector<Token> &statement, int &i, int minimumBindingPower = 0);
+  static std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> evaluateExpression(const std::vector<Token> &statement, int &i, int minimumBindingPower = 0);
 
   static std::shared_ptr<VariableStatement> evaluateVariableStatement(const std::vector<Token> &statement);
 
@@ -112716,7 +112728,9 @@ private:
 
   std::shared_ptr<PrintStatement> evaluatePrintStatement(const std::vector<Token> &statement);
 
-  std::shared_ptr<FunctionCallStatement> evaluateFunctionCallStatement(const std::vector<Token> &statement);
+  static std::shared_ptr<FunctionCallStatement> evaluateFunctionCallStatement(const std::vector<Token> &statement, bool hasSemicolon);
+
+  std::shared_ptr<ReturnStatement> evaluateReturnStatement(const std::vector<Token> &statement);
 
   static std::vector<Token> extractBody(int &i, const std::vector<Token> &tokens, TokenType keyword = TokenType::END);
 
@@ -112786,13 +112800,14 @@ optional<int> AST::isInequality(const vector<Token> &statement) {
   return nullopt;
 }
 
-variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> AST::evaluateExpression(const vector<Token> &statement, int &i, int minimumBindingPower) {
+variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> AST::evaluateExpression(const vector<Token> &statement, int &i, int minimumBindingPower) {
   if (statement[0].tokenType == TokenType::QUOTE) {
     string stringLiteralValue;
     for (int i = 1; i < statement.size() - 1; ++i)
       stringLiteralValue += statement[i].tokenString;
     return StringLiteral(stringLiteralValue);
-  }
+  } else if (statement[0].tokenType == TokenType::CALL)
+    return *evaluateFunctionCallStatement(statement, false).get();
 
 
   if (statement.size() == 1 || i == statement.size() - 1) {
@@ -112811,16 +112826,16 @@ variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> AST::evalua
       rightArray.push_back(statement[j]);
 
     int iCopy = i;
-    variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> left = evaluateExpression(leftArray, iCopy, 0);
+    variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> left = evaluateExpression(leftArray, iCopy, 0);
     iCopy = i;
-    variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> right = evaluateExpression(rightArray, iCopy, 0);
+    variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> right = evaluateExpression(rightArray, iCopy, 0);
 
     return BinaryExpression(statement[inequalityIndex.value()].tokenType, left, right);
   }
 
 
   unique_ptr<BinaryExpression> binaryExpression = nullptr;
-  IntegerLiteral leftHandSide(stoi(statement[i].tokenString));
+  variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> leftHandSide = evaluateExpression(vector<Token>({statement[0]}), i);
   for (; i < statement.size();) {
     TokenType op;
     BindingPower bindingPower(0, 0);
@@ -112834,7 +112849,7 @@ variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> AST::evalua
       i += 2;
     }
 
-    variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> rightHandSide = evaluateExpression(statement, i, bindingPower.right);
+    variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> rightHandSide = evaluateExpression(statement, i, bindingPower.right);
     if (binaryExpression == nullptr)
       binaryExpression = make_unique<BinaryExpression>(op, leftHandSide, rightHandSide);
     else
@@ -112860,7 +112875,7 @@ shared_ptr<VariableStatement> AST::evaluateVariableStatement(const vector<Token>
     expressionTokens.push_back(statement[i]);
 
   int i = 0;
-  variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> expression = evaluateExpression(expressionTokens, i, 0);
+  variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> expression = evaluateExpression(expressionTokens, i, 0);
   return make_shared<VariableStatement>(identifier, expression);
 }
 
@@ -112967,13 +112982,22 @@ shared_ptr<PrintStatement> AST::evaluatePrintStatement(const vector<Token> &stat
   for (int i = 1; i < statement.size() - 1; ++i)
     expression.push_back(statement[i]);
   int i = 0;
-  variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> evaluatedExpression = evaluateExpression(expression, i);
+  variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> evaluatedExpression = evaluateExpression(expression, i);
   return make_shared<PrintStatement>(evaluatedExpression);
 }
 
-shared_ptr<FunctionCallStatement> AST::evaluateFunctionCallStatement(const vector<Token> &statement) {
+shared_ptr<FunctionCallStatement> AST::evaluateFunctionCallStatement(const vector<Token> &statement, bool hasSemicolon) {
   string functionName = statement[1].tokenString;
-  return make_shared<FunctionCallStatement>(functionName);
+  return make_shared<FunctionCallStatement>(functionName, hasSemicolon);
+}
+
+shared_ptr<ReturnStatement> AST::evaluateReturnStatement(const vector<Token> &statement) {
+  vector<Token> expression;
+  for (int i = 1; i < statement.size() - 1; ++i)
+    expression.push_back(statement[i]);
+  int i = 0;
+  variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> evaluatedExpression = evaluateExpression(expression, i);
+  return make_shared<ReturnStatement>(evaluatedExpression);
 }
 
 shared_ptr<Root> AST::constructAST(const vector<Token> &tokens) {
@@ -112984,13 +113008,17 @@ shared_ptr<Root> AST::constructAST(const vector<Token> &tokens) {
     currentNodes.push_back(tokens[i]);
     std::shared_ptr<ASTNode> newNode = nullptr;
 
-    if (tokens[i].tokenType == TokenType::SAY) {
+    if (tokens[i].tokenType == TokenType::GIVE) {
+      incrementToKeyword(++i, tokens, currentNodes, TokenType::BACK);
+      newNode = evaluateReturnStatement(currentNodes);
+    } else if (tokens[i].tokenType == TokenType::SAY) {
       incrementToKeyword(++i, tokens, currentNodes, TokenType::STOP);
       newNode = evaluatePrintStatement(currentNodes);
     } else if (tokens[i].tokenType == TokenType::CALL) {
       incrementToKeyword(++i, tokens, currentNodes, TokenType::STOP);
-      newNode = evaluateFunctionCallStatement(currentNodes);
-    } else if (tokens[i].tokenType == TokenType::STOP) {
+      newNode = evaluateFunctionCallStatement(currentNodes, true);
+    } else if (tokens[i].tokenType == TokenType::LET) {
+      incrementToKeyword(++i, tokens, currentNodes, TokenType::STOP);
       newNode = evaluateVariableStatement(currentNodes);
     } else if (tokens[i].tokenType == TokenType::IF) {
       incrementToKeyword(++i, tokens, currentNodes, TokenType::THEN);

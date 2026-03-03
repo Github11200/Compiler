@@ -41178,9 +41178,12 @@ enum class TokenType {
   SAY,
   QUOTE,
   CALL,
+  GIVE,
+  BACK,
 
   IDENTIFIER,
-  INTEGER_LITERAL
+  INTEGER_LITERAL,
+  SPACE
 };
 
 extern std::vector<TokenType> inequalitySymbols;
@@ -74953,6 +74956,15 @@ struct Root final : ASTNode {
   std::string generateCode() override;
 };
 
+struct FunctionCallStatement final : ASTNode {
+  std::string name;
+  bool semicolon;
+
+  FunctionCallStatement(const std::string &name, bool semicolon) : name(name), semicolon(semicolon) {}
+
+  std::string generateCode() override;
+};
+
 struct Identifier final : ASTNode {
   std::string name;
 
@@ -74979,10 +74991,10 @@ struct IntegerLiteral final : ASTNode {
 
 struct BinaryExpression final : ASTNode {
   TokenType operatorType;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > left;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > right;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > left;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > right;
 
-  BinaryExpression(TokenType operatorType, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> left, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> right);
+  BinaryExpression(TokenType operatorType, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> left, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> right);
 
   std::string generateCode() override;
 };
@@ -74992,10 +75004,10 @@ struct VariableStatement final : ASTNode {
   std::optional<std::shared_ptr<Identifier>> pointerIdentifier;
 
   std::shared_ptr<Identifier> identifier;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > value;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > value;
 
   VariableStatement(const Identifier &pointerIdentifier);
-  VariableStatement(const Identifier &identifier, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> value);
+  VariableStatement(const Identifier &identifier, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> value);
 
   std::string generateCode() override;
 };
@@ -75011,10 +75023,10 @@ struct FunctionStatement final : ASTNode {
 };
 
 struct IfStatementBlock {
-  std::optional<std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> >> condition;
+  std::optional<std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> >> condition;
   std::vector<std::shared_ptr<ASTNode>> body;
 
-  IfStatementBlock(const std::optional<std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier>> condition, const std::vector<std::shared_ptr<ASTNode>> &body);
+  IfStatementBlock(const std::optional<std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement>> condition, const std::vector<std::shared_ptr<ASTNode>> &body);
 };
 
 struct IfStatement final : ASTNode {
@@ -75036,23 +75048,23 @@ struct LoopStatement final : ASTNode {
 };
 
 struct PrintStatement final : ASTNode {
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > value;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > value;
 
-  PrintStatement(std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> &value);
-
-  std::string generateCode() override;
-};
-
-struct FunctionCallStatement final : ASTNode {
-  std::string name;
-
-  FunctionCallStatement(const std::string &name) : name(name) {}
+  PrintStatement(std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> &value);
 
   std::string generateCode() override;
 };
 
-void visitor(std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > &value, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> &inputVariant);
-std::string generatedCode(std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > &value);
+struct ReturnStatement final : ASTNode {
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > value;
+
+  ReturnStatement(std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> &value);
+
+  std::string generateCode() override;
+};
+
+void visitor(std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > &value, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> &inputVariant);
+std::string generatedCode(std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > &value);
 # 5 "/home/arch/code/projects/Compiler/include/codeGenerator.h" 2
 # 1 "/usr/include/c++/15.2.1/iostream" 1 3
 # 43 "/usr/include/c++/15.2.1/iostream" 3

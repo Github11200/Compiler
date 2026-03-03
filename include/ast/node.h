@@ -3,14 +3,15 @@
 
 #include "token.h"
 #include <cinttypes>
+#include <cwctype>
 #include <memory>
 #include <optional>
 #include <string>
 #include <variant>
 #include <vector>
 
-#define SHARED_POINTER_TYPES std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>
-#define TYPES BinaryExpression, IntegerLiteral, StringLiteral, Identifier
+#define SHARED_POINTER_TYPES std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement>
+#define TYPES BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement
 
 struct ASTNode {
   virtual ~ASTNode() = default;
@@ -19,6 +20,23 @@ struct ASTNode {
 
 struct Root final : ASTNode {
   std::vector<std::shared_ptr<ASTNode>> nodes;
+
+  std::string generateCode() override;
+};
+
+struct Type final : ASTNode {
+  TokenType type;
+
+  Type(TokenType type) : type(type) {}
+
+  std::string generateCode() override;
+};
+
+struct FunctionCallStatement final : ASTNode {
+  std::string name;
+  bool semicolon;
+
+  FunctionCallStatement(const std::string &name, bool semicolon) : name(name), semicolon(semicolon) {}
 
   std::string generateCode() override;
 };
@@ -63,6 +81,7 @@ struct VariableStatement final : ASTNode {
 
   std::shared_ptr<Identifier> identifier;
   std::variant<SHARED_POINTER_TYPES> value;
+  Type variableType;
 
   VariableStatement(const Identifier &pointerIdentifier);
   VariableStatement(const Identifier &identifier, std::variant<TYPES> value);
@@ -74,6 +93,8 @@ struct FunctionStatement final : ASTNode {
   std::shared_ptr<Identifier> identifier;
   std::vector<std::string> parameters;
   std::vector<std::shared_ptr<ASTNode>> body;
+
+  Type functionType;
 
   FunctionStatement(const Identifier &identifier, const std::vector<std::shared_ptr<ASTNode>> &body, const std::vector<std::string> &parameters);
 
@@ -113,10 +134,10 @@ struct PrintStatement final : ASTNode {
   std::string generateCode() override;
 };
 
-struct FunctionCallStatement final : ASTNode {
-  std::string name;
+struct ReturnStatement final : ASTNode {
+  std::variant<SHARED_POINTER_TYPES> value;
 
-  FunctionCallStatement(const std::string &name) : name(name) {}
+  ReturnStatement(std::variant<TYPES> &value);
 
   std::string generateCode() override;
 };

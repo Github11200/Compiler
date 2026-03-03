@@ -1,19 +1,21 @@
 Variables:
 
-let x be 5 stop
-let y be pointer to x stop
-let a be 5 plus 5 stop
-let b be 1 minus 1 stop
+let x be 5 of type integer stop
+let y be pointer to x of type integer stop
+let a be 5 plus 5 of type integer stop
+let b be 1 minus 1 of type integer stop
+let c be quote hello quote of type string stop
 
 Functions:
 
-define doSomething as
+define doSomething of type void as
 end
 
-define doSomething with x y z as
+define doSomething with x y z of type integer as
 end
 
 call doSomething stop
+call doSomething with 10 comma 20 comma 30 stop
 
 Conditionals:
 

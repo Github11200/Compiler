@@ -41174,9 +41174,12 @@ enum class TokenType {
   SAY,
   QUOTE,
   CALL,
+  GIVE,
+  BACK,
 
   IDENTIFIER,
-  INTEGER_LITERAL
+  INTEGER_LITERAL,
+  SPACE
 };
 
 extern std::vector<TokenType> inequalitySymbols;

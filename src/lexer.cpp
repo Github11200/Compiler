@@ -31,20 +31,28 @@ Lexer::Lexer(string sourceCode) {
   keywords.insert("quote");
   keywords.insert("say");
   keywords.insert("call");
+  keywords.insert("give");
+  keywords.insert("back");
+  keywords.insert("of");
+  keywords.insert("type");
 
-  set<string> delimeters = {" ", "stop", "then", "as", "end", "otherwise", "repeat"};
+  set<string> delimeters = {" ", "stop", "then", "as", "end", "otherwise", "repeat", "back"};
   this->splitSourceCode = splitString(sourceCode, delimeters);
   this->index = 0;
 }
 
 vector<Token> Lexer::getTokens() {
-  00 vector<Token> tokens;
+  vector<Token> tokens;
+  bool isCurrentlyString = false;
   for (; index < splitSourceCode.size(); ++index) {
     string currentToken = splitSourceCode[index];
-    if (currentToken == " ")
-      continue;
 
     Token token(TokenType::IDENTIFIER, " ");
+
+    if (currentToken == " " && isCurrentlyString)
+      token.tokenType = TokenType::SPACE;
+    else if (currentToken == " " && !isCurrentlyString)
+      continue;
 
     if (keywords.contains(currentToken)) {
       if (currentToken == "let")
@@ -91,11 +99,25 @@ vector<Token> Lexer::getTokens() {
         token.tokenType = TokenType::JUST;
       else if (currentToken == "say")
         token.tokenType = TokenType::SAY;
-      else if (currentToken == "quote")
+      else if (currentToken == "give")
+        token.tokenType = TokenType::GIVE;
+      else if (currentToken == "back")
+        token.tokenType = TokenType::BACK;
+      else if (currentToken == "quote") {
         token.tokenType = TokenType::QUOTE;
-      else if (currentToken == "call")
+        if (!isCurrentlyString)
+          ++index;
+        else
+          tokens.pop_back();
+        isCurrentlyString = !isCurrentlyString;
+      } else if (currentToken == "call")
         token.tokenType = TokenType::CALL;
-      else if (currentToken == "greater" || currentToken == "less") {
+      else if (currentToken == "of") {
+        token.tokenType = TokenType::OF_TYPE;
+        if (index + 1 == splitSourceCode.size() - 1 || splitSourceCode[index + 1] != "type")
+          throw new string("You need the keyword type.");
+        ++index;
+      } else if (currentToken == "greater" || currentToken == "less") {
         // This is if the tokens are "5 greater/less than or equals to 4"
         if (splitSourceCode[index + 4] == "or") {
           token.tokenType = currentToken == "greater" ? TokenType::GREATER_THAN_OR_EQUALS_TO : TokenType::LESS_THAN_OR_EQUALS_TO;

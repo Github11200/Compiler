@@ -41174,9 +41174,12 @@ enum class TokenType {
   SAY,
   QUOTE,
   CALL,
+  GIVE,
+  BACK,
 
   IDENTIFIER,
-  INTEGER_LITERAL
+  INTEGER_LITERAL,
+  SPACE
 };
 
 extern std::vector<TokenType> inequalitySymbols;
@@ -74949,6 +74952,15 @@ struct Root final : ASTNode {
   std::string generateCode() override;
 };
 
+struct FunctionCallStatement final : ASTNode {
+  std::string name;
+  bool semicolon;
+
+  FunctionCallStatement(const std::string &name, bool semicolon) : name(name), semicolon(semicolon) {}
+
+  std::string generateCode() override;
+};
+
 struct Identifier final : ASTNode {
   std::string name;
 
@@ -74975,10 +74987,10 @@ struct IntegerLiteral final : ASTNode {
 
 struct BinaryExpression final : ASTNode {
   TokenType operatorType;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > left;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > right;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > left;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > right;
 
-  BinaryExpression(TokenType operatorType, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> left, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> right);
+  BinaryExpression(TokenType operatorType, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> left, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> right);
 
   std::string generateCode() override;
 };
@@ -74988,10 +75000,10 @@ struct VariableStatement final : ASTNode {
   std::optional<std::shared_ptr<Identifier>> pointerIdentifier;
 
   std::shared_ptr<Identifier> identifier;
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > value;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > value;
 
   VariableStatement(const Identifier &pointerIdentifier);
-  VariableStatement(const Identifier &identifier, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> value);
+  VariableStatement(const Identifier &identifier, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> value);
 
   std::string generateCode() override;
 };
@@ -75007,10 +75019,10 @@ struct FunctionStatement final : ASTNode {
 };
 
 struct IfStatementBlock {
-  std::optional<std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> >> condition;
+  std::optional<std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> >> condition;
   std::vector<std::shared_ptr<ASTNode>> body;
 
-  IfStatementBlock(const std::optional<std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier>> condition, const std::vector<std::shared_ptr<ASTNode>> &body);
+  IfStatementBlock(const std::optional<std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement>> condition, const std::vector<std::shared_ptr<ASTNode>> &body);
 };
 
 struct IfStatement final : ASTNode {
@@ -75032,23 +75044,23 @@ struct LoopStatement final : ASTNode {
 };
 
 struct PrintStatement final : ASTNode {
-  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > value;
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > value;
 
-  PrintStatement(std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> &value);
-
-  std::string generateCode() override;
-};
-
-struct FunctionCallStatement final : ASTNode {
-  std::string name;
-
-  FunctionCallStatement(const std::string &name) : name(name) {}
+  PrintStatement(std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> &value);
 
   std::string generateCode() override;
 };
 
-void visitor(std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > &value, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> &inputVariant);
-std::string generatedCode(std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > &value);
+struct ReturnStatement final : ASTNode {
+  std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > value;
+
+  ReturnStatement(std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> &value);
+
+  std::string generateCode() override;
+};
+
+void visitor(std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > &value, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> &inputVariant);
+std::string generatedCode(std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > &value);
 # 2 "/home/arch/code/projects/Compiler/src/ast/node.cpp" 2
 
 # 1 "/usr/include/c++/15.2.1/iostream" 1 3
@@ -89360,7 +89372,7 @@ namespace std __attribute__ ((__visibility__ ("default")))
 # 6 "/home/arch/code/projects/Compiler/src/ast/node.cpp"
 using namespace std;
 
-void visitor(variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > &value, variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> &inputVariant) {
+void visitor(variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > &value, variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> &inputVariant) {
   visit(
       [&]<typename T>(const T &var) {
         if constexpr (is_same_v<decay_t<T>, BinaryExpression>)
@@ -89371,11 +89383,13 @@ void visitor(variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerL
           value = make_shared<StringLiteral>(var);
         if constexpr (is_same_v<decay_t<T>, Identifier>)
           value = make_shared<Identifier>(var);
+        if constexpr (is_same_v<decay_t<T>, FunctionCallStatement>)
+          value = make_shared<FunctionCallStatement>(var);
       },
       inputVariant);
 }
 
-string generatedCode(variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier> > &value) {
+string generatedCode(variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > &value) {
   if (holds_alternative<shared_ptr<IntegerLiteral>>(value))
     return get<shared_ptr<IntegerLiteral>>(value)->generateCode();
   if (holds_alternative<shared_ptr<StringLiteral>>(value))
@@ -89384,6 +89398,8 @@ string generatedCode(variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<
     return get<shared_ptr<BinaryExpression>>(value)->generateCode();
   else if (holds_alternative<shared_ptr<Identifier>>(value))
     return get<shared_ptr<Identifier>>(value)->generateCode();
+  else if (holds_alternative<shared_ptr<FunctionCallStatement>>(value))
+    return get<shared_ptr<FunctionCallStatement>>(value)->generateCode();
   return "";
 }
 
@@ -89391,9 +89407,12 @@ string Root::generateCode() { return "Generating..."; }
 
 string Identifier::generateCode() { return this->name; }
 string IntegerLiteral::generateCode() { return to_string(this->value); }
-string StringLiteral::generateCode() { return this->value; }
+string StringLiteral::generateCode() { return "\"" + this->value + "\""; }
+string ReturnStatement::generateCode() { return "return " + generatedCode(this->value) + ";"; }
+string PrintStatement::generateCode() { return "cout << " + generatedCode(this->value) + " << endl;"; }
+string FunctionCallStatement::generateCode() { return name + "()" + (semicolon ? ";" : ""); }
 
-BinaryExpression::BinaryExpression(const TokenType operatorType, variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> left, variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> right) {
+BinaryExpression::BinaryExpression(const TokenType operatorType, variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> left, variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> right) {
   this->operatorType = operatorType;
   visitor(this->left, left);
   visitor(this->right, right);
@@ -89438,7 +89457,7 @@ string BinaryExpression::generateCode() {
   return outputCode;
 }
 
-VariableStatement::VariableStatement(const Identifier &identifier, variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> value) {
+VariableStatement::VariableStatement(const Identifier &identifier, variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> value) {
   this->isPointer = false;
   this->identifier = make_shared<Identifier>(identifier);
   visitor(this->value, value);
@@ -89481,7 +89500,7 @@ string FunctionStatement::generateCode() {
   return outputCode;
 }
 
-IfStatementBlock::IfStatementBlock(optional<variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier>> condition, const vector<shared_ptr<ASTNode>> &body) {
+IfStatementBlock::IfStatementBlock(optional<variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement>> condition, const vector<shared_ptr<ASTNode>> &body) {
   if (condition.has_value())
     visitor(this->condition.value(), condition.value());
   else
@@ -89537,8 +89556,6 @@ string LoopStatement::generateCode() {
   return outputCode;
 }
 
-PrintStatement::PrintStatement(variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier> &value) { visitor(this->value, value); }
+PrintStatement::PrintStatement(variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> &value) { visitor(this->value, value); }
 
-string PrintStatement::generateCode() { return "cout << " + generatedCode(this->value) + " << endl"; }
-
-string FunctionCallStatement::generateCode() { return name + "();"; }
+ReturnStatement::ReturnStatement(variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> &value) { visitor(this->value, value); }

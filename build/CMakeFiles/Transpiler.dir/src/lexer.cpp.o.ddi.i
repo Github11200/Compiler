@@ -58626,9 +58626,12 @@ enum class TokenType {
   SAY,
   QUOTE,
   CALL,
+  GIVE,
+  BACK,
 
   IDENTIFIER,
-  INTEGER_LITERAL
+  INTEGER_LITERAL,
+  SPACE
 };
 
 extern std::vector<TokenType> inequalitySymbols;
@@ -85916,22 +85919,29 @@ Lexer::Lexer(string sourceCode) {
   keywords.insert("divide");
   keywords.insert("minus");
   keywords.insert("just");
+  keywords.insert("quote");
   keywords.insert("say");
   keywords.insert("call");
+  keywords.insert("give");
+  keywords.insert("back");
 
-  set<string> delimeters = {" ", "stop", "then", "as", "end", "otherwise", "repeat"};
+  set<string> delimeters = {" ", "stop", "then", "as", "end", "otherwise", "repeat", "back"};
   this->splitSourceCode = splitString(sourceCode, delimeters);
   this->index = 0;
 }
 
 vector<Token> Lexer::getTokens() {
   vector<Token> tokens;
+  bool isCurrentlyString = false;
   for (; index < splitSourceCode.size(); ++index) {
     string currentToken = splitSourceCode[index];
-    if (currentToken == " ")
-      continue;
 
     Token token(TokenType::IDENTIFIER, " ");
+
+    if (currentToken == " " && isCurrentlyString)
+      token.tokenType = TokenType::SPACE;
+    else if (currentToken == " " && !isCurrentlyString)
+      continue;
 
     if (keywords.contains(currentToken)) {
       if (currentToken == "let")
@@ -85978,9 +85988,18 @@ vector<Token> Lexer::getTokens() {
         token.tokenType = TokenType::JUST;
       else if (currentToken == "say")
         token.tokenType = TokenType::SAY;
-      else if (currentToken == "quote")
+      else if (currentToken == "give")
+        token.tokenType = TokenType::GIVE;
+      else if (currentToken == "back")
+        token.tokenType = TokenType::BACK;
+      else if (currentToken == "quote") {
         token.tokenType = TokenType::QUOTE;
-      else if (currentToken == "call")
+        if (!isCurrentlyString)
+          ++index;
+        else
+          tokens.pop_back();
+        isCurrentlyString = !isCurrentlyString;
+      } else if (currentToken == "call")
         token.tokenType = TokenType::CALL;
       else if (currentToken == "greater" || currentToken == "less") {
 

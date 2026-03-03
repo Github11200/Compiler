@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
 int main() {
-  auto a = 5 + 5;
+  auto a = "hello world";
   return 0;
 }

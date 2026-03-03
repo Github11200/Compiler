@@ -44,7 +44,9 @@ private:
 
   std::shared_ptr<PrintStatement> evaluatePrintStatement(const std::vector<Token> &statement);
 
-  std::shared_ptr<FunctionCallStatement> evaluateFunctionCallStatement(const std::vector<Token> &statement);
+  static std::shared_ptr<FunctionCallStatement> evaluateFunctionCallStatement(const std::vector<Token> &statement, bool hasSemicolon);
+
+  std::shared_ptr<ReturnStatement> evaluateReturnStatement(const std::vector<Token> &statement);
 
   static std::vector<Token> extractBody(int &i, const std::vector<Token> &tokens, TokenType keyword = TokenType::END);
 

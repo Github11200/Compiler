@@ -63,7 +63,8 @@ variant<TYPES> AST::evaluateExpression(const vector<Token> &statement, int &i, i
     for (int i = 1; i < statement.size() - 1; ++i)
       stringLiteralValue += statement[i].tokenString;
     return StringLiteral(stringLiteralValue);
-  }
+  } else if (statement[0].tokenType == TokenType::CALL)
+    return *evaluateFunctionCallStatement(statement, false).get();
 
   // The statement is something like let x be 5;
   if (statement.size() == 1 || i == statement.size() - 1) {
@@ -91,7 +92,7 @@ variant<TYPES> AST::evaluateExpression(const vector<Token> &statement, int &i, i
 
   // We will assume it contains an operator otherwise
   unique_ptr<BinaryExpression> binaryExpression = nullptr;
-  IntegerLiteral leftHandSide(stoi(statement[i].tokenString));
+  variant<TYPES> leftHandSide = evaluateExpression(vector<Token>({statement[0]}), i);
   for (; i < statement.size();) {
     TokenType op;
     BindingPower bindingPower(0, 0);
@@ -242,9 +243,18 @@ shared_ptr<PrintStatement> AST::evaluatePrintStatement(const vector<Token> &stat
   return make_shared<PrintStatement>(evaluatedExpression);
 }
 
-shared_ptr<FunctionCallStatement> AST::evaluateFunctionCallStatement(const vector<Token> &statement) {
+shared_ptr<FunctionCallStatement> AST::evaluateFunctionCallStatement(const vector<Token> &statement, bool hasSemicolon) {
   string functionName = statement[1].tokenString;
-  return make_shared<FunctionCallStatement>(functionName);
+  return make_shared<FunctionCallStatement>(functionName, hasSemicolon);
+}
+
+shared_ptr<ReturnStatement> AST::evaluateReturnStatement(const vector<Token> &statement) {
+  vector<Token> expression;
+  for (int i = 1; i < statement.size() - 1; ++i)
+    expression.push_back(statement[i]);
+  int i = 0;
+  variant<TYPES> evaluatedExpression = evaluateExpression(expression, i);
+  return make_shared<ReturnStatement>(evaluatedExpression);
 }
 
 shared_ptr<Root> AST::constructAST(const vector<Token> &tokens) {
@@ -255,13 +265,17 @@ shared_ptr<Root> AST::constructAST(const vector<Token> &tokens) {
     currentNodes.push_back(tokens[i]);
     std::shared_ptr<ASTNode> newNode = nullptr;
 
-    if (tokens[i].tokenType == TokenType::SAY) {
+    if (tokens[i].tokenType == TokenType::GIVE) {
+      incrementToKeyword(++i, tokens, currentNodes, TokenType::BACK);
+      newNode = evaluateReturnStatement(currentNodes);
+    } else if (tokens[i].tokenType == TokenType::SAY) {
       incrementToKeyword(++i, tokens, currentNodes, TokenType::STOP);
       newNode = evaluatePrintStatement(currentNodes);
     } else if (tokens[i].tokenType == TokenType::CALL) {
       incrementToKeyword(++i, tokens, currentNodes, TokenType::STOP);
-      newNode = evaluateFunctionCallStatement(currentNodes);
-    } else if (tokens[i].tokenType == TokenType::STOP) {
+      newNode = evaluateFunctionCallStatement(currentNodes, true);
+    } else if (tokens[i].tokenType == TokenType::LET) {
+      incrementToKeyword(++i, tokens, currentNodes, TokenType::STOP);
       newNode = evaluateVariableStatement(currentNodes);
     } else if (tokens[i].tokenType == TokenType::IF) {
       incrementToKeyword(++i, tokens, currentNodes, TokenType::THEN);

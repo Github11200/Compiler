@@ -16,6 +16,8 @@ void visitor(variant<SHARED_POINTER_TYPES> &value, variant<TYPES> &inputVariant)
           value = make_shared<StringLiteral>(var);
         if constexpr (is_same_v<decay_t<T>, Identifier>)
           value = make_shared<Identifier>(var);
+        if constexpr (is_same_v<decay_t<T>, FunctionCallStatement>)
+          value = make_shared<FunctionCallStatement>(var);
       },
       inputVariant);
 }
@@ -29,6 +31,8 @@ string generatedCode(variant<SHARED_POINTER_TYPES> &value) {
     return get<shared_ptr<BinaryExpression>>(value)->generateCode();
   else if (holds_alternative<shared_ptr<Identifier>>(value))
     return get<shared_ptr<Identifier>>(value)->generateCode();
+  else if (holds_alternative<shared_ptr<FunctionCallStatement>>(value))
+    return get<shared_ptr<FunctionCallStatement>>(value)->generateCode();
   return "";
 }
 
@@ -36,7 +40,10 @@ string Root::generateCode() { return "Generating..."; }
 
 string Identifier::generateCode() { return this->name; }
 string IntegerLiteral::generateCode() { return to_string(this->value); }
-string StringLiteral::generateCode() { return this->value; }
+string StringLiteral::generateCode() { return "\"" + this->value + "\""; }
+string ReturnStatement::generateCode() { return "return " + generatedCode(this->value) + ";"; }
+string PrintStatement::generateCode() { return "cout << " + generatedCode(this->value) + " << endl;"; }
+string FunctionCallStatement::generateCode() { return name + "()" + (semicolon ? ";" : ""); }
 
 BinaryExpression::BinaryExpression(const TokenType operatorType, variant<TYPES> left, variant<TYPES> right) {
   this->operatorType = operatorType;
@@ -184,6 +191,4 @@ string LoopStatement::generateCode() {
 
 PrintStatement::PrintStatement(variant<TYPES> &value) { visitor(this->value, value); }
 
-string PrintStatement::generateCode() { return "cout << " + generatedCode(this->value) + " << endl"; }
-
-string FunctionCallStatement::generateCode() { return name + "();"; }
+ReturnStatement::ReturnStatement(variant<TYPES> &value) { visitor(this->value, value); }

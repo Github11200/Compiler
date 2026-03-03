@@ -13,7 +13,6 @@ enum class TokenType {
 
   LET,
   BE,
-  POINTER,
   TO,
   STOP,
   DEFINE,
@@ -35,9 +34,19 @@ enum class TokenType {
   SAY,
   QUOTE,
   CALL,
+  GIVE,
+  BACK,
+  OF_TYPE,
+
+  INTEGER,
+  STRING,
+  FLOAT,
+  POINTER,
+  VOID,
 
   IDENTIFIER,
-  INTEGER_LITERAL
+  INTEGER_LITERAL,
+  SPACE
 };
 
 extern std::vector<TokenType> inequalitySymbols;
