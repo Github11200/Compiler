@@ -128,7 +128,7 @@ shared_ptr<VariableStatement> AST::evaluateVariableStatement(const vector<Token>
     return make_shared<VariableStatement>(statement[5].tokenString);
 
   vector<Token> expressionTokens;
-  for (int i = 3; i < statement.size() - 1; ++i)
+  for (int i = 3; i < statement.size() && statement[i].tokenType != TokenType::OF_TYPE; ++i)
     expressionTokens.push_back(statement[i]);
 
   int i = 0;

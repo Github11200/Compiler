@@ -45,6 +45,22 @@ string ReturnStatement::generateCode() { return "return " + generatedCode(this->
 string PrintStatement::generateCode() { return "cout << " + generatedCode(this->value) + " << endl;"; }
 string FunctionCallStatement::generateCode() { return name + "()" + (semicolon ? ";" : ""); }
 
+string Type::generateCode() {
+  string pointerString = this->isPointer ? "*" : "";
+  switch (this->type) {
+  case TokenType::STRING:
+    return "string" + pointerString;
+  case TokenType::INTEGER:
+    return "int" + pointerString;
+  case TokenType::FLOAT:
+    return "double" + pointerString;
+  case TokenType::VOID:
+    return "void" + pointerString;
+  }
+
+  return "";
+}
+
 BinaryExpression::BinaryExpression(const TokenType operatorType, variant<TYPES> left, variant<TYPES> right) {
   this->operatorType = operatorType;
   visitor(this->left, left);

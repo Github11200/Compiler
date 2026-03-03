@@ -113,6 +113,7 @@ vector<Token> Lexer::getTokens() {
       } else if (currentToken == "call")
         token.tokenType = TokenType::CALL;
       else if (currentToken == "of") {
+        token.tokenString = "of type";
         token.tokenType = TokenType::OF_TYPE;
         if (index + 1 == splitSourceCode.size() - 1 || splitSourceCode[index + 1] != "type")
           throw new string("You need the keyword type.");

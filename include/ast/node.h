@@ -26,8 +26,9 @@ struct Root final : ASTNode {
 
 struct Type final : ASTNode {
   TokenType type;
+  bool isPointer;
 
-  Type(TokenType type) : type(type) {}
+  Type(TokenType type, bool isPointer) : type(type), isPointer(isPointer) {}
 
   std::string generateCode() override;
 };
