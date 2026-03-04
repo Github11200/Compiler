@@ -41178,6 +41178,7 @@ enum class TokenType {
   QUOTE,
   CALL,
   GIVE,
+  GIVES,
   BACK,
   OF_TYPE,
 
@@ -74987,6 +74988,15 @@ struct Identifier final : ASTNode {
   std::string generateCode() override;
 };
 
+struct Parameter final : ASTNode {
+  Identifier name;
+  Type type;
+
+  Parameter(Identifier name, Type type) : name(name), type(type) {}
+
+  std::string generateCode() override;
+};
+
 struct StringLiteral final : ASTNode {
   std::string value;
 
@@ -75028,12 +75038,13 @@ struct VariableStatement final : ASTNode {
 
 struct FunctionStatement final : ASTNode {
   std::shared_ptr<Identifier> identifier;
-  std::vector<std::string> parameters;
+  std::vector<Parameter> parameters;
   std::vector<std::shared_ptr<ASTNode>> body;
 
   std::shared_ptr<Type> functionType;
+  std::shared_ptr<Type> returnType;
 
-  FunctionStatement(const Identifier &identifier, const std::vector<std::shared_ptr<ASTNode>> &body, const std::vector<std::string> &parameters);
+  FunctionStatement(const Identifier &identifier, const std::vector<std::shared_ptr<ASTNode>> &body, const std::vector<Parameter> &parameters, const Type &returnType);
 
   std::string generateCode() override;
 };
@@ -112899,15 +112910,35 @@ shared_ptr<VariableStatement> AST::evaluateVariableStatement(const vector<Token>
 
 shared_ptr<FunctionStatement> AST::evaluateFunctionStatement(const CodeBlock &functionBlock) {
   string identifier = functionBlock.statement[1].tokenString;
-  vector<string> parameters;
+  vector<Parameter> parameters;
+
+  int i = 4;
 
 
-  if (functionBlock.statement[2].tokenType == TokenType::WITH)
-    for (int i = 3; functionBlock.statement[i].tokenType != TokenType::AS; ++i)
-      parameters.push_back(functionBlock.statement[i].tokenString);
+  if (functionBlock.statement[2].tokenType == TokenType::WITH) {
+    i = 3;
+    for (; functionBlock.statement[i].tokenType != TokenType::GIVES; ++i) {
+      string variableName = functionBlock.statement[i].tokenString;
+
+      bool isParameterPointer = functionBlock.statement[i + 3].tokenType == TokenType::POINTER;
+      Type parameterType(functionBlock.statement[i + 2].tokenType, isParameterPointer);
+
+      parameters.push_back(Parameter(Identifier(variableName), parameterType));
+      if (isParameterPointer)
+        i += 3;
+      else
+        i += 2;
+    }
+    i += 2;
+  }
+
+  bool isReturnTypePointer = functionBlock.statement[i + 1].tokenType == TokenType::POINTER;
+  TokenType type = functionBlock.statement[i].tokenType;
+
+  Type returnType(type, isReturnTypePointer);
 
   vector<shared_ptr<ASTNode>> functionBody = constructAST(functionBlock.bodyTokens).get()->nodes;
-  return make_shared<FunctionStatement>(identifier, functionBody, parameters);
+  return make_shared<FunctionStatement>(identifier, functionBody, parameters, returnType);
 }
 
 
@@ -112955,7 +112986,8 @@ shared_ptr<IfStatement> AST::evaluateIfStatement(const vector<Token> &body) {
       }
     }
 
-    ++k;
+    if (body[k].tokenType == TokenType::THEN || body[k].tokenType == TokenType::OTHERWISE)
+      ++k;
     if (isLastElseBlock || numberOfBlocks == 1)
       currentBlockTokens = extractBody(k, body, TokenType::END);
     else
@@ -113022,7 +113054,7 @@ shared_ptr<Root> AST::constructAST(const vector<Token> &tokens) {
   Root rootNode;
 
   vector<Token> currentNodes;
-  for (int i = 0; i < tokens.size(); ++i) {
+  for (int i = 0; i < tokens.size();) {
     currentNodes.push_back(tokens[i]);
     std::shared_ptr<ASTNode> newNode = nullptr;
 
@@ -113044,12 +113076,15 @@ shared_ptr<Root> AST::constructAST(const vector<Token> &tokens) {
       for (Token t : body)
         currentNodes.push_back(t);
       newNode = evaluateIfStatement(currentNodes);
+      ++i;
     } else if (tokens[i].tokenType == TokenType::DEFINE) {
       incrementToKeyword(++i, tokens, currentNodes, TokenType::AS);
       newNode = evaluateFunctionStatement({.statement = currentNodes, .bodyTokens = extractBody(i, tokens)});
+      ++i;
     } else if (tokens[i].tokenType == TokenType::FOR) {
       incrementToKeyword(++i, tokens, currentNodes, TokenType::REPEAT);
       newNode = evaluateLoopStatement({.statement = currentNodes, .bodyTokens = extractBody(i, tokens)});
+      ++i;
     }
 
     if (newNode != nullptr) {

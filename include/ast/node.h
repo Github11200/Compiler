@@ -50,6 +50,15 @@ struct Identifier final : ASTNode {
   std::string generateCode() override;
 };
 
+struct Parameter final : ASTNode {
+  Identifier name;
+  Type type;
+
+  Parameter(Identifier name, Type type) : name(name), type(type) {}
+
+  std::string generateCode() override;
+};
+
 struct StringLiteral final : ASTNode {
   std::string value;
 
@@ -91,12 +100,13 @@ struct VariableStatement final : ASTNode {
 
 struct FunctionStatement final : ASTNode {
   std::shared_ptr<Identifier> identifier;
-  std::vector<std::string> parameters;
+  std::vector<Parameter> parameters;
   std::vector<std::shared_ptr<ASTNode>> body;
 
   std::shared_ptr<Type> functionType;
+  std::shared_ptr<Type> returnType;
 
-  FunctionStatement(const Identifier &identifier, const std::vector<std::shared_ptr<ASTNode>> &body, const std::vector<std::string> &parameters);
+  FunctionStatement(const Identifier &identifier, const std::vector<std::shared_ptr<ASTNode>> &body, const std::vector<Parameter> &parameters, const Type &returnType);
 
   std::string generateCode() override;
 };

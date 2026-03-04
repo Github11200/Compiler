@@ -41170,6 +41170,7 @@ enum class TokenType {
   QUOTE,
   CALL,
   GIVE,
+  GIVES,
   BACK,
   OF_TYPE,
 

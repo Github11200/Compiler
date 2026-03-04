@@ -41174,6 +41174,7 @@ enum class TokenType {
   QUOTE,
   CALL,
   GIVE,
+  GIVES,
   BACK,
   OF_TYPE,
 
@@ -74983,6 +74984,15 @@ struct Identifier final : ASTNode {
   std::string generateCode() override;
 };
 
+struct Parameter final : ASTNode {
+  Identifier name;
+  Type type;
+
+  Parameter(Identifier name, Type type) : name(name), type(type) {}
+
+  std::string generateCode() override;
+};
+
 struct StringLiteral final : ASTNode {
   std::string value;
 
@@ -75024,12 +75034,13 @@ struct VariableStatement final : ASTNode {
 
 struct FunctionStatement final : ASTNode {
   std::shared_ptr<Identifier> identifier;
-  std::vector<std::string> parameters;
+  std::vector<Parameter> parameters;
   std::vector<std::shared_ptr<ASTNode>> body;
 
   std::shared_ptr<Type> functionType;
+  std::shared_ptr<Type> returnType;
 
-  FunctionStatement(const Identifier &identifier, const std::vector<std::shared_ptr<ASTNode>> &body, const std::vector<std::string> &parameters);
+  FunctionStatement(const Identifier &identifier, const std::vector<std::shared_ptr<ASTNode>> &body, const std::vector<Parameter> &parameters, const Type &returnType);
 
   std::string generateCode() override;
 };
@@ -89427,6 +89438,7 @@ string StringLiteral::generateCode() { return "\"" + this->value + "\""; }
 string ReturnStatement::generateCode() { return "return " + generatedCode(this->value) + ";"; }
 string PrintStatement::generateCode() { return "cout << " + generatedCode(this->value) + " << endl;"; }
 string FunctionCallStatement::generateCode() { return name + "()" + (semicolon ? ";" : ""); }
+string Parameter::generateCode() { return type.generateCode() + " " + name.generateCode(); }
 
 string Type::generateCode() {
   string pointerString = this->isPointer ? "*" : "";
@@ -89506,18 +89518,19 @@ string VariableStatement::generateCode() {
   return outputCode;
 }
 
-FunctionStatement::FunctionStatement(const Identifier &identifier, const vector<shared_ptr<ASTNode>> &body, const vector<string> &parameters) {
+FunctionStatement::FunctionStatement(const Identifier &identifier, const vector<shared_ptr<ASTNode>> &body, const vector<Parameter> &parameters, const Type &returnType) {
   this->identifier = make_shared<Identifier>(identifier);
   if (!parameters.empty())
     this->parameters = parameters;
   this->body = body;
+  this->returnType = make_shared<Type>(returnType);
 }
 
 string FunctionStatement::generateCode() {
-  string outputCode = "auto ";
+  string outputCode = returnType->generateCode() + " ";
   outputCode += " " + this->identifier->generateCode() + " (";
   for (int i = 0; i < parameters.size(); ++i) {
-    outputCode += "auto " + parameters[i];
+    outputCode += parameters[i].generateCode();
     if (i < parameters.size() - 1)
       outputCode += ",";
   }
@@ -89529,9 +89542,12 @@ string FunctionStatement::generateCode() {
 }
 
 IfStatementBlock::IfStatementBlock(optional<variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement>> condition, const vector<shared_ptr<ASTNode>> &body) {
-  if (condition.has_value())
-    visitor(this->condition.value(), condition.value());
-  else
+  if (condition.has_value()) {
+    variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > convertedCondition;
+    variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> conditionValue = condition.value();
+    visitor(convertedCondition, conditionValue);
+    this->condition = convertedCondition;
+  } else
     this->condition = nullopt;
   this->body = body;
 }

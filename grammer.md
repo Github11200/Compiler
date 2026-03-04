@@ -8,7 +8,8 @@ let c of type string be quote hello quote stop
 
 Functions:
 
-define doSomething of type void as
+define doSomething gives back integer as
+give 5 back
 end
 
 define doSomething with x of type integer y of type string gives back integer as

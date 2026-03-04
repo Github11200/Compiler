@@ -44,6 +44,7 @@ string StringLiteral::generateCode() { return "\"" + this->value + "\""; }
 string ReturnStatement::generateCode() { return "return " + generatedCode(this->value) + ";"; }
 string PrintStatement::generateCode() { return "cout << " + generatedCode(this->value) + " << endl;"; }
 string FunctionCallStatement::generateCode() { return name + "()" + (semicolon ? ";" : ""); }
+string Parameter::generateCode() { return type.generateCode() + " " + name.generateCode(); }
 
 string Type::generateCode() {
   string pointerString = this->isPointer ? "*" : "";
@@ -123,18 +124,19 @@ string VariableStatement::generateCode() {
   return outputCode;
 }
 
-FunctionStatement::FunctionStatement(const Identifier &identifier, const vector<shared_ptr<ASTNode>> &body, const vector<string> &parameters) {
+FunctionStatement::FunctionStatement(const Identifier &identifier, const vector<shared_ptr<ASTNode>> &body, const vector<Parameter> &parameters, const Type &returnType) {
   this->identifier = make_shared<Identifier>(identifier);
   if (!parameters.empty())
     this->parameters = parameters;
   this->body = body;
+  this->returnType = make_shared<Type>(returnType);
 }
 
 string FunctionStatement::generateCode() {
-  string outputCode = "auto ";
+  string outputCode = returnType->generateCode() + " ";
   outputCode += " " + this->identifier->generateCode() + " (";
   for (int i = 0; i < parameters.size(); ++i) {
-    outputCode += "auto " + parameters[i];
+    outputCode += parameters[i].generateCode();
     if (i < parameters.size() - 1)
       outputCode += ",";
   }
@@ -146,9 +148,12 @@ string FunctionStatement::generateCode() {
 }
 
 IfStatementBlock::IfStatementBlock(optional<variant<TYPES>> condition, const vector<shared_ptr<ASTNode>> &body) {
-  if (condition.has_value())
-    visitor(this->condition.value(), condition.value());
-  else
+  if (condition.has_value()) {
+    variant<SHARED_POINTER_TYPES> convertedCondition;
+    variant<TYPES> conditionValue = condition.value();
+    visitor(convertedCondition, conditionValue);
+    this->condition = convertedCondition;
+  } else
     this->condition = nullopt;
   this->body = body;
 }

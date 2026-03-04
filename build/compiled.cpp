@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-int main() {
-auto  a = 5;return 0;
+int  doSomething (int x,int y) {if (x > y) {cout << x << endl;}else {cout << y << endl;}return 50;}int main() {
+doSomething();return 0;
 }
 

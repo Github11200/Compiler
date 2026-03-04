@@ -41178,6 +41178,7 @@ enum class TokenType {
   QUOTE,
   CALL,
   GIVE,
+  GIVES,
   BACK,
   OF_TYPE,
 
@@ -74987,6 +74988,15 @@ struct Identifier final : ASTNode {
   std::string generateCode() override;
 };
 
+struct Parameter final : ASTNode {
+  Identifier name;
+  Type type;
+
+  Parameter(Identifier name, Type type) : name(name), type(type) {}
+
+  std::string generateCode() override;
+};
+
 struct StringLiteral final : ASTNode {
   std::string value;
 
@@ -75028,12 +75038,13 @@ struct VariableStatement final : ASTNode {
 
 struct FunctionStatement final : ASTNode {
   std::shared_ptr<Identifier> identifier;
-  std::vector<std::string> parameters;
+  std::vector<Parameter> parameters;
   std::vector<std::shared_ptr<ASTNode>> body;
 
   std::shared_ptr<Type> functionType;
+  std::shared_ptr<Type> returnType;
 
-  FunctionStatement(const Identifier &identifier, const std::vector<std::shared_ptr<ASTNode>> &body, const std::vector<std::string> &parameters);
+  FunctionStatement(const Identifier &identifier, const std::vector<std::shared_ptr<ASTNode>> &body, const std::vector<Parameter> &parameters, const Type &returnType);
 
   std::string generateCode() override;
 };
@@ -120763,12 +120774,9 @@ namespace filesystem
 }
 # 57 "/usr/include/c++/15.2.1/filesystem" 2 3
 # 5 "/home/arch/code/projects/Compiler/main.cpp" 2
+# 13 "/home/arch/code/projects/Compiler/main.cpp"
 
-
-
-
-
-# 9 "/home/arch/code/projects/Compiler/main.cpp"
+# 13 "/home/arch/code/projects/Compiler/main.cpp"
 using namespace std;
 
 ifstream getFile() {
@@ -120823,6 +120831,6 @@ void compile() {
 
 int main() {
   compile();
-# 100 "/home/arch/code/projects/Compiler/main.cpp"
+# 104 "/home/arch/code/projects/Compiler/main.cpp"
   return 0;
 }

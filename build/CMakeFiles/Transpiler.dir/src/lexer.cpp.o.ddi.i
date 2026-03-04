@@ -58626,6 +58626,7 @@ enum class TokenType {
   QUOTE,
   CALL,
   GIVE,
+  GIVES,
   BACK,
   OF_TYPE,
 
@@ -85936,6 +85937,7 @@ Lexer::Lexer(string sourceCode) {
   keywords.insert("string");
   keywords.insert("float");
   keywords.insert("void");
+  keywords.insert("gives");
 
   set<string> delimeters = {" ", "stop", "then", "as", "end", "otherwise", "repeat", "back"};
   this->splitSourceCode = splitString(sourceCode, delimeters);
@@ -86002,6 +86004,8 @@ vector<Token> Lexer::getTokens() {
         token.tokenType = TokenType::SAY;
       else if (currentToken == "give")
         token.tokenType = TokenType::GIVE;
+      else if (currentToken == "gives")
+        token.tokenType = TokenType::GIVES;
       else if (currentToken == "back")
         token.tokenType = TokenType::BACK;
       else if (currentToken == "integer")
