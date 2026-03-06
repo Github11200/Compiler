@@ -41177,6 +41177,7 @@ enum class TokenType {
   GIVES,
   BACK,
   OF_TYPE,
+  COMMA,
 
   INTEGER,
   STRING,
@@ -74947,6 +74948,12 @@ namespace __detail::__variant
 
 
 # 16 "/home/arch/code/projects/Compiler/include/ast/node.h"
+struct BinaryExpression;
+struct IntegerLiteral;
+struct StringLiteral;
+struct Identifier;
+struct FunctionCallStatement;
+
 struct ASTNode {
   virtual ~ASTNode() = default;
   virtual std::string generateCode() = 0;
@@ -74958,20 +74965,21 @@ struct Root final : ASTNode {
   std::string generateCode() override;
 };
 
+struct FunctionCallStatement final : ASTNode {
+  std::string name;
+  bool semicolon;
+  std::vector<std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> >> parameters;
+
+  FunctionCallStatement(const std::string &name, bool semicolon, std::vector<std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement>> parameters);
+
+  std::string generateCode() override;
+};
+
 struct Type final : ASTNode {
   TokenType type;
   bool isPointer;
 
   Type(TokenType type, bool isPointer) : type(type), isPointer(isPointer) {}
-
-  std::string generateCode() override;
-};
-
-struct FunctionCallStatement final : ASTNode {
-  std::string name;
-  bool semicolon;
-
-  FunctionCallStatement(const std::string &name, bool semicolon) : name(name), semicolon(semicolon) {}
 
   std::string generateCode() override;
 };
@@ -89396,7 +89404,8 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 
 
-# 6 "/home/arch/code/projects/Compiler/src/ast/node.cpp"
+
+# 7 "/home/arch/code/projects/Compiler/src/ast/node.cpp"
 using namespace std;
 
 void visitor(variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > &value, variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> &inputVariant) {
@@ -89437,7 +89446,6 @@ string IntegerLiteral::generateCode() { return to_string(this->value); }
 string StringLiteral::generateCode() { return "\"" + this->value + "\""; }
 string ReturnStatement::generateCode() { return "return " + generatedCode(this->value) + ";"; }
 string PrintStatement::generateCode() { return "cout << " + generatedCode(this->value) + " << endl;"; }
-string FunctionCallStatement::generateCode() { return name + "()" + (semicolon ? ";" : ""); }
 string Parameter::generateCode() { return type.generateCode() + " " + name.generateCode(); }
 
 string Type::generateCode() {
@@ -89454,6 +89462,26 @@ string Type::generateCode() {
   }
 
   return "";
+}
+
+FunctionCallStatement::FunctionCallStatement(const string &name, bool semicolon, vector<variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement>> parameters) {
+  this->name = name;
+  this->semicolon = semicolon;
+  this->parameters.resize(parameters.size());
+
+  for (int i = 0; i < parameters.size(); ++i)
+    visitor(this->parameters[i], parameters[i]);
+}
+
+string FunctionCallStatement::generateCode() {
+  string parametersString = "(";
+  for (int i = 0; i < parameters.size(); ++i) {
+    parametersString += generatedCode(parameters[i]);
+    if (i < parameters.size() - 1)
+      parametersString += ",";
+  }
+  parametersString += ")";
+  return name + parametersString + (semicolon ? ";" : "");
 }
 
 BinaryExpression::BinaryExpression(const TokenType operatorType, variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> left, variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> right) {

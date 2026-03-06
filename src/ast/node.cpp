@@ -2,6 +2,7 @@
 #include "token.h"
 #include <iostream>
 #include <memory>
+#include <variant>
 
 using namespace std;
 
@@ -43,7 +44,6 @@ string IntegerLiteral::generateCode() { return to_string(this->value); }
 string StringLiteral::generateCode() { return "\"" + this->value + "\""; }
 string ReturnStatement::generateCode() { return "return " + generatedCode(this->value) + ";"; }
 string PrintStatement::generateCode() { return "cout << " + generatedCode(this->value) + " << endl;"; }
-string FunctionCallStatement::generateCode() { return name + "()" + (semicolon ? ";" : ""); }
 string Parameter::generateCode() { return type.generateCode() + " " + name.generateCode(); }
 
 string Type::generateCode() {
@@ -60,6 +60,26 @@ string Type::generateCode() {
   }
 
   return "";
+}
+
+FunctionCallStatement::FunctionCallStatement(const string &name, bool semicolon, vector<variant<TYPES>> parameters) {
+  this->name = name;
+  this->semicolon = semicolon;
+  this->parameters.resize(parameters.size());
+
+  for (int i = 0; i < parameters.size(); ++i)
+    visitor(this->parameters[i], parameters[i]);
+}
+
+string FunctionCallStatement::generateCode() {
+  string parametersString = "(";
+  for (int i = 0; i < parameters.size(); ++i) {
+    parametersString += generatedCode(parameters[i]);
+    if (i < parameters.size() - 1)
+      parametersString += ",";
+  }
+  parametersString += ")";
+  return name + parametersString + (semicolon ? ";" : "");
 }
 
 BinaryExpression::BinaryExpression(const TokenType operatorType, variant<TYPES> left, variant<TYPES> right) {

@@ -13,6 +13,12 @@
 #define SHARED_POINTER_TYPES std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement>
 #define TYPES BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement
 
+struct BinaryExpression;
+struct IntegerLiteral;
+struct StringLiteral;
+struct Identifier;
+struct FunctionCallStatement;
+
 struct ASTNode {
   virtual ~ASTNode() = default;
   virtual std::string generateCode() = 0;
@@ -24,20 +30,21 @@ struct Root final : ASTNode {
   std::string generateCode() override;
 };
 
+struct FunctionCallStatement final : ASTNode {
+  std::string name;
+  bool semicolon;
+  std::vector<std::variant<SHARED_POINTER_TYPES>> parameters;
+
+  FunctionCallStatement(const std::string &name, bool semicolon, std::vector<std::variant<TYPES>> parameters);
+
+  std::string generateCode() override;
+};
+
 struct Type final : ASTNode {
   TokenType type;
   bool isPointer;
 
   Type(TokenType type, bool isPointer) : type(type), isPointer(isPointer) {}
-
-  std::string generateCode() override;
-};
-
-struct FunctionCallStatement final : ASTNode {
-  std::string name;
-  bool semicolon;
-
-  FunctionCallStatement(const std::string &name, bool semicolon) : name(name), semicolon(semicolon) {}
 
   std::string generateCode() override;
 };

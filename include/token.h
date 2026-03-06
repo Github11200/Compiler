@@ -38,6 +38,7 @@ enum class TokenType {
   GIVES,
   BACK,
   OF_TYPE,
+  COMMA,
 
   INTEGER,
   STRING,

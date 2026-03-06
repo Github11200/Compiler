@@ -41181,6 +41181,7 @@ enum class TokenType {
   GIVES,
   BACK,
   OF_TYPE,
+  COMMA,
 
   INTEGER,
   STRING,
@@ -74951,6 +74952,12 @@ namespace __detail::__variant
 
 
 # 16 "/home/arch/code/projects/Compiler/include/ast/node.h"
+struct BinaryExpression;
+struct IntegerLiteral;
+struct StringLiteral;
+struct Identifier;
+struct FunctionCallStatement;
+
 struct ASTNode {
   virtual ~ASTNode() = default;
   virtual std::string generateCode() = 0;
@@ -74962,20 +74969,21 @@ struct Root final : ASTNode {
   std::string generateCode() override;
 };
 
+struct FunctionCallStatement final : ASTNode {
+  std::string name;
+  bool semicolon;
+  std::vector<std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> >> parameters;
+
+  FunctionCallStatement(const std::string &name, bool semicolon, std::vector<std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement>> parameters);
+
+  std::string generateCode() override;
+};
+
 struct Type final : ASTNode {
   TokenType type;
   bool isPointer;
 
   Type(TokenType type, bool isPointer) : type(type), isPointer(isPointer) {}
-
-  std::string generateCode() override;
-};
-
-struct FunctionCallStatement final : ASTNode {
-  std::string name;
-  bool semicolon;
-
-  FunctionCallStatement(const std::string &name, bool semicolon) : name(name), semicolon(semicolon) {}
 
   std::string generateCode() override;
 };
@@ -120802,13 +120810,8 @@ void compile() {
     int option;
     cin >> option;
 
-    switch (option) {
-    case 1:
-      getFile();
-      break;
-    case 2:
+    if (option == 2)
       return;
-    }
   }
 
   string line;
@@ -120827,10 +120830,52 @@ void compile() {
   codeGenerator.generate("compiled.cpp");
   system("g++ compiled.cpp -o compiled && ./compiled");
   file.close();
+
+  cout << endl << "Please press enter to exit." << endl;
+  string input;
+  getline(cin, input);
+  getline(cin, input);
 }
 
 int main() {
-  compile();
-# 104 "/home/arch/code/projects/Compiler/main.cpp"
+  bool exit = false;
+  while (!exit) {
+    system("clear");
+    cout << "Welcome to the Verbosity compiler. Please choose one of the options below:" << endl;
+    cout << "\t1. Compile and Run" << endl;
+    cout << "\t2. About" << endl;
+    cout << "\t3. Exit" << endl;
+    cout << ">> ";
+
+    int option = -1;
+    cin >> option;
+    while (option > 3 || option < 1) {
+      cout << "Invalid option, please try again.";
+      cout << ">> ";
+      cin >> option;
+    }
+
+    switch (option) {
+    case 1:
+      compile();
+      break;
+    case 2: {
+      system("clear");
+      cout << "About" << endl;
+      cout << "Verbosity is a toy programming language that's meant to be as verbose as possible. Other than numbers and letters, it doesn't make use of any other characters such as quotes, "
+              "inequalities or brackets. To get started, write your verbosity code in a .vb file, save it, and then compile it using the option from the main menu. To exit, please press enter."
+           << endl;
+
+      string input;
+      getline(cin, input);
+      getline(cin, input);
+      break;
+    }
+    case 3:
+      exit = true;
+      break;
+    }
+  }
+
   return 0;
 }

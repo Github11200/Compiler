@@ -40,6 +40,7 @@ Lexer::Lexer(string sourceCode) {
   keywords.insert("float");
   keywords.insert("void");
   keywords.insert("gives");
+  keywords.insert("comma");
 
   set<string> delimeters = {" ", "stop", "then", "as", "end", "otherwise", "repeat", "back"};
   this->splitSourceCode = splitString(sourceCode, delimeters);
@@ -118,6 +119,8 @@ vector<Token> Lexer::getTokens() {
         token.tokenType = TokenType::FLOAT;
       else if (currentToken == "void")
         token.tokenType = TokenType::VOID;
+      else if (currentToken == "comma")
+        token.tokenType = TokenType::COMMA;
       else if (currentToken == "quote") {
         token.tokenType = TokenType::QUOTE;
         if (!isCurrentlyString)

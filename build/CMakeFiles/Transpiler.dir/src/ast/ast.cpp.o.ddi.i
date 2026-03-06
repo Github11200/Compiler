@@ -41181,6 +41181,7 @@ enum class TokenType {
   GIVES,
   BACK,
   OF_TYPE,
+  COMMA,
 
   INTEGER,
   STRING,
@@ -74951,6 +74952,12 @@ namespace __detail::__variant
 
 
 # 16 "/home/arch/code/projects/Compiler/include/ast/node.h"
+struct BinaryExpression;
+struct IntegerLiteral;
+struct StringLiteral;
+struct Identifier;
+struct FunctionCallStatement;
+
 struct ASTNode {
   virtual ~ASTNode() = default;
   virtual std::string generateCode() = 0;
@@ -74962,20 +74969,21 @@ struct Root final : ASTNode {
   std::string generateCode() override;
 };
 
+struct FunctionCallStatement final : ASTNode {
+  std::string name;
+  bool semicolon;
+  std::vector<std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> >> parameters;
+
+  FunctionCallStatement(const std::string &name, bool semicolon, std::vector<std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement>> parameters);
+
+  std::string generateCode() override;
+};
+
 struct Type final : ASTNode {
   TokenType type;
   bool isPointer;
 
   Type(TokenType type, bool isPointer) : type(type), isPointer(isPointer) {}
-
-  std::string generateCode() override;
-};
-
-struct FunctionCallStatement final : ASTNode {
-  std::string name;
-  bool semicolon;
-
-  FunctionCallStatement(const std::string &name, bool semicolon) : name(name), semicolon(semicolon) {}
 
   std::string generateCode() override;
 };
@@ -113038,7 +113046,24 @@ shared_ptr<PrintStatement> AST::evaluatePrintStatement(const vector<Token> &stat
 
 shared_ptr<FunctionCallStatement> AST::evaluateFunctionCallStatement(const vector<Token> &statement, bool hasSemicolon) {
   string functionName = statement[1].tokenString;
-  return make_shared<FunctionCallStatement>(functionName, hasSemicolon);
+  vector<variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement>> parameters;
+
+
+  if (statement[2].tokenType == TokenType::WITH) {
+    vector<Token> currentExpression;
+    for (int i = 3; i < statement.size() && statement[i].tokenType != TokenType::STOP; ++i) {
+      if (statement[i].tokenType == TokenType::COMMA) {
+        int j = 0;
+        parameters.push_back(evaluateExpression(currentExpression, j));
+        currentExpression.clear();
+      } else
+        currentExpression.push_back(statement[i]);
+    }
+
+    int j = 0;
+    parameters.push_back(evaluateExpression(currentExpression, j));
+  }
+  return make_shared<FunctionCallStatement>(functionName, hasSemicolon, parameters);
 }
 
 shared_ptr<ReturnStatement> AST::evaluateReturnStatement(const vector<Token> &statement) {

@@ -268,7 +268,24 @@ shared_ptr<PrintStatement> AST::evaluatePrintStatement(const vector<Token> &stat
 
 shared_ptr<FunctionCallStatement> AST::evaluateFunctionCallStatement(const vector<Token> &statement, bool hasSemicolon) {
   string functionName = statement[1].tokenString;
-  return make_shared<FunctionCallStatement>(functionName, hasSemicolon);
+  vector<variant<TYPES>> parameters;
+
+  // There are parameters to pass into the function
+  if (statement[2].tokenType == TokenType::WITH) {
+    vector<Token> currentExpression;
+    for (int i = 3; i < statement.size() && statement[i].tokenType != TokenType::STOP; ++i) {
+      if (statement[i].tokenType == TokenType::COMMA) {
+        int j = 0;
+        parameters.push_back(evaluateExpression(currentExpression, j));
+        currentExpression.clear();
+      } else
+        currentExpression.push_back(statement[i]);
+    }
+
+    int j = 0;
+    parameters.push_back(evaluateExpression(currentExpression, j));
+  }
+  return make_shared<FunctionCallStatement>(functionName, hasSemicolon, parameters);
 }
 
 shared_ptr<ReturnStatement> AST::evaluateReturnStatement(const vector<Token> &statement) {
