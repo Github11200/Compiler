@@ -92,19 +92,18 @@ variant<TYPES> AST::evaluateExpression(const vector<Token> &statement, int &i, i
 
   // We will assume it contains an operator otherwise
   unique_ptr<BinaryExpression> binaryExpression = nullptr;
-  variant<TYPES> leftHandSide = evaluateExpression(vector<Token>({statement[0]}), i);
-  for (; i < statement.size();) {
+  int j = 0;
+  variant<TYPES> leftHandSide = evaluateExpression(vector<Token>({statement[0]}), j);
+  for (; i < statement.size() - 1;) {
     TokenType op;
     BindingPower bindingPower(0, 0);
-    if (i < statement.size() - 1) {
-      op = statement[i + 1].tokenType;
-      bindingPower = getBindingPower(op);
+    op = statement[i + 1].tokenType;
+    bindingPower = getBindingPower(op);
 
-      if (bindingPower.left < minimumBindingPower)
-        break;
+    if (bindingPower.left < minimumBindingPower)
+      break;
 
-      i += 2;
-    }
+    i += 2;
 
     variant<TYPES> rightHandSide = evaluateExpression(statement, i, bindingPower.right);
     if (binaryExpression == nullptr)
@@ -135,7 +134,7 @@ shared_ptr<VariableStatement> AST::evaluateVariableStatement(const vector<Token>
 
   i = 0;
   variant<TYPES> expression = evaluateExpression(expressionTokens, i, 0);
-  return make_shared<VariableStatement>(identifier, variableType, expression);
+  return make_shared<VariableStatement>(identifier, variableType, expression, isPointer);
 }
 
 shared_ptr<FunctionStatement> AST::evaluateFunctionStatement(const CodeBlock &functionBlock) {

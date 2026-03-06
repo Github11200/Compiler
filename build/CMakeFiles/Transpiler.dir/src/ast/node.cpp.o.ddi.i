@@ -75035,7 +75035,7 @@ struct VariableStatement final : ASTNode {
   std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > value;
   std::shared_ptr<Type> variableType;
 
-  VariableStatement(const Identifier &identifier, Type variableType, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> value);
+  VariableStatement(const Identifier &identifier, Type variableType, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> value, bool isPointer);
 
   std::string generateCode() override;
 };
@@ -89529,17 +89529,22 @@ string BinaryExpression::generateCode() {
   return outputCode;
 }
 
-VariableStatement::VariableStatement(const Identifier &identifier, Type variableType, variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> value) {
+VariableStatement::VariableStatement(const Identifier &identifier, Type variableType, variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> value, bool isPointer) {
   this->isPointer = false;
   this->variableType = make_shared<Type>(variableType);
   this->identifier = make_shared<Identifier>(identifier);
+  this->isPointer = isPointer;
   visitor(this->value, value);
 }
 
 string VariableStatement::generateCode() {
   string outputCode = this->variableType->generateCode() + " ";
   outputCode += " " + this->identifier->generateCode() + " = ";
-  outputCode += generatedCode(value);
+
+  if (!isPointer)
+    outputCode += generatedCode(value);
+  else
+    outputCode += "&(" + generatedCode(value) + ")";
 
   outputCode += ";";
 

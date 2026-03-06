@@ -75039,7 +75039,7 @@ struct VariableStatement final : ASTNode {
   std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > value;
   std::shared_ptr<Type> variableType;
 
-  VariableStatement(const Identifier &identifier, Type variableType, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> value);
+  VariableStatement(const Identifier &identifier, Type variableType, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> value, bool isPointer);
 
   std::string generateCode() override;
 };

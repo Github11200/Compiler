@@ -127,17 +127,22 @@ string BinaryExpression::generateCode() {
   return outputCode;
 }
 
-VariableStatement::VariableStatement(const Identifier &identifier, Type variableType, variant<TYPES> value) {
+VariableStatement::VariableStatement(const Identifier &identifier, Type variableType, variant<TYPES> value, bool isPointer) {
   this->isPointer = false;
   this->variableType = make_shared<Type>(variableType);
   this->identifier = make_shared<Identifier>(identifier);
+  this->isPointer = isPointer;
   visitor(this->value, value);
 }
 
 string VariableStatement::generateCode() {
   string outputCode = this->variableType->generateCode() + " ";
   outputCode += " " + this->identifier->generateCode() + " = ";
-  outputCode += generatedCode(value);
+
+  if (!isPointer)
+    outputCode += generatedCode(value);
+  else
+    outputCode += "&(" + generatedCode(value) + ")";
 
   outputCode += ";";
 

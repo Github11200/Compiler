@@ -75039,7 +75039,7 @@ struct VariableStatement final : ASTNode {
   std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > value;
   std::shared_ptr<Type> variableType;
 
-  VariableStatement(const Identifier &identifier, Type variableType, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> value);
+  VariableStatement(const Identifier &identifier, Type variableType, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> value, bool isPointer);
 
   std::string generateCode() override;
 };
@@ -120861,7 +120861,6 @@ int main() {
       break;
     case 2: {
       system("clear");
-      cout << "About" << endl;
       cout << "Verbosity is a toy programming language that's meant to be as verbose as possible. Other than numbers and letters, it doesn't make use of any other characters such as quotes, "
               "inequalities or brackets. To get started, write your verbosity code in a .vb file, save it, and then compile it using the option from the main menu. To exit, please press enter."
            << endl;

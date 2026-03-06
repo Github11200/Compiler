@@ -100,7 +100,7 @@ struct VariableStatement final : ASTNode {
   std::variant<SHARED_POINTER_TYPES> value;
   std::shared_ptr<Type> variableType;
 
-  VariableStatement(const Identifier &identifier, Type variableType, std::variant<TYPES> value);
+  VariableStatement(const Identifier &identifier, Type variableType, std::variant<TYPES> value, bool isPointer);
 
   std::string generateCode() override;
 };

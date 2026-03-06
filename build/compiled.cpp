@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
-int  doSomething (int x,int y) {if (x > y) {cout << x << endl;}else {cout << y << endl;}return 50;}int main() {
-doSomething();return 0;
+void sayX(int x) { cout << x << endl; }
+int main() {
+  int a = 10 + 10 / 5;
+  return 0;
 }
-

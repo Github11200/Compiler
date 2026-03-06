@@ -75039,7 +75039,7 @@ struct VariableStatement final : ASTNode {
   std::variant<std::shared_ptr<BinaryExpression>, std::shared_ptr<IntegerLiteral>, std::shared_ptr<StringLiteral>, std::shared_ptr<Identifier>, std::shared_ptr<FunctionCallStatement> > value;
   std::shared_ptr<Type> variableType;
 
-  VariableStatement(const Identifier &identifier, Type variableType, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> value);
+  VariableStatement(const Identifier &identifier, Type variableType, std::variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> value, bool isPointer);
 
   std::string generateCode() override;
 };
@@ -112870,19 +112870,18 @@ variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCal
 
 
   unique_ptr<BinaryExpression> binaryExpression = nullptr;
-  variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> leftHandSide = evaluateExpression(vector<Token>({statement[0]}), i);
-  for (; i < statement.size();) {
+  int j = 0;
+  variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> leftHandSide = evaluateExpression(vector<Token>({statement[0]}), j);
+  for (; i < statement.size() - 1;) {
     TokenType op;
     BindingPower bindingPower(0, 0);
-    if (i < statement.size() - 1) {
-      op = statement[i + 1].tokenType;
-      bindingPower = getBindingPower(op);
+    op = statement[i + 1].tokenType;
+    bindingPower = getBindingPower(op);
 
-      if (bindingPower.left < minimumBindingPower)
-        break;
+    if (bindingPower.left < minimumBindingPower)
+      break;
 
-      i += 2;
-    }
+    i += 2;
 
     variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> rightHandSide = evaluateExpression(statement, i, bindingPower.right);
     if (binaryExpression == nullptr)
@@ -112913,7 +112912,7 @@ shared_ptr<VariableStatement> AST::evaluateVariableStatement(const vector<Token>
 
   i = 0;
   variant<BinaryExpression, IntegerLiteral, StringLiteral, Identifier, FunctionCallStatement> expression = evaluateExpression(expressionTokens, i, 0);
-  return make_shared<VariableStatement>(identifier, variableType, expression);
+  return make_shared<VariableStatement>(identifier, variableType, expression, isPointer);
 }
 
 shared_ptr<FunctionStatement> AST::evaluateFunctionStatement(const CodeBlock &functionBlock) {
